@@ -13,8 +13,8 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, '14'
   spec.swift_versions = ['5']
   spec.source = {
-      :git => "https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JioMeetReuableFrameworks_iOSmacOS",
-      :branch => "develop/JMMediaSoup"
+      :git => "https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS",
+      :branch => "develop"
   }
   spec.source_files = "JMMediaStackSDK/**/*.{h,m,swift}"
   spec.vendored_frameworks =
