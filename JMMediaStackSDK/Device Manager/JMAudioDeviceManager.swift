@@ -211,8 +211,6 @@ extension JMAudioDeviceManager{
             //Note - Consider this as - onAudioSessionConnected - now we can perform our task.
             //This logic is only needed once after setting the Category, as we need to change the output route to speaker if no device is found.
             
-            //Commenting below checks - earlier this was the logic to set device which is not working now. for future reference.
-            
             guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
             if !route.inputs.isEmpty{
                 LOG.debug("AVAudioDevice- Setting Device preference.")
