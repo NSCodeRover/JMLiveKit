@@ -68,8 +68,7 @@ class JMAudioDeviceManager: NSObject {
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
                                          mode: AVAudioSession.Mode.default,
                                          options: supportedCategory)
-            try audioSession.setActive(true)
-            LOG.debug("AVAudioDevice- audio session active.")
+            LOG.debug("AVAudioDevice- audio session category set.")
         }
         catch let error as NSError {
             LOG.error("AVAudioDevice- Failed to set the audio session category and mode: \(error.localizedDescription)")
@@ -89,6 +88,7 @@ class JMAudioDeviceManager: NSObject {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        isDevicePreferenceIsSet = false
     }
 }
 
@@ -123,6 +123,7 @@ extension JMAudioDeviceManager{
     internal func setAudioDevice(_ device: AVAudioDevice){
         do {
             try audioSession.setPreferredInput(device)
+            try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- set device to \(device.portName)")
         }
         catch {
@@ -169,6 +170,7 @@ extension JMAudioDeviceManager{
     private func forceAudioToSpeaker(){
         do {
             try audioSession.overrideOutputAudioPort(.speaker)
+            try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- set device to Speaker (override)")
         }
         catch {
@@ -208,8 +210,12 @@ extension JMAudioDeviceManager{
             
             //Note - Consider this as - onAudioSessionConnected - now we can perform our task.
             //This logic is only needed once after setting the Category, as we need to change the output route to speaker if no device is found.
+            
+            //Commenting below checks - earlier this was the logic to set device which is not working now. for future reference.
+            
             guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
             if !route.inputs.isEmpty{
+                LOG.debug("AVAudioDevice- Setting Device preference.")
                 getAllDeviceAndSetPreference()
                 fetchCurrentDeviceAndUpdate()
             }
