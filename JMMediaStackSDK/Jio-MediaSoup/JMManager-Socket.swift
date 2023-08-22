@@ -492,7 +492,7 @@ extension JMManagerViewModel{
         case .shareScreen:
             LOG.debug("Subscribe- consumer updated to nil \(updatedPeer.displayName) mediatype \(mediaType)")
             updatedPeer.consumerScreenShare = nil
-            removeRTCMTLVideoShareViews(updatedPeer.remoteScreenshareView ?? UIView())
+            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
             subscriptionScreenShareVideo = ""
         case .audio:

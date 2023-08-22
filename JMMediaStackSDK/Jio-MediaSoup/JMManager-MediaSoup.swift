@@ -110,7 +110,7 @@ extension JMManagerViewModel{
         if let producer = videoProducer{
             LOG.debug("Video- video producer resumed")
             startVideoCameraCapture()
-            updateLocalRenderView(localVideoRenderView!)
+            enableLocalRenderView(true)
             videoTrack?.isEnabled = true
             producer.resume()
             socketEmitResumeProducer(producerId: producer.id)
@@ -188,19 +188,32 @@ extension JMManagerViewModel{
         return true
     }
     
-    func updateLocalRenderView(_ renderView: UIView){
+    func addLocalRenderView(_ renderView: UIView){
         LOG.debug("Video- local renderview ready")
+        self.videoSelfRenderView = renderView
+        
         qJMMediaMainQueue.async {
             let localView = RTCMTLVideoView(frame: renderView.bounds)
-            self.videoRenderView = localView
+            self.videoSelfRTCRenderView = localView
             renderView.addSubview(localView)
-            self.localVideoRenderView = renderView
-            //removeViewFromRendering()
+            self.removeViewFromRendering()
             self.addViewToRender()
         }
     }
     
-    func updateRemoteRenderView(_ renderView: UIView, remoteId: String){
+    func enableLocalRenderView(_ isEnabled: Bool){
+        LOG.debug("Video- update renderview ready")
+        
+        qJMMediaMainQueue.async {
+            if let localView = self.videoSelfRenderView{
+                for subviewRtc in localView.subviews where subviewRtc is RTCMTLVideoView {
+                    subviewRtc.isHidden = !isEnabled
+                }
+            }
+        }
+    }
+    
+    func addRemoteRenderView(_ renderView: UIView, remoteId: String){
         if var updatedPeer = self.peersMap[remoteId]
         {
             updatedPeer.remoteView = renderView
@@ -230,13 +243,13 @@ extension JMManagerViewModel{
     }
     
     private func addViewToRender(){
-        if let renderView = self.videoRenderView{
+        if let renderView = self.videoSelfRTCRenderView{
             videoTrack?.add(renderView)
         }
     }
     
     private func removeViewFromRendering(){
-        if let renderView = self.videoRenderView{
+        if let renderView = self.videoSelfRTCRenderView{
             videoTrack?.remove(renderView)
         }
     }
@@ -288,8 +301,8 @@ extension JMManagerViewModel {
         }
         if let producer = self.videoProducer {
             producer.pause()
-            removeRTCMTLVideoViews(localVideoRenderView ?? UIView())
             socketEmitPauseProducer(producerId: producer.id)
+            enableLocalRenderView(false)
         }
         videoCapture?.stopCapture()
     }

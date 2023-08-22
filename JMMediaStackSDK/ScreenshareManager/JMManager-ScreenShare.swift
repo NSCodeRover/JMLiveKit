@@ -167,13 +167,25 @@ extension JMManagerViewModel{
 //MARK: ScreenShare UI Container Rendering
 extension JMManagerViewModel:UIScrollViewDelegate{
     
-    func updateRemoteScreenShareRenderView(_ renderView: UIView, remoteId: String){
+    func addRemoteScreenShareRenderView(_ renderView: UIView, remoteId: String){
         if var updatedPeer = self.peersMap[remoteId],
            let consumer = updatedPeer.consumerScreenShare,
            let rtcVideoTrack = consumer.track as? RTCVideoTrack
         {
             updatedPeer.remoteScreenshareView = bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             peersMap[remoteId] = updatedPeer
+        }
+    }
+    
+    func removeRemoteShareViews(_ view: UIView?) {
+        qJMMediaMainQueue.async {
+            if let remoteShareView = view{
+                for subview in remoteShareView.subviews where subview is UIScrollView {
+                    for subviewRtc in subview.subviews where subviewRtc is RTCMTLVideoView {
+                        subviewRtc.removeFromSuperview()
+                    }
+                }
+            }
         }
     }
     
@@ -223,21 +235,5 @@ extension JMManagerViewModel:UIScrollViewDelegate{
 }
 
 extension JMManagerViewModel {
-    func removeRTCMTLVideoShareViews(_ view:UIView) {
-        qJMMediaMainQueue.async {
-            for subview in view.subviews where subview is UIScrollView {
-                for subviewRtc in subview.subviews where subviewRtc is RTCMTLVideoView {
-                    subviewRtc.removeFromSuperview()
-                }
-            }
-        }
-    }
     
-    func removeRTCMTLVideoViews(_ view:UIView) {
-        qJMMediaMainQueue.async {
-            for subviewRtc in view.subviews where subviewRtc is RTCMTLVideoView {
-                subviewRtc.removeFromSuperview()
-            }
-        }
-    }
 }

@@ -186,15 +186,15 @@ extension JMMediaEngine{
 //MARK: UI for local and remote view
 extension JMMediaEngine{
     public func setupLocalVideo(_ view: UIView) {
-        vm_manager.updateLocalRenderView(view)
+        vm_manager.addLocalRenderView(view)
     }
     public func setupRemoteVideo(_ view: UIView, remoteId: String) {
-        vm_manager.updateRemoteRenderView(view,remoteId: remoteId)
+        vm_manager.addRemoteRenderView(view,remoteId: remoteId)
     }
     
     //ScreenShare
     public func setupShareVideo(_ view: UIView, remoteId: String) {
-        vm_manager.updateRemoteScreenShareRenderView(view,remoteId: remoteId)
+        vm_manager.addRemoteScreenShareRenderView(view,remoteId: remoteId)
     }
     public func startScreenShare() {
         vm_manager.updateStartScreenShare()
