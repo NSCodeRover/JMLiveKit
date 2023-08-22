@@ -10,7 +10,7 @@ import Foundation
 // Sender function to broadcast a message
 
 extension JMManagerViewModel {
-    func sendJMBroadcastPublicMessage(message: JMRTMMessage,reactionsType:JMReactions) {
+    func sendJMBroadcastPublicMessage(message: JMRTMMessage,reactionsType:JMReactions = .None) {
         var sender = JMSender()
         sender.name = selfDisplayName
         sender.participantId = selfPeerId
