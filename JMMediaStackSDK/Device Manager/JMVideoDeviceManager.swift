@@ -215,13 +215,13 @@ extension JMVideoDeviceManager{
     }
     
     @objc func handleApplicationWentIntoBackground(_ notification: Notification) {
-        LOG.info("AVVideoDevice- Stop capture session on background.")
-        delegateToManager?.handleForceVideoMute()
+        LOG.info("AVVideoDevice- Background mode.")
+        delegateToManager?.handleBackgroundVideoEvent()
     }
     
     @objc func handleApplicationDidBecomeActive(_ notification: Notification) {
-        LOG.info("AVVideoDevice- Restarting capture session on active.")
-        delegateToManager?.handleForceVideoUnMute()
+        LOG.info("AVVideoDevice- Foreground mode.")
+        delegateToManager?.handleForegroundVideoEvent()
     }
 }
 

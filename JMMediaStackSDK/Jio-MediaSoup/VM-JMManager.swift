@@ -33,9 +33,9 @@ protocol delegateManager: AnyObject{
     func sendClientUserLeft(id: String, reason: String)
     func sendClientConnectionStateChanged(state: JMSocketConnectionState)
     
-    //ForceMute
-    func handleForceVideoMute()
-    func handleForceVideoUnMute()
+    //BackgroundEvents
+    func handleBackgroundVideoEvent()
+    func handleForegroundVideoEvent()
 }
 
 class JMManagerViewModel: NSObject{

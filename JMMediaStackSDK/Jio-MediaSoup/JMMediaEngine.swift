@@ -27,7 +27,6 @@ public class JMMediaEngine : NSObject{
     
     private var isMicEnabled:Bool = false
     private var isVideoEnabled:Bool = false
-    private var isVideoForceMuted:Bool = false
 }
 
 //MARK: Communicating back to Client (send data and event to client app)
@@ -252,21 +251,17 @@ extension JMMediaEngine{
         }
     }
     
-    internal func handleForceVideoMute(){
-        LOG.debug("AVVideoDevice- soft mute out")
+    internal func handleBackgroundVideoEvent(){
         if isVideoEnabled{
-            LOG.debug("AVVideoDevice- soft mute")
-            isVideoForceMuted = true
-            handleVideo(false)
+            LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_ACTIVATED")
+            vm_manager.sendJMBroadcastPublicMessage(message: .PARTICIPANT_BACKGROUND_ACTIVATED, reactionsType: .None)
         }
     }
     
-    internal func handleForceVideoUnMute(){
-        LOG.debug("AVVideoDevice- soft UnMute out")
-        if isVideoForceMuted{
-            LOG.debug("AVVideoDevice- soft UnMute")
-            isVideoForceMuted = false
-            handleVideo(true)
+    internal func handleForegroundVideoEvent(){
+        if isVideoEnabled{
+            LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
+            vm_manager.sendJMBroadcastPublicMessage(message: .PARTICIPANT_BACKGROUND_INACTIVATED, reactionsType: .None)
         }
     }
     
