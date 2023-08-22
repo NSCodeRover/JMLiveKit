@@ -9,9 +9,6 @@ import Foundation
 import WebRTC
 
 import JMMediaStackSDK
-import MMWormhole
-
-let screenShareBufferListen = MMWormhole(applicationGroupIdentifier: JMScreenShareManager.appGroupIdentifier, optionalDirectory: "wormhole")
 
 class MeetingRoomViewModel {
     private var client:JMMediaEngine!

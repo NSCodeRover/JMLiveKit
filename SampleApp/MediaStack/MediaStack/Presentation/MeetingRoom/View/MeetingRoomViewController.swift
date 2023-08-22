@@ -10,7 +10,8 @@ import WebRTC
 import ReplayKit
 import JMMediaStackSDK
 import MMWormhole
-let wormholeStateListen = MMWormhole(applicationGroupIdentifier:JMScreenShareManager.appGroupIdentifier, optionalDirectory: "wormhole")
+
+let screenShareStateExtensionListener = MMWormhole(applicationGroupIdentifier:JMScreenShareManager.appGroupIdentifier, optionalDirectory: "wormhole")
 class MeetingRoomViewController: UIViewController {
     @IBOutlet var localVideoView: UIView!
     @IBOutlet weak var remoteVideoBGView: UIView!
@@ -214,7 +215,7 @@ extension MeetingRoomViewController{
     }
     
     func getListenScreenShareEvent(){
-       wormholeStateListen.listenForMessage(withIdentifier: JMScreenShareManager.ScreenShareState, listener: { (messageObject) -> Void in
+       screenShareStateExtensionListener.listenForMessage(withIdentifier: JMScreenShareManager.ScreenShareState, listener: { (messageObject) -> Void in
             if let State = messageObject as? String{
                 self.screenShareState = JMScreenShareState(rawValue: State) ?? .ScreenShareStateStopping
                 //kept for future reference
@@ -237,8 +238,7 @@ extension MeetingRoomViewController{
         let startScreenShare = UIAlertAction(title:screenshare ? "Stop ScreenShare" : "Start ScreenShare" , style: .default) { _ in
             // Handle starting screen sharing
             if screenshare{
-                screenShareBufferListen.passMessageObject("Stop ScreenShare" as NSCoding, identifier: "StopScreen")
-                self.viewModel.handleEvent(event: .setStopScreenShare(error: "QUITE"))
+                self.viewModel.handleEvent(event: .setStopScreenShare(error: "user-action"))
             }else{
                 self.viewModel.handleEvent(event: .setStartScreenShare)
                 self.transparentButtonTapped()
