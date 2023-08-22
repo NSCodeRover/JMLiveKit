@@ -110,6 +110,7 @@ extension JMManagerViewModel{
         if let producer = videoProducer{
             LOG.debug("Video- video producer resumed")
             startVideoCameraCapture()
+            updateLocalRenderView(localVideoRenderView!)
             videoTrack?.isEnabled = true
             producer.resume()
             socketEmitResumeProducer(producerId: producer.id)
@@ -189,12 +190,14 @@ extension JMManagerViewModel{
     
     func updateLocalRenderView(_ renderView: UIView){
         LOG.debug("Video- local renderview ready")
-        let localView = RTCMTLVideoView(frame: renderView.bounds)
-        videoRenderView = localView
-        renderView.addSubview(localView)
-        
-        removeViewFromRendering()
-        addViewToRender()
+        qJMMediaMainQueue.async {
+            let localView = RTCMTLVideoView(frame: renderView.bounds)
+            self.videoRenderView = localView
+            renderView.addSubview(localView)
+            self.localVideoRenderView = renderView
+            //removeViewFromRendering()
+            self.addViewToRender()
+        }
     }
     
     func updateRemoteRenderView(_ renderView: UIView, remoteId: String){
@@ -285,6 +288,7 @@ extension JMManagerViewModel {
         }
         if let producer = self.videoProducer {
             producer.pause()
+            removeRTCMTLVideoViews(localVideoRenderView ?? UIView())
             socketEmitPauseProducer(producerId: producer.id)
         }
         videoCapture?.stopCapture()

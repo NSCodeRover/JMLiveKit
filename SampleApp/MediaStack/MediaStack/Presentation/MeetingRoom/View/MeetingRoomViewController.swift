@@ -51,13 +51,11 @@ class MeetingRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startCounter()
+        //startCounter()
         // Do any additional setup after loading the view
         self.configureCollectionView()
         addViewModelListener()
         self.viewModel.handleEvent(event: .startMeeting)
-        self.localVideoView.addSubview(pickerbtn)
-        self.localVideoView.bringSubviewToFront(pickerbtn)
         localVideoView.makeDraggable()
        self.getListenScreenShareEvent()
     }
@@ -133,6 +131,9 @@ extension MeetingRoomViewController {
         self.viewModel.handleVideoState = { state in
             DispatchQueue.main.async {
                 self.btn_Video.backgroundColor = state ? .systemGreen : .red
+                self.viewModel.getLocalRenderView = {
+                    return self.localVideoView
+                }
             }
         }
        
@@ -218,6 +219,9 @@ extension MeetingRoomViewController{
        screenShareStateExtensionListener.listenForMessage(withIdentifier: JMScreenShareManager.ScreenShareState, listener: { (messageObject) -> Void in
             if let State = messageObject as? String{
                 self.screenShareState = JMScreenShareState(rawValue: State) ?? .ScreenShareStateStopping
+                if self.screenShareState == .ScreenShareStateStopping {
+                    self.viewModel.handleEvent(event: .setStopScreenShare(error: "user-action"))
+                }
                 //kept for future reference
                 //self.viewModel.setScreenShareState(state:self.screenShareState)
             }
@@ -277,7 +281,4 @@ extension MeetingRoomViewController{
         
         present(actionSheet, animated: true, completion: nil)
     }
-    
-
- 
 }

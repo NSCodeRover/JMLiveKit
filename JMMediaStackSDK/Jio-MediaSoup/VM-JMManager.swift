@@ -60,7 +60,7 @@ class JMManagerViewModel: NSObject{
     var videoCaptureFormat:AVCaptureDevice.Format?
     var videoCapture:RTCCameraVideoCapturer?
     var videoRenderView: RTCMTLVideoView?
-    
+    var localVideoRenderView:UIView?
     //SreenShare
     var screenShareProducer:Producer?
     var mediaStreamScreenCapture:RTCMediaStream?
