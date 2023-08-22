@@ -40,7 +40,7 @@ extension JMManagerViewModel{
     }
     
     func screenShareStop(){
-        if let producerId = screenShareProducer?.id{
+        if let producerId = screenShareProducerID as? String{
             socketScreenShareCloseProducer(producerId: producerId)
         }
     }
@@ -58,7 +58,7 @@ extension JMManagerViewModel{
         screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.0, height: JioMediaStackDefaultScreenShareCaptureResolution.1, fps: JioMediaStackDefaultScreenShareCaptureResolution.2)
         videoSourceScreenCapture = RTCVideoCapturer(delegate: screenShareSource)
     
-        videoTrackScreen = self.peerConnectionFactory?.videoTrack(with: videoSourceScreen!, trackId: JioMediaId.screenShareTrackId)
+        videoTrackScreen = self.peerConnectionFactory?.videoTrack(with: screenShareSource, trackId: JioMediaId.screenShareTrackId)
         guard let screenShareTrack = videoTrackScreen else {
             LOG.error("ScreenShare- track nil")
             return
@@ -219,5 +219,25 @@ extension JMManagerViewModel:UIScrollViewDelegate{
             }
         }
         return nil
+    }
+}
+
+extension JMManagerViewModel {
+    func removeRTCMTLVideoShareViews(_ view:UIView) {
+        qJMMediaMainQueue.async {
+            for subview in view.subviews where subview is UIScrollView {
+                for subviewRtc in subview.subviews where subviewRtc is RTCMTLVideoView {
+                    subviewRtc.removeFromSuperview()
+                }
+            }
+        }
+    }
+    
+    func removeRTCMTLVideoViews(_ view:UIView) {
+        qJMMediaMainQueue.async {
+            for subviewRtc in view.subviews where subviewRtc is RTCMTLVideoView {
+                subviewRtc.removeFromSuperview()
+            }
+        }
     }
 }
