@@ -1,0 +1,30 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+source 'https://github.com/CocoaPods/Specs.git'
+inhibit_all_warnings!
+def shared_pods
+  pod 'SwiftyJSON'
+  pod 'MMWormhole'
+
+  pod 'JMMediaStackSDK', :path => '~/Desktop/Projects/JioMeetReuableFrameworks_iOSmacOS'
+  #pod 'JMMediaStackSDK', :git => 'https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JioMeetReuableFrameworks_iOSmacOS', :branch => 'develop/JMMediaSoup'
+end
+
+target 'MediaStack' do
+  use_modular_headers!
+  shared_pods
+  target 'MediaStackScreenShare' do
+    #inherit! :complete
+    pod 'MMWormhole'
+    end
+end
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'No'
+    end
+  end
+end

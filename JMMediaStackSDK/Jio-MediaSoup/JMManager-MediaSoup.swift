@@ -1,0 +1,362 @@
+//
+//  VM-JMManager-MediaSoup.swift
+//  MediaStack
+//
+//  Created by Harsh1 Surati on 03/07/23.
+//
+
+//MARK: JMManager - Media Soup class
+
+import Foundation
+
+import Mediasoup
+import WebRTC
+
+extension JMManagerViewModel{
+    internal func initMediaSoupEngine(with data: [String: Any]){
+        if let rtpCapabilities = getRTPCapabilities() {
+            do{
+                let device = Device()
+                
+                if let transportConfigurationObject = getReceiveTransport(),
+                    let iceServers = getIceServer(fromReceiveTransport: transportConfigurationObject)
+                {
+                    LOG.debug("Device- Custom version with ice servers and relay")
+                    let isRelayTransportPolicy = isRelayTransportPolicy(fromReceiveTransport: transportConfigurationObject)
+                    try device.load(with: rtpCapabilities, peerConnectionOptions: iceServers, isRelayTransportPolicy: isRelayTransportPolicy)
+                }
+                else{
+                    LOG.debug("Device- Default version")
+                    try device.load(with: rtpCapabilities)
+                }
+                
+                let canProduceAudio = try device.canProduce(.audio)
+                let canProduceVideo = try device.canProduce(.video)
+                
+                if !canProduceAudio {
+                    LOG.error("Device- Cant Produce Audio")
+                }
+                
+                if !canProduceVideo {
+                    LOG.error("Device- Cant Produce Video")
+                }
+                
+                self.device = device
+                self.jioSocket.emit(action: .join, parameters: getRoomConfiguration())
+                LOG.debug("Device- connected")
+            }
+            catch {
+                //TODO: Handle the execution. nothing will work here.
+                LOG.error("Device- Device loading failed")
+            }
+        }
+    }
+    
+    internal func initFactoryAndStream() {
+        if peerConnectionFactory == nil {
+            peerConnectionFactory = RTCPeerConnectionFactory()
+        }
+        if mediaStream == nil {
+            mediaStream = peerConnectionFactory?.mediaStream(withStreamId: JioMediaId.cameraStreamId)
+            mediaStreamScreenCapture = peerConnectionFactory?.mediaStream(withStreamId: JioMediaId.screenShareStreamId)
+        }
+    }
+}
+
+//MARK: Audio
+extension JMManagerViewModel{
+    func startAudio(_ completion: ((_ isSuccess: Bool)->())){
+        LOG.debug("Audio- startAudio")
+        
+        if let producer = audioProducer{
+            LOG.debug("Audio- audio producer resume")
+            producer.resume()
+            socketEmitResumeProducer(producerId: producer.id)
+            completion(true)
+            return
+        }
+        
+        guard let audioTrack = self.peerConnectionFactory?.audioTrack(withTrackId: JioMediaId.audioTrackId) else
+        {
+            completion(false)
+            return
+        }
+        
+        audioTrack.isEnabled = true
+        self.mediaStream?.addAudioTrack(audioTrack)
+        
+        LOG.debug("Audio- startAudio createProducer")
+        if let producer = try? sendTransport?.createProducer(for: audioTrack, encodings: nil, codecOptions: getAudioCodec(), codec: nil, appData: JioMediaAppData.audioAppData) {
+
+            self.audioProducer = producer
+            self.audioTrack = audioTrack
+            self.totalProducers[producer.id] = producer
+            LOG.debug("Audio- startAudio producer created")
+            producer.resume()
+            completion(true)
+        }
+        else{
+            LOG.debug("Audio- failed producer")
+            completion(false)
+        }
+    }
+}
+
+//MARK: Video
+extension JMManagerViewModel{
+    func startVideo(_ completion: ((_ isSuccess: Bool)->())){
+        LOG.debug("Video- startVideo")
+        
+        if let producer = videoProducer{
+            LOG.debug("Video- video producer resumed")
+            startVideoCameraCapture()
+            videoTrack?.isEnabled = true
+            producer.resume()
+            socketEmitResumeProducer(producerId: producer.id)
+            completion(true)
+            return
+        }
+        
+        guard let videoSource = self.peerConnectionFactory?.videoSource() else{
+            LOG.error("Video- peerConnection source failed")
+            completion(false)
+            return
+        }
+        self.videoSource = videoSource
+        
+        let isSuccess = checkVideoCameraCapture()
+        if isSuccess, let track = videoTrack, let producer = try? sendTransport?.createProducer(for: track, encodings: getVideoMediaLayers(), codecOptions:  nil, codec: nil, appData: JioMediaAppData.videoAppData) {
+            self.videoProducer = producer
+            self.totalProducers[producer.id] = producer
+            LOG.debug("Video- startVideo producer created")
+            producer.resume()
+            completion(true)
+        }
+        else{
+            LOG.debug("Video- failed startVideoCameraCapture")
+            completion(false)
+        }
+    }
+    
+    private func startVideoCameraCapture() -> Bool{
+        guard let cameraDevice = JMVideoDeviceManager.shared.getCameraDevice() else {
+            LOG.error("Video- No camera device found")
+            return false
+        }
+        
+        let fps = JioMediaStackDefaultCameraCaptureResolution.2
+        guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
+            LOG.error("Video- No format found")
+            return false
+        }
+        videoCaptureFormat = format
+        
+        self.videoSource.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
+        
+        self.videoCapture?.startCapture(with: cameraDevice, format:format, fps: Int(JioMediaStackDefaultCameraCaptureResolution.2))
+        LOG.debug("Video- started capture with \(cameraDevice.localizedName)")
+        return true
+    }
+    
+    private func checkVideoCameraCapture() -> Bool{
+        self.videoCapture = RTCCameraVideoCapturer(delegate: self.videoSource)
+        
+        let isResumeSuccess = self.startVideoCameraCapture()
+        if isResumeSuccess == false{
+            LOG.error("Video- camera capture resume failed")
+            return false
+        }
+        
+        //Update the track, if camera is switched
+        if let videoTrack = videoTrack{
+            addViewToRender()
+            self.mediaStream?.removeVideoTrack(videoTrack)
+            LOG.debug("Video- track removed")
+        }
+        
+        guard let videoTrack = self.peerConnectionFactory?.videoTrack(with: self.videoSource, trackId: JioMediaId.videoTrackId) else{
+            LOG.error("Video- new track failed")
+            return false
+        }
+        
+        videoTrack.isEnabled = true
+        self.mediaStream?.addVideoTrack(videoTrack)
+        self.videoTrack = videoTrack
+        addViewToRender()
+        LOG.debug("Video- track added")
+        return true
+    }
+    
+    func updateLocalRenderView(_ renderView: UIView){
+        LOG.debug("Video- local renderview ready")
+        let localView = RTCMTLVideoView(frame: renderView.bounds)
+        videoRenderView = localView
+        renderView.addSubview(localView)
+        
+        removeViewFromRendering()
+        addViewToRender()
+    }
+    
+    func updateRemoteRenderView(_ renderView: UIView, remoteId: String){
+        if var updatedPeer = self.peersMap[remoteId]
+        {
+            updatedPeer.remoteView = renderView
+            peersMap[remoteId] = updatedPeer
+            updateRemoteRenderViewTrack(for: remoteId)
+        }
+    }
+    
+    func updateRemoteRenderViewTrack(for remoteId: String){
+        if var updatedPeer = self.peersMap[remoteId],
+           let renderView = updatedPeer.remoteView,
+           let consumer = updatedPeer.consumerVideo,
+           let rtcVideoTrack = consumer.track as? RTCVideoTrack
+            
+        {
+            LOG.debug("Subscribe- UI updated - name-\(updatedPeer.displayName)")
+            
+            qJMMediaMainQueue.async {
+                for subview in renderView.subviews where subview is RTCMTLVideoView{
+                    subview.removeFromSuperview()
+                }
+                updatedPeer.remoteView = self.bindRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
+            }
+            
+            peersMap[remoteId] = updatedPeer
+        }
+    }
+    
+    private func addViewToRender(){
+        if let renderView = self.videoRenderView{
+            videoTrack?.add(renderView)
+        }
+    }
+    
+    private func removeViewFromRendering(){
+        if let renderView = self.videoRenderView{
+            videoTrack?.remove(renderView)
+        }
+    }
+    
+    private func bindRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
+        let remoteView = RTCMTLVideoView(frame: renderView.bounds)
+        rtcVideoTrack.add(remoteView)
+        rtcVideoTrack.isEnabled = true
+        renderView.addSubview(remoteView)
+        return renderView
+    }
+    
+    func switchCamera() {
+        videoCapture?.stopCapture { [weak self] in
+            guard let self = self else { return }
+            self.checkVideoCameraCapture()
+        }
+    }
+}
+
+//MARK: Audio Only Mode
+extension JMManagerViewModel{
+    func isVideoFeedDisable(_ mediaType: JMMediaType) -> Bool{
+        return isAudioOnlyModeEnabled && mediaType == .video
+    }
+    
+    func enableAudioOnlyMode(_ enable: Bool, userList: [String]){
+        LOG.info("Video- AudioOnly- \(enable) | \(userList)")
+        isAudioOnlyModeEnabled = enable
+        
+        if !userList.isEmpty{
+            LOG.debug("Subscribe- List is updated by client.")
+            //UNsubscribe previous list
+            subscriptionVideoList.forEach({ feedHandler(false, remoteId: $0, mediaType: .video) })
+            subscriptionVideoList = userList
+        }
+        
+        LOG.debug("Subscribe- List \(subscriptionVideoList)")
+        handleAudioOnlyModeForScreenShare()
+        subscriptionVideoList.forEach({ feedHandler(!isAudioOnlyModeEnabled, remoteId: $0, mediaType: .video) })
+    }
+}
+
+extension JMManagerViewModel {
+    
+    func disableVideo() {
+        if let track = self.videoTrack {
+            track.isEnabled = false
+        }
+        if let producer = self.videoProducer {
+            producer.pause()
+            socketEmitPauseProducer(producerId: producer.id)
+        }
+        videoCapture?.stopCapture()
+    }
+    
+    func disableMic() {
+        if let track = self.audioTrack {
+            track.isEnabled = false
+        }
+        if let producer = self.audioProducer {
+            producer.pause()
+            socketEmitPauseProducer(producerId: producer.id)
+        }
+    }
+    
+    func disconnectSocket() {
+        jioSocket.disconnectSocket()
+    }
+    
+    func disposeVideoAudioTrack() {
+        if self.peerConnectionFactory != nil {
+            self.peerConnectionFactory = nil
+        }
+        
+        if self.mediaStream != nil {
+            self.mediaStream?.audioTracks.forEach({ mediaStream?.removeAudioTrack($0) })
+            self.mediaStream?.videoTracks.forEach({ mediaStream?.removeVideoTrack($0) })
+            self.mediaStream = nil
+        }
+        
+        if self.mediaStreamScreenCapture != nil {
+            self.mediaStreamScreenCapture?.audioTracks.forEach({ mediaStream?.removeAudioTrack($0) })
+            self.mediaStreamScreenCapture?.videoTracks.forEach({ mediaStream?.removeVideoTrack($0) })
+            self.mediaStreamScreenCapture = nil
+        }
+        
+        if let track = self.audioTrack {
+            track.isEnabled = false
+            self.audioTrack = nil
+        }
+                
+        if let track = self.videoTrack {
+            track.isEnabled = false
+            self.videoTrack = nil
+        }
+        
+        if let track = self.videoTrackScreen {
+            track.isEnabled = false
+            self.videoTrackScreen = nil
+        }
+    }
+}
+
+//MARK: Media soup Transport and Stats
+extension JMManagerViewModel{
+     func createSendAndReceiveTransport(){
+         onCreateSendTransport()
+         onCreateRecvTransport()
+         startTransportStatsScheduler()
+    }
+    
+    private func onCreateSendTransport() {
+        if let json = self.getDataOf(key: SocketDataKey.sendTransport.rawValue, dictionary: self.socketConnectedData) {
+            self.sendTransport = self.createSendTransport(json: json, device: self.device, socketIp: self.jioSocket.getSocketIp())
+            self.sendTransport?.delegate = self
+        }
+    }
+    
+    private func onCreateRecvTransport(){
+        if let json = self.getDataOf(key: SocketDataKey.receiveTransport.rawValue, dictionary: self.socketConnectedData) {
+            self.recvTransport = self.createReceiveTransport(json: json, device: self.device, socketIp: self.jioSocket.getSocketIp())
+            self.recvTransport?.delegate = self
+        }
+    }
+}

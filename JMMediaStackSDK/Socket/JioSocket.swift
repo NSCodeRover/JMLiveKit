@@ -1,0 +1,173 @@
+//
+//  JioSocket.swift
+//  MediaStack
+//
+//  Created by Atinderpal Singh on 21/02/23.
+//
+
+import Foundation
+import SocketIO
+
+enum SocketEvent: String,CaseIterable {
+    case connect
+    case disconnect
+    case socketConnected
+    case audioLevel
+    case peerClosed
+    case newPeer
+    case newProducer
+    case peerConnected
+    case producerEnd
+    case pausedProducer
+    case resumedProducer
+    case broadcastMessage
+    case broadcastMessageToPeer
+    case botsJoined
+    case botsLeft
+    case score
+    case layerschange
+    case userRoleUpdated
+    case socketReconnected
+    case none
+}
+
+enum SocketEmitAction: String {
+    case join
+    case connectWebRtcTransport
+    case produce
+    case consume
+    case resumeConsumer
+    case closeProducer
+    case peerLeave
+    case pauseProducer
+    case resumeProducer
+    case none
+    case getTransportStats
+    case restartIce
+}
+
+protocol JioSocketDelegate: NSObject {
+    func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter)
+    func didEmit(event: SocketEmitAction, data: [Any])
+}
+
+class JioSocket : NSObject {
+    private var socketIp = ""
+    private var roomId = ""
+    private var jwtToken = ""
+    
+    private var manager:SocketManager?
+    private var socket: SocketIOClient!
+    
+    private enum SocketKey: String {
+        case roomId
+        case token
+    }
+    
+    private weak var delegate: JioSocketDelegate?
+    private var socketEvents: [SocketEvent] = []
+    
+    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent]) {
+        if let url = URL.init(string: socketUrl) {
+            manager = SocketManager(socketURL: url,config: getSocketConfiguration())
+            if let manager = self.manager {
+                self.delegate = delegate
+                self.socketIp = ip
+                self.roomId = roomId
+                self.jwtToken = jwtToken
+                self.socketEvents = socketEvents
+                socket = manager.defaultSocket
+                self.addSocketListener()
+                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken))
+            }
+        }
+    }
+    
+    func disconnectSocket() {
+        manager?.disconnect()
+        manager?.reconnects = false
+    }
+    
+    func getSocketIp() -> String {
+        return self.socketIp
+    }
+    
+    func getSocket() -> SocketIOClient {
+        return self.socket
+    }
+    
+    func getManager() -> SocketManager {
+        return self.manager!
+    }
+
+    func emit(action: SocketEmitAction, parameters: [String: Any]) {
+        self.socket.emitWithAck(action.rawValue, parameters).timingOut(after: 5) {[weak self] data in
+            if var outerDictionary = parameters as? [String: Any],
+               let innerDictionary = outerDictionary["appData"] as? [String: Any],
+               let shareValue = innerDictionary["share"] as? Bool, shareValue {
+                var datashare = self?.getJson(data: data)
+                datashare?["share"] = true
+                self?.delegate?.didEmit(event: action, data: [datashare])
+            } else {
+                self?.delegate?.didEmit(event: action, data: data)
+            }
+        }
+    }
+    
+    func emit(action: SocketEmitAction, parameters: [String: Any],callback: (([Any])->())?) {
+        self.socket.emitWithAck(action.rawValue, parameters).timingOut(after: 5) { data in
+            callback?(data)
+        }
+    }
+    func emit(ack: Int, parameters: [String]) {
+        self.socket.emitAck(ack, with: parameters)
+    }
+    
+    func getJson(data: [Any]) -> [String: Any]? {
+        if data.count > 0 {
+            if let json = data[0] as? [String: Any] {
+                return json
+            }
+        }
+        return nil
+    }
+}
+
+
+// MARK: - Private Methods
+extension JioSocket {
+    private func getSocketConfiguration() -> SocketIOClientConfiguration {
+        return [
+            .log(false),
+            .compress,
+            .path("/socket.io/"),
+            .reconnects(true),    // Enable reconnection attempts
+            .reconnectAttempts(6), // Set the number of reconnection attempts
+            .reconnectWaitMax(2) //After 2 secs, it will attempt to reconnect //Ping pong takes 8 seconds to detect network loss. Total = 20sec.
+        ]
+    }
+    
+    private func getPayload(roomId: String, jwtToken: String) -> [String: Any] {
+        return [
+            SocketKey.roomId.rawValue: roomId,
+            SocketKey.token.rawValue: jwtToken]
+    }
+    
+    private func addSocketListener() {
+        for event in socketEvents {
+            if event == .connect {
+                socket.on(clientEvent: .connect) {[weak self] data, ack in
+                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+                }
+            } else if event == .disconnect {
+                socket.on(clientEvent: .disconnect) {[weak self] data, ack in
+                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+                }
+            } else {
+                socket.on(event.rawValue) {[weak self] data, ack in
+                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+                }
+            }
+        }
+    }
+}

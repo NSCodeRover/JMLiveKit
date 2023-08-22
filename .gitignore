@@ -1,0 +1,9 @@
+#Ignore
+
+Pods/
+SampleApp/MediaStack/Pods/
+
+*.lock
+*.DS_Store
+xcuserdata
+

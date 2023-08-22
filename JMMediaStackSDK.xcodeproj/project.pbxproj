@@ -1,0 +1,628 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		338B8BFA0840873711381B45 /* Pods_JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD52B806B405503AE31647B5 /* Pods_JMMediaStackSDK.framework */; };
+		6436845B2A67AEF000263567 /* Mediasoup.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 643684492A67AEE900263567 /* Mediasoup.xcframework */; };
+		6436845C2A67AEF000263567 /* Mediasoup.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 643684492A67AEE900263567 /* Mediasoup.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6436845D2A67AEF000263567 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 643684482A67AEE900263567 /* WebRTC.xcframework */; };
+		6436845E2A67AEF000263567 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 643684482A67AEE900263567 /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		64834A392A6015110074EB5D /* JMMediaTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A2E2A6015110074EB5D /* JMMediaTransport.swift */; };
+		64834A3A2A6015110074EB5D /* JMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A2F2A6015110074EB5D /* JMManager.swift */; };
+		64834A3B2A6015110074EB5D /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A312A6015110074EB5D /* AppData.swift */; };
+		64834A3C2A6015110074EB5D /* JoinResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A322A6015110074EB5D /* JoinResponse.swift */; };
+		64834A3D2A6015110074EB5D /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A332A6015110074EB5D /* Peer.swift */; };
+		64834A3E2A6015110074EB5D /* JMManager-MediaSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A342A6015110074EB5D /* JMManager-MediaSoup.swift */; };
+		64834A3F2A6015110074EB5D /* VM-JMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A352A6015110074EB5D /* VM-JMManager.swift */; };
+		64834A402A6015110074EB5D /* JMManager-Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A362A6015110074EB5D /* JMManager-Socket.swift */; };
+		64834A412A6015110074EB5D /* JMManager-ScreenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A372A6015110074EB5D /* JMManager-ScreenShare.swift */; };
+		64834A422A6015110074EB5D /* JMManager-Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A382A6015110074EB5D /* JMManager-Public.swift */; };
+		64834A482A60151D0074EB5D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A442A60151D0074EB5D /* Constant.swift */; };
+		64834A492A60151D0074EB5D /* SocketUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A452A60151D0074EB5D /* SocketUtil.swift */; };
+		64834A4A2A60151D0074EB5D /* JioSocketProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A462A60151D0074EB5D /* JioSocketProperty.swift */; };
+		64834A4B2A60151D0074EB5D /* JioSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A472A60151D0074EB5D /* JioSocket.swift */; };
+		648BC4B92A67D37600F04C1A /* JMMediaStackSDK.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 648BC4B82A67D37600F04C1A /* JMMediaStackSDK.podspec */; };
+		64ADA2162A6ED7390009A4F5 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 64ADA2122A6ED7390009A4F5 /* Logger.m */; };
+		64ADA2172A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADA2132A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift */; };
+		64ADA2182A6ED7390009A4F5 /* Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 64ADA2142A6ED7390009A4F5 /* Logger.h */; };
+		64ADA2192A6ED7390009A4F5 /* JMMediaStackSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 64ADA2152A6ED7390009A4F5 /* JMMediaStackSDK.h */; };
+		64ADA21C2A6ED8770009A4F5 /* JMManager-Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADA21B2A6ED8770009A4F5 /* JMManager-Public.swift */; };
+		64ADA21E2A6ED8940009A4F5 /* Models-Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64ADA21D2A6ED8940009A4F5 /* Models-Public.swift */; };
+		C5BBBA0D2A70FA9E008FA8FF /* JMNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BBBA0C2A70FA9E008FA8FF /* JMNetworkManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6436845F2A67AEF000263567 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6436845E2A67AEF000263567 /* WebRTC.xcframework in Embed Frameworks */,
+				6436845C2A67AEF000263567 /* Mediasoup.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		643684482A67AEE900263567 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebRTC.xcframework; sourceTree = "<group>"; };
+		643684492A67AEE900263567 /* Mediasoup.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Mediasoup.xcframework; sourceTree = "<group>"; };
+		6436844B2A67AEE900263567 /* JMMediaTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMMediaTransport.swift; sourceTree = "<group>"; };
+		6436844C2A67AEE900263567 /* JMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMManager.swift; sourceTree = "<group>"; };
+		6436844E2A67AEE900263567 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		6436844F2A67AEE900263567 /* JoinResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinResponse.swift; sourceTree = "<group>"; };
+		643684502A67AEE900263567 /* Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		643684512A67AEE900263567 /* JMManager-MediaSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JMManager-MediaSoup.swift"; sourceTree = "<group>"; };
+		643684522A67AEE900263567 /* VM-JMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VM-JMManager.swift"; sourceTree = "<group>"; };
+		643684532A67AEE900263567 /* JMManager-Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JMManager-Socket.swift"; sourceTree = "<group>"; };
+		643684542A67AEE900263567 /* JMManager-ScreenShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JMManager-ScreenShare.swift"; sourceTree = "<group>"; };
+		643684552A67AEE900263567 /* JMManager-Public.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JMManager-Public.swift"; sourceTree = "<group>"; };
+		643684572A67AEE900263567 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		643684582A67AEE900263567 /* SocketUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketUtil.swift; sourceTree = "<group>"; };
+		643684592A67AEE900263567 /* JioSocketProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JioSocketProperty.swift; sourceTree = "<group>"; };
+		6436845A2A67AEE900263567 /* JioSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JioSocket.swift; sourceTree = "<group>"; };
+		64834A2E2A6015110074EB5D /* JMMediaTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMMediaTransport.swift; sourceTree = "<group>"; };
+		64834A2F2A6015110074EB5D /* JMManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMManager.swift; sourceTree = "<group>"; };
+		64834A312A6015110074EB5D /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		64834A322A6015110074EB5D /* JoinResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinResponse.swift; sourceTree = "<group>"; };
+		64834A332A6015110074EB5D /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		64834A342A6015110074EB5D /* JMManager-MediaSoup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-MediaSoup.swift"; sourceTree = "<group>"; };
+		64834A352A6015110074EB5D /* VM-JMManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VM-JMManager.swift"; sourceTree = "<group>"; };
+		64834A362A6015110074EB5D /* JMManager-Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-Socket.swift"; sourceTree = "<group>"; };
+		64834A372A6015110074EB5D /* JMManager-ScreenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-ScreenShare.swift"; sourceTree = "<group>"; };
+		64834A382A6015110074EB5D /* JMManager-Public.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-Public.swift"; sourceTree = "<group>"; };
+		64834A442A60151D0074EB5D /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		64834A452A60151D0074EB5D /* SocketUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketUtil.swift; sourceTree = "<group>"; };
+		64834A462A60151D0074EB5D /* JioSocketProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioSocketProperty.swift; sourceTree = "<group>"; };
+		64834A472A60151D0074EB5D /* JioSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioSocket.swift; sourceTree = "<group>"; };
+		648BC4B82A67D37600F04C1A /* JMMediaStackSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; name = JMMediaStackSDK.podspec; path = ../../JMMediaStackSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		64ADA2122A6ED7390009A4F5 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
+		64ADA2132A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioMeetRealTimeLogger.swift; sourceTree = "<group>"; };
+		64ADA2142A6ED7390009A4F5 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		64ADA2152A6ED7390009A4F5 /* JMMediaStackSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMediaStackSDK.h; sourceTree = "<group>"; };
+		64ADA21B2A6ED8770009A4F5 /* JMManager-Public.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JMManager-Public.swift"; sourceTree = "<group>"; };
+		64ADA21D2A6ED8940009A4F5 /* Models-Public.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models-Public.swift"; sourceTree = "<group>"; };
+		C5BBBA0C2A70FA9E008FA8FF /* JMNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMNetworkManager.swift; sourceTree = "<group>"; };
+		CD52B806B405503AE31647B5 /* Pods_JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7188CDCF3F63CF6664D6CE3 /* Pods-JMMediaStackSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.release.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.release.xcconfig"; sourceTree = "<group>"; };
+		F71B612D2A1F7E2300482D6E /* JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE78803852BA93D2B21F713C /* Pods-JMMediaStackSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F71B612A2A1F7E2300482D6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				338B8BFA0840873711381B45 /* Pods_JMMediaStackSDK.framework in Frameworks */,
+				6436845B2A67AEF000263567 /* Mediasoup.xcframework in Frameworks */,
+				6436845D2A67AEF000263567 /* WebRTC.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		643684462A67AEE900263567 /* JMMediaStackSDK */ = {
+			isa = PBXGroup;
+			children = (
+				643684472A67AEE900263567 /* JMMediaFrameworks */,
+				6436844A2A67AEE900263567 /* Jio-MediaSoup */,
+				643684562A67AEE900263567 /* Socket */,
+			);
+			path = JMMediaStackSDK;
+			sourceTree = "<group>";
+		};
+		643684472A67AEE900263567 /* JMMediaFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				643684482A67AEE900263567 /* WebRTC.xcframework */,
+				643684492A67AEE900263567 /* Mediasoup.xcframework */,
+			);
+			path = JMMediaFrameworks;
+			sourceTree = "<group>";
+		};
+		6436844A2A67AEE900263567 /* Jio-MediaSoup */ = {
+			isa = PBXGroup;
+			children = (
+				6436844B2A67AEE900263567 /* JMMediaTransport.swift */,
+				6436844C2A67AEE900263567 /* JMManager.swift */,
+				6436844D2A67AEE900263567 /* Model */,
+				643684512A67AEE900263567 /* JMManager-MediaSoup.swift */,
+				643684522A67AEE900263567 /* VM-JMManager.swift */,
+				643684532A67AEE900263567 /* JMManager-Socket.swift */,
+				643684542A67AEE900263567 /* JMManager-ScreenShare.swift */,
+				643684552A67AEE900263567 /* JMManager-Public.swift */,
+			);
+			path = "Jio-MediaSoup";
+			sourceTree = "<group>";
+		};
+		6436844D2A67AEE900263567 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6436844E2A67AEE900263567 /* AppData.swift */,
+				6436844F2A67AEE900263567 /* JoinResponse.swift */,
+				643684502A67AEE900263567 /* Peer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		643684562A67AEE900263567 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				643684572A67AEE900263567 /* Constant.swift */,
+				643684582A67AEE900263567 /* SocketUtil.swift */,
+				643684592A67AEE900263567 /* JioSocketProperty.swift */,
+				6436845A2A67AEE900263567 /* JioSocket.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		64834A2D2A6015110074EB5D /* Jio-MediaSoup */ = {
+			isa = PBXGroup;
+			children = (
+				64834A2E2A6015110074EB5D /* JMMediaTransport.swift */,
+				64834A2F2A6015110074EB5D /* JMManager.swift */,
+				64834A302A6015110074EB5D /* Model */,
+				64834A342A6015110074EB5D /* JMManager-MediaSoup.swift */,
+				64834A352A6015110074EB5D /* VM-JMManager.swift */,
+				64834A362A6015110074EB5D /* JMManager-Socket.swift */,
+				64834A372A6015110074EB5D /* JMManager-ScreenShare.swift */,
+				64834A382A6015110074EB5D /* JMManager-Public.swift */,
+			);
+			path = "Jio-MediaSoup";
+			sourceTree = "<group>";
+		};
+		64834A302A6015110074EB5D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				64834A312A6015110074EB5D /* AppData.swift */,
+				64834A322A6015110074EB5D /* JoinResponse.swift */,
+				64834A332A6015110074EB5D /* Peer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		64834A432A60151D0074EB5D /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				64834A442A60151D0074EB5D /* Constant.swift */,
+				64834A452A60151D0074EB5D /* SocketUtil.swift */,
+				64834A462A60151D0074EB5D /* JioSocketProperty.swift */,
+				64834A472A60151D0074EB5D /* JioSocket.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		64ADA2112A6ED7390009A4F5 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				64ADA2122A6ED7390009A4F5 /* Logger.m */,
+				64ADA2132A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift */,
+				64ADA2142A6ED7390009A4F5 /* Logger.h */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		64ADA21A2A6ED85A0009A4F5 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				64ADA21B2A6ED8770009A4F5 /* JMManager-Public.swift */,
+				64ADA21D2A6ED8940009A4F5 /* Models-Public.swift */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		C5BBBA0B2A70FA6E008FA8FF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C5BBBA0C2A70FA9E008FA8FF /* JMNetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		CF7D15807460CEAD94B4B020 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				643684462A67AEE900263567 /* JMMediaStackSDK */,
+				CD52B806B405503AE31647B5 /* Pods_JMMediaStackSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D8FE1BD4D0874B6CB2A91EA7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FE78803852BA93D2B21F713C /* Pods-JMMediaStackSDK.debug.xcconfig */,
+				D7188CDCF3F63CF6664D6CE3 /* Pods-JMMediaStackSDK.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		F71B61232A1F7E2300482D6E = {
+			isa = PBXGroup;
+			children = (
+				648BC4B82A67D37600F04C1A /* JMMediaStackSDK.podspec */,
+				F71B612F2A1F7E2300482D6E /* JMMediaStackSDK */,
+				F71B612E2A1F7E2300482D6E /* Products */,
+				D8FE1BD4D0874B6CB2A91EA7 /* Pods */,
+				CF7D15807460CEAD94B4B020 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F71B612E2A1F7E2300482D6E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F71B612D2A1F7E2300482D6E /* JMMediaStackSDK.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F71B612F2A1F7E2300482D6E /* JMMediaStackSDK */ = {
+			isa = PBXGroup;
+			children = (
+				C5BBBA0B2A70FA6E008FA8FF /* Network */,
+				64ADA2152A6ED7390009A4F5 /* JMMediaStackSDK.h */,
+				64ADA21A2A6ED85A0009A4F5 /* Public */,
+				64834A2D2A6015110074EB5D /* Jio-MediaSoup */,
+				64834A432A60151D0074EB5D /* Socket */,
+				64ADA2112A6ED7390009A4F5 /* Logger */,
+			);
+			path = JMMediaStackSDK;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F71B61282A1F7E2300482D6E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64ADA2192A6ED7390009A4F5 /* JMMediaStackSDK.h in Headers */,
+				64ADA2182A6ED7390009A4F5 /* Logger.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F71B612C2A1F7E2300482D6E /* JMMediaStackSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F71B61342A1F7E2300482D6E /* Build configuration list for PBXNativeTarget "JMMediaStackSDK" */;
+			buildPhases = (
+				44E97CA11072380310B596A8 /* [CP] Check Pods Manifest.lock */,
+				F71B61282A1F7E2300482D6E /* Headers */,
+				F71B61292A1F7E2300482D6E /* Sources */,
+				F71B612A2A1F7E2300482D6E /* Frameworks */,
+				F71B612B2A1F7E2300482D6E /* Resources */,
+				6436845F2A67AEF000263567 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JMMediaStackSDK;
+			productName = JMMediaStackSDK;
+			productReference = F71B612D2A1F7E2300482D6E /* JMMediaStackSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F71B61242A1F7E2300482D6E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					F71B612C2A1F7E2300482D6E = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
+					};
+				};
+			};
+			buildConfigurationList = F71B61272A1F7E2300482D6E /* Build configuration list for PBXProject "JMMediaStackSDK" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F71B61232A1F7E2300482D6E;
+			productRefGroup = F71B612E2A1F7E2300482D6E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F71B612C2A1F7E2300482D6E /* JMMediaStackSDK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F71B612B2A1F7E2300482D6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				648BC4B92A67D37600F04C1A /* JMMediaStackSDK.podspec in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		44E97CA11072380310B596A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JMMediaStackSDK-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F71B61292A1F7E2300482D6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64834A3D2A6015110074EB5D /* Peer.swift in Sources */,
+				64834A392A6015110074EB5D /* JMMediaTransport.swift in Sources */,
+				64834A422A6015110074EB5D /* JMManager-Public.swift in Sources */,
+				64834A3C2A6015110074EB5D /* JoinResponse.swift in Sources */,
+				64ADA2162A6ED7390009A4F5 /* Logger.m in Sources */,
+				64834A412A6015110074EB5D /* JMManager-ScreenShare.swift in Sources */,
+				64ADA2172A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift in Sources */,
+				64834A3E2A6015110074EB5D /* JMManager-MediaSoup.swift in Sources */,
+				64834A492A60151D0074EB5D /* SocketUtil.swift in Sources */,
+				C5BBBA0D2A70FA9E008FA8FF /* JMNetworkManager.swift in Sources */,
+				64834A402A6015110074EB5D /* JMManager-Socket.swift in Sources */,
+				64ADA21E2A6ED8940009A4F5 /* Models-Public.swift in Sources */,
+				64834A3A2A6015110074EB5D /* JMManager.swift in Sources */,
+				64ADA21C2A6ED8770009A4F5 /* JMManager-Public.swift in Sources */,
+				64834A4A2A60151D0074EB5D /* JioSocketProperty.swift in Sources */,
+				64834A482A60151D0074EB5D /* Constant.swift in Sources */,
+				64834A4B2A60151D0074EB5D /* JioSocket.swift in Sources */,
+				64834A3B2A6015110074EB5D /* AppData.swift in Sources */,
+				64834A3F2A6015110074EB5D /* VM-JMManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F71B61322A1F7E2300482D6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F71B61332A1F7E2300482D6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F71B61352A1F7E2300482D6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE78803852BA93D2B21F713C /* Pods-JMMediaStackSDK.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.developer.JMMediaStackSDK;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F71B61362A1F7E2300482D6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7188CDCF3F63CF6664D6CE3 /* Pods-JMMediaStackSDK.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.developer.JMMediaStackSDK;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F71B61272A1F7E2300482D6E /* Build configuration list for PBXProject "JMMediaStackSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F71B61322A1F7E2300482D6E /* Debug */,
+				F71B61332A1F7E2300482D6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F71B61342A1F7E2300482D6E /* Build configuration list for PBXNativeTarget "JMMediaStackSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F71B61352A1F7E2300482D6E /* Debug */,
+				F71B61362A1F7E2300482D6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F71B61242A1F7E2300482D6E /* Project object */;
+}
