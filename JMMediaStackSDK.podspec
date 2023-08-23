@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
       "Harsh Surati" => "harsh1.surati@ril.com",
       "Onkar Dhanlobhe" => "onkar.dhanlobhe@ril.com"
   }
-  spec.platform     = :ios, '14'
+  spec.platform     = :ios, '12'
   spec.swift_versions = ['5']
   spec.source = {
       :git => "https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS",
