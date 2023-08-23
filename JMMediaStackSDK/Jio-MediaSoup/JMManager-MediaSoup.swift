@@ -152,7 +152,11 @@ extension JMManagerViewModel{
         }
         videoCaptureFormat = format
         
-        self.videoSource.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
+        if #available(iOS 13.0, *) {
+            self.videoSource.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
+        } else {
+            self.videoSource.adaptOutputFormat(toWidth: JioMediaStackDefaultCameraCaptureResolution.0, height: JioMediaStackDefaultCameraCaptureResolution.1, fps: fps)
+        }
         
         self.videoCapture?.startCapture(with: cameraDevice, format:format, fps: Int(JioMediaStackDefaultCameraCaptureResolution.2))
         LOG.debug("Video- started capture with \(cameraDevice.localizedName)")

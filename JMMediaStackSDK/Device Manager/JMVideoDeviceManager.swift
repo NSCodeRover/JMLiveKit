@@ -39,9 +39,8 @@ class JMVideoDeviceManager: NSObject{
     
     private var videoSession: AVCaptureSession = AVCaptureSession()
     private var supportedCategory: [AVCaptureDevice.DeviceType] = [
-        .builtInTelephotoCamera
-        ,.builtInWideAngleCamera
-        ,.builtInUltraWideCamera
+        .builtInTelephotoCamera,
+        .builtInWideAngleCamera
     ]
     
     private var isDevicePreferenceIsSet: Bool = false
@@ -50,6 +49,10 @@ class JMVideoDeviceManager: NSObject{
     
     private override init() {
         super.init()
+        
+        if #available(iOS 13.0, *) {
+            supportedCategory.append(.builtInUltraWideCamera)
+        }
     }
         
     func setupSession(){
@@ -103,25 +106,42 @@ extension JMVideoDeviceManager{
         }
     }
     
+    
     internal func fetchPreferredResolutionFormat(_ cameraDevice: AVCaptureDevice) -> AVCaptureDevice.Format?{
         let allFormats = RTCCameraVideoCapturer.supportedFormats(for: cameraDevice)
         let desiredWidth = JioMediaStackDefaultCameraCaptureResolution.0
         let desiredHeight = JioMediaStackDefaultCameraCaptureResolution.1
             
-        if let preferredFormat = allFormats.first(where: { $0.formatDescription.dimensions.width == desiredWidth && $0.formatDescription.dimensions.height == desiredHeight }) {
-            //We will find the exact desired resolution
-            LOG.debug("Video- found the exact match - \(preferredFormat.formatDescription.dimensions)")
-            return preferredFormat
+        if #available(iOS 13.0, *){
+            if let preferredFormat = allFormats.first(where: { $0.formatDescription.dimensions.width == desiredWidth && $0.formatDescription.dimensions.height == desiredHeight }) {
+                //We will find the exact desired resolution
+                LOG.debug("Video- found the exact match - \(preferredFormat.formatDescription.dimensions)")
+                return preferredFormat
+            }
+            else{
+                //If exact resolution is not available, find the closest resolution
+                let closestFormat = allFormats.min(by: {
+                    abs($0.formatDescription.dimensions.width - desiredWidth) < abs($1.formatDescription.dimensions.width - desiredWidth) ||
+                    abs($0.formatDescription.dimensions.height - desiredHeight) < abs($1.formatDescription.dimensions.height - desiredHeight)
+                })
+                LOG.debug("Video- didn't found the exact match. The closest format - \(closestFormat?.formatDescription.dimensions)")
+                return closestFormat
+            }
         }
         else{
-            //If exact resolution is not available, find the closest resolution
-            let closestFormat = allFormats.min(by: {
-                abs($0.formatDescription.dimensions.width - desiredWidth) < abs($1.formatDescription.dimensions.width - desiredWidth) ||
-                abs($0.formatDescription.dimensions.height - desiredHeight) < abs($1.formatDescription.dimensions.height - desiredHeight)
-            })
-            LOG.debug("Video- didn't found the exact match. The closest format - \(closestFormat?.formatDescription.dimensions)")
-            return closestFormat
+            //iOS below 13.0
+            for format in cameraDevice.formats {
+                for range in format.videoSupportedFrameRateRanges {
+                    if format.highResolutionStillImageDimensions.width == desiredWidth &&
+                        format.highResolutionStillImageDimensions.height == desiredHeight &&
+                        Int32(range.maxFrameRate) >= JioMediaStackDefaultCameraCaptureResolution.2 {
+                        return format
+                    }
+                }
+            }
         }
+        
+        return nil
     }
 }
 
@@ -169,8 +189,8 @@ extension AVVideoDevice{
                 case .builtInWideAngleCamera:
                     return.RearCamera
                 
-                case .builtInUltraWideCamera:
-                    return.RearCamera_WideAngle
+//                case .builtInUltraWideCamera:
+//                    return.RearCamera_WideAngle
                 
                 case .builtInTelephotoCamera:
                     return .RearCamera_Telephoto
