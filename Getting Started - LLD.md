@@ -18,7 +18,7 @@ platform :ios
 
 target 'YourProjectName' do
   use_frameworks!
-  pod 'JMMediaStackSDK', :git => 'https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JioMeetReuableFrameworks_iOSmacOS', :branch => 'BranchName(release wise)'
+  pod 'JMMediaStackSDK', :git => 'https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS', :branch => 'BranchName(release wise)'
 end
 ```
 
@@ -61,7 +61,6 @@ To enable screen sharing, follow these steps:
      - Organization Identifier: Use a unique reverse domain notation identifier.
      - Bundle Identifier: This will be automatically generated based on your organization identifier and the product name.
      - Language: Choose the programming language you're comfortable with (Swift or Objective-C).
-     - User Interface: Select "Storyboards" or "None" based on your UI preferences.
 
 4. Finish Adding Extension:
    - Click the "Finish" button to add the Broadcast Upload Extension target to your project.
