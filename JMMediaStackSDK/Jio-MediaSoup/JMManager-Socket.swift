@@ -187,7 +187,13 @@ extension JMManagerViewModel{
     private func handleSocketEmitJoin(_ json: [String : Any]) {
         qJMMediaBGQueue.async {
             self.createSendAndReceiveTransport()
-            self.addPeerIfalreadyJoinMeetingRoom(json: json).forEach { self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))}
+            self.addPeerIfalreadyJoinMeetingRoom(json: json).forEach {
+                self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))
+                
+                if let audioConsumer = $0.producers.first(where: { $0.mediaType == "audio" }){
+                    self.socketEmitGetProducerInfo(for: audioConsumer.producerId)
+                }
+            }
         }
     }
     
