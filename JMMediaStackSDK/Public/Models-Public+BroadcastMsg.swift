@@ -28,7 +28,7 @@ public struct JMBroadcastMessage: Codable {
 }
 
 public struct JMMessageData: Codable {
-    let message: JMRTMMessage
+    let message: String
     let reactionsType: JMReactions
     let sender: JMSender
     let targetParticipantId: String

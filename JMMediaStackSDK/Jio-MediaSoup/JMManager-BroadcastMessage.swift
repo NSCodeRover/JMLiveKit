@@ -10,7 +10,7 @@ import Foundation
 // Sender function to broadcast a message
 
 extension JMManagerViewModel {
-    func sendJMBroadcastPublicMessage(message: JMRTMMessage,reactionsType:JMReactions = .None) {
+    func sendJMBroadcastPublicMessage(message: String,reactionsType:JMReactions = .None) {
         var sender = JMSender()
         sender.name = selfDisplayName
         sender.participantId = selfPeerId
@@ -25,7 +25,7 @@ extension JMManagerViewModel {
         self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessage.rawValue) ?? .none, parameters:broadcastMessage.toDictionary() ?? [:] ){ _ in }
     }
     
-    func sendJMBroadcastPrivateMessage(message: JMRTMMessage, targetParticipantId: String) {
+    func sendJMBroadcastPrivateMessage(message: String, targetParticipantId: String) {
         var sender = JMSender()
         sender.name = selfDisplayName
         sender.participantId = selfPeerId

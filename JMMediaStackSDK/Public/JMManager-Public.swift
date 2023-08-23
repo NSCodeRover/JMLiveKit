@@ -68,6 +68,6 @@ protocol JMMediaEngineAbstract{
     func startScreenShare()
     func stopScreenShare(error: String)
     
-    func sendPublicMessage(_ message: JMRTMMessage,reactionsType:JMReactions)
-    func sendPrivateMessage(_ message: JMRTMMessage, targetParticipantId: String)
+    func sendPublicMessage(_ message: String,reactionsType:JMReactions)
+    func sendPrivateMessage(_ message: String, targetParticipantId: String)
 }

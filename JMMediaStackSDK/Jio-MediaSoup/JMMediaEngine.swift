@@ -206,10 +206,10 @@ extension JMMediaEngine{
 
 //MARK: Broadcast Message
 extension JMMediaEngine{
-    public func sendPublicMessage(_ message: JMRTMMessage,reactionsType:JMReactions = .None) {
+    public func sendPublicMessage(_ message: String,reactionsType:JMReactions = .None) {
         vm_manager.sendJMBroadcastPublicMessage(message: message, reactionsType: reactionsType)
     }
-    public func sendPrivateMessage(_ message: JMRTMMessage, targetParticipantId: String) {
+    public func sendPrivateMessage(_ message: String, targetParticipantId: String) {
         vm_manager.sendJMBroadcastPrivateMessage(message: message, targetParticipantId: targetParticipantId)
     }
 }
@@ -254,14 +254,14 @@ extension JMMediaEngine{
     internal func handleBackgroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_ACTIVATED")
-            vm_manager.sendJMBroadcastPublicMessage(message: .PARTICIPANT_BACKGROUND_ACTIVATED)
+            vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_ACTIVATED.rawValue)
         }
     }
     
     internal func handleForegroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
-            vm_manager.sendJMBroadcastPublicMessage(message: .PARTICIPANT_BACKGROUND_INACTIVATED)
+            vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue)
         }
     }
     
