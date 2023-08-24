@@ -59,6 +59,8 @@ class JioSocket : NSObject {
     private var manager:SocketManager?
     private var socket: SocketIOClient!
     
+    var isListenerAddedForReconnect = false
+    
     private enum SocketKey: String {
         case roomId
         case token
@@ -85,6 +87,7 @@ class JioSocket : NSObject {
     
     func disconnectSocket() {
         manager?.disconnect()
+        isListenerAddedForReconnect = false
         manager?.reconnects = false
     }
     

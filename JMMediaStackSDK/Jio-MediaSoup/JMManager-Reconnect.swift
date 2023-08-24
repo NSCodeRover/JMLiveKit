@@ -103,6 +103,12 @@ extension JMManagerViewModel {
 //MARK: Socket Reconnect
 extension JMManagerViewModel {
     func setupSocketReconnectionHandling() {
+        
+        if jioSocket.isListenerAddedForReconnect{
+            return
+        }
+        
+        jioSocket.isListenerAddedForReconnect = true
         self.jioSocket.getSocket().on(clientEvent: .connect) { data, ack in
             LOG.debug("Socket: reconnected (Join Back)"+data.description)
             self.networkConnectionState = .connected

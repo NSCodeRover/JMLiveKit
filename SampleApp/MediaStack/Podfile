@@ -1,8 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 inhibit_all_warnings!
 def shared_pods
-  #pod 'JMMediaStackSDK', :path => '../../'
-  pod 'JMMediaStackSDK', :git => 'https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS', :branch => 'release/phase1'
+  pod 'JMMediaStackSDK', :path => '../../'
+  #pod 'JMMediaStackSDK', :git => 'https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS', :branch => 'release/phase1'
 end
 
 target 'MediaStack' do

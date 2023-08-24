@@ -321,10 +321,6 @@ extension JMManagerViewModel {
         }
     }
     
-    func disconnectSocket() {
-        jioSocket.disconnectSocket()
-    }
-    
     func disposeVideoAudioTrack() {
         if self.peerConnectionFactory != nil {
             self.peerConnectionFactory = nil
