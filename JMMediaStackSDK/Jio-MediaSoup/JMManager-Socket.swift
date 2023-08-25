@@ -101,9 +101,15 @@ extension JMManagerViewModel{
 // MARK: - Socket Callbacks
 extension JMManagerViewModel: JioSocketDelegate {
     
-    func didConnectionStateChange(connectionState: JMSocketConnectionState) {
-        self.connectionState = connectionState
-        LOG.info("Reconnect- state: \(connectionState)")
+    func didConnectionStateChange(_ state: JMSocketConnectionState) {
+        LOG.info("Reconnect- state: \(state)")
+        
+        if connectionState == state{
+            return
+        }
+        
+        connectionState = state
+        delegateBackToManager?.sendClientConnectionStateChanged(state: connectionState)
     }
     
     func didEmit(event: SocketEmitAction, data: [Any]) {

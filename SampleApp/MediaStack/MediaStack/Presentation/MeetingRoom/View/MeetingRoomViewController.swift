@@ -22,6 +22,7 @@ class MeetingRoomViewController: UIViewController {
     @IBOutlet weak var btn_audioDevice: UIButton!
     @IBOutlet weak var btn_videoDevice: UIButton!
     
+    @IBOutlet weak var lblDisplayName: UILabel!
     @IBOutlet weak var viewBigScreenshare: UIView!
     @IBOutlet weak var lblPlist: UILabel!
     
@@ -39,31 +40,17 @@ class MeetingRoomViewController: UIViewController {
         }()
     //var screenShareState:JMScreenShareState = .ScreenShareStateStopping
     
-    var counter = 0
-    var timer: Timer?
-    func startCounter() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            self.counter += 1
-            //print("Counter value: \(self.counter)")
-            self.lblPlist.text = self.counter.description
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //startCounter()
-        // Do any additional setup after loading the view
         self.configureCollectionView()
         addViewModelListener()
         self.viewModel.handleEvent(event: .startMeeting)
         localVideoView.makeDraggable()
-       self.getListenScreenShareEvent()
+        self.getListenScreenShareEvent()
     }
     
     @IBAction func endCallAction(_ sender: Any) {
-        
         showActionSheet()
-      
     }
     
     @IBAction func audioAction(_ sender: Any) {
@@ -92,7 +79,6 @@ extension MeetingRoomViewController {
 
 // MARK: - Private Methods
 extension MeetingRoomViewController {
-    
     
     private func configureCollectionView() {
         self.navigationController?.navigationBar.isHidden = true
@@ -170,6 +156,14 @@ extension MeetingRoomViewController {
                 
             self.present(optionMenu, animated: true, completion: nil)
         }
+        
+        self.viewModel.handleConnectionState = { state in
+            DispatchQueue.main.async {
+                self.lblPlist.text = state.rawValue
+            }
+        }
+        
+        lblDisplayName.text = viewModel.displayName
     }
 }
 
@@ -177,7 +171,6 @@ extension MeetingRoomViewController {
 extension MeetingRoomViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let peer = self.viewModel.getPeers()[indexPath.row]
         return CGSize.init(width: collectionView.frame.width/2, height: collectionView.frame.width/2)
     }
     
@@ -229,7 +222,8 @@ extension MeetingRoomViewController{
     }
     
     func showActionSheet() {
-            let actionSheet = UIAlertController(title: "Options", message: nil, preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: "Options", message: nil, preferredStyle: .actionSheet)
+        
         var screenshare = false
         switch screenShareState {
         case .ScreenShareStateStarting:
@@ -249,11 +243,15 @@ extension MeetingRoomViewController{
             }
         }
         
-        let audioDevice = UIAlertAction(title: "Audio Device", style: .default) { _ in
+        let audioDevice = UIAlertAction(title: "Audio Devices (Mic)", style: .default) { _ in
             self.viewModel.handleEvent(event: .audioDevice)
         }
         
-        let videoDevice = UIAlertAction(title: "Video Device", style: .default) { _ in
+        let audioOnlyMode = UIAlertAction(title: viewModel.isAudioOnly ? "Disable Audio Only" : "Enable Audio Only", style: .default) { _ in
+            self.viewModel.handleEvent(event: .audioOnly(!self.viewModel.isAudioOnly))
+        }
+        
+        let videoDevice = UIAlertAction(title: "Video Devices (Camera)", style: .default) { _ in
             self.viewModel.handleEvent(event: .videoDevice)
         }
         
@@ -267,6 +265,7 @@ extension MeetingRoomViewController{
         }
     
         actionSheet.addAction(startScreenShare)
+        actionSheet.addAction(audioOnlyMode)
         actionSheet.addAction(audioDevice)
         actionSheet.addAction(videoDevice)
         actionSheet.addAction(endCall)

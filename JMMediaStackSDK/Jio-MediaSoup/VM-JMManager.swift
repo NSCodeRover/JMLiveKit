@@ -100,7 +100,7 @@ class JMManagerViewModel: NSObject{
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
-    var connectionState: JMSocketConnectionState = .disconnected
+    var connectionState: JMSocketConnectionState = .connecting
 }
 
 extension JMManagerViewModel{

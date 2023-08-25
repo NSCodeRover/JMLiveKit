@@ -105,13 +105,13 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NBf-fe-XCA">
                                 <rect key="frame" x="0.0" y="59" width="393" height="185"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="185" id="6gQ-JO-AmH"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ygZ-nk-8Kp">
-                                <rect key="frame" x="0.0" y="274.33333333333331" width="393" height="465.99999999999994"/>
+                                <rect key="frame" x="0.0" y="276" width="393" height="464.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="H6X-PP-iP7">
                                     <size key="itemSize" width="128" height="128"/>
@@ -168,9 +168,9 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FNM-Ci-n3x">
                                         <rect key="frame" x="265.33333333333331" y="0.0" width="127.66666666666669" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="callEnd" title=" ">
+                                        <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system" title=" ">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -193,9 +193,9 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Participants List(Remote)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zt-Kp-661">
-                                <rect key="frame" x="0.0" y="244" width="393" height="20.333333333333314"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONNECTING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zt-Kp-661">
+                                <rect key="frame" x="0.0" y="244" width="393" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -241,12 +241,12 @@
                                             <constraint firstAttribute="height" constant="17" id="8uA-e7-bVC"/>
                                             <constraint firstAttribute="width" constant="97.666666666666686" id="vij-Im-TPa"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="SJZ-dP-7Gb"/>
                                     <constraint firstItem="5Me-k7-mU0" firstAttribute="leading" secondItem="UR8-1n-RUX" secondAttribute="leading" constant="25.999999999999972" id="YFJ-CN-JeG"/>
@@ -289,6 +289,7 @@
                         <outlet property="btn_Video" destination="lO8-RM-F1e" id="ONr-8d-u6Y"/>
                         <outlet property="btn_audioDevice" destination="NVa-sv-yCO" id="KkW-a7-w1R"/>
                         <outlet property="btn_videoDevice" destination="j6I-bG-35X" id="b78-tl-LO1"/>
+                        <outlet property="lblDisplayName" destination="5Me-k7-mU0" id="HuB-hb-KdO"/>
                         <outlet property="lblPlist" destination="9Zt-Kp-661" id="udU-oq-SjP"/>
                         <outlet property="localVideoView" destination="UR8-1n-RUX" id="2Z0-zC-pKh"/>
                         <outlet property="meetingRoomCollectionView" destination="ygZ-nk-8Kp" id="1yp-QX-PqZ"/>
@@ -320,8 +321,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="callEnd" width="60" height="60"/>
         <image name="camera" catalog="system" width="128" height="93"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="headphones" catalog="system" width="128" height="121"/>
         <image name="mic.fill" catalog="system" width="110" height="128"/>
         <image name="video" catalog="system" width="128" height="82"/>
@@ -334,14 +335,11 @@
         <systemColor name="systemMintColor">
             <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

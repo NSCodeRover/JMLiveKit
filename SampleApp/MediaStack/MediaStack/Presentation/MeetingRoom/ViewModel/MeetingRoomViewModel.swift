@@ -21,6 +21,8 @@ class MeetingRoomViewModel {
     
     var isMicEnabled: Bool = false
     var isCameraEnabled: Bool = false
+    var isAudioOnly: Bool = false
+    var displayName: String = ""
 
     enum MeetingRoomEvent {
         case join(roomId: String, pin: String, name: String)
@@ -36,6 +38,8 @@ class MeetingRoomViewModel {
         case setDevice(device: JMAudioDevice)
         case setVideoDevice(device: JMVideoDevice)
         
+        case audioOnly(_ enabled: Bool)
+        
         case setupLocalView(_ view: UIView)
         case setupRemoteView(_ view: UIView, remoteId: String)
     
@@ -50,6 +54,7 @@ class MeetingRoomViewModel {
     var popScreen: (() -> Void)?
     var handleAudioState: ((_ state: Bool) -> Void)?
     var handleVideoState: ((_ state: Bool) -> Void)?
+    var handleConnectionState: ((_ state: JMSocketConnectionState) -> Void)?
     
     private var peers: [JMUserInfo] = [] {
         didSet {
@@ -69,6 +74,7 @@ extension MeetingRoomViewModel {
     func handleEvent(event: MeetingRoomEvent) {
         switch event {
         case .join(roomId: let roomId, pin: let pin, name: let name):
+            displayName = name
             self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl)
             
         case .startMeeting:
@@ -76,6 +82,10 @@ extension MeetingRoomViewModel {
             
         case .endCall:
             self.client.leave()
+            
+        case .audioOnly(let enabled):
+            self.isAudioOnly = enabled
+            self.client.enableAudioOnlyMode(enabled)
             
         case .audio:
             self.handleAudio()
@@ -139,8 +149,6 @@ extension MeetingRoomViewModel {
     func setRemoteScreenShareView(_ remoteId: String, view: UIView){
         client.setupShareVideo(view, remoteId: remoteId)
     }
-    
-   
     
     func handleAudio(){
         client.setLocalAudioEnabled(!isMicEnabled) { (isSuccess) in
@@ -241,15 +249,9 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onConnectionStateChanged(state: JMSocketConnectionState) {
-        switch state {
-        case .connected:break
-            
-        case .connecting: break
-            
-        case .disconnected:
-            onChannelLeft()
-        default:break
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.handleConnectionState?(state)
+        })
     }
     
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant]) {
@@ -284,6 +286,6 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
         })
     }
     
-    func onVideoDeviceChanged(_ device: JMMediaStackSDK.JMVideoDevice) {
+    func onVideoDeviceChanged(_ device: JMVideoDevice) {
     }
 }

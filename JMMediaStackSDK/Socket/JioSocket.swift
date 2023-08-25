@@ -51,7 +51,7 @@ enum SocketEmitAction: String {
 }
 
 protocol JioSocketDelegate: NSObject {
-    func didConnectionStateChange(connectionState: JMSocketConnectionState)
+    func didConnectionStateChange(_ state: JMSocketConnectionState)
     func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter?)
     func didEmit(event: SocketEmitAction, data: [Any])
 }
@@ -174,26 +174,26 @@ extension JioSocket {
         for event in socketEvents {
             if event == .connect {
                 socket.on(clientEvent: .connect) { data, ack in
-                    self.delegate?.didConnectionStateChange(connectionState: .connected)
+                    self.delegate?.didConnectionStateChange(.connected)
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }
             else if event == .disconnect {
                 socket.on(clientEvent: .disconnect) { data, ack in
-                    self.delegate?.didConnectionStateChange(connectionState: .disconnected)
+                    self.delegate?.didConnectionStateChange(.disconnected)
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }
             else if event == .reconnect  {
                 socket.on(clientEvent: .reconnect) {data, ack in
                     LOG.debug("Reconnect- reconnected | \(data.description)")
-                    self.delegate?.didConnectionStateChange(connectionState: .connected)
+                    self.delegate?.didConnectionStateChange(.connected)
                 }
             }
             else if event == .reconnectAttempt  {
                 socket.on(clientEvent: .reconnectAttempt) { data, ack in
                     LOG.debug("Reconnect- reconnectAttempting... | \(data.description)")
-                    self.delegate?.didConnectionStateChange(connectionState: .reconnecting)
+                    self.delegate?.didConnectionStateChange(.reconnecting)
                 }
             }
             else {

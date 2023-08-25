@@ -41,7 +41,7 @@ extension JMMediaEngineDelegate{
     
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant]){}
     
-    func onConnectionStateChanged(state: JMSocketConnectionState){}
+    //func onConnectionStateChanged(state: JMSocketConnectionState){}
     func onNetworkQuality(stats: JMNetworkStatistics){}
 }
 
