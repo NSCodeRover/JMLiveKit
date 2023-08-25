@@ -24,64 +24,24 @@ enum JMMediaTransport {
 }
 
 extension JMManagerViewModel {
-    func restartIce(transport: JMMediaTransport) {
-        LOG.debug(transport)
-        qJMMediaWorkHandler.async {
-            do {
-                if transport == .send {
-                    if let mediaSendTransport = self.sendTransport {
-                        var restartData = [String: Any]()
-                        restartData["peerId"] = self.selfPeerId
-                        restartData["transportType"] = "send"
-                        self.restartIce(restartData: restartData)
-                    }
-                } else {
-                    if let mediaReceiveTransport = self.recvTransport {
-                        var restartData = [String: Any]()
-                        restartData["peerId"] = self.selfPeerId
-                        restartData["transportType"] = "receive"
-                        self.restartIce(restartData: restartData)
-                    }
-                }
-            } catch {
-                print("Error in restart ice")
-            }
-        }
-    }
     
-    func restartIce(restartData: [String: Any]?) {
-        LOG.debug(restartData?.description)
-        jioSocket.emit(
-            action: .restartIce, parameters:restartData ?? [:], callback: { [weak self] args in
-                guard let self = self else { return }
-                if let data = args.first as? [String: Any],
-                   let status = data["status"] as? String,
-                   status.lowercased() == "ok" {
-                    if let responseData = data["data"] as? [String: Any] {
-                        self.onRestartIce(restartData: responseData)
-                    }
-                }
-            }
-        )
-    }
-    
-    func onRestartIce(restartData: [String: Any]?) {
-        LOG.debug(restartData?.description)
-        if let iceRestartParameters = restartData?["iceRestartParameters"] as? [[String: Any]],
+    func onRestartIce(restartData: [String: Any]) {
+        if let iceRestartParameters = restartData["iceRestartParameters"] as? [[String: Any]],
            let iceData = iceRestartParameters.first,
            let consumeFlag = iceData["consuming"] as? Bool,
            let iceParams = iceData["iceParameters"] as? [String: Any] {
             
             if let jsonString = convertDictionaryToJsonString(dictionary: iceParams) {
                 do {
+                    LOG.info("Reconnect- \(consumeFlag ? "Receive" : "Send") Restart called")
                     consumeFlag ? try self.recvTransport?.restartICE(with: jsonString) : try self.sendTransport?.restartICE(with: jsonString)
                 }
                 catch{
-                    LOG.error("RestartICE- failed: \(consumeFlag) with \(jsonString)")
+                    LOG.error("Reconnect- RestartICE- failed: \(consumeFlag) with \(jsonString)")
                 }
             }
             else {
-                LOG.error("RestartICE- Conversion to JSON string failed.")
+                LOG.error("Reconnect- RestartICE- Conversion to JSON string failed. \(iceParams.description)")
             }
         }
     }
@@ -94,51 +54,34 @@ extension JMManagerViewModel {
                 return jsonString
             }
         } catch {
-            LOG.error("RestartICE- Error converting dictionary to JSON string: \(error)")
+            LOG.error("Reconnect- RestartICE- Error converting dictionary to JSON string: \(error)")
         }
         return nil
     }
 }
 
 //MARK: Socket Reconnect
-extension JMManagerViewModel {
-    func setupSocketReconnectionHandling() {
-        
-        if jioSocket.isListenerAddedForReconnect{
-            return
-        }
-        
-        jioSocket.isListenerAddedForReconnect = true
-        self.jioSocket.getSocket().on(clientEvent: .connect) { data, ack in
-            LOG.debug("Socket: reconnected (Join Back)"+data.description)
-            self.networkConnectionState = .connected
-            self.delegateBackToManager?.sendClientConnectionStateChanged(state: .connected)
-            self.handleSocketReconnection()
-            self.jioSocket.getManager().config.insert(.connectParams(["peerId": self.selfPeerId]))
-        }
-        
-        self.jioSocket.getSocket().on(clientEvent: .reconnect) { data, ack in
-            LOG.debug("Socket: start to Attempting to reconnect process..."+data.description)
-            self.delegateBackToManager?.sendClientConnectionStateChanged(state: .connecting)
-            self.jioSocket.getManager().config.insert(.connectParams(["peerId": self.selfPeerId]))
-            self.networkConnectionState = .reconnecting
-        }
-        
-        self.jioSocket.getSocket().on(clientEvent: .reconnectAttempt) { data, ack in
-            LOG.debug("Socket: start to Attempting to reconnect process..."+data.description)
-            self.delegateBackToManager?.sendClientConnectionStateChanged(state: .connecting)
-            self.networkConnectionState = .reconnecting
-        }
-        
-        self.jioSocket.getSocket().on(clientEvent: .disconnect) { data, ack in
-            LOG.debug("Socket: Reconnection attempts failed..(max try failed) "+data.description)
-            self.delegateBackToManager?.sendClientConnectionStateChanged(state: .disconnected)
-            self.networkConnectionState = .disconnected
+extension JMManagerViewModel{
+    func validateTransportAndRestart(){
+        if connectionState == .connected{
+            if let transport = sendTransport, transport.connectionState == .failed{
+                restartIce(transport: "send")
+            }
+            if let transport = recvTransport, transport.connectionState == .failed{
+                restartIce(transport: "receive")
+            }
         }
     }
     
-    func handleSocketReconnection(){
-        restartIce(transport: .receive)
-        restartIce(transport: .send)
+    func restartIce(transport: String) {
+        var restartData = [String: Any]()
+        restartData["peerId"] = self.selfPeerId
+        restartData["transportType"] = transport
+        self.restartIce(restartData: restartData)
+    }
+    
+    func restartIce(restartData: [String: Any]) {
+        LOG.debug("Reconnect- emit restartIce \(restartData.description)")
+        jioSocket.emit(action: .restartIce, parameters:restartData)
     }
 }

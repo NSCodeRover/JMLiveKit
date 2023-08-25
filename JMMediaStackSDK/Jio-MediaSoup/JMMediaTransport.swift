@@ -91,16 +91,11 @@ extension JMManagerViewModel: SendTransportDelegate, ReceiveTransportDelegate{
     }
 
     func onConnectionStateChange(transport: Transport, connectionState: TransportConnectionState) {
-        LOG.debug("Transport- JioSendTransportListener onConnectionStateChange == \(connectionState)")
-                
-        if case .failed = connectionState, case .connected = networkConnectionState {
-            restartIce(transport: transport.id == sendTransport?.id ? .send : .receive)
-            return
-        }
+        LOG.debug("Transport- Reconnect- \(transport.id == sendTransport?.id ? "send" : "receive") onConnectionStateChange == \(connectionState)")
         
         //MeetingEndCase
         if connectionState == .disconnected && isCallEnded{
-            LOG.error("End- transport close")
+            LOG.error("Transport- End- transport close")
             transport.close()
         }
     }

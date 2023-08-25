@@ -97,10 +97,10 @@ class JMManagerViewModel: NSObject{
     let height = 2532
     
     var isCallEnded: Bool = false
-    let qJMMediaWorkHandler: DispatchQueue = DispatchQueue(label: "jmmedia.reconnect.transport")
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
-    var networkConnectionState: JMSocketConnectionState = .disconnected
+    
+    var connectionState: JMSocketConnectionState = .disconnected
 }
 
 extension JMManagerViewModel{
@@ -135,7 +135,6 @@ extension JMManagerViewModel{
         JMAudioDeviceManager.shared.dispose()
         JMVideoDeviceManager.shared.dispose()
         
-        qJMMediaWorkHandler.suspend()
         self.disposeVideoAudioTrack()
     }
 }

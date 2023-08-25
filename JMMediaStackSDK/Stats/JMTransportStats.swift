@@ -96,7 +96,7 @@ extension JMManagerViewModel {
             return
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            if case .connected = self?.networkConnectionState {
+            if case .connected = self?.connectionState {
                 self?.scheduleTask()
             }
         }

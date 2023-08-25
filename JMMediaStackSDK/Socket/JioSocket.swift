@@ -11,7 +11,12 @@ import SocketIO
 enum SocketEvent: String,CaseIterable {
     case connect
     case disconnect
+    case reconnect
+    case reconnectAttempt
+    
     case socketConnected
+    case socketReconnected
+    
     case audioLevel
     case peerClosed
     case newPeer
@@ -27,7 +32,6 @@ enum SocketEvent: String,CaseIterable {
     case score
     case layerschange
     case userRoleUpdated
-    case socketReconnected
     case none
 }
 
@@ -47,7 +51,8 @@ enum SocketEmitAction: String {
 }
 
 protocol JioSocketDelegate: NSObject {
-    func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter)
+    func didConnectionStateChange(connectionState: JMSocketConnectionState)
+    func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter?)
     func didEmit(event: SocketEmitAction, data: [Any])
 }
 
@@ -59,7 +64,8 @@ class JioSocket : NSObject {
     private var manager:SocketManager?
     private var socket: SocketIOClient!
     
-    var isListenerAddedForReconnect = false
+    var selfPeerId: String = ""
+    var isReconnectListenerReady = false
     
     private enum SocketKey: String {
         case roomId
@@ -87,7 +93,7 @@ class JioSocket : NSObject {
     
     func disconnectSocket() {
         manager?.disconnect()
-        isListenerAddedForReconnect = false
+        isReconnectListenerReady = false
         manager?.reconnects = false
     }
     
@@ -101,6 +107,11 @@ class JioSocket : NSObject {
     
     func getManager() -> SocketManager {
         return self.manager!
+    }
+    
+    func updateConfig(_ selfID: String){
+        selfPeerId = selfID
+        getManager().config.insert(.connectParams(["peerId": selfID]))
     }
 
     func emit(action: SocketEmitAction, parameters: [String: Any]) {
@@ -144,8 +155,11 @@ extension JioSocket {
             .log(false),
             .compress,
             .path("/socket.io/"),
+            
+            .forceNew(false),
             .reconnects(true),    // Enable reconnection attempts
-            .reconnectAttempts(6), // Set the number of reconnection attempts
+            .reconnectAttempts(10), // Set the number of reconnection attempts
+            .reconnectWait(1),
             .reconnectWaitMax(2) //After 2 secs, it will attempt to reconnect //Ping pong takes 8 seconds to detect network loss. Total = 20sec.
         ]
     }
@@ -159,16 +173,32 @@ extension JioSocket {
     private func addSocketListener() {
         for event in socketEvents {
             if event == .connect {
-                socket.on(clientEvent: .connect) {[weak self] data, ack in
-                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+                socket.on(clientEvent: .connect) { data, ack in
+                    self.delegate?.didConnectionStateChange(connectionState: .connected)
+                    self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
-            } else if event == .disconnect {
-                socket.on(clientEvent: .disconnect) {[weak self] data, ack in
-                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+            }
+            else if event == .disconnect {
+                socket.on(clientEvent: .disconnect) { data, ack in
+                    self.delegate?.didConnectionStateChange(connectionState: .disconnected)
+                    self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
-            } else {
-                socket.on(event.rawValue) {[weak self] data, ack in
-                    self?.delegate?.didReceive(event: event, data: data, ack: ack)
+            }
+            else if event == .reconnect  {
+                socket.on(clientEvent: .reconnect) {data, ack in
+                    LOG.debug("Reconnect- reconnected | \(data.description)")
+                    self.delegate?.didConnectionStateChange(connectionState: .connected)
+                }
+            }
+            else if event == .reconnectAttempt  {
+                socket.on(clientEvent: .reconnectAttempt) { data, ack in
+                    LOG.debug("Reconnect- reconnectAttempting... | \(data.description)")
+                    self.delegate?.didConnectionStateChange(connectionState: .reconnecting)
+                }
+            }
+            else {
+                socket.on(event.rawValue) { data, ack in
+                    self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }
         }

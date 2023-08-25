@@ -25,6 +25,9 @@ extension JMManagerViewModel {
             .disconnect,
             .socketConnected,
             
+            .reconnect,
+            .reconnectAttempt,
+            
             .peerConnected,
             .newPeer,
             .peerClosed,
@@ -97,6 +100,12 @@ extension JMManagerViewModel{
 
 // MARK: - Socket Callbacks
 extension JMManagerViewModel: JioSocketDelegate {
+    
+    func didConnectionStateChange(connectionState: JMSocketConnectionState) {
+        self.connectionState = connectionState
+        LOG.info("Reconnect- state: \(connectionState)")
+    }
+    
     func didEmit(event: SocketEmitAction, data: [Any]) {
 
         if event == .peerLeave{
@@ -119,26 +128,27 @@ extension JMManagerViewModel: JioSocketDelegate {
             case .produce:
                 handleSocketEmitScreenShareProduce(json)
                 
+            case .restartIce:
+                handleSocketEmitRestartICE(json)
+                
             default: break
             }
         }
     }
     
-    func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter) {
+    func didReceive(event: SocketEvent, data: [Any], ack: SocketAckEmitter?) {
 
-        if event == .socketReconnected{
-            //Server is sending array of dictionary here.
-            if let jsonArr = self.getJsonArr(data: data){
-                handleSocketReconnected(jsonArr: jsonArr)
-            }
-            else{
-                LOG.error("Socket- No json found for event: \(event.rawValue)")
-            }
+        if event == .connect{
+            handleSocketReconnected()
+            return
+        }
+        else if event == .socketReconnected{
+            handleSocketPostReconnectedEvents(data)
             return
         }
         
         guard let json = self.getJson(data: data) else{
-            LOG.error("Socket- No json found for event: \(event.rawValue)")
+            LOG.error("Socket- No json found for event: \(event.rawValue) | \(data.description)")
             return
         }
         
@@ -218,6 +228,15 @@ extension JMManagerViewModel{
 
 //MARK: Socket receive handler
 extension JMManagerViewModel{
+    private func handleSocketEmitRestartICE(_ json: [String : Any]) {
+        
+        qJMMediaBGQueue.async {
+            if let data = json["data"] as? [String: Any] {
+                self.onRestartIce(restartData: data)
+            }
+        }
+    }
+    
    private func handleSocketEmitScreenShareProduce(_ json: [String : Any]) {
        if let share = json["share"] as? Bool, share {
            if let data = json["data"] as? [String: Any] {
@@ -253,6 +272,7 @@ extension JMManagerViewModel{
     private func handleSocketSelfPeerConnected(_ json: [String : Any]) {
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
             self.selfPeerId = peerId
+            self.jioSocket.updateConfig(peerId)
             self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
         }
     }
@@ -302,25 +322,41 @@ extension JMManagerViewModel{
     
     private func handleSocketConnected(_ json: [String : Any]) {
         self.socketConnectedData = json
-        initMediaSoupEngine(with: json)
-        setupSocketReconnectionHandling()
+        
+        if device == nil{
+            LOG.debug("Reconnect- Connected (First time)")
+            initMediaSoupEngine(with: json)
+        }
+        else{
+            LOG.debug("Reconnect- reconnected (JOIN BACK)")
+            validateTransportAndRestart()
+        }
+    }
+    
+    private func handleSocketReconnected() {
+        if device == nil{
+            return
+        }
+        
+        LOG.debug("Reconnect- reconnected (JOIN BACK)")
+        validateTransportAndRestart()
     }
    
-    private func handleSocketReconnected(jsonArr:[[String:Any]]) {
-       for eventDict in jsonArr {
-           if let eventName = eventDict["eventName"] as? String,
-              let eventType = SocketEvent(rawValue: eventName) {
-               switch eventType {
-               case .pausedProducer:
-                   handleSocketProducer(eventDict,event: .pausedProducer)
-               case .resumedProducer:
-                   handleSocketProducer(eventDict,event: .resumedProducer)
-               case .audioLevel:
-                   handleSocketAudioLevelForActiveSpeakers(eventDict)
-               @unknown default: break
+    private func handleSocketPostReconnectedEvents(_ data: [Any]) {
+        LOG.debug("Reconnect- socketReconnected events")
+        if let jsonArr = self.getJsonArr(data: data){
+            for eventDict in jsonArr {
+               if let eventName = eventDict["eventName"] as? String,
+                  let eventType = SocketEvent(rawValue: eventName) {
+                   let json = [eventDict]
+                   LOG.debug("Reconnect- reconnected - handling missing event \(eventName)")
+                   didReceive(event: eventType, data: json, ack: nil)
                }
-           }
-       }
+            }
+        }
+        else{
+            LOG.error("Reconnect- socketReconnected event json mismatch \(data.description)")
+        }
     }
 }
 
