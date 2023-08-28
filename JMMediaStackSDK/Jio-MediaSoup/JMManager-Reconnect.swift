@@ -16,11 +16,6 @@ public enum JMSocketConnectionState: String {
     case connected = "CONNECTED"
     case disconnected = "DISCONNECTED"
     case reconnecting = "RECONNECTING"
-    // Add other states as needed
-}
-enum JMMediaTransport {
-    case send
-    case receive
 }
 
 extension JMManagerViewModel {
@@ -32,16 +27,9 @@ extension JMManagerViewModel {
            let iceParams = iceData["iceParameters"] as? [String: Any] {
             
             if let jsonString = convertDictionaryToJsonString(dictionary: iceParams) {
-                do {
-                    LOG.info("Reconnect- \(consumeFlag ? "Receive" : "Send") Restart called")
+                handleMediaSoupErrors("Reconnect-"){
                     consumeFlag ? try self.recvTransport?.restartICE(with: jsonString) : try self.sendTransport?.restartICE(with: jsonString)
                 }
-                catch{
-                    LOG.error("Reconnect- RestartICE- failed: \(consumeFlag) with \(jsonString)")
-                }
-            }
-            else {
-                LOG.error("Reconnect- RestartICE- Conversion to JSON string failed. \(iceParams.description)")
             }
         }
     }

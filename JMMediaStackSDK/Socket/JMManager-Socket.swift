@@ -429,10 +429,17 @@ extension JMManagerViewModel{
             let rtpParameters = JSON(consumerInfo.dictionary(SocketDataKey.rtpParameters.rawValue)).description
             
             let mediaKind = kind == JMMediaType.audio.rawValue ? MediaKind.audio : MediaKind.video
-            if let consumer = try? self.recvTransport?.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description) {
-                
-                let isScreenShareEnabled = appData["share"] as? Bool ?? false
-                let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaKind == .video ? .video : .audio
+            
+            guard let recvTransport = recvTransport else {
+                LOG.error("recvTransport- recvTransport Transport not available. remote - \(remoteId)")
+                return
+            }
+            
+            let isScreenShareEnabled = appData["share"] as? Bool ?? false
+            let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaKind == .video ? .video : .audio
+            
+            let result = handleMediaSoupErrors("Subscribe-"){
+                let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
                 
                 self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaType)
                 self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaType)
@@ -446,11 +453,9 @@ extension JMManagerViewModel{
                 else if jmMediaType == .video{
                     self.updateRemoteRenderViewTrack(for: remoteId)
                 }
-                
-                LOG.debug("Subscribe- \(jmMediaType) consumer added")
-            }else{
-                LOG.debug("Subscribe-  consumer failed")
             }
+            
+            LOG.info("Subscribe- \(jmMediaType) consumer \(result ? "added" : "failed")")
         }
     }
 }

@@ -14,9 +14,11 @@ import WebRTC
 
 extension JMManagerViewModel{
     internal func initMediaSoupEngine(with data: [String: Any]){
+        
         if let rtpCapabilities = getRTPCapabilities() {
-            do{
-                let device = Device()
+            
+            let device = Device()
+            handleMediaSoupErrors("Device-") {
                 
                 if let transportConfigurationObject = getReceiveTransport(),
                     let iceServers = getIceServer(fromReceiveTransport: transportConfigurationObject)
@@ -43,11 +45,6 @@ extension JMManagerViewModel{
                 
                 self.device = device
                 self.jioSocket.emit(action: .join, parameters: getRoomConfiguration())
-                LOG.debug("Device- connected")
-            }
-            catch {
-                //TODO: Handle the execution. nothing will work here.
-                LOG.error("Device- Device loading failed")
             }
         }
     }

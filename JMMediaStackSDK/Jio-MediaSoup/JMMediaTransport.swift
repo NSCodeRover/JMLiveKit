@@ -14,44 +14,33 @@ extension JMManagerViewModel {
     
     func createSendTransport(json: [String: Any], device: Device?, socketIp: String) -> SendTransport? {
         
-        let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
-        do {
-            let sendTransport = try device?.createSendTransport(
+        var sendTransport: SendTransport? = nil
+        handleMediaSoupErrors("Transport- Send-"){
+            let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
+            sendTransport = try device?.createSendTransport(
                 id: tuple.id,
                 iceParameters: tuple.iceParameters,
                 iceCandidates: tuple.iceCandidates,
                 dtlsParameters: tuple.dtlsParameters,
                 sctpParameters: nil,
                 appData: nil)
-            return sendTransport
         }
-        catch let error as MediasoupError {
-            LOG.debug("Transport- Send- Error- \(error.localizedDescription)")
-        }
-        catch {
-            LOG.debug("Transport Send- Error- unknown \(error.localizedDescription)")
-        }
-        return nil
+        return sendTransport
     }
         
     func createReceiveTransport(json: [String: Any], device: Device?, socketIp: String) -> ReceiveTransport? {
         
-        let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
-        do {
-            let receiveTransport = try device?.createReceiveTransport(
+        var receiveTransport: ReceiveTransport? = nil
+        handleMediaSoupErrors("Transport- Receive-"){
+            let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
+            receiveTransport = try device?.createReceiveTransport(
                 id: tuple.id,
                 iceParameters: tuple.iceParameters,
                 iceCandidates: tuple.iceCandidates,
                 dtlsParameters: tuple.dtlsParameters)
-            return receiveTransport
+            
         }
-        catch let error as MediasoupError {
-            LOG.debug("Transport- Receive- Error- \(error.localizedDescription)")
-        }
-        catch {
-            LOG.debug("Transport- Receive- Error- unknown \(error.localizedDescription)")
-        }
-        return nil
+        return receiveTransport
     }
     
     private func getTransportParameters(json: [String: Any], socketIp: String) -> (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String) {

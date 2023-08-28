@@ -236,7 +236,3 @@ extension JMManagerViewModel:UIScrollViewDelegate{
         return nil
     }
 }
-
-extension JMManagerViewModel {
-    
-}
