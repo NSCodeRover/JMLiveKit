@@ -67,14 +67,17 @@ extension JMManagerViewModel{
         screenShareTrack.isEnabled = true
         mediaStreamScreenCapture?.addVideoTrack(screenShareTrack)
         
-        if let track = videoTrackScreen, let producer = try? sendTransport?.createProducer(for: track, encodings: nil, codecOptions:  nil, codec: nil, appData: JioMediaAppData.screenShareAppData) {
+        guard let sendTransport = sendTransport,let videoTrackScreen = videoTrackScreen else {
+            LOG.error("ScreenShare- send Transport not available | transport:\(sendTransport) | track:\(videoTrack)")
+            return
+        }
+        
+        handleMediaSoupErrors("ScreenShare-") {
+            let producer = try sendTransport.createProducer(for: videoTrackScreen, encodings: nil, codecOptions:  nil, codec: nil, appData: JioMediaAppData.screenShareAppData)
             LOG.debug("ScreenShare- \(producer.id)")
             screenShareProducer = producer
             totalProducers[producer.id] = producer
             producer.resume()
-        }
-        else{
-            LOG.debug("ScreenShare- producer failed)")
         }
     }
     

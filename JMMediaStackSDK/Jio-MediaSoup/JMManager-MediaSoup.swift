@@ -76,8 +76,8 @@ extension JMManagerViewModel{
             return
         }
         
-        guard let audioTrack = self.peerConnectionFactory?.audioTrack(withTrackId: JioMediaId.audioTrackId) else
-        {
+        guard let audioTrack = self.peerConnectionFactory?.audioTrack(withTrackId: JioMediaId.audioTrackId) else {
+            LOG.error("Audio- audioTrack failed")
             completion(false)
             return
         }
@@ -85,20 +85,23 @@ extension JMManagerViewModel{
         audioTrack.isEnabled = true
         self.mediaStream?.addAudioTrack(audioTrack)
         
+        guard let sendTransport = sendTransport else {
+            LOG.error("Audio- send Transport not available")
+            completion(false)
+            return
+        }
+        
         LOG.debug("Audio- startAudio createProducer")
-        if let producer = try? sendTransport?.createProducer(for: audioTrack, encodings: nil, codecOptions: getAudioCodec(), codec: nil, appData: JioMediaAppData.audioAppData) {
-
+        
+        let result = handleMediaSoupErrors("Audio-") {
+            let producer = try sendTransport.createProducer(for: audioTrack, encodings: nil, codecOptions: getAudioCodec(), codec: nil, appData: JioMediaAppData.audioAppData)
             self.audioProducer = producer
             self.audioTrack = audioTrack
             self.totalProducers[producer.id] = producer
-            LOG.debug("Audio- startAudio producer created")
+            LOG.info("Audio- startAudio producer created")
             producer.resume()
-            completion(true)
         }
-        else{
-            LOG.debug("Audio- failed producer")
-            completion(false)
-        }
+        completion(result)
     }
 }
 
@@ -126,17 +129,26 @@ extension JMManagerViewModel{
         self.videoSource = videoSource
         
         let isSuccess = checkVideoCameraCapture()
-        if isSuccess, let track = videoTrack, let producer = try? sendTransport?.createProducer(for: track, encodings: getVideoMediaLayers(), codecOptions:  nil, codec: nil, appData: JioMediaAppData.videoAppData) {
+        if !isSuccess{
+            LOG.error("Video- failed startVideoCameraCapture")
+            completion(false)
+            return
+        }
+        
+        guard let sendTransport = sendTransport,let videoTrack = videoTrack else {
+            LOG.error("Video- send Transport not available | transport:\(sendTransport) | track:\(videoTrack)")
+            completion(false)
+            return
+        }
+        
+        let result = handleMediaSoupErrors("Video-") {
+            let producer = try sendTransport.createProducer(for: videoTrack, encodings: getVideoMediaLayers(), codecOptions:  nil, codec: nil, appData: JioMediaAppData.videoAppData)
             self.videoProducer = producer
             self.totalProducers[producer.id] = producer
-            LOG.debug("Video- startVideo producer created")
+            LOG.info("Video- startVideo producer created")
             producer.resume()
-            completion(true)
         }
-        else{
-            LOG.debug("Video- failed startVideoCameraCapture")
-            completion(false)
-        }
+        completion(result)
     }
     
     private func startVideoCameraCapture() -> Bool{
@@ -374,6 +386,35 @@ extension JMManagerViewModel{
         if let json = self.getDataOf(key: SocketDataKey.receiveTransport.rawValue, dictionary: self.socketConnectedData) {
             self.recvTransport = self.createReceiveTransport(json: json, device: self.device, socketIp: self.jioSocket.getSocketIp())
             self.recvTransport?.delegate = self
+        }
+    }
+}
+
+//MARK: Error handling
+extension JMManagerViewModel{
+    internal func handleMediaSoupErrors<T>(_ loggerPrefix: String = "", _ throwingClosure: () throws -> T) -> Bool {
+        do {
+            try throwingClosure()
+            return true
+        }
+        catch let error as MediasoupError {
+            switch error {
+            case .unsupported(let error):
+                LOG.error("\(loggerPrefix) MediaSoupError- Unsupported with error \(error)")
+            case .invalidParameters(let error):
+                LOG.error("\(loggerPrefix) MediaSoupError- invalidParameters with error \(error)")
+            case .invalidState(let error):
+                LOG.error("\(loggerPrefix) MediaSoupError- invalidState with error \(error)")
+            case .unknown(let error):
+                LOG.error("\(loggerPrefix) MediaSoupError- Unknown with error \(error)")
+            default:
+                LOG.error("\(loggerPrefix) MediaSoupError- default case")
+            }
+            return false
+        }
+        catch (let error) {
+            LOG.error("\(loggerPrefix) MediaSoupError- error \(error.localizedDescription)")
+            return false
         }
     }
 }
