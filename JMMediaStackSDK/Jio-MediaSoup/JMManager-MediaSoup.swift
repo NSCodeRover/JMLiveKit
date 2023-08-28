@@ -141,6 +141,7 @@ extension JMManagerViewModel{
         let result = handleMediaSoupErrors("Video-") {
             let producer = try sendTransport.createProducer(for: videoTrack, encodings: getVideoMediaLayers(), codecOptions:  nil, codec: nil, appData: JioMediaAppData.videoAppData)
             self.videoProducer = producer
+            self.updateProducerLayers()
             self.totalProducers[producer.id] = producer
             LOG.info("Video- startVideo producer created")
             producer.resume()

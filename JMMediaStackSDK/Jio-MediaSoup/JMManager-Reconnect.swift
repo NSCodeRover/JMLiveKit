@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 
 import SwiftyJSON
 import Mediasoup
@@ -16,6 +17,12 @@ public enum JMSocketConnectionState: String {
     case connected = "CONNECTED"
     case disconnected = "DISCONNECTED"
     case reconnecting = "RECONNECTING"
+}
+
+public enum JMNetworkType: String {
+    case WIFI
+    case Cellular
+    case NoInternet
 }
 
 extension JMManagerViewModel {
@@ -71,5 +78,53 @@ extension JMManagerViewModel{
     func restartIce(restartData: [String: Any]) {
         LOG.debug("Reconnect- emit restartIce \(restartData.description)")
         jioSocket.emit(action: .restartIce, parameters:restartData)
+    }
+}
+
+//MARK: Network Detection
+extension JMManagerViewModel{
+    
+    func startNetworkMonitor(){
+        networkMonitor.pathUpdateHandler = { [weak self] path in
+            if path.status == .satisfied {
+                if path.usesInterfaceType(.wifi) {
+                    self?.onNetworkTypeChanged(.WIFI)
+                }
+                else if path.usesInterfaceType(.cellular) {
+                    self?.onNetworkTypeChanged(.Cellular)
+                }
+            }
+            else{
+                self?.onNetworkTypeChanged(.NoInternet)
+            }
+        }
+
+        networkMonitor.start(queue: qJMMediaNWQueue)
+    }
+    
+    func stopNetworkMonitor(){
+        networkMonitor.cancel()
+    }
+    
+    func onNetworkTypeChanged(_ networkType: JMNetworkType){
+        
+        if networkType == connectionNetworkType{
+            return
+        }
+        
+        connectionNetworkType = networkType
+        LOG.info("Reconnect- Network changed to \(networkType)")
+        updateProducerLayers()
+    }
+    
+    func updateProducerLayers(){
+        if let videoProducer = videoProducer{
+            qJMMediaBGQueue.async {
+                self.handleMediaSoupErrors("Video- Reconnect-"){
+                    try videoProducer.setMaxSpatialLayer(self.connectionNetworkType == .WIFI ? 3 : 2)
+                    LOG.info("Video- Reconnect- producer layers set to \(self.connectionNetworkType == .WIFI ? "3" : "2")")
+                }
+            }
+        }
     }
 }

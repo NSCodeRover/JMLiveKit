@@ -109,6 +109,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         LOG.debug("\(#function) - \(appID)")
         delegateBackToClient = delegate
         vm_manager.delegateBackToManager = self
+        vm_manager.startNetworkMonitor()
         return JMMediaEngine.shared
     }
     

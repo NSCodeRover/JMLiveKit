@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 
 import SwiftyJSON
 import Mediasoup
@@ -98,9 +99,13 @@ class JMManagerViewModel: NSObject{
     
     var isCallEnded: Bool = false
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
+    let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .background)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
     var connectionState: JMSocketConnectionState = .connecting
+    
+    var networkMonitor = NWPathMonitor()
+    var connectionNetworkType: JMNetworkType = .NoInternet
 }
 
 extension JMManagerViewModel{
@@ -111,6 +116,7 @@ extension JMManagerViewModel{
     func dispose() {
         LOG.debug("End- dispose")
         self.jioSocket.disconnectSocket()
+        self.stopNetworkMonitor()
         
         totalProducers.forEach({
             $0.value.close()
