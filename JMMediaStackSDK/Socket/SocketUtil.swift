@@ -1,9 +1,3 @@
-//
-//  SocketUtil.swift
-//  PodDemo3
-//
-//  Created by KOYO on 2022/9/29.
-//
 
 import Foundation
 

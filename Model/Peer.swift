@@ -1,9 +1,3 @@
-//
-//  Peer.swift
-//  MediaStack
-//
-//  Created by Atinderpal Singh on 28/02/23.
-//
 
 import Foundation
 import Mediasoup
