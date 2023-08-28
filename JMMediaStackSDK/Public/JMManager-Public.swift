@@ -48,9 +48,7 @@ extension JMMediaEngineDelegate{
 //Note: These SDK functions are available for Client to call.
 protocol JMMediaEngineAbstract{
     func create(withAppId appID: String, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
-    
     func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String)
-    func join(withUrl url: String, roomId: String, roomToken: String, displayName: String)
     
     func getAudioDevices() -> [JMAudioDevice]
     func setAudioDevice(_ device: JMAudioDevice)

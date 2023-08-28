@@ -120,18 +120,11 @@ extension JMMediaEngine: JMMediaEngineAbstract {
             JMJoinViewApiHandler.validateJoiningDetails(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl) { (result) in
                 switch result{
                 case .success(let model):
-                    self.join(withUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, roomToken: model.jwtToken, displayName: userName)
+                    self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken)
                 case .failure(let error):
                     self.sendClientError(error: error)
                 }
             }
-        }
-    }
-    
-    public func join(withUrl url: String, roomId: String, roomToken: String, displayName: String){
-        vm_manager.selfDisplayName = displayName
-        vm_manager.qJMMediaBGQueue.async {
-            self.vm_manager.connect(socketUrl: url, roomId: roomId, jwtToken: roomToken)
         }
     }
     
