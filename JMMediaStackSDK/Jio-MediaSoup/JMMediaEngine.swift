@@ -34,12 +34,16 @@ extension JMMediaEngine: delegateManager{
     
     //Join
     func sendClientJoinSocketSuccess(selfId: String) {
-        delegateBackToClient?.onJoinSuccess(id: selfId)
-        setupDeviceManager()
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onJoinSuccess(id: selfId)
+            self.setupDeviceManager()
+        }
     }
     
     func sendClientError(error: JMMediaError){
-        delegateBackToClient?.onError(error: error)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onError(error: error)
+        }
     }
     
     func sendClientUserJoined(user: JMUserInfo) {
@@ -49,7 +53,9 @@ extension JMMediaEngine: delegateManager{
     }
     
     func sendClientUserLeft(id: String, reason: String) {
-        delegateBackToClient?.onUserLeft(id: id, reason: reason)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
+        }
     }
     
     //Media States
@@ -67,20 +73,28 @@ extension JMMediaEngine: delegateManager{
     
     //Messaging
     func sendClientBroadcastMessage(msg: [String: Any]) {
-        delegateBackToClient?.onBroadcastMessage(msg: msg)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onBroadcastMessage(msg: msg)
+        }
     }
     
     func sendClientBroadcastMessageToPeer(msg: [String: Any]) {
-        delegateBackToClient?.onBroadcastMessageToPeer(msg: msg)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onBroadcastMessageToPeer(msg: msg)
+        }
     }
     
     //Devices
     func sendClientAudioDeviceInUse(_ device: AVAudioDevice) {
-        delegateBackToClient?.onAudioDeviceChanged(device.format())
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onAudioDeviceChanged(device.format())
+        }
     }
 
     func sendClientVideoDeviceInUse(_ device: AVVideoDevice) {
-        delegateBackToClient?.onVideoDeviceChanged(device.format())
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onVideoDeviceChanged(device.format())
+        }
     }
     
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant]) {
@@ -91,11 +105,15 @@ extension JMMediaEngine: delegateManager{
     
     //Network
     func sendClientConnectionStateChanged(state: JMSocketConnectionState) {
-        delegateBackToClient?.onConnectionStateChanged(state: state)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onConnectionStateChanged(state: state)
+        }
     }
         
     func sendClientNetworkQuality(stats: JMNetworkStatistics) {
-        delegateBackToClient?.onNetworkQuality(stats: stats)
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onNetworkQuality(stats: stats)
+        }
     }
     
     //End
