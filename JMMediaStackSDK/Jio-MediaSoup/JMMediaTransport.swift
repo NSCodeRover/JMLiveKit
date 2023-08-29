@@ -85,7 +85,15 @@ extension JMManagerViewModel: SendTransportDelegate, ReceiveTransportDelegate{
         //MeetingEndCase
         if connectionState == .disconnected && isCallEnded{
             LOG.error("Transport- End- transport close")
-            transport.close()
+            
+            if transport.id == sendTransport?.id{
+                LOG.error("Transport- End- transport sent close")
+                sendTransport?.close()
+            }
+            else if transport.id == recvTransport?.id{
+                LOG.error("Transport- End- transport receive close")
+                recvTransport?.close()
+            }
         }
     }
 }
