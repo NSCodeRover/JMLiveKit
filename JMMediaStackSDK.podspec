@@ -29,7 +29,7 @@ Pod::Spec.new do |spec|
       "CoreVideo"
       
   spec.dependency 'SwiftyJSON'
-  spec.dependency 'Socket.IO-Client-Swift'
+  spec.dependency 'Socket.IO-Client-Swift', '~> 16.1.0'
   spec.dependency 'MMWormhole'
   spec.dependency 'SwiftyBeaver'
 end
