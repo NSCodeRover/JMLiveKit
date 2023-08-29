@@ -104,7 +104,7 @@ class JMManagerViewModel: NSObject{
     
     var connectionState: JMSocketConnectionState = .connecting
     
-    var networkMonitor = NWPathMonitor()
+    var networkMonitor: NWPathMonitor!
     var connectionNetworkType: JMNetworkType = .NoInternet
 }
 
@@ -115,13 +115,14 @@ extension JMManagerViewModel{
         
     func dispose() {
         LOG.debug("End- dispose")
-        self.jioSocket.disconnectSocket()
-        self.stopNetworkMonitor()
         
         totalProducers.forEach({
             $0.value.close()
             socketCloseProducer(producerId: $0.key)
         })
+        
+        self.jioSocket.disconnectSocket()
+        self.stopNetworkMonitor()
         
         peersMap.forEach({
             $0.value.consumerAudio?.close()
@@ -142,6 +143,10 @@ extension JMManagerViewModel{
         JMVideoDeviceManager.shared.dispose()
         
         self.disposeVideoAudioTrack()
+        
+        if device != nil{
+            device = nil
+        }
     }
 }
 

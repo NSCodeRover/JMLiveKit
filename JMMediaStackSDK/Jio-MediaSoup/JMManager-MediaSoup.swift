@@ -365,15 +365,30 @@ extension JMManagerViewModel {
             track.isEnabled = false
             self.audioTrack = nil
         }
+        
+        audioProducer?.close()
+        if self.audioProducer != nil {
+            audioProducer = nil
+        }
                 
         if let track = self.videoTrack {
             track.isEnabled = false
             self.videoTrack = nil
         }
         
+        videoProducer?.close()
+        if self.videoProducer != nil {
+            videoProducer = nil
+        }
+        
         if let track = self.videoTrackScreen {
             track.isEnabled = false
             self.videoTrackScreen = nil
+        }
+        
+        screenShareProducer?.close()
+        if self.screenShareProducer != nil {
+            screenShareProducer = nil
         }
     }
 }
