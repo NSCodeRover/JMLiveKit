@@ -63,11 +63,8 @@ struct Peer: Codable {
     func getProducerId(for mediaType: JMMediaType) -> String?{
         if let objectPresent = producers.first(where: {
             mediaType == .shareScreen ? ($0.mediaType == "video" && $0.share == true) : ($0.mediaType == mediaType.rawValue) }) {
-            LOG.warning("Subscribe- get producer id \(objectPresent.producerId)")
             return objectPresent.producerId
         }
-        
-        LOG.warning("Subscribe- get producer id nil \(mediaType)")
         return nil
     }
     

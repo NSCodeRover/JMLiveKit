@@ -266,8 +266,8 @@ extension JMManagerViewModel{
                 if event == .newProducer{
                     self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: mediaType, isScreenShareEnabled: isScreenShareEnabled)
                 }
-                else if event == .pausedProducer || event == .producerEnd{
-                    self.clearVideoProducer(for: remoteId, mediaType: jmMediaType)
+                else if event == .producerEnd{
+                    self.endProducer(for: remoteId, mediaType: jmMediaType)
                 }
                 
                 self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: mediaType, event: event, isScreenShareEnabled: isScreenShareEnabled)
@@ -455,7 +455,7 @@ extension JMManagerViewModel{
                 }
             }
             
-            LOG.info("Subscribe- \(jmMediaType) consumer \(result ? "added" : "failed")")
+            LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")
         }
     }
 }
@@ -487,7 +487,7 @@ extension JMManagerViewModel{
         let mediaStateEnabled = (event == .resumedProducer || event == .newProducer) ? true : false
         if jmMediaType == .video{
             if subscriptionVideoList.contains(remoteId){
-                LOG.debug("Subscribe- already subscribed")
+                LOG.debug("Subscribe- already in subscribed list. Fetching details...")
                 feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: jmMediaType)
             }
         }
@@ -533,7 +533,7 @@ extension JMManagerViewModel{
         }
     }
     
-    func clearVideoProducer(for remoteId: String, mediaType: JMMediaType) {
+    func endProducer(for remoteId: String, mediaType: JMMediaType) {
         guard var updatedPeer = self.peersMap[remoteId] else {
             return
         }
@@ -541,14 +541,16 @@ extension JMManagerViewModel{
         LOG.debug("Subscribe- consumer updated to nil \(updatedPeer.displayName) mediatype \(mediaType)")
         switch mediaType {
         case .video:
+            updatedPeer.consumerVideo?.close()
             updatedPeer.consumerVideo = nil
         case .shareScreen:
-            LOG.debug("Subscribe- consumer updated to nil \(updatedPeer.displayName) mediatype \(mediaType)")
+            updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
             removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
             subscriptionScreenShareVideo = ""
         case .audio:
+            updatedPeer.consumerAudio?.close()
             updatedPeer.consumerAudio = nil
         }
         
@@ -594,19 +596,19 @@ extension JMManagerViewModel{
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
             if let consumer = consumer, consumer.producerId == producerId{
-                LOG.debug("Subscribe- \(mediaType) \(remoteId) \(peer.displayName) consumer resumed")
+                LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer resumed")
                 consumer.resume()
                 updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
                 socketEmitResumeProducer(producerId: producerId)
             }
             else{
                 consumer?.close()
-                LOG.debug("Subscribe- \(mediaType) \(remoteId) \(peer.displayName) consumer fetch")
+                LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer fetch")
                 socketEmitGetProducerInfo(for: producerId)
             }
         }
         else{
-            LOG.debug("Subscribe- \(mediaType) \(remoteId) \(peer.displayName) consumer paused")
+            LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer paused")
             consumer?.pause()
             updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
             socketEmitPauseProducer(producerId: producerId)

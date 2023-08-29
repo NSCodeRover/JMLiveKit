@@ -199,17 +199,19 @@ extension JMManagerViewModel:UIScrollViewDelegate{
            let rtcVideoTrack = consumer.track as? RTCVideoTrack
             
         {
-            for subview in renderView.subviews where subview is RTCMTLVideoView{
-                subview.removeFromSuperview()
+            qJMMediaMainQueue.async {
+                for subview in renderView.subviews where subview is RTCMTLVideoView{
+                    subview.removeFromSuperview()
+                }
+                updatedPeer.remoteScreenshareView = self.bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             }
             
-            updatedPeer.remoteScreenshareView = bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             peersMap[remoteId] = updatedPeer
             LOG.error("Subscribe- UI success")
         }
-        else{
-            LOG.error("Subscribe- UI failed - \( self.peersMap[remoteId]?.remoteScreenshareView)|\( self.peersMap[remoteId]?.consumerScreenShare)|\( self.peersMap[remoteId]?.consumerScreenShare?.track)")
-        }
+//        else{
+//            LOG.error("Subscribe- UI failed - \( self.peersMap[remoteId]?.remoteScreenshareView)|\( self.peersMap[remoteId]?.consumerScreenShare)|\( self.peersMap[remoteId]?.consumerScreenShare?.track)")
+//        }
     }
     
     private func bindScreenShareRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
