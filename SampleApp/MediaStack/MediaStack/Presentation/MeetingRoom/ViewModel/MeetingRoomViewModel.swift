@@ -184,7 +184,13 @@ extension MeetingRoomViewModel {
 extension MeetingRoomViewModel {
     func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String){
         client = JMMediaEngine.shared.create(withAppId: "", delegate: self)
+        enableLogs()
         client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
+    }
+    
+    func enableLogs(){
+        let logPath = client.enableLog(true)
+        print("LOG- client \(logPath)")
     }
 }
 

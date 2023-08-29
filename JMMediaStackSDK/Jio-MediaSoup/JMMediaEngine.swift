@@ -134,6 +134,11 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         vm_manager.selfPeerLeave()
         sendClientEndClientCall()
     }
+    
+    public func enableLog(_ isEnable: Bool,withPath path: String = "") -> String{
+        LOG.info("LOG- isEnabled:\(isEnable)|path:\(path == "" ? "Default" : path)")
+        return JMLogManager.shared.enableLogger(isEnable,withPath: path)
+    }
 }
 
 //MARK: AUDIO PUBLIC ACCESS

@@ -70,4 +70,6 @@ protocol JMMediaEngineAbstract{
     
     func sendPublicMessage(_ message: String,reactionsType:JMReactions)
     func sendPrivateMessage(_ message: String, targetParticipantId: String)
+    
+    func enableLog(_ isEnable: Bool,withPath path: String) -> String
 }
