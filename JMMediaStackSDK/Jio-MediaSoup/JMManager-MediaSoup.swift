@@ -207,9 +207,10 @@ extension JMManagerViewModel{
         self.videoSelfRenderView = renderView
         
         qJMMediaMainQueue.async {
-            let localView = RTCMTLVideoView(frame: renderView.bounds)
-            self.videoSelfRTCRenderView = localView
+            let localView = RTCMTLVideoView()
             renderView.addSubview(localView)
+            self.setConstrainsts(of: localView, toView: renderView)
+            self.videoSelfRTCRenderView = localView
             self.removeViewFromRendering()
             self.addViewToRender()
         }
@@ -269,10 +270,11 @@ extension JMManagerViewModel{
     }
     
     private func bindRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
-        let remoteView = RTCMTLVideoView(frame: renderView.bounds)
+        let remoteView = RTCMTLVideoView()
         rtcVideoTrack.add(remoteView)
         rtcVideoTrack.isEnabled = true
         renderView.addSubview(remoteView)
+        setConstrainsts(of: remoteView, toView: renderView)
         return renderView
     }
     
@@ -281,6 +283,17 @@ extension JMManagerViewModel{
             guard let self = self else { return }
             self.checkVideoCameraCapture()
         }
+    }
+}
+
+//MARK: Constraints
+extension JMManagerViewModel{
+    func setConstrainsts(of firstView:RTCMTLVideoView, toView: UIView){
+        firstView.translatesAutoresizingMaskIntoConstraints = false
+        firstView.leadingAnchor.constraint(equalTo: toView.leadingAnchor).isActive = true
+        firstView.trailingAnchor.constraint(equalTo: toView.trailingAnchor).isActive = true
+        firstView.topAnchor.constraint(equalTo: toView.topAnchor).isActive = true
+        firstView.bottomAnchor.constraint(equalTo: toView.bottomAnchor).isActive = true
     }
 }
 
