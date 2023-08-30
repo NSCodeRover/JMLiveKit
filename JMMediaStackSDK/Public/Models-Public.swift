@@ -23,14 +23,21 @@ public struct JMActiveParticipant{
 
 public struct JMNetworkStatistics{
     public var networkQuality: Int = 0
-    public var remotePacketLoss: Int = 0
-    public var localPacketLoss: Int = 0
-    public var jitter: Int = 0
+    public var remotePacketPercentLoss: Int = 0
+    public var localPacketPercentLoss: Int = 0
+    
+    init(networkQuality: Int, remotePacketPercentLoss: Int, localPacketPercentLoss: Int) {
+        self.networkQuality = networkQuality
+        self.remotePacketPercentLoss = remotePacketPercentLoss
+        self.localPacketPercentLoss = localPacketPercentLoss
+    }
 }
 
 public enum JMUserLeaveReason{
     case userAction
     case lowNetwork
+    case HostRemoved
+    case HostEnded
 }
 
 //ERROR

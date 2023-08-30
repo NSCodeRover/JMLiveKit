@@ -19,10 +19,8 @@ class JMTransportStats {
         var mUplinkPacketLoss: Int = 0
         var mDownlinkPacketLoss: Int = 0
       
-      
         var uplinkData: StatsTuple? = nil
         var downlinkData: StatsTuple? = nil
-        
         
         for stats in statsArray {
              guard let transportId = stats["transport"] as? String else {
@@ -30,13 +28,13 @@ class JMTransportStats {
              }
              
              if sendTransportId == transportId && uplinkData == nil {
-                 uplinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
+                 uplinkData = qualityAndPacketLoss(isSendTransport: true, stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
              
              if receiveTransportId == transportId && downlinkData == nil {
-                 downlinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
+                 downlinkData = qualityAndPacketLoss(isSendTransport: false, stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
-         }
+        }
         
         if let uplinkData = uplinkData, let downlinkData = downlinkData {
             if uplinkData.quality != 0 && downlinkData.quality != 0 {
@@ -50,33 +48,31 @@ class JMTransportStats {
         
         //LOG.debug(("Stats- Network quality:" + mNetworkQuality.description + " | uplinkLoss:" ) + (mUplinkPacketLoss.description + " | downlinkLoss:" + mDownlinkPacketLoss.description))
         
-        return JMNetworkStatistics(networkQuality: mNetworkQuality,remotePacketLoss: mDownlinkPacketLoss,localPacketLoss: mUplinkPacketLoss)
-        
+        return JMNetworkStatistics(networkQuality: mNetworkQuality,remotePacketPercentLoss: mDownlinkPacketLoss,localPacketPercentLoss: mUplinkPacketLoss)
     }
 
-    private func qualityAndPacketLoss(stats: [String: Any]) -> StatsTuple {
-        let rtpPacketLoss = stats["rtpPacketLossSent"] as? Double ?? stats["rtpPacketLossReceived"] as? Double ?? 0
+    private func qualityAndPacketLoss(isSendTransport: Bool, stats: [String: Any]) -> StatsTuple {
+        let rtpPacketLoss = isSendTransport ? stats["rtpPacketLossSent"] as? Double ?? 0 : stats["rtpPacketLossReceived"] as? Double ?? 0
         var quality = 0
         var packetLoss = 0
 
         if !rtpPacketLoss.isNaN {
-            let lossPercentage = Int(rtpPacketLoss * 100)
+            packetLoss = Int(rtpPacketLoss * 100)
             // Assign quality based on loss percentage
-            if lossPercentage <= 1 {
+            if packetLoss <= 1 {
                 quality = 1
-                packetLoss = lossPercentage
-            } else if lossPercentage <= 3 {
+            }
+            else if packetLoss <= 3 {
                 quality = 2
-                packetLoss = lossPercentage
-            } else if lossPercentage <= 10 {
+            }
+            else if packetLoss <= 10 {
                 quality = 3
-                packetLoss = lossPercentage
-            } else if lossPercentage <= 15 {
+            }
+            else if packetLoss <= 15 {
                 quality = 4
-                packetLoss = lossPercentage
-            } else if lossPercentage > 15 {
+            }
+            else if packetLoss > 15 {
                 quality = 5
-                packetLoss = lossPercentage
             }
         }
         return (quality, packetLoss)
@@ -90,6 +86,7 @@ extension JMManagerViewModel {
         setTransportStatRequestParam()
         scheduleTask()
     }
+    
     private func scheduleTask() {
         self.socketEmitSetTransportStats()
         if sendTransport == nil || recvTransport == nil{
@@ -105,7 +102,7 @@ extension JMManagerViewModel {
     func setTransportStatRequestParam() {
         var data = [String: Any]()
         var transportIds = [String]()
-        if let receiveTransportId = sendTransport?.id, let sendTransportId = recvTransport?.id {
+        if let sendTransportId = sendTransport?.id, let receiveTransportId = recvTransport?.id {
             transportIds.append(receiveTransportId)
             transportIds.append(sendTransportId)
         }
