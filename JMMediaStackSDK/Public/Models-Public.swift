@@ -28,6 +28,11 @@ public struct JMNetworkStatistics{
     public var jitter: Int = 0
 }
 
+public enum JMUserLeaveReason{
+    case userAction
+    case lowNetwork
+}
+
 //ERROR
 public struct JMMediaError{
     public var type: JMMediaErrorType
