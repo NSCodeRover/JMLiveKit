@@ -18,6 +18,7 @@ class MeetingRoomViewModel {
     var videoDevices: (([JMVideoDevice]) -> ())?
     var pushToMeetingRoom: ((Bool,String) -> Void)?
     var joinChannelLoader: (() -> ())?
+    var onErrorShowToast: ((JMMediaError) -> Void)?
     
     var isMicEnabled: Bool = false
     var isCameraEnabled: Bool = false
@@ -268,11 +269,16 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onError(error: JMMediaError) {
-        if error.type == .serverDown{
+        
+        switch error.type{
+        case .serverDown:
             self.pushToMeetingRoom?(false,error.description)
-        }
-        else if error.type == .loginFailed{
+        case .loginFailed:
             self.pushToMeetingRoom?(false,error.description)
+        case .cameraNotAvailable:
+            self.onErrorShowToast?(error)
+        default:
+            break
         }
     }
     

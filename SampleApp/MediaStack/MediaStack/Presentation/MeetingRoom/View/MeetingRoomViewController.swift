@@ -163,6 +163,10 @@ extension MeetingRoomViewController {
             }
         }
         
+        self.viewModel.onErrorShowToast = { mediaError in
+            self.showToast("JMMediaError: \(mediaError.description)")
+        }
+        
         lblDisplayName.text = viewModel.displayName
     }
 }
