@@ -163,7 +163,7 @@ extension MeetingRoomViewController {
             }
             
             if state == .disconnected{
-                let alertController = UIAlertController(title: "Wanna Retry?", message: "", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Disconnected!! Wanna retry?", message: "", preferredStyle: .alert)
                         
                 let okAction = UIAlertAction(title: "Retry", style: .default) { _ in
                     self.viewModel.handleEvent(event: .retryJoin)
@@ -175,8 +175,9 @@ extension MeetingRoomViewController {
                     }
                 }
                 
-                alertController.addAction(okAction)
                 alertController.addAction(cancelAction)
+                alertController.addAction(okAction)
+                
                 self.present(alertController, animated: true, completion: nil)
             }
         }
