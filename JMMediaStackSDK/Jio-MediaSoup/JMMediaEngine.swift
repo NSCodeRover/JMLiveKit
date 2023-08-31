@@ -146,6 +146,10 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         }
     }
     
+    public func rejoin(){
+        LOG.debug("Rejoining the meeting post disconnection.")
+    }
+    
     public func leave() {
         vm_manager.isCallEnded = true
         
