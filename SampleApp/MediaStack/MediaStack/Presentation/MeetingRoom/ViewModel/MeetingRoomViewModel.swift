@@ -234,7 +234,7 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
         client.subscribeFeed(true, remoteId: user.userId, mediaType: .video)
     }
     
-    func onUserLeft(id: String, reason: String) {
+    func onUserLeft(id: String, reason: JMUserLeaveReason) {
         if let index = peers.firstIndex(where: { $0.userId == id }){
             self.peers.remove(at: index)
         }
