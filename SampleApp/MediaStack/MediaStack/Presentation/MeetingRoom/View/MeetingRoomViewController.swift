@@ -161,6 +161,24 @@ extension MeetingRoomViewController {
             DispatchQueue.main.async {
                 self.lblPlist.text = state.rawValue
             }
+            
+            if state == .disconnected{
+                let alertController = UIAlertController(title: "Wanna Retry?", message: "", preferredStyle: .alert)
+                        
+                let okAction = UIAlertAction(title: "Retry", style: .default) { _ in
+                    self.viewModel.handleEvent(event: .retryJoin)
+                }
+                let cancelAction = UIAlertAction(title: "No", style: .cancel) { _ in
+                    DispatchQueue.main.async {
+                        self.navigationController?.navigationBar.isHidden = false
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                
+                alertController.addAction(okAction)
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
         }
         
         self.viewModel.onErrorShowToast = { mediaError in

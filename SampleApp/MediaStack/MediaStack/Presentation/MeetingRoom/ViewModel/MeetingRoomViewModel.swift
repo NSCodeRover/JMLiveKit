@@ -46,6 +46,8 @@ class MeetingRoomViewModel {
     
         case setStartScreenShare
         case setStopScreenShare(error:String = "")
+        
+        case retryJoin
     }
     
     var getLocalRenderView: (() -> UIView)?
@@ -115,6 +117,9 @@ extension MeetingRoomViewModel {
         case .setStopScreenShare(error: let error):
             client.stopScreenShare(error: error)
             client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_STOP_SHARE.rawValue)
+            
+        case .retryJoin:
+            client.rejoin()
         }
     }
 }
