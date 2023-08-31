@@ -41,6 +41,7 @@ public struct JMNetworkStatistics{
 
 public enum JMUserLeaveReason{
     case userAction
+    case unknown
     
     //TODO: Future scope
 //    case lowNetwork

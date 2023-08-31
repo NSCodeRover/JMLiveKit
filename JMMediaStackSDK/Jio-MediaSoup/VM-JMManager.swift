@@ -31,7 +31,7 @@ protocol delegateManager: AnyObject{
     func sendClientBroadcastMessage(msg: [String: Any])
     func sendClientBroadcastMessageToPeer(msg: [String: Any])
     func sendClientUserJoined(user: JMUserInfo)
-    func sendClientUserLeft(id: String, reason: String)
+    func sendClientUserLeft(id: String, reason: JMUserLeaveReason)
     func sendClientConnectionStateChanged(state: JMSocketConnectionState)
     
     //BackgroundEvents

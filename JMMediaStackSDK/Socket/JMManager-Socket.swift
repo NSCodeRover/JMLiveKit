@@ -292,7 +292,9 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketPeerLeft(_ json: [String : Any]) {
-        if let peerId = json[SocketDataKey.peerId.rawValue] as? String, let reason = json["reason"] as? String {
+        if let peerId = json[SocketDataKey.peerId.rawValue] as? String{
+            LOG.debug("UserLeave- \(peerId) with reason \(json["reason"] as? String)")
+            let reason: JMUserLeaveReason = (json["reason"] as? String ?? "").lowercased() == "quit" ? .userAction : .unknown
             self.delegateBackToManager?.sendClientUserLeft(id: peerId, reason: reason)
             self.peersMap.removeValue(forKey: peerId)
         }
