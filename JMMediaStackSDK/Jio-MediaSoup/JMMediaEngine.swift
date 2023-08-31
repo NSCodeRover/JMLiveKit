@@ -313,6 +313,10 @@ extension JMMediaEngine{
                 self.vm_manager.startAudio { isSuccess in
                     self.isMicEnabled = isSuccess ? enable : self.isMicEnabled
                     completion?(isSuccess)
+                    
+                    if !isSuccess{
+                        self.sendClientError(error: JMMediaError.init(type: .audioStartFailed, description: ""))
+                    }
                 }
             }
         }

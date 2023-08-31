@@ -458,6 +458,9 @@ extension JMManagerViewModel{
             }
             
             LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")
+            if !result{
+                delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .remoteVideoStreamFailed, description: remoteId))
+            }
         }
     }
 }

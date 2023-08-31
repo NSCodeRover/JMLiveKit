@@ -37,10 +37,12 @@ extension JMManagerViewModel{
                 
                 if !canProduceAudio {
                     LOG.error("Device- Cant Produce Audio")
+                    delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .AudioMediaNotSupported, description: ""))
                 }
                 
                 if !canProduceVideo {
                     LOG.error("Device- Cant Produce Video")
+                    delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .VideoMediaNotSupported, description: ""))
                 }
                 
                 self.device = device
@@ -152,12 +154,14 @@ extension JMManagerViewModel{
     private func startVideoCameraCapture() -> Bool{
         guard let cameraDevice = JMVideoDeviceManager.shared.getCameraDevice() else {
             LOG.error("Video- No camera device found")
+            delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .cameraNotAvailable, description: "No camera device found"))
             return false
         }
         
         let fps = JioMediaStackDefaultCameraCaptureResolution.2
         guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
             LOG.error("Video- No format found")
+            delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .videoDeviceNotSupported, description: "No format found \(cameraDevice.localizedName)"))
             return false
         }
         videoCaptureFormat = format
@@ -191,6 +195,7 @@ extension JMManagerViewModel{
         
         guard let videoTrack = self.peerConnectionFactory?.videoTrack(with: self.videoSource, trackId: JioMediaId.videoTrackId) else{
             LOG.error("Video- new track failed")
+            delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .videoStartFailed, description: "Video track failed"))
             return false
         }
         

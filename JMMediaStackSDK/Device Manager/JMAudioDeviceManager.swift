@@ -106,7 +106,7 @@ extension JMAudioDeviceManager{
         guard let inputDevice = currentRoute.inputs.first,
               let outputDevice = currentRoute.outputs.first else {
             LOG.error("AVAudioDevice- No device selected")
-            return (nil,JMMediaError(type: .audioDeviceFailed, description: "No device found"))
+            return (nil,JMMediaError(type: .audioDeviceNotAvailable, description: "No device found"))
         }
 
         if inputDevice.portType == outputDevice.portType {
@@ -128,6 +128,7 @@ extension JMAudioDeviceManager{
         }
         catch {
             LOG.error("AVAudioDevice- Failed to setPreferredInput : \(error.localizedDescription)")
+            delegateToManager?.sendClientError(error: JMMediaError.init(type: .audioSetDeviceFailed, description: error.localizedDescription))
         }
     }
     
@@ -139,7 +140,7 @@ extension JMAudioDeviceManager{
             delegateToManager?.sendClientAudioDeviceInUse(device)
         }
         else if let error = deviceStatus.1{
-            delegateToManager?.sendClientError(error: .init(type: .audioDeviceFailed, description: "No device found."))
+            delegateToManager?.sendClientError(error: JMMediaError.init(type: .audioDeviceNotAvailable, description: "No device found."))
         }
     }
 }

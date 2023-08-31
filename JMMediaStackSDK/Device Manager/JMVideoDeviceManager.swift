@@ -163,7 +163,7 @@ extension JMVideoDeviceManager{
         }
         catch {
             LOG.error("AVVideoDevice- Failed to AVCaptureDeviceInput : \(error.localizedDescription)")
-            delegateToManager?.sendClientError(error: .init(type: .videoDeviceFailed, description: "No device found."))
+            delegateToManager?.sendClientError(error: JMMediaError.init(type: .videoSetDeviceFailed, description: "No device found."))
         }
         videoSession.commitConfiguration()
     }

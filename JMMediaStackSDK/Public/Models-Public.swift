@@ -58,6 +58,21 @@ public enum JMMediaErrorType: String{
     case loginFailed
     case serverDown
     
-    case audioDeviceFailed
-    case videoDeviceFailed
+    //MediaSoup
+    case AudioMediaNotSupported
+    case VideoMediaNotSupported
+    
+    //Video
+    case videoSetDeviceFailed
+    case videoStartFailed
+    
+    case cameraNotAvailable
+    case videoDeviceNotSupported
+    
+    case remoteVideoStreamFailed
+    
+    //Audio
+    case audioDeviceNotAvailable
+    case audioSetDeviceFailed
+    case audioStartFailed
 }

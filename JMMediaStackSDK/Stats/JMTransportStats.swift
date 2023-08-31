@@ -28,12 +28,12 @@ class JMTransportStats {
              }
              
              if sendTransportId == transportId && uplinkData == nil {
-                 LOG.debug("NetworkQuality- up stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
+                 //LOG.debug("NetworkQuality- up stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
                  uplinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
              
              if receiveTransportId == transportId && downlinkData == nil {
-                 LOG.debug("NetworkQuality- down stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
+                 //LOG.debug("NetworkQuality- down stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
                  downlinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
         }
