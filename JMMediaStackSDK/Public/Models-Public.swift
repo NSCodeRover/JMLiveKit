@@ -21,12 +21,18 @@ public struct JMActiveParticipant{
     public var volume: Int = 0
 }
 
+public enum JMNetworkQuality: Int{
+    case Good
+    case Bad
+    case VeryBad
+}
+
 public struct JMNetworkStatistics{
-    public var networkQuality: Int = 0
+    public var networkQuality: JMNetworkQuality = .Good
     public var remotePacketPercentLoss: Int = 0
     public var localPacketPercentLoss: Int = 0
     
-    init(networkQuality: Int, remotePacketPercentLoss: Int, localPacketPercentLoss: Int) {
+    init(networkQuality: JMNetworkQuality, remotePacketPercentLoss: Int, localPacketPercentLoss: Int) {
         self.networkQuality = networkQuality
         self.remotePacketPercentLoss = remotePacketPercentLoss
         self.localPacketPercentLoss = localPacketPercentLoss
@@ -35,9 +41,11 @@ public struct JMNetworkStatistics{
 
 public enum JMUserLeaveReason{
     case userAction
-    case lowNetwork
-    case HostRemoved
-    case HostEnded
+    
+    //TODO: Future scope
+//    case lowNetwork
+//    case HostRemoved
+//    case HostEnded
 }
 
 //ERROR

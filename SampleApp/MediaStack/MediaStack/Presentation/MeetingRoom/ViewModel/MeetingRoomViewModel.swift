@@ -284,6 +284,7 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onNetworkQuality(stats: JMNetworkStatistics) {
+        //print("NetworkQuality- \(stats.networkQuality)|\(stats.localPacketPercentLoss)|\(stats.remotePacketPercentLoss)")
     }
     
     func onAudioDeviceChanged(_ device: JMAudioDevice) {

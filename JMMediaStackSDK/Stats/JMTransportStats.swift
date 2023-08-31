@@ -11,11 +11,11 @@ class JMTransportStats {
     static let shared = JMTransportStats()
     private init() {}
     
-    typealias StatsTuple = (quality: Int, packetLoss: Int)
+    typealias StatsTuple = (quality: JMNetworkQuality, packetLoss: Int)
     
     func getTransportStats(statsArray: [[String: Any]], sendTransportId: String, receiveTransportId: String) -> JMNetworkStatistics? {
         
-        var mNetworkQuality: Int = 0
+        var mNetworkQuality: JMNetworkQuality = .Good
         var mUplinkPacketLoss: Int = 0
         var mDownlinkPacketLoss: Int = 0
       
@@ -28,54 +28,43 @@ class JMTransportStats {
              }
              
              if sendTransportId == transportId && uplinkData == nil {
-                 uplinkData = qualityAndPacketLoss(isSendTransport: true, stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
+                 LOG.debug("NetworkQuality- up stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
+                 uplinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
              
              if receiveTransportId == transportId && downlinkData == nil {
-                 downlinkData = qualityAndPacketLoss(isSendTransport: false, stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
+                 LOG.debug("NetworkQuality- down stats: \((stats["stats"] as? [[String: Any]])?.first ?? [:])")
+                 downlinkData = qualityAndPacketLoss(stats: (stats["stats"] as? [[String: Any]])?.first ?? [:])
              }
         }
         
-        if let uplinkData = uplinkData, let downlinkData = downlinkData {
-            if uplinkData.quality != 0 && downlinkData.quality != 0 {
-                mNetworkQuality = max(uplinkData.quality, downlinkData.quality)
-            } else {
-                mNetworkQuality = uplinkData.quality > 0 ? uplinkData.quality : downlinkData.quality
-            }
-            mUplinkPacketLoss = uplinkData.packetLoss
-            mDownlinkPacketLoss = downlinkData.packetLoss
-        }
+        mNetworkQuality =  JMNetworkQuality(rawValue: max(uplinkData?.quality.rawValue ?? 0 ,downlinkData?.quality.rawValue ?? 0)) ?? .Good
+        mUplinkPacketLoss = uplinkData?.packetLoss ?? 0
+        mDownlinkPacketLoss = downlinkData?.packetLoss ?? 0
         
         //LOG.debug(("Stats- Network quality:" + mNetworkQuality.description + " | uplinkLoss:" ) + (mUplinkPacketLoss.description + " | downlinkLoss:" + mDownlinkPacketLoss.description))
         
         return JMNetworkStatistics(networkQuality: mNetworkQuality,remotePacketPercentLoss: mDownlinkPacketLoss,localPacketPercentLoss: mUplinkPacketLoss)
     }
 
-    private func qualityAndPacketLoss(isSendTransport: Bool, stats: [String: Any]) -> StatsTuple {
-        let rtpPacketLoss = isSendTransport ? stats["rtpPacketLossSent"] as? Double ?? 0 : stats["rtpPacketLossReceived"] as? Double ?? 0
-        var quality = 0
+    private func qualityAndPacketLoss(stats: [String: Any]) -> StatsTuple {
+        let rtpPacketLoss = stats["rtpPacketLossSent"] as? Double ?? stats["rtpPacketLossReceived"] as? Double ?? 0
+        var networkQuality: JMNetworkQuality = .Good
         var packetLoss = 0
 
         if !rtpPacketLoss.isNaN {
             packetLoss = Int(rtpPacketLoss * 100)
-            // Assign quality based on loss percentage
-            if packetLoss <= 1 {
-                quality = 1
-            }
-            else if packetLoss <= 3 {
-                quality = 2
-            }
-            else if packetLoss <= 10 {
-                quality = 3
+            if packetLoss <= 3 {
+                networkQuality = .Good
             }
             else if packetLoss <= 15 {
-                quality = 4
+                networkQuality = .Bad
             }
             else if packetLoss > 15 {
-                quality = 5
+                networkQuality = .VeryBad
             }
         }
-        return (quality, packetLoss)
+        return (networkQuality, packetLoss)
     }
 }
 
