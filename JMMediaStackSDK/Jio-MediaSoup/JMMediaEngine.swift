@@ -52,7 +52,7 @@ extension JMMediaEngine: delegateManager{
         }
     }
     
-    func sendClientUserLeft(id: String, reason: String) {
+    func sendClientUserLeft(id: String, reason: JMUserLeaveReason) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
         }

@@ -13,7 +13,7 @@ public protocol JMMediaEngineDelegate {
     func onError(error: JMMediaError)
     
     func onUserJoined(user: JMUserInfo)
-    func onUserLeft(id: String, reason: String)
+    func onUserLeft(id: String, reason: JMUserLeaveReason)
     
     func onUserPublished(id: String, type: JMMediaType)
     func onUserUnPublished(id: String, type: JMMediaType)
