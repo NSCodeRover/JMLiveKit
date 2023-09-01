@@ -119,6 +119,7 @@ extension MeetingRoomViewModel {
             client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_STOP_SHARE.rawValue)
             
         case .retryJoin:
+            client.leaveHelper()
             client.rejoin()
         }
     }
@@ -188,10 +189,14 @@ extension MeetingRoomViewModel {
 
 //MARK: - JMMediaEngine
 extension MeetingRoomViewModel {
+     func getJoin(_ meetingId: String, _ meetingPin: String, _ userName: String, _ meetingUrl: String) {
+        client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
+    }
+    
     func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String){
         client = JMMediaEngine.shared.create(withAppId: "", delegate: self)
         enableLogs()
-        client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
+        getJoin(meetingId, meetingPin, userName, meetingUrl)
     }
     
     func enableLogs(){
@@ -226,6 +231,18 @@ extension MeetingRoomViewModel{
 }
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
+    func onRetrySuccess(id: String) {
+        self.peers.removeAll()
+        isCameraEnabled = false
+        isMicEnabled = false
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        self.handleEvent(event: .startMeeting)
+    }
     
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)

@@ -64,12 +64,13 @@ class JioSocket : NSObject {
     private enum SocketKey: String {
         case roomId
         case token
+        case oldPeerId
     }
     
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
     
-    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent]) {
+    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent],peerid:String = "") {
         if let url = URL.init(string: socketUrl) {
             manager = SocketManager(socketURL: url,config: getSocketConfiguration())
             if let manager = self.manager {
@@ -80,15 +81,20 @@ class JioSocket : NSObject {
                 self.socketEvents = socketEvents
                 socket = manager.defaultSocket
                 self.addSocketListener()
-                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken))
+                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, peerid: selfPeerId))
             }
         }
     }
     
     func disconnectSocket() {
         manager?.disconnect()
+       
+        manager?.forceNew = true
         isReconnectListenerReady = false
-        manager?.reconnects = false
+        manager?.reconnects = true
+    }
+    func getReconnect(){
+        manager?.reconnect()
     }
     
     func getSocketIp() -> String {
@@ -146,7 +152,7 @@ class JioSocket : NSObject {
 extension JioSocket {
     private func getSocketConfiguration() -> SocketIOClientConfiguration {
         return [
-            .log(false),
+            .log(true),
             .compress,
             .path("/socket.io/"),
             
@@ -158,10 +164,17 @@ extension JioSocket {
         ]
     }
     
-    private func getPayload(roomId: String, jwtToken: String) -> [String: Any] {
+    private func getPayload(roomId: String, jwtToken: String,peerid:String) -> [String: Any] {
+        if peerid.isEmpty {
+            return [
+                SocketKey.roomId.rawValue: roomId,
+                SocketKey.token.rawValue: jwtToken]
+        }
         return [
+            SocketKey.oldPeerId.rawValue : peerid,
             SocketKey.roomId.rawValue: roomId,
-            SocketKey.token.rawValue: jwtToken]
+            SocketKey.token.rawValue: jwtToken
+            ]
     }
     
     private func addSocketListener() {

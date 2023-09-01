@@ -10,6 +10,7 @@ import Foundation
 //Note: These callback will be received by SDK to Client
 public protocol JMMediaEngineDelegate {
     func onJoinSuccess(id: String)
+    func onRetrySuccess(id: String)
     func onError(error: JMMediaError)
     
     func onUserJoined(user: JMUserInfo)

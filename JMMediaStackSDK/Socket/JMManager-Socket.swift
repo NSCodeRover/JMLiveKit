@@ -14,7 +14,7 @@ import Mediasoup
 
 extension JMManagerViewModel {
     
-    internal func connect(socketUrl: String, roomId: String, jwtToken: String) {
+    internal func connect(socketUrl: String, roomId: String, jwtToken: String,peerid:String="") {
         LOG.debug("socket- \(#function) \(socketUrl)|\(roomId)|\(jwtToken)")
         
         let ip = socketUrl.replacingOccurrences(of: "wss://", with: "")
@@ -50,7 +50,7 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events)
+        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events,peerid: peerid)
     }
 }
 
@@ -279,7 +279,13 @@ extension JMManagerViewModel{
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
             self.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
-            self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
+            if self.isRetryAttempt {
+                isRetryAttempt = false
+                self.delegateBackToManager?.sendClientRetrySocketSuccess(selfId: peerId)
+            }else{
+                self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
+            }
+           
         }
     }
     
