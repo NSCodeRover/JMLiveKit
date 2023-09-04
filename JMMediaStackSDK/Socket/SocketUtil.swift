@@ -69,6 +69,28 @@ class JioSocketProperty {
             "producerId": producerId
         ]
     }
+    
+    static func createPreferredPriorityObject(for consumerId: String, priority: Int) -> [String: Any] {
+        var consumerObject: [String: Any] = [:]
+        consumerObject["consumerId"] = consumerId
+        consumerObject["priority"] = priority
+        return consumerObject
+    }
+    
+    static func getPreferredPriorityProperty(consumerObjects: [[String:Any]]) -> [String: Any] {
+        return [
+            "consumers": consumerObjects
+        ]
+    }
+    
+    static func getPreferredLayerProperty(consumerId: String, spatialLayer: Int, temporalLayer: Int) -> [String: Any] {
+        var consumerObject: [String: Any] = [:]
+        consumerObject["consumerId"] = consumerId
+        consumerObject["spatialLayer"] = spatialLayer
+        consumerObject["temporalLayer"] = temporalLayer
+        
+        return consumerObject
+    }
 }
 
 struct SocketUtil {

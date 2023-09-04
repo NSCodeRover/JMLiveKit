@@ -207,7 +207,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
             }
             
             peersMap[remoteId] = updatedPeer
-            LOG.error("Subscribe- UI success")
+            LOG.info("Subscribe- UI success")
         }
 //        else{
 //            LOG.error("Subscribe- UI failed - \( self.peersMap[remoteId]?.remoteScreenshareView)|\( self.peersMap[remoteId]?.consumerScreenShare)|\( self.peersMap[remoteId]?.consumerScreenShare?.track)")

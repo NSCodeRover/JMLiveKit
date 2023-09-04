@@ -124,8 +124,8 @@ extension JMManagerViewModel{
         if let videoProducer = videoProducer{
             qJMMediaBGQueue.async {
                 self.handleMediaSoupErrors("Video- Reconnect-"){
-                    try videoProducer.setMaxSpatialLayer(self.connectionNetworkType == .WIFI ? 3 : 2)
-                    LOG.info("Video- Reconnect- producer layers set to \(self.connectionNetworkType == .WIFI ? "3" : "2")")
+                    try videoProducer.setMaxSpatialLayer(self.connectionNetworkType == .WIFI ? JMMediaQuality.high.rawValue : JMMediaQuality.medium.rawValue)
+                    LOG.info("Video- Reconnect- producer layers set to \(self.connectionNetworkType == .WIFI ? "High" : "Medium")")
                 }
             }
         }

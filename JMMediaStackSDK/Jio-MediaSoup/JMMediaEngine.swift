@@ -23,7 +23,7 @@ public class JMMediaEngine : NSObject{
     }
     
     public var delegateBackToClient:JMMediaEngineDelegate?
-    private let vm_manager = JMManagerViewModel()
+    private var vm_manager: JMManagerViewModel!
     
     private var isMicEnabled:Bool = false
     private var isVideoEnabled:Bool = false
@@ -122,12 +122,17 @@ extension JMMediaEngine: delegateManager{
     }
 }
 
+public struct JMMediaOptions{
+    var isHDEnabled: Bool = false
+    var isMicOn: Bool = false
+    var isCameraOn: Bool = false
+}
+
 extension JMMediaEngine: JMMediaEngineAbstract {
-    public func create(withAppId appID: String, delegate: JMMediaEngineDelegate?) -> JMMediaEngine{
+    public func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine{
         LOG.debug("\(#function) - \(appID)")
         delegateBackToClient = delegate
-        vm_manager.delegateBackToManager = self
-        vm_manager.startNetworkMonitor()
+        vm_manager = JMManagerViewModel(delegate: self, mediaOptions: mediaOptions)
         return JMMediaEngine.shared
     }
     

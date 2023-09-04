@@ -47,7 +47,7 @@ extension JMMediaEngineDelegate{
 
 //Note: These SDK functions are available for Client to call.
 protocol JMMediaEngineAbstract{
-    func create(withAppId appID: String, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
+    func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
     func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String)
     func rejoin()
     

@@ -3,6 +3,34 @@ import Foundation
 import Mediasoup
 import UIKit
 
+struct LocalState{
+    
+    var name: String = ""
+    var selfPeerId: String = ""
+    var selfMicEnabled: Bool = false
+    var selfCameraEnabled: Bool = false
+    var selfScreenShareEnabled: Bool = false
+    var selfScreenShareProducerId: String = ""
+    
+    var remoteScreenShareEnabled: Bool = false
+    var remoteScreenShareRemoteId: String = ""
+    var remoteScreenShareConsumerId: String = ""
+    
+    mutating func enableRemoteScreenShare(for remoteId: String, consumerId: String){
+        self.remoteScreenShareEnabled = true
+        self.remoteScreenShareRemoteId = remoteId
+        self.remoteScreenShareConsumerId = consumerId
+    }
+    
+    mutating func disableRemoteScreenShare(){
+        self.remoteScreenShareEnabled = false
+        self.remoteScreenShareRemoteId = ""
+        self.remoteScreenShareConsumerId = ""
+    }
+    
+    func clear(){}
+}
+
 struct Peer: Codable {
     public var peerId: String
     public var displayName: String

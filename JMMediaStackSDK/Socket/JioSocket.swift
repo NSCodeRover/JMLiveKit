@@ -42,6 +42,9 @@ enum SocketEmitAction: String {
     case none
     case getTransportStats
     case restartIce
+    
+    case setConsumerPreferredLayers
+    case setConsumersPreferedLayersNPriorities
 }
 
 protocol JioSocketDelegate: NSObject {

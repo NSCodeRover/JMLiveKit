@@ -451,9 +451,13 @@ extension JMManagerViewModel{
                 //Update renderer track
                 if jmMediaType == .shareScreen{
                     self.updateRemoteScreenShareRenderViewTrack(for: remoteId)
+                    self.userState.enableRemoteScreenShare(for: remoteId, consumerId: consumerId)
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
                 else if jmMediaType == .video{
                     self.updateRemoteRenderViewTrack(for: remoteId)
+                    self.totalVideoConsumer[remoteId] = consumerId
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
             }
             
@@ -554,6 +558,9 @@ extension JMManagerViewModel{
             removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
             subscriptionScreenShareVideo = ""
+            
+            userState.disableRemoteScreenShare()
+            updatePreferredPriority()
         case .audio:
             updatedPeer.consumerAudio?.close()
             updatedPeer.consumerAudio = nil
