@@ -12,8 +12,8 @@ import Foundation
 extension JMManagerViewModel {
     func sendJMBroadcastPublicMessage(message: String,reactionsType:JMReactions = .None) {
         var sender = JMSender()
-        sender.name = selfDisplayName
-        sender.participantId = selfPeerId
+        sender.name = userState.selfUserName
+        sender.participantId = userState.selfPeerId
         sender.userId = ""
         
         let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: "", type:  "PublicChat")
@@ -27,8 +27,8 @@ extension JMManagerViewModel {
     
     func sendJMBroadcastPrivateMessage(message: String, targetParticipantId: String) {
         var sender = JMSender()
-        sender.name = selfDisplayName
-        sender.participantId = selfPeerId
+        sender.name = userState.selfUserName
+        sender.participantId = userState.selfPeerId
         sender.userId = ""
         
         let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: targetParticipantId, type:  "PrivateChat" )

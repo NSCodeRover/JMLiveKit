@@ -277,7 +277,7 @@ extension JMManagerViewModel{
     
     private func handleSocketSelfPeerConnected(_ json: [String : Any]) {
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
-            self.selfPeerId = peerId
+            self.userState.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
             self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
         }
@@ -372,7 +372,7 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func selfPeerLeave() {
-        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.selfPeerId))
+        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
     }
 
     func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {

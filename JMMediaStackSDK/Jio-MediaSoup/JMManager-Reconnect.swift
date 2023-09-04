@@ -70,7 +70,7 @@ extension JMManagerViewModel{
     
     func restartIce(transport: String) {
         var restartData = [String: Any]()
-        restartData["peerId"] = self.selfPeerId
+        restartData["peerId"] = self.userState.selfPeerId
         restartData["transportType"] = transport
         self.restartIce(restartData: restartData)
     }

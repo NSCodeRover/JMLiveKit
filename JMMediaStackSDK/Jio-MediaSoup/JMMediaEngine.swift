@@ -24,9 +24,6 @@ public class JMMediaEngine : NSObject{
     
     public var delegateBackToClient:JMMediaEngineDelegate?
     private var vm_manager: JMManagerViewModel!
-    
-    private var isMicEnabled:Bool = false
-    private var isVideoEnabled:Bool = false
 }
 
 //MARK: Communicating back to Client (send data and event to client app)
@@ -123,9 +120,10 @@ extension JMMediaEngine: delegateManager{
 }
 
 public struct JMMediaOptions{
-    var isHDEnabled: Bool = false
-    var isMicOn: Bool = false
-    var isCameraOn: Bool = false
+    public var isHDEnabled: Bool = false
+    public var isMicOn: Bool = false
+    public var isCameraOn: Bool = false
+    public init(){}
 }
 
 extension JMMediaEngine: JMMediaEngineAbstract {
@@ -138,7 +136,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
     
     public func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String){
         LOG.debug("\(#function) - \(meetingId)|\(meetingPin)|\(userName)|\(meetingUrl)")
-        vm_manager.selfDisplayName = userName
+        vm_manager.userState.selfUserName = userName
         vm_manager.qJMMediaBGQueue.async {
             JMJoinViewApiHandler.validateJoiningDetails(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl) { (result) in
                 switch result{
@@ -285,14 +283,14 @@ extension JMMediaEngine{
     }
     
     internal func handleBackgroundVideoEvent(){
-        if isVideoEnabled{
+        if vm_manager.userState.selfCameraEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_ACTIVATED")
             vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_ACTIVATED.rawValue)
         }
     }
     
     internal func handleForegroundVideoEvent(){
-        if isVideoEnabled{
+        if vm_manager.userState.selfCameraEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
             vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue)
         }
@@ -303,14 +301,14 @@ extension JMMediaEngine{
             vm_manager.qJMMediaBGQueue.async { [weak self] in
                 guard let self = self else { return }
                 self.vm_manager.startVideo { isSuccess in
-                    self.isVideoEnabled = isSuccess ? enable : self.isVideoEnabled
+                    self.vm_manager.userState.selfCameraEnabled = isSuccess ? enable : self.vm_manager.userState.selfCameraEnabled
                     completion?(isSuccess)
                 }
             }
         }
         else{
             vm_manager.disableVideo()
-            self.isVideoEnabled = false
+            vm_manager.userState.selfCameraEnabled = false
             completion?(true)
         }
     }
@@ -320,7 +318,7 @@ extension JMMediaEngine{
             vm_manager.qJMMediaBGQueue.async { [weak self] in
                 guard let self = self else { return }
                 self.vm_manager.startAudio { isSuccess in
-                    self.isMicEnabled = isSuccess ? enable : self.isMicEnabled
+                    self.vm_manager.userState.selfMicEnabled = isSuccess ? enable : self.vm_manager.userState.selfMicEnabled
                     completion?(isSuccess)
                     
                     if !isSuccess{
@@ -331,7 +329,7 @@ extension JMMediaEngine{
         }
         else{
             vm_manager.disableMic()
-            self.isMicEnabled = false
+            vm_manager.userState.selfMicEnabled = false
             completion?(true)
         }
     }

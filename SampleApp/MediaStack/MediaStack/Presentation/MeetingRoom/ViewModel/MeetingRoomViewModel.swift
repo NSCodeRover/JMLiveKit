@@ -189,7 +189,10 @@ extension MeetingRoomViewModel {
 //MARK: - JMMediaEngine
 extension MeetingRoomViewModel {
     func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String){
-        client = JMMediaEngine.shared.create(withAppId: "", delegate: self)
+        var jmMediaOptions = JMMediaOptions()
+        jmMediaOptions.isHDEnabled = true
+        
+        client = JMMediaEngine.shared.create(withAppId: "", mediaOptions: jmMediaOptions, delegate: self)
         enableLogs()
         client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
     }

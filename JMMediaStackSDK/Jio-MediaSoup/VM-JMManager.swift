@@ -42,6 +42,9 @@ protocol delegateManager: AnyObject{
 class JMManagerViewModel: NSObject{
     var delegateBackToManager: delegateManager?
     
+    //State
+    var userState = LocalState()
+    
     //SOCKET
     var jioSocket: JioSocket = JioSocket()
     
@@ -63,6 +66,7 @@ class JMManagerViewModel: NSObject{
     var videoCapture:RTCCameraVideoCapturer?
     var videoSelfRTCRenderView: RTCMTLVideoView?
     var videoSelfRenderView:UIView?
+    
     //SreenShare
     var screenShareProducer:Producer?
     var mediaStreamScreenCapture:RTCMediaStream?
@@ -79,8 +83,6 @@ class JMManagerViewModel: NSObject{
 
     //Data
     var socketConnectedData: [String: Any] = [:]
-    var selfPeerId: String = ""
-    var selfDisplayName: String = ""
     
     //Subscribe
     var peersMap:[String:Peer] = [:]
@@ -96,10 +98,7 @@ class JMManagerViewModel: NSObject{
     var totalProducers:[String:Producer] = [:]
     var totalVideoConsumer:[String:String] = [:]
     var currentMediaQualityPreference: JMMediaQuality = .high
-    
-    //LocalState
-    var userState = LocalState()
-    
+        
     //TODO: need to remove this hardcoding.
     let width = 1170
     let height = 2532

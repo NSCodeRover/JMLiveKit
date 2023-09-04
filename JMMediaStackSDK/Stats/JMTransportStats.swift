@@ -95,7 +95,7 @@ extension JMManagerViewModel {
             transportIds.append(receiveTransportId)
             transportIds.append(sendTransportId)
         }
-        data["peerId"] = selfPeerId
+        data["peerId"] = self.userState.selfPeerId
         data["transportIds"] = transportIds
         transportStatsParam = data
     }
