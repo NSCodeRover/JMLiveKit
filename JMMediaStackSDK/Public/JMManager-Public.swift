@@ -69,8 +69,8 @@ protocol JMMediaEngineAbstract{
     func startScreenShare()
     func stopScreenShare(error: String)
     
-    func sendPublicMessage(_ message: [String:Codable])
-    func sendPrivateMessage(_ message: [String:Codable])
+    func sendPublicMessage(_ message: [String:Any])
+    func sendPrivateMessage(_ message: [String:Any])
     
     func enableLog(_ isEnable: Bool,withPath path: String) -> String
 }
