@@ -62,11 +62,11 @@ struct MediaServer: Decodable {
 }
 struct JMMeetingDetails{
     var meetingId:String
-    var MeetingPin:String
-    var MeetingUrl:String
-    init(meetingId: String, MeetingPin: String, MeetingUrl: String) {
+    var meetingPin:String
+    var meetingUrl:String
+    init(meetingId: String, meetingPin: String, meetingUrl: String) {
         self.meetingId = meetingId
-        self.MeetingPin = MeetingPin
-        self.MeetingUrl = MeetingUrl
+        self.meetingPin = meetingPin
+        self.meetingUrl = meetingUrl
     }
 }
