@@ -552,6 +552,8 @@ extension JMManagerViewModel{
         case .video:
             updatedPeer.consumerVideo?.close()
             updatedPeer.consumerVideo = nil
+            
+            self.updatePreferredQuality()
         case .shareScreen:
             updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
@@ -560,7 +562,7 @@ extension JMManagerViewModel{
             subscriptionScreenShareVideo = ""
             
             userState.disableRemoteScreenShare()
-            updatePreferredPriority()
+            self.updatePreferredPriority()
         case .audio:
             updatedPeer.consumerAudio?.close()
             updatedPeer.consumerAudio = nil

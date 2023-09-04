@@ -209,6 +209,10 @@ extension JMMediaEngine{
         vm_manager.subscribeFeed(isSubscribe, remoteId: remoteId, mediaType: mediaType)
     }
     
+    public func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality) {
+        vm_manager.setPreferredFeedQuality(remoteId: remoteId, preferredQuality: preferredQuality)
+    }
+    
     public func enableAudioOnlyMode(_ flag: Bool, userList: [String] = []) {
         vm_manager.enableAudioOnlyMode(flag, userList: userList)
     }

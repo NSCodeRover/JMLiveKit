@@ -121,6 +121,11 @@ extension JMManagerViewModel{
     }
     
     func updateProducerLayers(){
+        
+        if !mediaOptions.isHDEnabled{
+            return
+        }
+        
         if let videoProducer = videoProducer{
             qJMMediaBGQueue.async {
                 self.handleMediaSoupErrors("Video- Reconnect-"){

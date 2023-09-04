@@ -43,6 +43,8 @@ extension JMMediaEngineDelegate{
     
     func onConnectionStateChanged(state: JMSocketConnectionState){}
     func onNetworkQuality(stats: JMNetworkStatistics){}
+    
+    func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality){}
 }
 
 //Note: These SDK functions are available for Client to call.
@@ -61,7 +63,10 @@ protocol JMMediaEngineAbstract{
     
     func setLocalAudioEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     func setLocalVideoEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    
     func subscribeFeed(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType)
+    func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality)
+    
     func enableAudioOnlyMode(_ flag: Bool, userList: [String])
     
     //Screenshare

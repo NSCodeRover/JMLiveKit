@@ -76,3 +76,9 @@ public enum JMMediaErrorType: String{
     case audioSetDeviceFailed
     case audioStartFailed
 }
+
+public enum JMMediaQuality: Int{
+    case low = 0
+    case medium
+    case high
+}

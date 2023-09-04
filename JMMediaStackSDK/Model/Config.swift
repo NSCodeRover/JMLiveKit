@@ -37,7 +37,7 @@ enum JioMediaStackAudioCodec: String{
 
 enum JioMediaStackVideoMaxBitrate: NSNumber{
     case high = 700000
-    case medium = 200000
+    case medium = 400000
     case low = 100000
 }
 

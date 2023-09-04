@@ -7,22 +7,90 @@
 
 import Foundation
 
-enum JMMediaQuality: Int{
-    case low = 0
-    case medium
-    case high
-}
-
 enum JMMediaQualityPriority: Int{
     case low = 1
     case medium
     case high
 }
 
+//1. By default quality ?
+
 //MARK: Layer Algorithm
 extension JMManagerViewModel{
-    //New approach - consumer expose api to update remote preferredMediaType and a socket will be sent.
-    //Layer producer - update the encoding parameter based on hdUser and 15 users check
+    
+    //Only Client will call.
+    func setPreferredFeedQuality(remoteId: String, preferredQuality: JMMediaQuality){
+        if var updatedPeer = self.peersMap[remoteId] {
+            
+            let evaluatePreferredFeed = evaluatePreferredAndRecommend(preferredQuality)
+            if updatedPeer.preferredFeed == evaluatePreferredFeed{
+                return
+            }
+            
+            if let videoConsumerId = updatedPeer.consumerVideo?.id{
+                socketEmitSetPreferredLayer(for: videoConsumerId, spatialLayer: evaluatePreferredFeed.rawValue, temporalLayer: 2)
+            }
+            
+            LOG.debug("Quality- \(updatedPeer.displayName) changed to \(evaluatePreferredFeed). \(preferredQuality != evaluatePreferredFeed ? "(Override)" : "")")
+            
+            updatedPeer.preferredFeed = preferredQuality
+            self.peersMap[remoteId] = updatedPeer
+        }
+    }
+    
+    func evaluatePreferredAndRecommend(_ preferredQuality: JMMediaQuality) -> JMMediaQuality{
+        
+        if userState.remoteScreenShareEnabled{
+            return .low
+        }
+        
+        var evaluatePreferredFeed = preferredQuality
+        if mediaOptions.isHDEnabled{
+            if preferredQuality == .high{
+                evaluatePreferredFeed = Array(totalVideoConsumer.values).count >= 15 ? JMMediaQuality.medium : JMMediaQuality.high
+            }
+        }
+        else{
+            //NON HD users
+            evaluatePreferredFeed = preferredQuality == .high ? JMMediaQuality.medium : preferredQuality
+        }
+        
+        return evaluatePreferredFeed
+    }
+    
+    //Primarly for HD users, This algo will be execute on every socket event NEW and END Consumer.
+    func updatePreferredQuality(){
+        
+        if !userState.remoteScreenShareEnabled && !mediaOptions.isHDEnabled {
+            //Ignoring NON HD users because Medium is the default.
+            return
+        }
+
+        let recommendedQuality = evaluatePreferredAndRecommend(currentMediaQualityPreference)
+        if currentMediaQualityPreference == recommendedQuality{
+            return
+        }
+        
+        updateAllPreferredQuality(recommendedQuality)
+    }
+    
+    fileprivate func updateAllPreferredQuality(_ recommendedQuality: JMMediaQuality){
+        currentMediaQualityPreference = recommendedQuality
+        LOG.debug("Quality- Recommended is \(recommendedQuality)")
+        
+        for (remoteId,videoConsumerId) in totalVideoConsumer{
+            if var updatedPeer = self.peersMap[remoteId] {
+                
+                if updatedPeer.preferredFeed == recommendedQuality{
+                    return
+                }
+                
+                updatedPeer.preferredFeed = recommendedQuality
+                self.peersMap[remoteId] = updatedPeer
+                socketEmitSetPreferredLayer(for: videoConsumerId, spatialLayer: recommendedQuality.rawValue, temporalLayer: 2)
+            }
+        }
+    }
 }
 
 //MARK: Priority Algorithm
@@ -35,8 +103,9 @@ extension JMManagerViewModel{
             self.updatePreferredPriority()
         }
         else{
-            LOG.debug("Priority- set to \(userState.remoteScreenShareEnabled ? "LOW" : "MEDIUM"). cid- \(consumerId)")
+            LOG.debug("Priority- Video- set to \(userState.remoteScreenShareEnabled ? "LOW" : "MEDIUM"). cid- \(consumerId)")
             socketEmitSetPreferredPriority(for: [consumerId], priority: userState.remoteScreenShareEnabled ? JMMediaQualityPriority.low.rawValue : JMMediaQualityPriority.medium.rawValue)
+            self.updatePreferredQuality()
         }
     }
     
