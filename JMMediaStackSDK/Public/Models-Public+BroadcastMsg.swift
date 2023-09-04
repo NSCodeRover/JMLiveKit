@@ -20,12 +20,48 @@ public enum JMReactions: String, Codable, CaseIterable {
 }
 
 // Define the message structure
-public struct JMBroadcastMessage: Codable {
+
+
+public struct JMBroadcastMessage: Encodable {
     let eventName: String
-    let msgData: JMMessageData
+    let msgData: [String: Codable] // Change the type to [String: Codable]
     let peerId: String
     let timeStamp: TimeInterval
+
+    enum CodingKeys: String, CodingKey {
+        case eventName
+        case msgData
+        case peerId
+        case timeStamp
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventName, forKey: .eventName)
+        
+        // Convert msgData to [String: AnyCodable] before encoding
+        let msgDataCodable = msgData.mapValues { AnyCodable($0) }
+        try container.encode(msgDataCodable, forKey: .msgData)
+        
+        try container.encode(peerId, forKey: .peerId)
+        try container.encode(timeStamp, forKey: .timeStamp)
+    }
 }
+
+struct AnyCodable: Encodable {
+    private let value: Codable
+
+    init(_ value: Codable) {
+        self.value = value
+    }
+
+    func encode(to encoder: Encoder) throws {
+        try value.encode(to: encoder)
+    }
+}
+
+
+
 
 public struct JMMessageData: Codable {
     let message: String

@@ -10,30 +10,26 @@ import Foundation
 // Sender function to broadcast a message
 
 extension JMManagerViewModel {
-    func sendJMBroadcastPublicMessage(message: String,reactionsType:JMReactions = .None) {
+    func sendJMBroadcastPublicMessage(message: [String:Codable]) {
         var sender = JMSender()
         sender.name = selfDisplayName
         sender.participantId = selfPeerId
-        sender.userId = ""
-        
-        let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: "", type:  "PublicChat")
-        
-        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessage.rawValue, msgData: messageData, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
+
+        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessage.rawValue, msgData: message, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
         
         print(broadcastMessage.toDictionary() ?? [:])
         
         self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessage.rawValue) ?? .none, parameters:broadcastMessage.toDictionary() ?? [:] ){ _ in }
     }
     
-    func sendJMBroadcastPrivateMessage(message: String, targetParticipantId: String) {
+    func sendJMBroadcastPrivateMessage(message: [String:Codable]) {
         var sender = JMSender()
         sender.name = selfDisplayName
         sender.participantId = selfPeerId
         sender.userId = ""
         
-        let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: targetParticipantId, type:  "PrivateChat" )
         
-        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessageToPeer.rawValue, msgData: messageData, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
+        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessageToPeer.rawValue, msgData:message, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
         
         self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessageToPeer.rawValue) ?? .none, parameters:broadcastMessage.toDictionary() ?? [:] ){ _ in }
     }
