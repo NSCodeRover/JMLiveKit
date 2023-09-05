@@ -171,7 +171,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         
         self.vm_manager.qJMMediaBGQueue.asyncAfter(deadline: .now() + 1, execute: {
             self.vm_manager.isRetryAttempt = true
-            self.join(meetingId: self.meetingDetails.meetingId, meetingPin: self.meetingDetails.meetingPin, userName:  self.vm_manager.selfDisplayName, meetingUrl: self.meetingDetails.meetingUrl)
+            self.join(meetingId: self.meetingDetails.meetingId, meetingPin: self.meetingDetails.meetingPin, userName:  self.vm_manager.userState.selfUserName, meetingUrl: self.meetingDetails.meetingUrl)
         })
     }
 
