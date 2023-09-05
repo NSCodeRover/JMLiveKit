@@ -86,7 +86,7 @@ extension JMManagerViewModel{
     
     func startNetworkMonitor(){
         networkMonitor = NWPathMonitor()
-        networkMonitor.pathUpdateHandler = { [weak self] path in
+        networkMonitor?.pathUpdateHandler = { [weak self] path in
             if path.status == .satisfied {
                 if path.usesInterfaceType(.wifi) {
                     self?.onNetworkTypeChanged(.WIFI)
@@ -100,11 +100,11 @@ extension JMManagerViewModel{
             }
         }
 
-        networkMonitor.start(queue: qJMMediaNWQueue)
+        networkMonitor?.start(queue: qJMMediaNWQueue)
     }
     
     func stopNetworkMonitor(){
-        networkMonitor.cancel()
+        networkMonitor?.cancel()
         qJMMediaNWQueue.suspend()
         networkMonitor = nil
     }

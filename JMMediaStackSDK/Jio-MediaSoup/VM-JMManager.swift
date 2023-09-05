@@ -20,6 +20,7 @@ protocol delegateManager: AnyObject{
     func sendClientNetworkQuality(stats: JMNetworkStatistics)
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant])
     func sendClientError(error: JMMediaError)
+    func sendClientRetrySocketSuccess(selfId: String)
     
     //DeviceManager
     func sendClientAudioDeviceInUse(_ device: AVAudioDevice)
@@ -110,8 +111,9 @@ class JMManagerViewModel: NSObject{
     
     var connectionState: JMSocketConnectionState = .connecting
     
-    var networkMonitor: NWPathMonitor!
+    var networkMonitor: NWPathMonitor?
     var connectionNetworkType: JMNetworkType = .NoInternet
+    var isRetryAttempt: Bool = false
     
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
@@ -153,7 +155,8 @@ extension JMManagerViewModel{
             socketCloseProducer(producerId: subscriptionScreenShareVideo)
             subscriptionScreenShareVideo = ""
         }
-            
+        sendTransport?.close()
+        recvTransport?.close()
         JMAudioDeviceManager.shared.dispose()
         JMVideoDeviceManager.shared.dispose()
         

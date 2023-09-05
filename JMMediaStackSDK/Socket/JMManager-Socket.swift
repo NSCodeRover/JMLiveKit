@@ -279,7 +279,14 @@ extension JMManagerViewModel{
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
             self.userState.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
-            self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
+            
+            if self.isRetryAttempt {
+                isRetryAttempt = false
+                self.delegateBackToManager?.sendClientRetrySocketSuccess(selfId: peerId)
+            }
+            else{
+                self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
+            }
         }
     }
     
