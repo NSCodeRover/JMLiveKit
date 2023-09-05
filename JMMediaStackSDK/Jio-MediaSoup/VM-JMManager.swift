@@ -121,7 +121,7 @@ class JMManagerViewModel: NSObject{
         
         self.delegateBackToManager = delegate
         self.mediaOptions = mediaOptions
-        self.setupConfig()
+        //self.setupConfig()
         self.startNetworkMonitor()
     }
     
@@ -131,7 +131,7 @@ class JMManagerViewModel: NSObject{
             JioMediaStackDefaultCameraCaptureResolution.height = 720
         }
         else{
-            JioMediaStackDefaultCameraCaptureResolution.width = 480
+            JioMediaStackDefaultCameraCaptureResolution.width = 640
             JioMediaStackDefaultCameraCaptureResolution.height = 360
         }
     }
@@ -254,6 +254,7 @@ extension JMManagerViewModel{
             layers.append(highLayer)
         }
         
+        LOG.debug("Video- layers count: \(layers.count)")
         return layers
     }
 }

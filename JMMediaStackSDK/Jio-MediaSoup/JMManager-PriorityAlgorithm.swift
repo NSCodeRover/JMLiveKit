@@ -68,12 +68,13 @@ extension JMManagerViewModel{
         if currentMediaQualityPreference == recommendedQuality{
             return
         }
+        currentMediaQualityPreference = recommendedQuality
         
+        updateProducerLayers()
         updateAllPreferredQuality(recommendedQuality)
     }
     
     fileprivate func updateAllPreferredQuality(_ recommendedQuality: JMMediaQuality){
-        currentMediaQualityPreference = recommendedQuality
         LOG.debug("Quality- Recommended is \(recommendedQuality)")
         
         for (remoteId,videoConsumerId) in totalVideoConsumer{
@@ -137,6 +138,45 @@ extension JMManagerViewModel{
     
     fileprivate func socketEmitSetPreferredLayer(for consumerId: String, spatialLayer: Int, temporalLayer: Int) {
         self.jioSocket.emit(action: .setConsumerPreferredLayers, parameters: JioSocketProperty.getPreferredLayerProperty(consumerId: consumerId, spatialLayer: spatialLayer, temporalLayer: temporalLayer))
+    }
+}
+
+//MARK: PRODUCER
+extension JMManagerViewModel{
+        
+    func updateProducerLayers(){
+        
+        if !mediaOptions.isHDEnabled{
+            return
+        }
+        
+        if let videoProducer = videoProducer{
+            qJMMediaBGQueue.async {
+                self.handleMediaSoupErrors("Video- Reconnect-"){
+                    
+                    let recommendedLayer = self.getSpatialValues()
+                    try videoProducer.setMaxSpatialLayer(recommendedLayer)
+                    LOG.info("Video- Reconnect- producer layers set to \(recommendedLayer).")
+                }
+            }
+        }
+    }
+    
+    //Spatial layer has some issue and it starts with 1 when setting 'setMaxSpatialLayer'
+    fileprivate func getSpatialValues() -> Int{
+        
+        if connectionNetworkType != .WIFI{
+            return 2
+        }
+        
+        switch currentMediaQualityPreference {
+        case .high:
+            return 3
+        case .medium:
+            return 2
+        case .low:
+            return 1
+        }
     }
 }
 

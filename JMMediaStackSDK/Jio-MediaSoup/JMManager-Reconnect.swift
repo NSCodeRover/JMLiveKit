@@ -119,20 +119,7 @@ extension JMManagerViewModel{
         LOG.info("Reconnect- Network changed to \(networkType)")
         updateProducerLayers()
     }
-    
-    func updateProducerLayers(){
-        
-        if !mediaOptions.isHDEnabled{
-            return
-        }
-        
-        if let videoProducer = videoProducer{
-            qJMMediaBGQueue.async {
-                self.handleMediaSoupErrors("Video- Reconnect-"){
-                    try videoProducer.setMaxSpatialLayer(self.connectionNetworkType == .WIFI ? JMMediaQuality.high.rawValue : JMMediaQuality.medium.rawValue)
-                    LOG.info("Video- Reconnect- producer layers set to \(self.connectionNetworkType == .WIFI ? "High" : "Medium")")
-                }
-            }
-        }
-    }
 }
+
+//NON hd - producer 2
+//hd - producer 3, 15check = 2, screenshare = 2
