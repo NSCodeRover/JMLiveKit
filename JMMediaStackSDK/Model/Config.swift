@@ -27,18 +27,29 @@ public enum JMMediaType: String {
     case shareScreen
 }
 
-let JioMediaStackDefaultCameraCaptureResolution: (Int32,Int32,Int32) = (1280,720,15)
-let JioMediaStackDefaultScreenShareCaptureResolution: (Int32,Int32,Int32) = (1920,1080,5)
+var JioMediaStackDefaultCameraCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1280,height:720,fps:15)
+let JioMediaStackDefaultScreenShareCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1920,height:1080,fps:5)
 
 enum JioMediaStackAudioCodec: String{
     case opusStereo
     case opusDtx
 }
 
-enum JioMediaStackVideoMaxBitrate: NSNumber{
-    case high = 700000
-    case medium = 200000
-    case low = 100000
+enum JioMediaStackVideoMaxBitrate {
+    case high
+    case medium(isHD: Bool)
+    case low
+
+    var value: NSNumber {
+        switch self {
+        case .high:
+            return 700000
+        case .medium(let isHD):
+            return isHD ? 200000 : 400000
+        case .low:
+            return 100000
+        }
+    }
 }
 
 enum JioMediaStackVideoFPS: NSNumber{

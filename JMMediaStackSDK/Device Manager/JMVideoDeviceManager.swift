@@ -109,8 +109,8 @@ extension JMVideoDeviceManager{
     
     internal func fetchPreferredResolutionFormat(_ cameraDevice: AVCaptureDevice) -> AVCaptureDevice.Format?{
         let allFormats = RTCCameraVideoCapturer.supportedFormats(for: cameraDevice)
-        let desiredWidth = JioMediaStackDefaultCameraCaptureResolution.0
-        let desiredHeight = JioMediaStackDefaultCameraCaptureResolution.1
+        let desiredWidth = JioMediaStackDefaultCameraCaptureResolution.width
+        let desiredHeight = JioMediaStackDefaultCameraCaptureResolution.height
             
         if #available(iOS 13.0, *){
             if let preferredFormat = allFormats.first(where: { $0.formatDescription.dimensions.width == desiredWidth && $0.formatDescription.dimensions.height == desiredHeight }) {
@@ -134,7 +134,7 @@ extension JMVideoDeviceManager{
                 for range in format.videoSupportedFrameRateRanges {
                     if format.highResolutionStillImageDimensions.width == desiredWidth &&
                         format.highResolutionStillImageDimensions.height == desiredHeight &&
-                        Int32(range.maxFrameRate) >= JioMediaStackDefaultCameraCaptureResolution.2 {
+                        Int32(range.maxFrameRate) >= JioMediaStackDefaultCameraCaptureResolution.fps {
                         return format
                     }
                 }

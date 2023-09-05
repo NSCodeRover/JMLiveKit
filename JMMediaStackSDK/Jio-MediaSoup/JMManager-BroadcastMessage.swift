@@ -7,31 +7,34 @@
 
 import Foundation
 
-// Sender function to broadcast a message
+public enum JMRTMMessage: String,Codable {
+    case PARTICIPANT_BACKGROUND_ACTIVATED = "PARTICIPANT_BACKGROUND_ACTIVATED"
+    case PARTICIPANT_BACKGROUND_INACTIVATED = "PARTICIPANT_BACKGROUND_INACTIVATED"
+}
 
 extension JMManagerViewModel {
-    
+
     func sendJMBroadcastPublicMessage(messageInfo:[String: Any]){
         
         let broadcastMessage: [String: Any] = [
-               "eventName": JMRTMMessagesType.broadcastMessage.rawValue,
+               "eventName": SocketEmitAction.broadcastMessage.rawValue,
                "timeStamp":  Date().timeIntervalSince1970 * 1000,
-               "peerId": selfPeerId,
+               "peerId": userState.selfPeerId,
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessage.rawValue) ?? .none, parameters:broadcastMessage ){ _ in }
+        self.jioSocket.emit(action: .broadcastMessage, parameters:broadcastMessage){ _ in }
     }
     
     func sendJMBroadcastPrivateMessage(messageInfo:[String: Any]){
         let broadcastMessage: [String: Any] = [
-               "eventName": JMRTMMessagesType.broadcastMessageToPeer.rawValue,
+               "eventName": SocketEmitAction.broadcastMessageToPeer.rawValue,
                "timeStamp":  Date().timeIntervalSince1970 * 1000,
-               "peerId": selfPeerId,
+               "peerId": userState.selfUserName,
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessageToPeer.rawValue) ?? .none, parameters:broadcastMessage ){ _ in }
+        self.jioSocket.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ _ in }
     }
     
     func createMessageInfo(message: String, senderName: String, senderParticipantId: String) -> [String: Any] {

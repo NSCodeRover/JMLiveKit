@@ -45,7 +45,7 @@ class JMJoinViewApiHandler {
 
 //MODEL
 struct RoomdetailsResponseDTO: Decodable {
-    var success: Bool
+    //var success: Bool
     var data: RoomdetailsData
 }
 struct RoomdetailsData: Decodable {

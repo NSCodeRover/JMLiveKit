@@ -70,7 +70,7 @@ extension JMManagerViewModel{
     
     func restartIce(transport: String) {
         var restartData = [String: Any]()
-        restartData["peerId"] = self.selfPeerId
+        restartData["peerId"] = self.userState.selfPeerId
         restartData["transportType"] = transport
         self.restartIce(restartData: restartData)
     }
@@ -119,15 +119,7 @@ extension JMManagerViewModel{
         LOG.info("Reconnect- Network changed to \(networkType)")
         updateProducerLayers()
     }
-    
-    func updateProducerLayers(){
-        if let videoProducer = videoProducer{
-            qJMMediaBGQueue.async {
-                self.handleMediaSoupErrors("Video- Reconnect-"){
-                    try videoProducer.setMaxSpatialLayer(self.connectionNetworkType == .WIFI ? 3 : 2)
-                    LOG.info("Video- Reconnect- producer layers set to \(self.connectionNetworkType == .WIFI ? "3" : "2")")
-                }
-            }
-        }
-    }
 }
+
+//NON hd - producer 2
+//hd - producer 3, 15check = 2, screenshare = 2

@@ -55,7 +55,7 @@ extension JMManagerViewModel{
             LOG.error("ScreenShare- source nil")
             return
         }
-        screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.0, height: JioMediaStackDefaultScreenShareCaptureResolution.1, fps: JioMediaStackDefaultScreenShareCaptureResolution.2)
+        screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.width, height: JioMediaStackDefaultScreenShareCaptureResolution.height, fps: JioMediaStackDefaultScreenShareCaptureResolution.fps)
         videoSourceScreenCapture = RTCVideoCapturer(delegate: screenShareSource)
     
         videoTrackScreen = self.peerConnectionFactory?.videoTrack(with: screenShareSource, trackId: JioMediaId.screenShareTrackId)
@@ -207,7 +207,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
             }
             
             peersMap[remoteId] = updatedPeer
-            LOG.error("Subscribe- UI success")
+            LOG.info("Subscribe- UI success")
         }
 //        else{
 //            LOG.error("Subscribe- UI failed - \( self.peersMap[remoteId]?.remoteScreenshareView)|\( self.peersMap[remoteId]?.consumerScreenShare)|\( self.peersMap[remoteId]?.consumerScreenShare?.track)")

@@ -284,7 +284,7 @@ extension JMManagerViewModel{
     
     private func handleSocketSelfPeerConnected(_ json: [String : Any]) {
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
-            self.selfPeerId = peerId
+            self.userState.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
             
             self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
@@ -380,7 +380,7 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func selfPeerLeave() {
-        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.selfPeerId))
+        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
     }
 
     func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
@@ -459,9 +459,13 @@ extension JMManagerViewModel{
                 //Update renderer track
                 if jmMediaType == .shareScreen{
                     self.updateRemoteScreenShareRenderViewTrack(for: remoteId)
+                    self.userState.enableRemoteScreenShare(for: remoteId, consumerId: consumerId)
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
                 else if jmMediaType == .video{
                     self.updateRemoteRenderViewTrack(for: remoteId)
+                    self.totalVideoConsumer[remoteId] = consumerId
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
             }
             
@@ -556,12 +560,17 @@ extension JMManagerViewModel{
         case .video:
             updatedPeer.consumerVideo?.close()
             updatedPeer.consumerVideo = nil
+            
+            self.updatePreferredQuality()
         case .shareScreen:
             updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
             removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
             subscriptionScreenShareVideo = ""
+            
+            userState.disableRemoteScreenShare()
+            self.updatePreferredPriority()
         case .audio:
             updatedPeer.consumerAudio?.close()
             updatedPeer.consumerAudio = nil

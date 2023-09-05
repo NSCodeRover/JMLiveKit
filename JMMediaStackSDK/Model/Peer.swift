@@ -18,6 +18,8 @@ struct Peer: Codable {
     public var isVideoEnabled: Bool = false
     public var isScreenShareEnabled: Bool = false
     
+    var preferredFeed: JMMediaQuality = .medium
+    
     enum CodingKeys: String, CodingKey {
         case peerId
         case displayName

@@ -28,7 +28,7 @@ class MeetingRoomViewModel {
     var meetingId = ""
     var isRejoin: Bool = false
     enum MeetingRoomEvent {
-        case join(roomId: String, pin: String, name: String)
+        case join(roomId: String, pin: String, name: String, isHd: Bool)
         case startMeeting
         case endCall
         
@@ -78,11 +78,13 @@ extension MeetingRoomViewModel {
     
     func handleEvent(event: MeetingRoomEvent) {
         switch event {
-        case .join(roomId: let roomId, pin: let pin, name: let name):
+        case .join(roomId: let roomId, pin: let pin, name: let name, let isHD):
+           
             displayName = name
             meetingPin = pin
             meetingId = roomId
-            self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl)
+            
+            self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl, isHd: isHD)
             
         case .startMeeting:
             client.setupLocalVideo(getLocalRenderView!())
@@ -195,8 +197,11 @@ extension MeetingRoomViewModel {
         client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
     }
     
-    func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String){
-        client = JMMediaEngine.shared.create(withAppId: "", delegate: self)
+    func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String,isHd: Bool){
+        var jmMediaOptions = JMMediaOptions()
+        jmMediaOptions.isHDEnabled = isHd
+        
+        client = JMMediaEngine.shared.create(withAppId: "", mediaOptions: jmMediaOptions, delegate: self)
         enableLogs()
         getJoin(meetingId, meetingPin, userName, meetingUrl)
     }
@@ -204,6 +209,20 @@ extension MeetingRoomViewModel {
     func enableLogs(){
         let logPath = client.enableLog(true)
         print("LOG- client \(logPath)")
+    }
+    
+    func onRejoined() {
+        self.isRejoin = false
+        self.peers.removeAll()
+        isCameraEnabled = false
+        isMicEnabled = false
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        self.handleEvent(event: .startMeeting)
     }
 }
 
@@ -233,19 +252,6 @@ extension MeetingRoomViewModel{
 }
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
-    func onRejoined() {
-        self.isRejoin = false
-        self.peers.removeAll()
-        isCameraEnabled = false
-        isMicEnabled = false
-        if let closure = self.handleVideoState {
-            closure(false)
-        }
-        if let closure = self.handleVideoState {
-            closure(false)
-        }
-        self.handleEvent(event: .startMeeting)
-    }
     
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)
