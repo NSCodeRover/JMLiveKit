@@ -116,7 +116,7 @@ extension JMMediaEngine: delegateManager{
     //End
     func sendClientEndCall(){
         vm_manager.qJMMediaMainQueue.async {
-            delegateBackToClient?.onChannelLeft()
+            self.delegateBackToClient?.onChannelLeft()
         }
     }
 }
@@ -305,7 +305,7 @@ extension JMMediaEngine{
                 self.vm_manager.startVideo { isSuccess in
                     self.vm_manager.userState.selfCameraEnabled = isSuccess ? enable : self.vm_manager.userState.selfCameraEnabled
                     
-                    vm_manager.qJMMediaMainQueue.async {
+                    self.vm_manager.qJMMediaMainQueue.async {
                         completion?(isSuccess)
                     }
                 }
@@ -325,7 +325,7 @@ extension JMMediaEngine{
                 self.vm_manager.startAudio { isSuccess in
                     self.vm_manager.userState.selfMicEnabled = isSuccess ? enable : self.vm_manager.userState.selfMicEnabled
                     
-                    vm_manager.qJMMediaMainQueue.async {
+                    self.vm_manager.qJMMediaMainQueue.async {
                         completion?(isSuccess)
                     }
                     
