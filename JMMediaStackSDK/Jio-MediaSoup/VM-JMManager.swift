@@ -20,7 +20,6 @@ protocol delegateManager: AnyObject{
     func sendClientNetworkQuality(stats: JMNetworkStatistics)
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant])
     func sendClientError(error: JMMediaError)
-    func sendClientRetrySocketSuccess(selfId: String)
     
     //DeviceManager
     func sendClientAudioDeviceInUse(_ device: AVAudioDevice)
@@ -113,8 +112,7 @@ class JMManagerViewModel: NSObject{
     
     var networkMonitor: NWPathMonitor?
     var connectionNetworkType: JMNetworkType = .NoInternet
-    var isRetryAttempt: Bool = false
-    
+
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
         super.init()

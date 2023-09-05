@@ -24,7 +24,9 @@ class MeetingRoomViewModel {
     var isCameraEnabled: Bool = false
     var isAudioOnly: Bool = false
     var displayName: String = ""
-
+    var meetingPin = ""
+    var meetingId = ""
+    var isRejoin: Bool = false
     enum MeetingRoomEvent {
         case join(roomId: String, pin: String, name: String, isHd: Bool)
         case startMeeting
@@ -77,7 +79,11 @@ extension MeetingRoomViewModel {
     func handleEvent(event: MeetingRoomEvent) {
         switch event {
         case .join(roomId: let roomId, pin: let pin, name: let name, let isHD):
+           
             displayName = name
+            meetingPin = pin
+            meetingId = roomId
+            
             self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl, isHd: isHD)
             
         case .startMeeting:
@@ -119,7 +125,8 @@ extension MeetingRoomViewModel {
             client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_STOP_SHARE.rawValue)
             
         case .retryJoin:
-            client.rejoin()
+            self.isRejoin = true
+            client.join(meetingId: meetingId, meetingPin: meetingPin, userName: displayName, meetingUrl: AppConfiguration().baseUrl)
         }
     }
 }
@@ -205,6 +212,20 @@ extension MeetingRoomViewModel {
         let logPath = client.enableLog(true)
         print("LOG- client \(logPath)")
     }
+    
+    func onRejoined() {
+        self.isRejoin = false
+        self.peers.removeAll()
+        isCameraEnabled = false
+        isMicEnabled = false
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        if let closure = self.handleVideoState {
+            closure(false)
+        }
+        self.handleEvent(event: .startMeeting)
+    }
 }
 
 //MARK: handle client delegate helper
@@ -233,29 +254,15 @@ extension MeetingRoomViewModel{
 }
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
-    func onRetrySuccess(id: String) {
-        self.peers.removeAll()
-        isCameraEnabled = false
-        isMicEnabled = false
-        if let closure = self.handleVideoState {
-            closure(false)
-        }
-        if let closure = self.handleVideoState {
-            closure(false)
-        }
-        self.handleEvent(event: .startMeeting)
-    }
     
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)
-        
         if user.hasScreenShare {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.client.setupShareVideo(self.getLocalScreenShareView!(), remoteId: user.userId)
                 self.client.subscribeFeed(true, remoteId: user.userId, mediaType: .shareScreen)
             }
         }
-        
         client.subscribeFeed(true, remoteId: user.userId, mediaType: .video)
     }
     
@@ -289,6 +296,10 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onJoinSuccess(id: String) {
+        if isRejoin {
+            onRejoined()
+            return
+        }
         self.pushToMeetingRoom?(true,id)
     }
     

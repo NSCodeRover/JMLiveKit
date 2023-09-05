@@ -11,7 +11,6 @@ import Foundation
 public protocol JMMediaEngineDelegate {
     func onJoinSuccess(id: String)
     func onError(error: JMMediaError)
-    func onRetrySuccess(id: String)
     
     func onUserJoined(user: JMUserInfo)
     func onUserLeft(id: String, reason: JMUserLeaveReason)
@@ -50,9 +49,9 @@ extension JMMediaEngineDelegate{
 
 //Note: These SDK functions are available for Client to call.
 protocol JMMediaEngineAbstract{
+
     func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
-    func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String)
-    func rejoin()
+    func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String, isRejoin: Bool)
     
     func getAudioDevices() -> [JMAudioDevice]
     func setAudioDevice(_ device: JMAudioDevice)
