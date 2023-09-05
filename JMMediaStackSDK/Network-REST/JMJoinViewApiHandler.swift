@@ -60,13 +60,3 @@ struct RoomdetailsData: Decodable {
 struct MediaServer: Decodable {
     let publicBaseUrl: String
 }
-struct JMMeetingDetails{
-    var meetingId:String
-    var meetingPin:String
-    var meetingUrl:String
-    init(meetingId: String, meetingPin: String, meetingUrl: String) {
-        self.meetingId = meetingId
-        self.meetingPin = meetingPin
-        self.meetingUrl = meetingUrl
-    }
-}

@@ -11,7 +11,6 @@ import Foundation
 public protocol JMMediaEngineDelegate {
     func onJoinSuccess(id: String)
     func onError(error: JMMediaError)
-    func onRejoined(id: String)
     
     func onUserJoined(user: JMUserInfo)
     func onUserLeft(id: String, reason: JMUserLeaveReason)
@@ -50,7 +49,6 @@ extension JMMediaEngineDelegate{
 protocol JMMediaEngineAbstract{
     func create(withAppId appID: String, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
     func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String)
-    func rejoin()
     
     func getAudioDevices() -> [JMAudioDevice]
     func setAudioDevice(_ device: JMAudioDevice)
