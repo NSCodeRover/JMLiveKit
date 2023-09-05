@@ -283,14 +283,14 @@ extension JMMediaEngine{
     internal func handleBackgroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_ACTIVATED")
-          //  vm_manager.sendJMBroadcastPublicMessage(messageInfo: <#T##[String : Any]#>)
+            vm_manager.sendJMBroadcastPublicMessage(messageInfo: vm_manager.createMessageInfo(message: JMRTMMessage.PARTICIPANT_BACKGROUND_ACTIVATED.rawValue, senderName: vm_manager.selfDisplayName, senderParticipantId: vm_manager.selfPeerId))
         }
     }
     
     internal func handleForegroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
-           // vm_manager.sendJMBroadcastPublicMessage(message: [:])
+            vm_manager.sendJMBroadcastPublicMessage(messageInfo: vm_manager.createMessageInfo(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue, senderName: vm_manager.selfDisplayName, senderParticipantId: vm_manager.selfPeerId))
         }
     }
     
