@@ -59,7 +59,6 @@ class JioSocket : NSObject {
     private var socket: SocketIOClient!
     
     var selfPeerId: String = ""
-    var isReconnectListenerReady = false
     
     private enum SocketKey: String {
         case roomId
@@ -70,7 +69,7 @@ class JioSocket : NSObject {
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
     
-    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent],peerid:String = "") {
+    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent]) {
         if let url = URL.init(string: socketUrl) {
             manager = SocketManager(socketURL: url,config: getSocketConfiguration())
             if let manager = self.manager {
@@ -88,10 +87,6 @@ class JioSocket : NSObject {
     
     func disconnectSocket() {
         manager?.disconnect()
-       
-        manager?.forceNew = true
-        isReconnectListenerReady = false
-        manager?.reconnects = true
     }
     func getReconnect(){
         manager?.reconnect()
@@ -152,7 +147,7 @@ class JioSocket : NSObject {
 extension JioSocket {
     private func getSocketConfiguration() -> SocketIOClientConfiguration {
         return [
-            .log(true),
+            .log(false),
             .compress,
             .path("/socket.io/"),
             

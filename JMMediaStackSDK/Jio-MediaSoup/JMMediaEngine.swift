@@ -32,17 +32,19 @@ public class JMMediaEngine : NSObject{
 
 //MARK: Communicating back to Client (send data and event to client app)
 extension JMMediaEngine: delegateManager{
-    func sendClientRetrySocketSuccess(selfId: String) {
-        vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onRetrySuccess(id: selfId)
-            self.setupDeviceManager()
-        }
-    }
     
     //Join
     func sendClientJoinSocketSuccess(selfId: String) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onJoinSuccess(id: selfId)
+            self.setupDeviceManager()
+        }
+    }
+    
+    //ReJoin
+    func sendClientRetrySocketSuccess(selfId: String) {
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onRetrySuccess(id: selfId)
             self.setupDeviceManager()
         }
     }
@@ -124,7 +126,7 @@ extension JMMediaEngine: delegateManager{
     }
     
     //End
-    func sendClientEndClientCall(){
+    func sendClientEndCall(){
         delegateBackToClient?.onChannelLeft()
     }
 }
@@ -145,7 +147,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
             JMJoinViewApiHandler.validateJoiningDetails(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl) { (result) in
                 switch result{
                 case .success(let model):
-                    self.meetingDetails = JMMeetingDetails(meetingId: meetingId, MeetingPin: meetingPin, MeetingUrl: meetingUrl)
+                    self.meetingDetails = JMMeetingDetails(meetingId: meetingId, meetingPin: meetingPin, meetingUrl: meetingUrl)
                     self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken)
                 case .failure(let error):
                     self.sendClientError(error: error)
@@ -155,24 +157,25 @@ extension JMMediaEngine: JMMediaEngineAbstract {
     }
     
     public func rejoin(){
-        LOG.debug("Rejoining the meeting post disconnection.")
+        LOG.debug("Rejoin- Rejoining the meeting post disconnection.")
+        
+        vm_manager.isCallEnded = true
+        vm_manager.selfPeerLeave()
+        
         self.vm_manager.qJMMediaMainQueue.async {
             self.vm_manager.dispose()
         }
+        
         self.vm_manager.qJMMediaBGQueue.asyncAfter(deadline: .now() + 1, execute: {
             self.vm_manager.isRetryAttempt = true
-            self.join(meetingId: self.meetingDetails.meetingId, meetingPin: self.meetingDetails.MeetingPin, userName:  self.vm_manager.selfDisplayName, meetingUrl: self.meetingDetails.MeetingUrl)
+            self.join(meetingId: self.meetingDetails.meetingId, meetingPin: self.meetingDetails.meetingPin, userName:  self.vm_manager.selfDisplayName, meetingUrl: self.meetingDetails.meetingUrl)
         })
     }
-    
-    public func leaveHelper() {
+
+    public func leave() {
         vm_manager.isCallEnded = true
         vm_manager.selfPeerLeave()
-    }
-    
-    public func leave() {
-        leaveHelper()
-        sendClientEndClientCall()
+        sendClientEndCall()
     }
     
     public func enableLog(_ isEnable: Bool,withPath path: String = "") -> String{

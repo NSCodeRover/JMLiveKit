@@ -119,7 +119,6 @@ extension MeetingRoomViewModel {
             client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_STOP_SHARE.rawValue)
             
         case .retryJoin:
-            client.leaveHelper()
             client.rejoin()
         }
     }
