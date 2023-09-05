@@ -123,6 +123,8 @@ class JMManagerViewModel: NSObject{
         self.startNetworkMonitor()
     }
     
+    //TODO: Capture with 360p is not matching any format available and taking 480*360
+    //Hence, capture is commmented above, capturing HD but sending based on checks.
     func setupConfig(){
         if mediaOptions.isHDEnabled{
             JioMediaStackDefaultCameraCaptureResolution.width = 1280
