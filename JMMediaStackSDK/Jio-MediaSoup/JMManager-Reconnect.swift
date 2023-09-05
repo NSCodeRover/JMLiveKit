@@ -120,6 +120,3 @@ extension JMManagerViewModel{
         updateProducerLayers()
     }
 }
-
-//NON hd - producer 2
-//hd - producer 3, 15check = 2, screenshare = 2
