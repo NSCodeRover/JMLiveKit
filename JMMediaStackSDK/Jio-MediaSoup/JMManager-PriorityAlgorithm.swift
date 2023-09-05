@@ -13,8 +13,6 @@ enum JMMediaQualityPriority: Int{
     case high
 }
 
-//1. By default quality ?
-
 //MARK: Layer Algorithm
 extension JMManagerViewModel{
     
@@ -38,7 +36,7 @@ extension JMManagerViewModel{
         }
     }
     
-    func evaluatePreferredAndRecommend(_ preferredQuality: JMMediaQuality) -> JMMediaQuality{
+    fileprivate func evaluatePreferredAndRecommend(_ preferredQuality: JMMediaQuality) -> JMMediaQuality{
         
         if userState.remoteScreenShareEnabled{
             return .low
@@ -137,7 +135,7 @@ extension JMManagerViewModel{
         self.jioSocket.emit(action: .setConsumersPreferedLayersNPriorities, parameters: JioSocketProperty.getPreferredPriorityProperty(consumerObjects: consumerObjects))
     }
     
-    func socketEmitSetPreferredLayer(for consumerId: String, spatialLayer: Int, temporalLayer: Int) {
+    fileprivate func socketEmitSetPreferredLayer(for consumerId: String, spatialLayer: Int, temporalLayer: Int) {
         self.jioSocket.emit(action: .setConsumerPreferredLayers, parameters: JioSocketProperty.getPreferredLayerProperty(consumerId: consumerId, spatialLayer: spatialLayer, temporalLayer: temporalLayer))
     }
 }

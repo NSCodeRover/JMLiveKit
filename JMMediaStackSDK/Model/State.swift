@@ -17,6 +17,8 @@ class LocalState{
     var selfMicEnabled: Bool = false
     var selfCameraEnabled: Bool = false
     
+    //TODO: ADD self views, producer here.
+    
     //MARK: Self ScreenShare
     private(set) var selfScreenShareEnabled: Bool = false
     private(set) var selfScreenShareProducerId: String = ""
