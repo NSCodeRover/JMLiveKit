@@ -331,7 +331,7 @@ extension JMManagerViewModel{
     
     private func handleSocketBroadcastMessageToPeer(_ json: [String : Any]) {
         if let msg = json as? [String: Any], let msgData = msg["msgData"] as? [String: Any] {
-            self.delegateBackToManager?.sendClientBroadcastMessageToPeer(msg: json)
+            self.delegateBackToManager?.sendClientBroadcastMessageToPeer(msg: msgData)
         }
     }
     
