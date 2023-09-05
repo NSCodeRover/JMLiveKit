@@ -14,7 +14,7 @@ import Mediasoup
 
 extension JMManagerViewModel {
     
-    internal func connect(socketUrl: String, roomId: String, jwtToken: String) {
+    internal func connect(socketUrl: String, roomId: String, jwtToken: String, isRejoin: Bool) {
         LOG.debug("socket- \(#function) \(socketUrl)|\(roomId)|\(jwtToken)")
         
         let ip = socketUrl.replacingOccurrences(of: "wss://", with: "")
@@ -50,7 +50,7 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events)
+        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
     }
 }
 
@@ -110,6 +110,13 @@ extension JMManagerViewModel: JioSocketDelegate {
         
         connectionState = state
         delegateBackToManager?.sendClientConnectionStateChanged(state: connectionState)
+        
+        if connectionState == .disconnected{
+            //Clearing data for rejoin/leave
+            self.qJMMediaMainQueue.async {
+                self.dispose()
+            }
+        }
     }
     
     func didEmit(event: SocketEmitAction, data: [Any]) {
@@ -280,13 +287,7 @@ extension JMManagerViewModel{
             self.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
             
-            if self.isRetryAttempt {
-                isRetryAttempt = false
-                self.delegateBackToManager?.sendClientRetrySocketSuccess(selfId: peerId)
-            }
-            else{
-                self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
-            }
+            self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
         }
     }
     
