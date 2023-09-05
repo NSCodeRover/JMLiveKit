@@ -250,10 +250,6 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onUserJoined(user: JMUserInfo) {
-        if isRejoin {
-            onRejoined()
-            return
-        }
         self.peers.append(user)
         if user.hasScreenShare {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -294,6 +290,10 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onJoinSuccess(id: String) {
+        if isRejoin {
+            onRejoined()
+            return
+        }
         self.pushToMeetingRoom?(true,id)
     }
     
