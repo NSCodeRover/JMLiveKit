@@ -15,6 +15,7 @@ class JoinViewController: UIViewController {
     @IBOutlet weak var txtRoomId: UITextField!
     @IBOutlet weak var txtPin: UITextField!
     @IBOutlet weak var txtName: UITextField!
+    @IBOutlet weak var switchHD: UISwitch!
     private var viewModel = MeetingRoomViewModel()
 
     override func viewDidLoad() {
@@ -31,8 +32,8 @@ class JoinViewController: UIViewController {
         self.txtPin.text = "MPm1d"
     #else
         //https://prestage.jiomeet.com/join?meetingId=7330377010&pwd=Z381t
-        self.txtRoomId.text = "7330377010"
-        self.txtPin.text = "Z381t"
+        self.txtRoomId.text = "7330377010"//"0120967791"//
+        self.txtPin.text = "Z381t"//"k5syU"//
     #endif
         self.txtName.text = "Harsh Debug"
         addViewModelListener()
@@ -49,7 +50,7 @@ class JoinViewController: UIViewController {
             self.view.removeBlurLoader()
         }
         
-        self.viewModel.handleEvent(event: .join(roomId: self.txtRoomId.text ?? "", pin: self.txtPin.text ?? "", name: self.txtName.text ?? ""))
+        self.viewModel.handleEvent(event: .join(roomId: self.txtRoomId.text ?? "", pin: self.txtPin.text ?? "", name: self.txtName.text ?? "", isHd: switchHD.isOn))
     }
 }
 

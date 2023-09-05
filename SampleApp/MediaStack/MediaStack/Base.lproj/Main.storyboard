@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9486728362" borderStyle="roundedRect" placeholder="Enter RoomI ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Die-qw-Nuz">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter RoomI ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Die-qw-Nuz">
                                 <rect key="frame" x="121.66666666666669" y="143" width="150" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="N7F-47-GQF"/>
@@ -31,7 +31,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ebj-5N-gZv"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="rUn1Y" borderStyle="roundedRect" placeholder="Enter Pin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-36-bfy">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Pin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-36-bfy">
                                 <rect key="frame" x="121.66666666666669" y="209" width="150" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="CiO-a7-Ks5"/>
@@ -43,7 +43,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ylN-VJ-Q71"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Atinder IOS" borderStyle="roundedRect" placeholder="Enter Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30S-UZ-y7s">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Test" borderStyle="roundedRect" placeholder="Enter Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30S-UZ-y7s">
                                 <rect key="frame" x="121.66666666666669" y="275" width="150" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="X8f-ix-MsM"/>
@@ -70,22 +70,36 @@
                                     <action selector="joinAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4ZJ-eM-411"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WjG-7s-YUY">
+                                <rect key="frame" x="172" y="404" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HD:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ls-W4-C6h">
+                                <rect key="frame" x="137" y="408.66666666666669" width="30" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1lt-Lc-t2O"/>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="CKl-5v-IdD"/>
+                            <constraint firstItem="WjG-7s-YUY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ckl-jM-mGt"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="top" secondItem="Die-qw-Nuz" secondAttribute="bottom" constant="32" id="Dm7-T4-DKu"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="top" secondItem="VQ3-36-bfy" secondAttribute="bottom" constant="32" id="KWN-Oi-krx"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RSr-Jc-CKt"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="top" secondItem="30S-UZ-y7s" secondAttribute="bottom" constant="20" id="ZQM-H8-d9T"/>
+                            <constraint firstItem="WjG-7s-YUY" firstAttribute="top" secondItem="zh9-3j-tbq" secondAttribute="bottom" constant="40" id="fNa-bN-s1J"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iip-BT-EfQ"/>
+                            <constraint firstItem="WjG-7s-YUY" firstAttribute="leading" secondItem="5ls-W4-C6h" secondAttribute="trailing" constant="5" id="mp6-Lm-0DF"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oxO-Cz-yqM"/>
+                            <constraint firstItem="5ls-W4-C6h" firstAttribute="centerY" secondItem="WjG-7s-YUY" secondAttribute="centerY" id="rLJ-Iv-WSv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hpC-wy-fPO"/>
                     <connections>
+                        <outlet property="switchHD" destination="WjG-7s-YUY" id="hF2-gM-wLA"/>
                         <outlet property="txtName" destination="30S-UZ-y7s" id="pq9-aG-RAc"/>
                         <outlet property="txtPin" destination="VQ3-36-bfy" id="bIF-dL-zfM"/>
                         <outlet property="txtRoomId" destination="Die-qw-Nuz" id="MVg-af-Kdr"/>

@@ -26,7 +26,7 @@ class MeetingRoomViewModel {
     var displayName: String = ""
 
     enum MeetingRoomEvent {
-        case join(roomId: String, pin: String, name: String)
+        case join(roomId: String, pin: String, name: String, isHd: Bool)
         case startMeeting
         case endCall
         
@@ -76,9 +76,9 @@ extension MeetingRoomViewModel {
     
     func handleEvent(event: MeetingRoomEvent) {
         switch event {
-        case .join(roomId: let roomId, pin: let pin, name: let name):
+        case .join(roomId: let roomId, pin: let pin, name: let name, let isHD):
             displayName = name
-            self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl)
+            self.createEngine(meetingId: roomId, meetingPin: pin, userName: name, meetingUrl: AppConfiguration().baseUrl, isHd: isHD)
             
         case .startMeeting:
             client.setupLocalVideo(getLocalRenderView!())
@@ -192,9 +192,9 @@ extension MeetingRoomViewModel {
         client.join(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl)
     }
     
-    func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String){
+    func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String,isHd: Bool){
         var jmMediaOptions = JMMediaOptions()
-        jmMediaOptions.isHDEnabled = true
+        jmMediaOptions.isHDEnabled = isHd
         
         client = JMMediaEngine.shared.create(withAppId: "", mediaOptions: jmMediaOptions, delegate: self)
         enableLogs()
