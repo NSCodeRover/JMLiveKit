@@ -118,11 +118,9 @@ extension MeetingRoomViewModel {
             
         case .setStartScreenShare:
             client.startScreenShare()
-            client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_START_SHARE.rawValue)
             
         case .setStopScreenShare(error: let error):
             client.stopScreenShare(error: error)
-            client.sendPublicMessage(JMRTMMessage.PARTRICIPANT_STOP_SHARE.rawValue)
             
         case .retryJoin:
             self.isRejoin = true

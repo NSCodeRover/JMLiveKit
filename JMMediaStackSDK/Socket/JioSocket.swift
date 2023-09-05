@@ -43,6 +43,9 @@ enum SocketEmitAction: String {
     case getTransportStats
     case restartIce
     
+    case broadcastMessage
+    case broadcastMessageToPeer
+    
     case setConsumerPreferredLayers
     case setConsumersPreferedLayersNPriorities
 }
