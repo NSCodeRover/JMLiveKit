@@ -44,7 +44,7 @@ extension JMMediaEngine: delegateManager{
     //ReJoin
     func sendClientRetrySocketSuccess(selfId: String) {
         vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onRetrySuccess(id: selfId)
+            self.delegateBackToClient?.onRejoined(id: selfId)
             self.setupDeviceManager()
         }
     }
