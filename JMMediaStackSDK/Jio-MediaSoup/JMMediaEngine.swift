@@ -131,14 +131,14 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         return JMMediaEngine.shared
     }
     
-    public func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String){
+    public func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String, isRejoin: Bool = false){
         LOG.debug("\(#function) - \(meetingId)|\(meetingPin)|\(userName)|\(meetingUrl)")
         vm_manager.selfDisplayName = userName
         vm_manager.qJMMediaBGQueue.async {
             JMJoinViewApiHandler.validateJoiningDetails(meetingId: meetingId, meetingPin: meetingPin, userName: userName, meetingUrl: meetingUrl) { (result) in
                 switch result{
                 case .success(let model):
-                    self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken)
+                    self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken, isRejoin: isRejoin)
                 case .failure(let error):
                     self.sendClientError(error: error)
                 }

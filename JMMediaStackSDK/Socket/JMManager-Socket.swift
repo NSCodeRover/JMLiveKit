@@ -14,7 +14,7 @@ import Mediasoup
 
 extension JMManagerViewModel {
     
-    internal func connect(socketUrl: String, roomId: String, jwtToken: String) {
+    internal func connect(socketUrl: String, roomId: String, jwtToken: String, isRejoin: Bool) {
         LOG.debug("socket- \(#function) \(socketUrl)|\(roomId)|\(jwtToken)")
         
         let ip = socketUrl.replacingOccurrences(of: "wss://", with: "")
@@ -50,7 +50,7 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events)
+        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
     }
 }
 

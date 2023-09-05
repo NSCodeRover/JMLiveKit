@@ -69,7 +69,7 @@ class JioSocket : NSObject {
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
     
-    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent]) {
+    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent], isRejoin: Bool) {
         if let url = URL.init(string: socketUrl) {
             manager = SocketManager(socketURL: url,config: getSocketConfiguration())
             if let manager = self.manager {
@@ -80,7 +80,7 @@ class JioSocket : NSObject {
                 self.socketEvents = socketEvents
                 socket = manager.defaultSocket
                 self.addSocketListener()
-                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, peerid: selfPeerId))
+                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, isRejoin: isRejoin))
             }
         }
     }
@@ -159,17 +159,18 @@ extension JioSocket {
         ]
     }
     
-    private func getPayload(roomId: String, jwtToken: String,peerid:String) -> [String: Any] {
-        if peerid.isEmpty {
+    private func getPayload(roomId: String, jwtToken: String, isRejoin: Bool) -> [String: Any] {
+        if isRejoin {
             return [
+                SocketKey.oldPeerId.rawValue : selfPeerId,
                 SocketKey.roomId.rawValue: roomId,
-                SocketKey.token.rawValue: jwtToken]
+                SocketKey.token.rawValue: jwtToken
+            ]
         }
         return [
-            SocketKey.oldPeerId.rawValue : peerid,
             SocketKey.roomId.rawValue: roomId,
             SocketKey.token.rawValue: jwtToken
-            ]
+        ]
     }
     
     private func addSocketListener() {
