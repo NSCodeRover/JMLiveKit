@@ -230,7 +230,7 @@ extension MeetingRoomViewModel{
 }
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
-    func onRetrySuccess(id: String) {
+    func onRejoined(id: String) {
         self.peers.removeAll()
         isCameraEnabled = false
         isMicEnabled = false
