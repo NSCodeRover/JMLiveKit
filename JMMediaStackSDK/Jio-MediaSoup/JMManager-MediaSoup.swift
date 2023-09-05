@@ -158,7 +158,7 @@ extension JMManagerViewModel{
             return false
         }
         
-        let fps = JioMediaStackDefaultCameraCaptureResolution.2
+        let fps = JioMediaStackDefaultCameraCaptureResolution.fps
         guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
             LOG.error("Video- No format found")
             delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .videoDeviceNotSupported, description: "No format found \(cameraDevice.localizedName)"))
@@ -169,10 +169,10 @@ extension JMManagerViewModel{
         if #available(iOS 13.0, *) {
             self.videoSource.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
         } else {
-            self.videoSource.adaptOutputFormat(toWidth: JioMediaStackDefaultCameraCaptureResolution.0, height: JioMediaStackDefaultCameraCaptureResolution.1, fps: fps)
+            self.videoSource.adaptOutputFormat(toWidth: JioMediaStackDefaultCameraCaptureResolution.width, height: JioMediaStackDefaultCameraCaptureResolution.height, fps: fps)
         }
         
-        self.videoCapture?.startCapture(with: cameraDevice, format:format, fps: Int(JioMediaStackDefaultCameraCaptureResolution.2))
+        self.videoCapture?.startCapture(with: cameraDevice, format:format, fps: Int(fps))
         LOG.debug("Video- started capture with \(cameraDevice.localizedName)")
         return true
     }

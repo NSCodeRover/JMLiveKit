@@ -121,7 +121,19 @@ class JMManagerViewModel: NSObject{
         
         self.delegateBackToManager = delegate
         self.mediaOptions = mediaOptions
+        self.setupConfig()
         self.startNetworkMonitor()
+    }
+    
+    func setupConfig(){
+        if mediaOptions.isHDEnabled{
+            JioMediaStackDefaultCameraCaptureResolution.width = 1280
+            JioMediaStackDefaultCameraCaptureResolution.height = 720
+        }
+        else{
+            JioMediaStackDefaultCameraCaptureResolution.width = 480
+            JioMediaStackDefaultCameraCaptureResolution.height = 360
+        }
     }
 }
 
@@ -197,12 +209,48 @@ extension JMManagerViewModel{
             return encodingParams
         }
         
-        let lowLayer = genRtpEncodingParameters(rid: "layer1", active: true, bitRatePriority: JioMediaStackBitratePriority.low.rawValue, networkPriority: RTCPriority.high, maxBitrateBps: JioMediaStackVideoMaxBitrate.low.rawValue,minBitrateBps: 0,maxFramerate: JioMediaStackVideoFPS.medium.rawValue, numTemporalLayers: 3,scaleResolutionDownBy: JioMediaStackScaleDownResolution.low.rawValue,adaptativeAudioPacketTime: true)
-        let midLayer = genRtpEncodingParameters(rid: "layer2", active: true, bitRatePriority: JioMediaStackBitratePriority.medium.rawValue, networkPriority: RTCPriority.high, maxBitrateBps: JioMediaStackVideoMaxBitrate.medium.rawValue,minBitrateBps: 0,maxFramerate: JioMediaStackVideoFPS.medium.rawValue, numTemporalLayers: 3,scaleResolutionDownBy: JioMediaStackScaleDownResolution.medium.rawValue,adaptativeAudioPacketTime: true)
+        let lowLayer = genRtpEncodingParameters(
+            rid: "layer1",
+            active: true,
+            bitRatePriority: JioMediaStackBitratePriority.low.rawValue,
+            networkPriority: RTCPriority.high,
+            maxBitrateBps: JioMediaStackVideoMaxBitrate.low.value,
+            minBitrateBps: 0,
+            maxFramerate: JioMediaStackVideoFPS.medium.rawValue,
+            numTemporalLayers: 3,
+            scaleResolutionDownBy: JioMediaStackScaleDownResolution.low.rawValue,
+            adaptativeAudioPacketTime: true
+        )
+        
+        let midLayer = genRtpEncodingParameters(
+            rid: "layer2",
+            active: true,
+            bitRatePriority: JioMediaStackBitratePriority.medium.rawValue,
+            networkPriority: RTCPriority.high,
+            maxBitrateBps: JioMediaStackVideoMaxBitrate.medium(isHD: mediaOptions.isHDEnabled).value,
+            minBitrateBps: 0,
+            maxFramerate: JioMediaStackVideoFPS.medium.rawValue,
+            numTemporalLayers: 3,
+            scaleResolutionDownBy: JioMediaStackScaleDownResolution.medium.rawValue,
+            adaptativeAudioPacketTime: true
+        )
+        
         var layers = [lowLayer, midLayer]
         
         if mediaOptions.isHDEnabled{
-            let highLayer = genRtpEncodingParameters(rid: "layer3", active: true, bitRatePriority: JioMediaStackBitratePriority.high.rawValue, networkPriority: RTCPriority.high, maxBitrateBps: JioMediaStackVideoMaxBitrate.high.rawValue,minBitrateBps: 0,maxFramerate: JioMediaStackVideoFPS.medium.rawValue, numTemporalLayers: 3,scaleResolutionDownBy: JioMediaStackScaleDownResolution.high.rawValue,adaptativeAudioPacketTime: true)
+            let highLayer = genRtpEncodingParameters(
+                rid: "layer3",
+                active: true,
+                bitRatePriority: JioMediaStackBitratePriority.high.rawValue,
+                networkPriority: RTCPriority.high,
+                maxBitrateBps: JioMediaStackVideoMaxBitrate.high.value,
+                minBitrateBps: 0,
+                maxFramerate: JioMediaStackVideoFPS.medium.rawValue,
+                numTemporalLayers: 3,
+                scaleResolutionDownBy: JioMediaStackScaleDownResolution.high.rawValue,
+                adaptativeAudioPacketTime: true
+            )
+            
             layers.append(highLayer)
         }
         
