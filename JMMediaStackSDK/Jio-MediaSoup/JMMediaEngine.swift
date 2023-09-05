@@ -123,6 +123,7 @@ extension JMMediaEngine: delegateManager{
 }
 
 extension JMMediaEngine: JMMediaEngineAbstract {
+    
     public func create(withAppId appID: String, delegate: JMMediaEngineDelegate?) -> JMMediaEngine{
         LOG.debug("\(#function) - \(appID)")
         delegateBackToClient = delegate
@@ -229,11 +230,11 @@ extension JMMediaEngine{
 
 //MARK: Broadcast Message
 extension JMMediaEngine{
-    public func sendPublicMessage(_ message: String,reactionsType:JMReactions = .None) {
-        vm_manager.sendJMBroadcastPublicMessage(message: message, reactionsType: reactionsType)
+    public func sendPublicMessage(_ message: [String:Any]) {
+        vm_manager.sendJMBroadcastPublicMessage(messageInfo: message)
     }
-    public func sendPrivateMessage(_ message: String, targetParticipantId: String) {
-        vm_manager.sendJMBroadcastPrivateMessage(message: message, targetParticipantId: targetParticipantId)
+    public func sendPrivateMessage(_ message: [String:Any]) {
+        vm_manager.sendJMBroadcastPrivateMessage(messageInfo: message)
     }
 }
 
@@ -277,14 +278,14 @@ extension JMMediaEngine{
     internal func handleBackgroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_ACTIVATED")
-            vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_ACTIVATED.rawValue)
+            vm_manager.sendJMBroadcastPublicMessage(messageInfo: vm_manager.createMessageInfo(message: JMRTMMessage.PARTICIPANT_BACKGROUND_ACTIVATED.rawValue, senderName: vm_manager.selfDisplayName, senderParticipantId: vm_manager.selfPeerId))
         }
     }
     
     internal func handleForegroundVideoEvent(){
         if isVideoEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
-            vm_manager.sendJMBroadcastPublicMessage(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue)
+            vm_manager.sendJMBroadcastPublicMessage(messageInfo: vm_manager.createMessageInfo(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue, senderName: vm_manager.selfDisplayName, senderParticipantId: vm_manager.selfPeerId))
         }
     }
     

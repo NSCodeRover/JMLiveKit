@@ -10,33 +10,46 @@ import Foundation
 // Sender function to broadcast a message
 
 extension JMManagerViewModel {
-    func sendJMBroadcastPublicMessage(message: String,reactionsType:JMReactions = .None) {
-        var sender = JMSender()
-        sender.name = selfDisplayName
-        sender.participantId = selfPeerId
-        sender.userId = ""
+    
+    func sendJMBroadcastPublicMessage(messageInfo:[String: Any]){
         
-        let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: "", type:  "PublicChat")
+        let broadcastMessage: [String: Any] = [
+               "eventName": JMRTMMessagesType.broadcastMessage.rawValue,
+               "timeStamp":  Date().timeIntervalSince1970 * 1000,
+               "peerId": selfPeerId,
+               "msgData": messageInfo
+           ]
         
-        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessage.rawValue, msgData: messageData, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
-        
-        print(broadcastMessage.toDictionary() ?? [:])
-        
-        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessage.rawValue) ?? .none, parameters:broadcastMessage.toDictionary() ?? [:] ){ _ in }
+        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessage.rawValue) ?? .none, parameters:broadcastMessage ){ _ in }
     }
     
-    func sendJMBroadcastPrivateMessage(message: String, targetParticipantId: String) {
-        var sender = JMSender()
-        sender.name = selfDisplayName
-        sender.participantId = selfPeerId
-        sender.userId = ""
+    func sendJMBroadcastPrivateMessage(messageInfo:[String: Any]){
+        let broadcastMessage: [String: Any] = [
+               "eventName": JMRTMMessagesType.broadcastMessageToPeer.rawValue,
+               "timeStamp":  Date().timeIntervalSince1970 * 1000,
+               "peerId": selfPeerId,
+               "msgData": messageInfo
+           ]
         
-        let messageData = JMMessageData(message: message, reactionsType: .None, sender: sender, targetParticipantId: targetParticipantId, type:  "PrivateChat" )
-        
-        let broadcastMessage = JMBroadcastMessage(eventName: JMRTMMessagesType.broadcastMessageToPeer.rawValue, msgData: messageData, peerId: sender.participantId, timeStamp: Date().timeIntervalSince1970 * 1000)
-        
-        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessageToPeer.rawValue) ?? .none, parameters:broadcastMessage.toDictionary() ?? [:] ){ _ in }
+        self.jioSocket.emit(action: SocketEmitAction.init(rawValue: JMRTMMessagesType.broadcastMessageToPeer.rawValue) ?? .none, parameters:broadcastMessage ){ _ in }
     }
+    
+    func createMessageInfo(message: String, senderName: String, senderParticipantId: String) -> [String: Any] {
+        let messageInfo: [String: Any] = [
+            "message": message,
+            "reactionsType": "",
+            "sender": [
+                "name": senderName,
+                "participantId": senderParticipantId,
+                "userId": ""
+            ],
+            "targetParticipantId": "",
+            "type": "PublicChat"
+        ]
+        
+        return messageInfo
+    }
+
 }
 
 extension Encodable {
