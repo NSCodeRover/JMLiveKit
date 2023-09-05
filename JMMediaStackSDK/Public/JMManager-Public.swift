@@ -11,7 +11,7 @@ import Foundation
 public protocol JMMediaEngineDelegate {
     func onJoinSuccess(id: String)
     func onError(error: JMMediaError)
-    func onRetrySuccess(id: String)
+    func onRejoined(id: String)
     
     func onUserJoined(user: JMUserInfo)
     func onUserLeft(id: String, reason: JMUserLeaveReason)
