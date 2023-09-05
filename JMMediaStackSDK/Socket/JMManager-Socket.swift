@@ -110,6 +110,13 @@ extension JMManagerViewModel: JioSocketDelegate {
         
         connectionState = state
         delegateBackToManager?.sendClientConnectionStateChanged(state: connectionState)
+        
+        if connectionState == .disconnected{
+            //Clearing data for rejoin/leave
+            self.qJMMediaMainQueue.async {
+                self.dispose()
+            }
+        }
     }
     
     func didEmit(event: SocketEmitAction, data: [Any]) {
@@ -280,13 +287,7 @@ extension JMManagerViewModel{
             self.selfPeerId = peerId
             self.jioSocket.updateConfig(peerId)
             
-            if self.isRetryAttempt {
-                isRetryAttempt = false
-                self.delegateBackToManager?.sendClientRetrySocketSuccess(selfId: peerId)
-            }
-            else{
-                self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
-            }
+            self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
         }
     }
     
