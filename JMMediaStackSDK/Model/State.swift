@@ -9,17 +9,20 @@ import Foundation
 
 class LocalState{
     
-    //MARK: Self
+    //Self
     var selfUserName: String = ""
     var selfPeerId: String = ""
     
-    //MARK: Self States
+    //Self States
     var selfMicEnabled: Bool = false
     var selfCameraEnabled: Bool = false
     
-    //TODO: ADD self views, producer here.
-    
-    //MARK: Self ScreenShare
+    //TODO: Producer
+//    var producerVideo: Producer?
+//    var producerAudio: Producer?
+//    var producerScreenShare: Producer?
+        
+    //Self ScreenShare
     private(set) var selfScreenShareEnabled: Bool = false
     private(set) var selfScreenShareProducerId: String = ""
     
@@ -32,7 +35,7 @@ class LocalState{
         self.selfScreenShareProducerId = ""
     }
     
-    //MARK: Remote ScreenShare
+    //Remote ScreenShare
     private(set) var remoteScreenShareEnabled: Bool = false
     private(set) var remoteScreenShareRemoteId: String = ""
     private(set) var remoteScreenShareConsumerId: String = ""

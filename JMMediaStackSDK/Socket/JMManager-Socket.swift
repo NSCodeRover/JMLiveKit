@@ -50,51 +50,8 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
+        initSocketAckHandler()
         jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
-    }
-}
-
-extension JMManagerViewModel{
-    func emitOnConnectWebRtc(transportId:String, dtlsParameters: String!, handler: ((([String:Any]) -> Void)?)) {
-        let parameters:[String:Any] = [SocketDataKey.transportId.rawValue: transportId, SocketDataKey.dtlsParameters.rawValue: dtlsParameters.toDic()]
-        
-        if self.jioSocket.getSocket().status != .connected {
-            LOG.warning("Transport- socket not connected")
-            return
-        }
-        
-        self.jioSocket.getSocket().emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
-            if let json = self.getJson(data: data) {
-                LOG.debug("Transport- Emit Webrtc json == \(json)")
-                handler?(json)
-            }
-            else{
-                handler?([:])
-            }
-        }
-    }
-    
-    func emitOnProduce(transportId:String, kind:String, rtpParameters:String, appData: String, handler: ((String) -> ())?) {
-        var parameters:[String:Any] = [
-            SocketDataKey.transportId.rawValue: transportId, SocketDataKey.kind.rawValue: kind, SocketDataKey.rtpParameters.rawValue: rtpParameters.toDic()
-        ]
-        
-        if appData == JioMediaAppData.screenShareAppData{
-            parameters[SocketDataKey.appData.rawValue] = ["share":true]
-            self.jioSocket.emit(action: .produce, parameters: parameters)
-            handler?("ID not found")
-        }else {
-            self.jioSocket.getSocket().emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
-                if let json = self.getJson(data: data),let dataObj = json["data"] as? [String:Any], let id = dataObj["id"] as? String {
-                    handler?(id)
-                }
-                else{
-                    handler?("ID not found")
-                }
-            }
-        }
-            
-       
     }
 }
 
@@ -214,7 +171,7 @@ extension JMManagerViewModel{
                 self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))
                 
                 if let audioConsumer = $0.producers.first(where: { $0.mediaType == "audio" }){
-                    self.socketEmitGetProducerInfo(for: audioConsumer.producerId)
+                    self.socketEmitGetConsumerInfo(for: audioConsumer.producerId)
                 }
             }
         }
@@ -237,12 +194,8 @@ extension JMManagerViewModel{
             self.setTransportState(json)
         }
     }
-}
-
-//MARK: Socket receive handler
-extension JMManagerViewModel{
+    
     private func handleSocketEmitRestartICE(_ json: [String : Any]) {
-        
         qJMMediaBGQueue.async {
             if let data = json["data"] as? [String: Any] {
                 self.onRestartIce(restartData: data)
@@ -250,18 +203,17 @@ extension JMManagerViewModel{
         }
     }
     
-   private func handleSocketEmitScreenShareProduce(_ json: [String : Any]) {
-       if let share = json["share"] as? Bool, share {
-           if let data = json["data"] as? [String: Any] {
-               if let id = data["id"] as? String {
-                   self.screenShareProducerID = id
-               }
-           }
-       }
-   }
+    private func handleSocketEmitScreenShareProduce(_ json: [String : Any]) {
+        if let share = json["share"] as? Bool, share {
+            if let data = json["data"] as? [String: Any] {
+                if let id = data["id"] as? String {
+                    self.screenShareProducerID = id
+                }
+            }
+        }
+    }
     
     private func handleSocketProducer(_ json: [String:Any], event: SocketEvent){
-        
         qJMMediaBGQueue.async {
             if let remoteId = json[SocketDataKey.peerId.rawValue] as? String,
                let producerId = json[SocketDataKey.producerId.rawValue] as? String,
@@ -357,17 +309,17 @@ extension JMManagerViewModel{
         LOG.debug("Reconnect- reconnected (JOIN BACK)")
         validateTransportAndRestart()
     }
-   
+    
     private func handleSocketPostReconnectedEvents(_ data: [Any]) {
         LOG.debug("Reconnect- socketReconnected events")
         if let jsonArr = self.getJsonArr(data: data){
             for eventDict in jsonArr {
-               if let eventName = eventDict["eventName"] as? String,
-                  let eventType = SocketEvent(rawValue: eventName) {
-                   let json = [eventDict]
-                   LOG.debug("Reconnect- reconnected - handling missing event \(eventName)")
-                   didReceive(event: eventType, data: json, ack: nil)
-               }
+                if let eventName = eventDict["eventName"] as? String,
+                   let eventType = SocketEvent(rawValue: eventName) {
+                    let json = [eventDict]
+                    LOG.debug("Reconnect- reconnected - handling missing event \(eventName)")
+                    didReceive(event: eventType, data: json, ack: nil)
+                }
             }
         }
         else{
@@ -376,52 +328,8 @@ extension JMManagerViewModel{
     }
 }
 
-//MARK: Join and leave socket
-extension JMManagerViewModel{
-    
-    func selfPeerLeave() {
-        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
-    }
-
-    func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
-        if let response = parse(json: json, model: JoinResponse.self), let data = response.data {
-            return data.peers
-        }
-        return []
-    }
-    
-    func addPeerIfalreadyJoinMeetingRoom(json: [String: Any]) -> [Peer] {
-        let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
-        self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
-        return Array(peersMap.values)
-    }
-
-    func socketEmitSetTransportStats() {
-        self.jioSocket.emit(action: .getTransportStats , parameters: transportStatsParam)
-    }
-}
-
-//MARK: Client remote media state update
-extension JMManagerViewModel {
-    func setRemoteUserMediaAction(isEnabled:Bool,id:String,type:JMMediaType){
-        if isEnabled {
-            self.delegateBackToManager?.sendClientUserPublished(id: id, type: type)
-        }
-        else{
-            self.delegateBackToManager?.sendClientUserUnPublished(id: id, type: type)
-        }
-    }
-}
-
 //MARK: Consume
 extension JMManagerViewModel{
-    func socketEmitGetProducerInfo(for producerId: String) {
-        self.jioSocket.emit(action: .consume, parameters: JioSocketProperty.getConsumeProperty(producerId: producerId))
-    }
-    
-    func socketEmitResumeConsumer(for consumerId: String) {
-        self.jioSocket.emit(action: .resumeConsumer, parameters: JioSocketProperty.getResumeConsumerProperty(consumerId: consumerId)){ _ in }
-    }
     
     //Remote user feeds
     func onNewConsumer(json: [String: Any]) {
@@ -477,22 +385,106 @@ extension JMManagerViewModel{
     }
 }
 
-//MARK: Producer updation : Socket
+//MARK: Socket emit Producer Consumer
 extension JMManagerViewModel{
     
-    //Producer
-    func socketCloseProducer(producerId: String) {
-        self.jioSocket.emit(action: .closeProducer, parameters: JioSocketProperty.getCloseProducerProperty(producerId: producerId))
+    func initSocketAckHandler(){
+        socketAckHandler = { ackData in
+            if let json = self.getJson(data: ackData),let dataObj = json["data"] as? [String:Any]{
+                LOG.debug("Socket- Ack- \(dataObj)")
+            }
+        }
     }
     
-    func socketEmitPauseProducer(producerId: String) {
-        self.jioSocket.emit(action: .pauseProducer, parameters: JioSocketProperty.getPauseAndResumerProducerProperty(producerId: producerId)){ _ in }
+    //Self Producer
+    func socketEmitCloseProducer(for producerId: String) {
+        self.jioSocket.emit(action: .closeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
     }
     
-    func socketEmitResumeProducer(producerId: String) {
-        self.jioSocket.emit(action: .resumeProducer, parameters: JioSocketProperty.getPauseAndResumerProducerProperty(producerId: producerId)){ _ in }
+    func socketEmitPauseProducer(for producerId: String) {
+        self.jioSocket.emit(action: .pauseProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
     }
     
+    func socketEmitResumeProducer(for producerId: String) {
+        self.jioSocket.emit(action: .resumeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
+    }
+    
+    //Remote consumer
+    func socketEmitGetConsumerInfo(for consumerId: String) {
+        self.jioSocket.emit(action: .consume, parameters: JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+    }
+    
+    func socketEmitResumeConsumer(for consumerId: String) {
+        self.jioSocket.emit(action: .resumeConsumer, parameters: JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+    }
+    
+    func socketEmitPauseConsumer(for consumerId: String) {
+        self.jioSocket.emit(action: .pauseConsumer, parameters:JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+    }
+
+    //Join, Leave
+    func socketEmitSelfPeerLeave() {
+        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
+    }
+    
+    //Transportstats
+    func socketEmitSetTransportStats() {
+        self.jioSocket.emit(action: .getTransportStats , parameters: transportStatsParam)
+    }
+    
+}
+
+extension JMManagerViewModel{
+    func emitOnConnectWebRtc(transportId:String, dtlsParameters: String!, handler: ((([String:Any]) -> Void)?)) {
+        let parameters:[String:Any] = JioSocketProperty.getTransportProperty(with: transportId, dtlsParameters: dtlsParameters)
+        
+        if connectionState != .connected {
+            LOG.warning("Socket- Transport- Ack- socket not connected")
+            return
+        }
+        
+        self.jioSocket.getSocket().emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
+            
+            if let json = self.getJson(data: data) {
+                LOG.debug("Socket- Transport- Ack- Emit Webrtc json == \(json)")
+                handler?(json)
+            }
+            else{
+                LOG.warning("Socket- Transport- Ack- Emit Webrtc NO json")
+                handler?([:])
+            }
+        }
+    }
+    
+    func emitOnProduce(transportId:String, kind:String, rtpParameters:String, appData: String, handler: ((String) -> ())?) {
+        var parameters:[String:Any] = JioSocketProperty.getTransportProduceProperty(with: transportId, kind: kind, rtpParameters: rtpParameters)
+        
+        if appData == JioMediaAppData.screenShareAppData{
+            parameters[SocketDataKey.appData.rawValue] = ["share":true]
+            self.jioSocket.emit(action: .produce, parameters: parameters)
+            handler?("ID not found")
+        }
+        else {
+            self.jioSocket.getSocket().emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
+                if let json = self.getJson(data: data),
+                   let dataObj = json["data"] as? [String:Any],
+                   let id = dataObj["id"] as? String {
+                    LOG.debug("Socket- Transport- Ack- produce Id == \(id)")
+                    handler?(id)
+                }
+                else{
+                    LOG.warning("Socket- Transport- Ack- produce no Id.")
+                    handler?("ID not found")
+                }
+            }
+        }
+    }
+}
+
+
+//MARK: Producer updation : Socket
+extension JMManagerViewModel{
+        
     func onProducerUpdate(_ producerId: String, remoteId: String, mediaType: String, event: SocketEvent, isScreenShareEnabled: Bool = false) {
         
         let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaType == "video" ? .video : .audio
@@ -598,6 +590,18 @@ extension JMManagerViewModel{
     }
 }
 
+//MARK: Client remote media state update
+extension JMManagerViewModel {
+    func setRemoteUserMediaAction(isEnabled:Bool,id:String,type:JMMediaType){
+        if isEnabled {
+            self.delegateBackToManager?.sendClientUserPublished(id: id, type: type)
+        }
+        else{
+            self.delegateBackToManager?.sendClientUserUnPublished(id: id, type: type)
+        }
+    }
+}
+
 //MARK: Subscription logic
 extension JMManagerViewModel{
     
@@ -613,27 +617,37 @@ extension JMManagerViewModel{
     }
     
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
-        guard let peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType) else{ return }
+        guard let peer = peersMap[remoteId], let consumerId = peer.getConsumerId(for: mediaType)
+        else{
+            LOG.error("Subscribe- Failed - \(remoteId) \(peersMap[remoteId]?.displayName) \(mediaType) ")
+            return
+        }
         
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
-            if let consumer = consumer, consumer.producerId == producerId{
-                LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer resumed")
+            if let consumer = consumer, consumer.producerId == consumerId{
+                LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer resumed")
                 consumer.resume()
                 updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
-                socketEmitResumeProducer(producerId: producerId)
+                socketEmitResumeConsumer(for: consumerId)
             }
             else{
                 consumer?.close()
-                LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer fetch")
-                socketEmitGetProducerInfo(for: producerId)
+                LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer fetch")
+                socketEmitGetConsumerInfo(for: consumerId)
             }
         }
         else{
-            LOG.debug("Subscribe- \(mediaType) \(producerId) \(peer.displayName):consumer paused")
-            consumer?.pause()
+            if let consumer = consumer{
+                consumer.pause()
+            }
+            else{
+                LOG.debug("Subscribe- Consumer is nil for \(peer.displayName)")
+            }
+            
+            LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer paused")
             updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
-            socketEmitPauseProducer(producerId: producerId)
+            socketEmitPauseConsumer(for: consumerId)
         }
     }
     

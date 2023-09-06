@@ -143,7 +143,7 @@ extension JMManagerViewModel{
     public func updateStopScreenShare(error:String = "") {
         LOG.debug("ScreenShare- stop with error \(error)")
         wormholeBufferListener.stopListeningForMessage(withIdentifier:  JMScreenShareManager.MediaSoupScreenShareId)
-        socketCloseProducer(producerId: screenShareProducerID)
+        socketEmitCloseProducer(for: screenShareProducerID)
         screenShareProducer = nil
     }
     
@@ -157,7 +157,7 @@ extension JMManagerViewModel{
 //MARK: ScreenShare
 extension JMManagerViewModel{
     func socketScreenShareCloseProducer(producerId: String) {
-        var parameters = JioSocketProperty.getCloseProducerProperty(producerId: producerId)
+        var parameters = JioSocketProperty.getProducerProperty(with: producerId)
         parameters[SocketDataKey.appData.rawValue] = ["share":true]
         self.jioSocket.emit(action: .closeProducer, parameters: parameters)
     }

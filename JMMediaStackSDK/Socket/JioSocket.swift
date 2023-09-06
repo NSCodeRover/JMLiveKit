@@ -3,7 +3,9 @@ import Foundation
 import SocketIO
 
 enum SocketEvent: String,CaseIterable {
+    //SELF
     case connect
+    case peerConnected
     case disconnect
     case reconnect
     case reconnectAttempt
@@ -11,43 +13,57 @@ enum SocketEvent: String,CaseIterable {
     case socketConnected
     case socketReconnected
     
+    //TOP speakers
     case audioLevel
-    case peerClosed
+    
+    //Remote users
     case newPeer
+    case peerClosed
+    
+    //Remote Producer, we will consume.
     case newProducer
-    case peerConnected
     case producerEnd
     case pausedProducer
     case resumedProducer
+    
+    //RTM
     case broadcastMessage
     case broadcastMessageToPeer
+    
+    //EXTRA
     case botsJoined
     case botsLeft
     case score
     case layerschange
     case userRoleUpdated
-    case none
 }
 
 enum SocketEmitAction: String {
+    //SELF
     case join
     case connectWebRtcTransport
-    case produce
+    case peerLeave
+        
+    //Remote
     case consume
     case resumeConsumer
-    case closeProducer
-    case peerLeave
-    case pauseProducer
-    case resumeProducer
-    case none
-    case getTransportStats
-    case restartIce
-    
-    case broadcastMessage
-    case broadcastMessageToPeer
+    case pauseConsumer
     
     case setConsumerPreferredLayers
     case setConsumersPreferedLayersNPriorities
+    
+    //SELF
+    case produce
+    case closeProducer
+    case pauseProducer
+    case resumeProducer
+    
+    case getTransportStats
+    case restartIce
+    
+    //RTM
+    case broadcastMessage
+    case broadcastMessageToPeer
 }
 
 protocol JioSocketDelegate: NSObject {

@@ -47,6 +47,7 @@ class JMManagerViewModel: NSObject{
     
     //SOCKET
     var jioSocket: JioSocket = JioSocket()
+    var socketAckHandler: (([Any]) -> ())?
     
     //MEDIA SOUP
     var device:Device?
@@ -147,7 +148,7 @@ extension JMManagerViewModel{
         
         totalProducers.forEach({
             $0.value.close()
-            socketCloseProducer(producerId: $0.key)
+            socketEmitCloseProducer(for: $0.key)
         })
         
         self.jioSocket.disconnectSocket()
@@ -164,7 +165,7 @@ extension JMManagerViewModel{
         
         if let screenShareProducer = screenShareProducer{
             screenShareProducer.close()
-            socketCloseProducer(producerId: subscriptionScreenShareVideo)
+            socketEmitCloseProducer(for: subscriptionScreenShareVideo)
             subscriptionScreenShareVideo = ""
         }
         sendTransport?.close()
@@ -333,6 +334,7 @@ extension JMManagerViewModel{
         }
         return nil
     }
+    
     func getJsonArr(data: [Any]) -> [[String: Any]]? {
         if data.count > 0 {
             if let json = data[0] as? [[String: Any]] {
@@ -347,5 +349,18 @@ extension JMManagerViewModel{
             return json
         }
         return nil
+    }
+    
+    func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
+        if let response = parse(json: json, model: JoinResponse.self), let data = response.data {
+            return data.peers
+        }
+        return []
+    }
+    
+    func addPeerIfalreadyJoinMeetingRoom(json: [String: Any]) -> [Peer] {
+        let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
+        self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
+        return Array(peersMap.values)
     }
 }

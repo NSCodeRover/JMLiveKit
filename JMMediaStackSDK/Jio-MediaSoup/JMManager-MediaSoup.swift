@@ -70,7 +70,7 @@ extension JMManagerViewModel{
         if let producer = audioProducer{
             LOG.debug("Audio- audio producer resume")
             producer.resume()
-            socketEmitResumeProducer(producerId: producer.id)
+            socketEmitResumeProducer(for: producer.id)
             completion(true)
             return
         }
@@ -115,7 +115,7 @@ extension JMManagerViewModel{
             enableLocalRenderView(true)
             videoTrack?.isEnabled = true
             producer.resume()
-            socketEmitResumeProducer(producerId: producer.id)
+            socketEmitResumeProducer(for: producer.id)
             completion(true)
             return
         }
@@ -333,7 +333,7 @@ extension JMManagerViewModel {
         }
         if let producer = self.videoProducer {
             producer.pause()
-            socketEmitPauseProducer(producerId: producer.id)
+            socketEmitPauseProducer(for: producer.id)
             enableLocalRenderView(false)
         }
         videoCapture?.stopCapture()
@@ -345,7 +345,7 @@ extension JMManagerViewModel {
         }
         if let producer = self.audioProducer {
             producer.pause()
-            socketEmitPauseProducer(producerId: producer.id)
+            socketEmitPauseProducer(for: producer.id)
         }
     }
     

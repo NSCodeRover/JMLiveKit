@@ -154,7 +154,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
 
     public func leave() {
         vm_manager.isCallEnded = true
-        vm_manager.selfPeerLeave()
+        vm_manager.socketEmitSelfPeerLeave()
         sendClientEndCall()
     }
     

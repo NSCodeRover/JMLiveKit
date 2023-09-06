@@ -40,36 +40,40 @@ enum ReceiveTransportKey: String {
 }
 
 class JioSocketProperty {
-    static func getCloseProducerProperty(producerId: String) -> [String: Any] {
+    
+    static func getProducerProperty(with producerId: String) -> [String: Any] {
         return [
             "producerId": producerId
         ]
     }
-    
+    static func getConsumerProperty(with consumerId: String) -> [String: Any] {
+        return [
+            "consumerId": consumerId
+        ]
+    }
+        
     static func getClosePeerLeaveProperty(peerId: String) -> [String: Any] {
         return [
             "peerId": peerId
         ]
     }
     
-    static func getConsumeProperty(producerId: String) -> [String: Any] {
+    static func getTransportProperty(with transportId: String, dtlsParameters: String) -> [String: Any] {
         return [
-            "producerId": producerId
+            SocketDataKey.transportId.rawValue: transportId,
+            SocketDataKey.dtlsParameters.rawValue: dtlsParameters.toDic()
         ]
     }
     
-    static func getResumeConsumerProperty(consumerId: String) -> [String: Any] {
+    static func getTransportProduceProperty(with transportId: String, kind: String, rtpParameters: String) -> [String: Any] {
         return [
-            "consumerId": consumerId
+            SocketDataKey.transportId.rawValue: transportId,
+            SocketDataKey.kind.rawValue: kind,
+            SocketDataKey.rtpParameters.rawValue: rtpParameters.toDic()
         ]
     }
     
-    static func getPauseAndResumerProducerProperty(producerId: String) -> [String: Any] {
-        return [
-            "producerId": producerId
-        ]
-    }
-    
+    //Priority
     static func createPreferredPriorityObject(for consumerId: String, priority: Int) -> [String: Any] {
         var consumerObject: [String: Any] = [:]
         consumerObject["consumerId"] = consumerId
