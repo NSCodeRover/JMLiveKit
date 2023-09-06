@@ -47,7 +47,6 @@ class JMManagerViewModel: NSObject{
     
     //SOCKET
     var jioSocket: JioSocket = JioSocket()
-    var socketAckHandler: (([Any]) -> ())?
     
     //MEDIA SOUP
     var device:Device?

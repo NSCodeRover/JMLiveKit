@@ -62,7 +62,7 @@ struct Peer: Codable {
     
     func encode(to encoder: Encoder) throws {}
     
-    func getConsumerId(for mediaType: JMMediaType) -> String?{
+    func getProducerId(for mediaType: JMMediaType) -> String?{
         if let objectPresent = producers.first(where: {
             mediaType == .shareScreen ? ($0.mediaType == "video" && $0.share == true) : ($0.mediaType == mediaType.rawValue) }) {
             return objectPresent.producerId

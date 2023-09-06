@@ -46,6 +46,7 @@ class JioSocketProperty {
             "producerId": producerId
         ]
     }
+    
     static func getConsumerProperty(with consumerId: String) -> [String: Any] {
         return [
             "consumerId": consumerId

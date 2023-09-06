@@ -50,7 +50,6 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        initSocketAckHandler()
         jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
     }
 }
@@ -333,7 +332,6 @@ extension JMManagerViewModel{
     
     //Remote user feeds
     func onNewConsumer(json: [String: Any]) {
-
         if let status = json[SocketDataKey.status.rawValue] as? String,
            let data = json[SocketDataKey.data.rawValue] as? [String: Any],
            status == SocketDataKey.ok.rawValue,
@@ -388,38 +386,31 @@ extension JMManagerViewModel{
 //MARK: Socket emit Producer Consumer
 extension JMManagerViewModel{
     
-    func initSocketAckHandler(){
-        socketAckHandler = { ackData in
-            if let json = self.getJson(data: ackData),let dataObj = json["data"] as? [String:Any]{
-                LOG.debug("Socket- Ack- \(dataObj)")
-            }
-        }
-    }
-    
     //Self Producer
     func socketEmitCloseProducer(for producerId: String) {
-        self.jioSocket.emit(action: .closeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
+        self.jioSocket.emit(action: .closeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
     func socketEmitPauseProducer(for producerId: String) {
-        self.jioSocket.emit(action: .pauseProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
+        self.jioSocket.emit(action: .pauseProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
     func socketEmitResumeProducer(for producerId: String) {
-        self.jioSocket.emit(action: .resumeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId), callback: socketAckHandler)
+        self.jioSocket.emit(action: .resumeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
-    //Remote consumer
+    //Remote Consumer
     func socketEmitGetConsumerInfo(for consumerId: String) {
-        self.jioSocket.emit(action: .consume, parameters: JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+        //Consume needs producerId
+        self.jioSocket.emit(action: .consume, parameters: JioSocketProperty.getProducerProperty(with: consumerId))
     }
     
     func socketEmitResumeConsumer(for consumerId: String) {
-        self.jioSocket.emit(action: .resumeConsumer, parameters: JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+        self.jioSocket.emit(action: .resumeConsumer, parameters: JioSocketProperty.getConsumerProperty(with: consumerId))
     }
     
     func socketEmitPauseConsumer(for consumerId: String) {
-        self.jioSocket.emit(action: .pauseConsumer, parameters:JioSocketProperty.getConsumerProperty(with: consumerId), callback: socketAckHandler)
+        self.jioSocket.emit(action: .pauseConsumer, parameters:JioSocketProperty.getConsumerProperty(with: consumerId))
     }
 
     //Join, Leave
@@ -617,7 +608,7 @@ extension JMManagerViewModel{
     }
     
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
-        guard let peer = peersMap[remoteId], let consumerId = peer.getConsumerId(for: mediaType)
+        guard let peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType)
         else{
             LOG.error("Subscribe- Failed - \(remoteId) \(peersMap[remoteId]?.displayName) \(mediaType) ")
             return
@@ -625,29 +616,28 @@ extension JMManagerViewModel{
         
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
-            if let consumer = consumer, consumer.producerId == consumerId{
-                LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer resumed")
+            if let consumer = consumer, consumer.producerId == producerId{
+                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer resumed")
                 consumer.resume()
                 updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
-                socketEmitResumeConsumer(for: consumerId)
+                socketEmitResumeConsumer(for: consumer.id)
             }
             else{
                 consumer?.close()
-                LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer fetch")
-                socketEmitGetConsumerInfo(for: consumerId)
+                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer fetch")
+                socketEmitGetConsumerInfo(for: producerId)
             }
         }
         else{
             if let consumer = consumer{
                 consumer.pause()
+                socketEmitPauseConsumer(for: consumer.id)
+                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer paused")
             }
             else{
                 LOG.debug("Subscribe- Consumer is nil for \(peer.displayName)")
             }
-            
-            LOG.debug("Subscribe- \(mediaType) \(consumerId) \(peer.displayName):consumer paused")
             updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
-            socketEmitPauseConsumer(for: consumerId)
         }
     }
     

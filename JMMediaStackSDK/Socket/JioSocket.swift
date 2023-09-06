@@ -133,13 +133,20 @@ class JioSocket : NSObject {
 
     func emit(action: SocketEmitAction, parameters: [String: Any]) {
         self.socket.emitWithAck(action.rawValue, parameters).timingOut(after: 5) {[weak self] data in
-            if var outerDictionary = parameters as? [String: Any],
-               let innerDictionary = outerDictionary["appData"] as? [String: Any],
-               let shareValue = innerDictionary["share"] as? Bool, shareValue {
+            
+            if let json = self?.getJson(data: data), let status = json["status"] as? String{
+                if status.lowercased() != "ok"{
+                    LOG.debug("Socket- Ack- Status:\(status) error: \(json["error"])")
+                }
+            }
+            
+            if var outerDictionary = parameters as? [String: Any],let innerDictionary = outerDictionary["appData"] as? [String: Any],let shareValue = innerDictionary["share"] as? Bool, shareValue {
+                //Screenshare producer ID workaround.
                 var datashare = self?.getJson(data: data)
                 datashare?["share"] = true
                 self?.delegate?.didEmit(event: action, data: [datashare])
-            } else {
+            }
+            else {
                 self?.delegate?.didEmit(event: action, data: data)
             }
         }
