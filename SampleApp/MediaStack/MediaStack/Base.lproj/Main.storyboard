@@ -59,7 +59,6 @@
                                 <rect key="frame" x="168.66666666666666" y="329" width="55.666666666666657" height="35"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="55.670000000000002" id="ace-5D-DCj"/>
                                     <constraint firstAttribute="height" constant="35" id="ecA-YU-913"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
@@ -79,19 +78,43 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiN-ny-kpP">
+                                <rect key="frame" x="154.33333333333334" y="455" width="84.666666666666657" height="35"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="aIQ-qG-nrA"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.down.app.fill" catalog="system" title="Prod">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="switchEnvAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ef9-dk-Su0"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Env Switch:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcb-1g-0vJ">
+                                <rect key="frame" x="59.333333333333343" y="461.66666666666669" width="90" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1lt-Lc-t2O"/>
+                            <constraint firstItem="uiN-ny-kpP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CAX-NY-pXh"/>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="CKl-5v-IdD"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ckl-jM-mGt"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="top" secondItem="Die-qw-Nuz" secondAttribute="bottom" constant="32" id="Dm7-T4-DKu"/>
+                            <constraint firstItem="uiN-ny-kpP" firstAttribute="leading" secondItem="lcb-1g-0vJ" secondAttribute="trailing" constant="5" id="HMf-0b-e2B"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="top" secondItem="VQ3-36-bfy" secondAttribute="bottom" constant="32" id="KWN-Oi-krx"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RSr-Jc-CKt"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="top" secondItem="30S-UZ-y7s" secondAttribute="bottom" constant="20" id="ZQM-H8-d9T"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="top" secondItem="zh9-3j-tbq" secondAttribute="bottom" constant="40" id="fNa-bN-s1J"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iip-BT-EfQ"/>
+                            <constraint firstItem="uiN-ny-kpP" firstAttribute="top" secondItem="WjG-7s-YUY" secondAttribute="bottom" constant="20" id="k2d-Ov-mUm"/>
+                            <constraint firstItem="lcb-1g-0vJ" firstAttribute="centerY" secondItem="uiN-ny-kpP" secondAttribute="centerY" id="l0X-Es-Suu"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="leading" secondItem="5ls-W4-C6h" secondAttribute="trailing" constant="5" id="mp6-Lm-0DF"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oxO-Cz-yqM"/>
                             <constraint firstItem="5ls-W4-C6h" firstAttribute="centerY" secondItem="WjG-7s-YUY" secondAttribute="centerY" id="rLJ-Iv-WSv"/>
@@ -99,6 +122,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="hpC-wy-fPO"/>
                     <connections>
+                        <outlet property="switchEnv" destination="uiN-ny-kpP" id="GRB-66-SFd"/>
                         <outlet property="switchHD" destination="WjG-7s-YUY" id="hF2-gM-wLA"/>
                         <outlet property="txtName" destination="30S-UZ-y7s" id="pq9-aG-RAc"/>
                         <outlet property="txtPin" destination="VQ3-36-bfy" id="bIF-dL-zfM"/>
@@ -335,6 +359,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.down.app.fill" catalog="system" width="128" height="114"/>
         <image name="camera" catalog="system" width="128" height="93"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="headphones" catalog="system" width="128" height="121"/>

@@ -10,31 +10,30 @@ import UIKit
 import UIKit
 import WebRTC
 
+var globalServerPoint: AppEnvironment = .Prod
+enum AppEnvironment: String{
+    case Prod
+    case RC
+    case Prestage
+}
+
 
 class JoinViewController: UIViewController {
     @IBOutlet weak var txtRoomId: UITextField!
     @IBOutlet weak var txtPin: UITextField!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var switchHD: UISwitch!
+    @IBOutlet weak var switchEnv: UIButton!
     private var viewModel = MeetingRoomViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         
-    #if PROD
-        //https://jiomeetpro.jio.com/shortener?meetingId=2498110346&pwd=VX9Hf
         self.txtRoomId.text = "2498110346"
         self.txtPin.text = "VX9Hf"
-    #elseif RC
-        //https://rc.jiomeet.jio.com/shortener?meetingId=6918050138&pwd=MPm1d
-        self.txtRoomId.text = "6918050138"
-        self.txtPin.text = "MPm1d"
-    #else
-        //https://prestage.jiomeet.com/join?meetingId=7330377010&pwd=Z381t
-        self.txtRoomId.text = "7330377010"//"0120967791"//
-        self.txtPin.text = "Z381t"//"k5syU"//
-    #endif
+        self.switchEnv.titleLabel?.text = globalServerPoint.rawValue
+        
         self.txtName.text = "Harsh Debug"
         addViewModelListener()
     }
@@ -51,6 +50,51 @@ class JoinViewController: UIViewController {
         }
         
         self.viewModel.handleEvent(event: .join(roomId: self.txtRoomId.text ?? "", pin: self.txtPin.text ?? "", name: self.txtName.text ?? "", isHd: switchHD.isOn))
+    }
+    
+    @IBAction func switchEnvAction(_ sender: Any) {
+        configureEnv()
+    }
+    
+    func configureEnv(){
+        
+        let env: [AppEnvironment] = [.Prod,.RC,.Prestage]
+        let actionSheet = UIAlertController(title: "Environment Switch", message: nil, preferredStyle: .actionSheet)
+        
+        for server in env{
+            let server = UIAlertAction(title: server.rawValue, style: .default) { _ in
+                self.switchEnv(server)
+            }
+            actionSheet.addAction(server)
+        }
+       
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
+        actionSheet.addAction(cancel)
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func switchEnv(_ server: AppEnvironment){
+        globalServerPoint = server
+        self.switchEnv.titleLabel?.text = server.rawValue
+        
+        switch server{
+        case .Prod:
+            self.txtRoomId.text = "2498110346"
+            self.txtPin.text = "VX9Hf"
+        case .RC:
+            self.txtRoomId.text = "6918050138"
+            self.txtPin.text = "MPm1d"
+        case .Prestage:
+            self.txtRoomId.text = "7330377010"
+            self.txtPin.text = "Z381t"
+        }
     }
 }
 

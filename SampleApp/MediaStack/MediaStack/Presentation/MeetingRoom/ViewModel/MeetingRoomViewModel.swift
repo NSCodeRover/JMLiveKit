@@ -187,6 +187,7 @@ extension MeetingRoomViewModel {
         peers = []
         isMicEnabled = false
         isCameraEnabled = false
+        client = nil
     }
 }
 
