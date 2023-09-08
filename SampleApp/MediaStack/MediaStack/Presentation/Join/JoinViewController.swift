@@ -28,6 +28,7 @@ class JoinViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled = true
         self.navigationController?.isNavigationBarHidden = false
         
         self.txtRoomId.text = "2498110346"
