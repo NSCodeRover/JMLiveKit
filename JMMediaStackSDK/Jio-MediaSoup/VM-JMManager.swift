@@ -169,6 +169,8 @@ extension JMManagerViewModel{
         }
         sendTransport?.close()
         recvTransport?.close()
+        sendTransport = nil
+        recvTransport = nil
         JMAudioDeviceManager.shared.dispose()
         JMVideoDeviceManager.shared.dispose()
         

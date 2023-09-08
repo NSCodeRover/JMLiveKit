@@ -183,9 +183,9 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketEmitPeerLeave() {
-        qJMMediaBGQueue.async {
-            self.dispose()
-        }
+//        qJMMediaBGQueue.async {
+//            self.dispose()
+//        }
     }
     
     private func handleSocketEmitStats(_ json: [String : Any]) {
