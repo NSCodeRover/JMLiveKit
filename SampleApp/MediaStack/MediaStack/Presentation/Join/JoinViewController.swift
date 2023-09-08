@@ -25,17 +25,15 @@ class JoinViewController: UIViewController {
     @IBOutlet weak var switchHD: UISwitch!
     @IBOutlet weak var switchEnv: UIButton!
     private var viewModel = MeetingRoomViewModel()
+    
+    var envDropdown: UIAlertController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isIdleTimerDisabled = true
         self.navigationController?.isNavigationBarHidden = false
         
-        self.txtRoomId.text = "2498110346"
-        self.txtPin.text = "VX9Hf"
-        self.switchEnv.titleLabel?.text = globalServerPoint.rawValue
-        
-        self.txtName.text = "Harsh Debug"
+        configureEnv()
         addViewModelListener()
     }
     
@@ -54,36 +52,40 @@ class JoinViewController: UIViewController {
     }
     
     @IBAction func switchEnvAction(_ sender: Any) {
-        configureEnv()
-    }
-    
-    func configureEnv(){
-        
-        let env: [AppEnvironment] = [.Prod,.RC,.Prestage]
-        let actionSheet = UIAlertController(title: "Environment Switch", message: nil, preferredStyle: .actionSheet)
-        
-        for server in env{
-            let server = UIAlertAction(title: server.rawValue, style: .default) { _ in
-                self.switchEnv(server)
-            }
-            actionSheet.addAction(server)
-        }
-       
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
-        actionSheet.addAction(cancel)
-        
-        if let popoverController = actionSheet.popoverPresentationController {
+        if let popoverController = envDropdown.popoverPresentationController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
             popoverController.permittedArrowDirections = []
         }
         
-        present(actionSheet, animated: true, completion: nil)
+        present(envDropdown, animated: true, completion: nil)
+    }
+    
+    func configureEnv(){
+        
+        self.txtRoomId.text = "2498110346"
+        self.txtPin.text = "VX9Hf"
+        self.switchEnv.setTitle(globalServerPoint.rawValue, for: .normal)
+        
+        self.txtName.text = "Harsh Debug"
+        
+        let env: [AppEnvironment] = [.Prod,.RC,.Prestage]
+        envDropdown = UIAlertController(title: "Environment Switch", message: nil, preferredStyle: .actionSheet)
+        
+        for server in env{
+            let server = UIAlertAction(title: server.rawValue, style: .default) { _ in
+                self.switchEnv(server)
+            }
+            envDropdown.addAction(server)
+        }
+       
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
+        envDropdown.addAction(cancel)
     }
     
     func switchEnv(_ server: AppEnvironment){
         globalServerPoint = server
-        self.switchEnv.titleLabel?.text = server.rawValue
+        self.switchEnv.setTitle(server.rawValue, for: .normal)
         
         switch server{
         case .Prod:
