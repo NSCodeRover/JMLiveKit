@@ -67,9 +67,9 @@ extension JMManagerViewModel: JioSocketDelegate {
         connectionState = state
         delegateBackToManager?.sendClientConnectionStateChanged(state: connectionState)
         
-        if connectionState == .disconnected{
+        if connectionState == .disconnected && !isCallEnded{
             //Clearing data for rejoin/leave
-            self.qJMMediaMainQueue.async {
+            self.qJMMediaBGQueue.async {
                 self.dispose()
             }
         }

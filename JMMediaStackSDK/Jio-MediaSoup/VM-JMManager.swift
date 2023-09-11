@@ -141,14 +141,46 @@ extension JMManagerViewModel{
     func onSocketConnection(data: [String: Any]){
         socketConnectedData = data
     }
-        
+    
     func dispose() {
-        LOG.debug("End- dispose")
+        LOG.debug("End- disposeComplete")
+        peersMap.forEach({
+            if let consumer = $0.value.consumerAudio{
+                consumer.close()
+                socketEmitPauseConsumer(for: consumer.id)
+            }
+            if let consumer = $0.value.consumerVideo{
+                consumer.close()
+                socketEmitPauseConsumer(for: consumer.id)
+            }
+            if let consumer = $0.value.consumerScreenShare{
+                consumer.close()
+                socketEmitPauseConsumer(for: consumer.id)
+            }
+        })
         
         totalProducers.forEach({
             $0.value.close()
             socketEmitCloseProducer(for: $0.key)
         })
+            
+        self.stopNetworkMonitor()
+        self.jioSocket.disconnectSocket()
+    }
+        
+    func disposeComplete() {
+        LOG.debug("End- disposeComplete")
+        
+        totalProducers.forEach({
+            $0.value.close()
+            socketEmitCloseProducer(for: $0.key)
+        })
+        
+        if let screenShareProducer = screenShareProducer{
+            screenShareProducer.close()
+            socketEmitCloseProducer(for: subscriptionScreenShareVideo)
+            subscriptionScreenShareVideo = ""
+        }
         
         self.jioSocket.disconnectSocket()
         self.stopNetworkMonitor()
@@ -161,14 +193,7 @@ extension JMManagerViewModel{
         
         peersMap = [:]
         subscriptionVideoList = []
-        
-        if let screenShareProducer = screenShareProducer{
-            screenShareProducer.close()
-            socketEmitCloseProducer(for: subscriptionScreenShareVideo)
-            subscriptionScreenShareVideo = ""
-        }
-        sendTransport?.close()
-        recvTransport?.close()
+       
         JMAudioDeviceManager.shared.dispose()
         JMVideoDeviceManager.shared.dispose()
         

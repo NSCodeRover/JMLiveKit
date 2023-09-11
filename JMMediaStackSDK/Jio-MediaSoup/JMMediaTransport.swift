@@ -82,17 +82,16 @@ extension JMManagerViewModel: SendTransportDelegate, ReceiveTransportDelegate{
     func onConnectionStateChange(transport: Transport, connectionState: TransportConnectionState) {
         LOG.debug("Transport- Reconnect- \(transport.id == sendTransport?.id ? "send" : "receive") onConnectionStateChange == \(connectionState)")
         
-        //MeetingEndCase
-        if connectionState == .disconnected && isCallEnded{
-            LOG.error("Transport- End- transport close")
-            
-            if transport.id == sendTransport?.id{
-                LOG.error("Transport- End- transport sent close")
-                sendTransport?.close()
+        qJMMediaBGQueue.async {
+            if connectionState == .disconnected{
+                LOG.error("Transport- End- transport closed")
+                transport.close()
+                return
             }
-            else if transport.id == recvTransport?.id{
-                LOG.error("Transport- End- transport receive close")
-                recvTransport?.close()
+            
+            if connectionState == .closed && transport.id == self.sendTransport?.id{
+                LOG.error("Transport- End- transport sent closed - stop capture")
+                self.videoCapture?.stopCapture()
             }
         }
     }

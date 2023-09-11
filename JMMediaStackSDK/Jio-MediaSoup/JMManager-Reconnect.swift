@@ -105,7 +105,6 @@ extension JMManagerViewModel{
     
     func stopNetworkMonitor(){
         networkMonitor?.cancel()
-        qJMMediaNWQueue.suspend()
         networkMonitor = nil
     }
     
