@@ -28,9 +28,9 @@ public class JMMediaEngine : NSObject{
 
 //MARK: Communicating back to Client (send data and event to client app)
 extension JMMediaEngine: delegateManager{
-    func sendRemoteNetworkQuality(score: Int, mediaType: String, isSpatialLayer: Bool) {
+    func sendRemoteNetworkQuality(id:String,quality:JMNetworkQuality,mediaType:JMMediaType) {
         vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onRemoteNetworkQuality(score: score, mediaType: mediaType, isSpatialLayer: isSpatialLayer)
+            self.delegateBackToClient?.onRemoteNetworkQuality(id: id, quality: quality, mediaType: mediaType)
         }
     }
     

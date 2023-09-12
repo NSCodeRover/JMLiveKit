@@ -254,6 +254,14 @@ extension MeetingRoomViewModel{
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
     
+    func onRemoteNetworkQuality(id: String, quality: JMMediaStackSDK.JMNetworkQuality, mediaType: JMMediaStackSDK.JMMediaType) {
+        
+    }
+    
+    func onRemoteVideoLayerChange(_ msg: [String : Any]) {
+        
+    }
+    
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)
         if user.hasScreenShare {

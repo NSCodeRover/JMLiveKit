@@ -29,7 +29,7 @@ public protocol JMMediaEngineDelegate {
     func onNetworkQuality(stats: JMNetworkStatistics)
     
     func onChannelLeft()
-    func onRemoteNetworkQuality(score:Int,mediaType:String,isSpatialLayer:Bool)
+    func onRemoteNetworkQuality(id:String,quality:JMNetworkQuality,mediaType:JMMediaType)
     func onRemoteVideoLayerChange(_ msg: [String : Any])
 }
 

@@ -333,11 +333,9 @@ extension JMManagerViewModel{
     private func handleSocketScoreChange(_ json: [String : Any]) {
         print("handleSocketScoreChange "+json.description)
         if let score = parse(json: json, model: ScoreInfo.self) {
-            let scoreNumber = score.score.score
-           let share = score.share
-            let isSpacialLayer = score.currentLayers.spatialLayer != 0
-            let mediaType = score.mediaType
-            self.delegateBackToManager?.sendRemoteNetworkQuality(score: scoreNumber, mediaType: share == 0 ? "video" : "share", isSpatialLayer: isSpacialLayer)
+            let scoreQuality:JMNetworkQuality = score.score.score <= 7 ? .Bad : .Good
+            let mediaType:JMMediaType = score.share == 0 ? .video : .shareScreen
+            self.delegateBackToManager?.sendRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
         }
     }
     
