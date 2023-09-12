@@ -146,7 +146,7 @@ public struct ScoreInfo: Codable {
     public let peerId: String
     public let producerPeerId: String
     public let score: ProducerScore
-    public let share: Int
+    public let share: Bool
     public let timeStamp: Int
 
     public enum CodingKeys: String, CodingKey {

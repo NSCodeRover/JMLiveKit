@@ -334,7 +334,7 @@ extension JMManagerViewModel{
         print("handleSocketScoreChange "+json.description)
         if let score = parse(json: json, model: ScoreInfo.self) {
             let scoreQuality:JMNetworkQuality = score.score.score <= 7 ? .Bad : .Good
-            let mediaType:JMMediaType = score.share == 0 ? .video : .shareScreen
+            let mediaType:JMMediaType = !score.share ? .video : .shareScreen
             self.delegateBackToManager?.sendRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
         }
     }
