@@ -239,11 +239,11 @@ extension JMMediaEngine{
 
 //MARK: Broadcast Message
 extension JMMediaEngine{
-    public func sendPublicMessage(_ message: [String:Any]) {
-        vm_manager.sendJMBroadcastPublicMessage(messageInfo: message)
+    public func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil) {
+        vm_manager.sendJMBroadcastPublicMessage(messageInfo: message, resultCompletion)
     }
-    public func sendPrivateMessage(_ message: [String:Any]) {
-        vm_manager.sendJMBroadcastPrivateMessage(messageInfo: message)
+    public func sendPrivateMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil) {
+        vm_manager.sendJMBroadcastPrivateMessage(messageInfo: message, resultCompletion)
     }
 }
 
@@ -314,7 +314,10 @@ extension JMMediaEngine{
         else{
             vm_manager.disableVideo()
             vm_manager.userState.selfCameraEnabled = false
-            completion?(true)
+            
+            self.vm_manager.qJMMediaMainQueue.async {
+                completion?(true)
+            }
         }
     }
     
@@ -338,7 +341,10 @@ extension JMMediaEngine{
         else{
             vm_manager.disableMic()
             vm_manager.userState.selfMicEnabled = false
-            completion?(true)
+            
+            self.vm_manager.qJMMediaMainQueue.async {
+                completion?(true)
+            }
         }
     }
 }

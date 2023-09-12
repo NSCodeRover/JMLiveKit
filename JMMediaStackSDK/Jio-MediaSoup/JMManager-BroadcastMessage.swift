@@ -14,7 +14,7 @@ public enum JMRTMMessage: String,Codable {
 
 extension JMManagerViewModel {
 
-    func sendJMBroadcastPublicMessage(messageInfo:[String: Any]){
+    func sendJMBroadcastPublicMessage(messageInfo:[String: Any],_ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
         
         let broadcastMessage: [String: Any] = [
                "eventName": SocketEmitAction.broadcastMessage.rawValue,
@@ -23,21 +23,37 @@ extension JMManagerViewModel {
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: .broadcastMessage, parameters:broadcastMessage){ _ in }
+        self.jioSocket.emit(action: .broadcastMessage, parameters:broadcastMessage){ [weak self] data in
+            self?.handleAck(with: data, resultCompletion)
+        }
     }
     
-    func sendJMBroadcastPrivateMessage(messageInfo:[String: Any]){
+    func sendJMBroadcastPrivateMessage(messageInfo:[String: Any],_ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
         let broadcastMessage: [String: Any] = [
                "eventName": SocketEmitAction.broadcastMessageToPeer.rawValue,
                "timeStamp":  Date().timeIntervalSince1970 * 1000,
-               "peerId": userState.selfUserName,
+               "peerId": userState.selfPeerId,
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ _ in }
+        self.jioSocket.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ [weak self] data in
+            self?.handleAck(with: data, resultCompletion)
+        }
     }
     
-    func createMessageInfo(message: String, senderName: String, senderParticipantId: String) -> [String: Any] {
+    func handleAck(with data: [Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
+        if let json = self.getJson(data: data), let status = json["status"] as? String{
+            qJMMediaMainQueue.async {
+                resultCompletion?(status.lowercased() == "ok")
+            }
+            
+            if status.lowercased() != "ok"{
+                LOG.debug("Socket- RTM- Ack- Status:\(status) error: \(json["error"])")
+            }
+        }
+    }
+    
+    func createMessageInfo(message: String, senderName: String, senderParticipantId: String,_ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil) -> [String: Any] {
         let messageInfo: [String: Any] = [
             "message": message,
             "reactionsType": "",
