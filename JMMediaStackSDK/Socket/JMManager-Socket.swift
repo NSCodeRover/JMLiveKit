@@ -377,7 +377,7 @@ extension JMManagerViewModel{
             
             LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")
             if !result{
-                delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .remoteVideoStreamFailed, description: remoteId))
+                delegateBackToManager?.sendClientError(error: JMMediaError.init(type: getStreamingError(for: jmMediaType), description: remoteId))
             }
         }
     }
@@ -609,7 +609,7 @@ extension JMManagerViewModel{
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
         guard let peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType)
         else{
-            LOG.error("Subscribe- Failed - \(remoteId) \(peersMap[remoteId]?.displayName) \(mediaType) ")
+            LOG.error("Subscribe- \(peersMap[remoteId]?.displayName) not producing. remoteid-\(remoteId) \(mediaType) ")
             return
         }
         

@@ -333,6 +333,17 @@ extension JMManagerViewModel{
         LOG.debug("Device- iceTransportPolicy to All")
         return false
     }
+    
+    func getStreamingError(for mediaType: JMMediaType) -> JMMediaErrorType{
+        switch mediaType {
+        case .audio:
+            return JMMediaErrorType.remoteAudioStreamFailed
+        case .video:
+            return JMMediaErrorType.remoteVideoStreamFailed
+        case .shareScreen:
+            return JMMediaErrorType.remoteScreenShareStreamFailed
+        }
+    }
 }
 
 //MARK: Peer to UserInfo Mapping
@@ -390,5 +401,17 @@ extension JMManagerViewModel{
         let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
         self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
         return Array(peersMap.values)
+    }
+    
+    func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            let decoder = JSONDecoder()
+            let model = try? decoder.decode(model.self, from: data)
+            return model
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
     }
 }

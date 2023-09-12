@@ -69,12 +69,15 @@ public enum JMMediaErrorType: String{
     case cameraNotAvailable
     case videoDeviceNotSupported
     
-    case remoteVideoStreamFailed
-    
     //Audio
     case audioDeviceNotAvailable
     case audioSetDeviceFailed
     case audioStartFailed
+    
+    //Remote Stream
+    case remoteVideoStreamFailed
+    case remoteAudioStreamFailed
+    case remoteScreenShareStreamFailed
 }
 
 public enum JMMediaQuality: Int{

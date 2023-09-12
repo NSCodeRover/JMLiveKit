@@ -205,14 +205,4 @@ extension Dictionary {
     }
 }
 
-func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
-    do {
-        let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-        let decoder = JSONDecoder()
-        let model = try? decoder.decode(model.self, from: data)
-        return model
-    } catch {
-        print(error.localizedDescription)
-    }
-    return nil
-}
+
