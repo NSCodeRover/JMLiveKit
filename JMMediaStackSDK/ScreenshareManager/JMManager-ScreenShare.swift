@@ -215,26 +215,12 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     }
     
     private func bindScreenShareRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
-        let scrollView = UIScrollView(frame: renderView.bounds)
-        let remoteView = RTCMTLVideoView(frame: renderView.bounds)
+        let remoteView = RTCMTLVideoView()
         rtcVideoTrack.add(remoteView)
         rtcVideoTrack.isEnabled = true
-        scrollView.addSubview(remoteView)
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 4.0
-        scrollView.isUserInteractionEnabled = true
-        remoteView.isUserInteractionEnabled = true
-        renderView.addSubview(scrollView)
+        renderView.addSubview(remoteView)
+        renderView.contentMode = .scaleAspectFit
+        setConstrainsts(of: remoteView, toView: renderView)
         return renderView
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        for subview in scrollView.subviews {
-            if let remoteView = subview as? RTCMTLVideoView {
-                return remoteView
-            }
-        }
-        return nil
     }
 }
