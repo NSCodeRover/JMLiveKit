@@ -169,7 +169,7 @@ extension JMManagerViewModel{
             self.addPeerIfalreadyJoinMeetingRoom(json: json).forEach {
                 self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))
                 
-                if let audioConsumer = $0.producers.first(where: { $0.mediaType == "audio" }){
+                if let audioConsumer = $0.producers.first(where: { $0.mediaType == .audio }){
                     self.socketEmitGetConsumerInfo(for: audioConsumer.producerId)
                 }
             }
@@ -222,13 +222,13 @@ extension JMManagerViewModel{
                 let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaType.lowercased() == "video" ? .video : .audio
                 
                 if event == .newProducer{
-                    self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: mediaType, isScreenShareEnabled: isScreenShareEnabled)
+                    self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: jmMediaType)
                 }
                 else if event == .producerEnd{
                     self.endProducer(for: remoteId, mediaType: jmMediaType)
                 }
                 
-                self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: mediaType, event: event, isScreenShareEnabled: isScreenShareEnabled)
+                self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
             }
         }
     }
@@ -476,23 +476,22 @@ extension JMManagerViewModel{
 //MARK: Producer updation : Socket
 extension JMManagerViewModel{
         
-    func onProducerUpdate(_ producerId: String, remoteId: String, mediaType: String, event: SocketEvent, isScreenShareEnabled: Bool = false) {
-        
-        let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaType == "video" ? .video : .audio
-        if isVideoFeedDisable(jmMediaType){
+    func onProducerUpdate(_ producerId: String, remoteId: String, mediaType: JMMediaType, event: SocketEvent) {
+
+        if isVideoFeedDisable(mediaType){
             //IGNORE updating video for AudioOnly
             return
         }
         
         let mediaStateEnabled = (event == .resumedProducer || event == .newProducer) ? true : false
-        if jmMediaType == .video{
+        if mediaType == .video{
             if subscriptionVideoList.contains(remoteId){
                 LOG.debug("Subscribe- already in subscribed list. Fetching details...")
-                feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: jmMediaType)
+                feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
             }
         }
         else{
-            feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: jmMediaType)
+            feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
         }
     }
 }
@@ -562,9 +561,9 @@ extension JMManagerViewModel{
         peersMap[remoteId] = updatedPeer
     }
     
-    func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: String, isScreenShareEnabled: Bool){
+    func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: JMMediaType){
         if var updatedPeer = self.peersMap[remoteId] {
-            if let objectPresentAtIndex = updatedPeer.producers.firstIndex(where: { isScreenShareEnabled ? ($0.mediaType == "video" && $0.share == true) : ($0.mediaType == mediaType) })
+            if let objectPresentAtIndex = updatedPeer.producers.firstIndex(where: { $0.mediaType == mediaType })
             {
                 LOG.debug("Subscribe- pid updated \(updatedPeer.displayName)")
                 var updatedProducer = updatedPeer.producers[objectPresentAtIndex]
@@ -573,7 +572,7 @@ extension JMManagerViewModel{
             }
             else{
                 LOG.debug("Subscribe- new pid updated \(updatedPeer.displayName)")
-                let producer = PeerProducer(mediaType: mediaType, producerId: producerId, share: isScreenShareEnabled, paused: false)
+                let producer = PeerProducer(mediaType: mediaType, producerId: producerId, paused: false)
                 updatedPeer.producers.append(producer)
             }
             peersMap[remoteId] = updatedPeer
@@ -635,7 +634,7 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer paused")
             }
             else{
-                LOG.debug("Subscribe- Consumer is nil for \(peer.displayName)")
+                LOG.debug("Subscribe- Not an issue. Consumer is nil for \(peer.displayName)")
             }
             updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
         }

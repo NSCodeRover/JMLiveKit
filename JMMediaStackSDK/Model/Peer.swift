@@ -46,10 +46,9 @@ struct Peer: Codable {
         producers = try values.decodeIfPresent([PeerProducer].self, forKey: .producers) ?? []
         
         for producer in producers{
-            let jmMediaType: JMMediaType = producer.share ? .shareScreen : producer.mediaType == "video" ? .video : .audio
             let isEnable = !producer.paused
             
-            switch jmMediaType{
+            switch producer.mediaType{
             case .audio:
                 isAudioEnabled = isEnable
             case .video:
@@ -63,8 +62,7 @@ struct Peer: Codable {
     func encode(to encoder: Encoder) throws {}
     
     func getProducerId(for mediaType: JMMediaType) -> String?{
-        if let objectPresent = producers.first(where: {
-            mediaType == .shareScreen ? ($0.mediaType == "video" && $0.share == true) : ($0.mediaType == mediaType.rawValue) }) {
+        if let objectPresent = producers.first(where: { $0.mediaType == mediaType }) {
             return objectPresent.producerId
         }
         return nil
@@ -85,7 +83,7 @@ struct Peer: Codable {
 }
 
 public struct PeerProducer: Codable {
-    public var mediaType: String
+    public var mediaType: JMMediaType
     public var producerId: String
     public var share: Bool
     public var paused: Bool
@@ -97,19 +95,33 @@ public struct PeerProducer: Codable {
         case paused
     }
     
-    init(mediaType: String,producerId:String,share:Bool,paused:Bool){
+    init(mediaType: JMMediaType,producerId:String,paused:Bool){
         self.mediaType = mediaType
         self.producerId = producerId
-        self.share = share
+        self.share = mediaType == .shareScreen ? true : false
         self.paused = paused
     }
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        mediaType = try values.decodeIfPresent(String.self, forKey: .mediaType) ?? ""
         producerId = try values.decodeIfPresent(String.self, forKey: .producerId) ?? ""
         share = try values.decodeIfPresent(Bool.self, forKey: .share) ?? false
         paused = try values.decodeIfPresent(Bool.self, forKey: .paused) ?? false
+        
+        let serverMediaType = try values.decodeIfPresent(String.self, forKey: .mediaType)?.lowercased() ?? ""
+        if serverMediaType == "video" && share{
+            mediaType = .shareScreen
+        }
+        else if serverMediaType == "video"{
+            mediaType = .video
+        }
+        else if serverMediaType == "audio"{
+            mediaType = .audio
+        }
+        else{
+            mediaType = .audio
+            LOG.error("Data- Set audio Producer \(producerId) \(share) \(values)")
+        }
     }
     
     public func encode(to encoder: Encoder) throws {}
