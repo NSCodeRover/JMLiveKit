@@ -112,3 +112,103 @@ extension JMManagerViewModel {
    }
     
 }
+
+
+public struct ScoreData: Codable {
+    public let type: Int
+    public let data: ScoreDataDetails
+    public let id: Int
+    public let placeholders: Int
+    public let nsp: String
+
+    public enum CodingKeys: String, CodingKey {
+        case type
+        case data
+        case id
+        case placeholders
+        case nsp = "namespace"
+    }
+}
+
+public struct ScoreDataDetails: Codable {
+    public let score: ScoreInfo
+
+    public enum CodingKeys: String, CodingKey {
+        case score
+    }
+}
+
+public struct ScoreInfo: Codable {
+    public let consumerId: String
+    public let currentLayers: CurrentLayers
+    public let eventName: String
+    public let mediaType: String
+    public let peerId: String
+    public let producerPeerId: String
+    public let score: ProducerScore
+    public let share: Int
+    public let timeStamp: Int
+
+    public enum CodingKeys: String, CodingKey {
+        case consumerId
+        case currentLayers
+        case eventName
+        case mediaType
+        case peerId
+        case producerPeerId
+        case score
+        case share
+        case timeStamp
+    }
+}
+
+public struct CurrentLayers: Codable {
+    public let spatialLayer: Int
+    public let temporalLayer: Int
+
+    public enum CodingKeys: String, CodingKey {
+        case spatialLayer
+        case temporalLayer
+    }
+}
+
+public struct ProducerScore: Codable {
+    public let producerScore: Int
+    public let producerScores: [Int]
+    public let score: Int
+
+    public enum CodingKeys: String, CodingKey {
+        case producerScore
+        case producerScores
+        case score
+    }
+}
+
+struct LayersChangeData: Codable {
+    let type: String
+    let data: LayersChangeDetails
+}
+
+struct LayersChangeDetails: Codable {
+    let eventName: String
+    let peerId: String
+    let producerPeerId: String
+    let eventEmitterPeerId: String
+    let consumerId: String
+    let mediaType: String
+    let share: Bool
+    let layers: Layers
+    let score: Score
+    let timeStamp: Int
+}
+
+struct Layers: Codable {
+    let spatialLayer: Int
+    let temporalLayer: Int
+}
+
+struct Score: Codable {
+    let producerScore: Int
+    let producerScores: [Int]
+    let score: Int
+}

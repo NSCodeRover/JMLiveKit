@@ -29,6 +29,8 @@ public protocol JMMediaEngineDelegate {
     func onNetworkQuality(stats: JMNetworkStatistics)
     
     func onChannelLeft()
+    func onRemoteNetworkQuality(score:Int,mediaType:String,isSpatialLayer:Bool)
+    func onRemoteVideoLayerChange(_ msg: [String : Any])
 }
 
 //Note: Optional callbacks - All methods mentioned below will become optional.
