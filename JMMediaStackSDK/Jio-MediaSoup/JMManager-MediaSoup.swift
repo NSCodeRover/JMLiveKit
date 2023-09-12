@@ -20,6 +20,7 @@ extension JMManagerViewModel{
             let device = Device()
             handleMediaSoupErrors("Device-") {
                 
+                /*
                 if let transportConfigurationObject = getReceiveTransport(),
                     let iceServers = getIceServer(fromReceiveTransport: transportConfigurationObject)
                 {
@@ -31,6 +32,9 @@ extension JMManagerViewModel{
                     LOG.debug("Device- Default version")
                     try device.load(with: rtpCapabilities)
                 }
+                */
+                
+                try device.load(with: rtpCapabilities)
                 
                 let canProduceAudio = try device.canProduce(.audio)
                 let canProduceVideo = try device.canProduce(.video)

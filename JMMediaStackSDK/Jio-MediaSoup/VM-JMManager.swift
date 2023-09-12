@@ -318,15 +318,19 @@ extension JMManagerViewModel{
     func getIceServer(fromReceiveTransport receiveTransport: [String:Any]) -> String? {
         if let object = receiveTransport[ReceiveTransportKey.iceServers.rawValue] as? [[String: Any]] {
             let json:JSON = JSON(object)
+            LOG.debug("Device- Custom version with ice servers")
             return json.description
         }
+        LOG.debug("Device- Default version")
         return nil
     }
     
     func isRelayTransportPolicy(fromReceiveTransport receiveTransport: [String:Any]) -> Bool {
         if let iceTransportPolicy = receiveTransport[ReceiveTransportKey.iceTransportPolicy.rawValue] as? String {
+            LOG.debug("Device- iceTransportPolicy to Relay")
             return iceTransportPolicy.lowercased() == "relay"
         }
+        LOG.debug("Device- iceTransportPolicy to All")
         return false
     }
 }

@@ -23,7 +23,10 @@ extension JMManagerViewModel {
                 iceCandidates: tuple.iceCandidates,
                 dtlsParameters: tuple.dtlsParameters,
                 sctpParameters: nil,
-                appData: nil)
+                iceServers: tuple.iceServers,
+                iceTransportPolicy: tuple.isRelayTransportPolicy ? .relay : .all,
+                appData: nil
+            )
         }
         return sendTransport
     }
@@ -37,23 +40,26 @@ extension JMManagerViewModel {
                 id: tuple.id,
                 iceParameters: tuple.iceParameters,
                 iceCandidates: tuple.iceCandidates,
-                dtlsParameters: tuple.dtlsParameters)
-            
+                dtlsParameters: tuple.dtlsParameters,
+                iceServers: tuple.iceServers,
+                iceTransportPolicy: tuple.isRelayTransportPolicy ? .relay : .all
+            )
         }
         return receiveTransport
     }
     
-    private func getTransportParameters(json: [String: Any], socketIp: String) -> (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String) {
+    private func getTransportParameters(json: [String: Any], socketIp: String) -> (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String, iceServers: String?, isRelayTransportPolicy: Bool) {
         let id = json.strValue("id")
         let iceParameters = JSON(json.dictionary(SocketDataKey.iceParameters.rawValue)).description
-        var iceCandidatesArray = json.array(SocketDataKey.iceCandidates.rawValue)
-        if var first = iceCandidatesArray.first{
-            first["ip"] = socketIp
-            iceCandidatesArray[0] = first
-        }
+        let iceCandidatesArray = json.array(SocketDataKey.iceCandidates.rawValue)
         let iceCandidates = JSON(iceCandidatesArray).description
         let dtlsParameters = JSON(json.dictionary(SocketDataKey.dtlsParameters.rawValue)).description
-        let tuple: (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String) = (id: id, iceParameters: iceParameters, iceCandidates: iceCandidates, dtlsParameters: dtlsParameters)
+        
+        let iceServers = getIceServer(fromReceiveTransport: json)
+        let isRelayTransportPolicy = isRelayTransportPolicy(fromReceiveTransport: json)
+        
+        let tuple: (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String, iceServers: String?, isRelayTransportPolicy: Bool) = (id: id, iceParameters: iceParameters, iceCandidates: iceCandidates, dtlsParameters: dtlsParameters,iceServers: iceServers, isRelayTransportPolicy: isRelayTransportPolicy)
+            
         return tuple
     }
 }

@@ -7,6 +7,7 @@
 
 @class ReceiveTransportWrapper;
 @class SendTransportWrapper;
+typedef NS_ENUM(NSInteger, RTCIceTransportPolicy);
 
 
 @interface DeviceWrapper : NSObject
@@ -17,11 +18,6 @@
 	error:(out NSError *__autoreleasing _Nullable *_Nullable)error
 	__attribute__((swift_error(nonnull_error)))
 	NS_SWIFT_NAME (load(with:));
-
-- (void)loadWithRouterRTPCapabilities:(NSString *_Nonnull)routerRTPCapabilities peerConnectionOptions:(NSString *_Nonnull)peerConnectionOptions isRelayTransportPolicy:(BOOL)isRelayTransportPolicy
-    error:(out NSError *__autoreleasing  _Nullable *_Nullable)error
-    __attribute__((swift_error(nonnull_error)))
-    NS_SWIFT_NAME (load(routerRTPCapabilities:peerConnectionOptions:isRelayTransportPolicy:));
 
 - (NSString *_Nullable)sctpCapabilitiesWithError
 	:(out NSError *__autoreleasing _Nullable *_Nullable)error;
@@ -38,6 +34,8 @@
 	iceCandidates:(NSString *_Nonnull)iceCandidates
 	dtlsParameters:(NSString *_Nonnull)dtlsParameters
 	sctpParameters:(NSString *_Nullable)sctpParameters
+	iceServers:(NSString *_Nullable)iceServers
+	iceTransportPolicy:(RTCIceTransportPolicy)iceTransportPolicy
 	appData:(NSString *_Nullable)appData
 	error:(out NSError *__autoreleasing _Nullable *_Nullable)error;
 
@@ -46,6 +44,8 @@
 	iceCandidates:(NSString *_Nonnull)iceCandidates
 	dtlsParameters:(NSString *_Nonnull)dtlsParameters
 	sctpParameters:(NSString *_Nullable)sctpParameters
+	iceServers:(NSString *_Nullable)iceServers
+	iceTransportPolicy:(RTCIceTransportPolicy)iceTransportPolicy
 	appData:(NSString *_Nullable)appData
 	error:(out NSError *__autoreleasing _Nullable *_Nullable)error;
 
