@@ -186,10 +186,8 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     func removeRemoteShareViews(_ view: UIView?) {
         qJMMediaMainQueue.async {
             if let remoteShareView = view{
-                for subview in remoteShareView.subviews where subview is UIScrollView {
-                    for subviewRtc in subview.subviews where subviewRtc is RTCMTLVideoView {
-                        subviewRtc.removeFromSuperview()
-                    }
+                for subviewRtc in remoteShareView.subviews where subviewRtc is RTCMTLVideoView {
+                    subviewRtc.removeFromSuperview()
                 }
             }
         }
