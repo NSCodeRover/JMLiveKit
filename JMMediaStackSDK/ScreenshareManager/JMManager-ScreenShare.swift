@@ -218,6 +218,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     private func bindScreenShareRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
         let remoteView = RTCMTLVideoView()
         rtcVideoTrack.add(remoteView)
+        remoteView.videoContentMode = .scaleAspectFit
         rtcVideoTrack.isEnabled = true
         renderView.addSubview(remoteView)
         renderView.contentMode = .scaleAspectFit
