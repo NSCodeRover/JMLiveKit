@@ -258,6 +258,10 @@ extension JMManagerViewModel{
             qJMMediaMainQueue.async {
                 for subview in renderView.subviews where subview is RTCMTLVideoView{
                     subview.removeFromSuperview()
+                    
+                    if let previousVideo = subview as? RTCMTLVideoView{
+                        rtcVideoTrack.remove(previousVideo)
+                    }
                 }
                 updatedPeer.remoteView = self.bindRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             }
