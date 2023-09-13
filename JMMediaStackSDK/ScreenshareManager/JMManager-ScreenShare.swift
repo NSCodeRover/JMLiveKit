@@ -40,8 +40,8 @@ extension JMManagerViewModel{
     }
     
     func screenShareStop(){
-        if let producerId = screenShareProducerID as? String{
-            socketScreenShareCloseProducer(producerId: producerId)
+        if userState.selfScreenShareEnabled{
+            socketScreenShareCloseProducer(producerId: userState.selfScreenShareProducerId)
         }
     }
     
@@ -143,13 +143,16 @@ extension JMManagerViewModel{
     public func updateStopScreenShare(error:String = "") {
         LOG.debug("ScreenShare- stop with error \(error)")
         wormholeBufferListener.stopListeningForMessage(withIdentifier:  JMScreenShareManager.MediaSoupScreenShareId)
-        socketEmitCloseProducer(for: screenShareProducerID)
+        
+        if userState.selfScreenShareEnabled{
+            socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
+        }
         screenShareProducer = nil
     }
     
     public func handleAudioOnlyModeForScreenShare() {
-       if !subscriptionScreenShareVideo.isEmpty {
-           feedHandler(!isAudioOnlyModeEnabled, remoteId: subscriptionScreenShareVideo, mediaType: .shareScreen)
+        if userState.remoteScreenShareEnabled {
+            feedHandler(!isAudioOnlyModeEnabled, remoteId: userState.remoteScreenShareRemoteId, mediaType: .shareScreen)
        }
    }
 }

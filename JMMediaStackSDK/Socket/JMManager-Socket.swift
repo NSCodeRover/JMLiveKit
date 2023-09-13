@@ -206,7 +206,7 @@ extension JMManagerViewModel{
         if let share = json["share"] as? Bool, share {
             if let data = json["data"] as? [String: Any] {
                 if let id = data["id"] as? String {
-                    self.screenShareProducerID = id
+                    self.userState.enableSelfScreenShare(producerId: id)
                 }
             }
         }
@@ -549,7 +549,6 @@ extension JMManagerViewModel{
             updatedPeer.consumerScreenShare = nil
             removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
-            subscriptionScreenShareVideo = ""
             
             userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
@@ -652,10 +651,6 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- removed \(remoteId)")
                 subscriptionVideoList.removeAll(where: {$0 == remoteId})
             }
-        }
-        else if mediaType == .shareScreen {
-            LOG.debug("Subscribe- updated screenshare \(remoteId)")
-            subscriptionScreenShareVideo = remoteId
         }
     }
 }

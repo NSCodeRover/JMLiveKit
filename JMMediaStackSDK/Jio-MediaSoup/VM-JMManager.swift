@@ -88,10 +88,6 @@ class JMManagerViewModel: NSObject{
     var peersMap:[String:Peer] = [:]
     var subscriptionVideoList: [String] = []
     
-    //ScreenShare producer
-    var subscriptionScreenShareVideo: String = ""
-    var screenShareProducerID = ""
-    
     //AudioOnly
     var isAudioOnlyModeEnabled: Bool = false
     
@@ -178,8 +174,10 @@ extension JMManagerViewModel{
         
         if let screenShareProducer = screenShareProducer{
             screenShareProducer.close()
-            socketEmitCloseProducer(for: subscriptionScreenShareVideo)
-            subscriptionScreenShareVideo = ""
+            
+            if userState.selfScreenShareEnabled{
+                socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
+            }
         }
         
         self.jioSocket.disconnectSocket()
