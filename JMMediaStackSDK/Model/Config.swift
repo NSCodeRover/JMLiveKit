@@ -28,7 +28,9 @@ public enum JMMediaType: String {
 }
 
 var JioMediaStackDefaultCameraCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1280,height:720,fps:15)
-let JioMediaStackDefaultScreenShareCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1920,height:1080,fps:5)
+
+//Overriding this at JMManager-Screenshare - func getDeviceResolution
+var JioMediaStackDefaultScreenShareCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1920,height:1080,fps:5)
 
 enum JioMediaStackAudioCodec: String{
     case opusStereo

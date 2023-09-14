@@ -58,8 +58,9 @@ extension JMManagerViewModel{
             return
         }
         
-        //Commented cause this crops the frame. 
-//        screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.width, height: JioMediaStackDefaultScreenShareCaptureResolution.height, fps: JioMediaStackDefaultScreenShareCaptureResolution.fps)
+        getDeviceResolution()
+        screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.width, height: JioMediaStackDefaultScreenShareCaptureResolution.height, fps: JioMediaStackDefaultScreenShareCaptureResolution.fps)
+        
         videoSourceScreenCapture = RTCVideoCapturer(delegate: screenShareSource)
     
         videoTrackScreen = self.peerConnectionFactory?.videoTrack(with: screenShareSource, trackId: JioMediaId.screenShareTrackId)
@@ -189,6 +190,20 @@ extension JMManagerViewModel{
             LOG.debug("ScreenShare- Ignore rotation \(orientation)")
             break
         }
+    }
+    
+    func getDeviceResolution(){
+        let screenSize = UIScreen.main.bounds.size
+        
+        //FUTURE REF
+//        let screenScale = UIScreen.main.scale
+//        let screenWidthPixels = screenSize.width * screenScale
+//        let screenHeightPixels = screenSize.height * screenScale
+//        LOG.debug("ScreenShare- Screen size (Pixels) with scale \(screenScale): \(screenWidthPixels)*\(screenHeightPixels)")
+
+        LOG.debug("ScreenShare- Screen size (Points): \(screenSize.width)*\(screenSize.height)")
+        JioMediaStackDefaultScreenShareCaptureResolution.width = Int32(screenSize.width)
+        JioMediaStackDefaultScreenShareCaptureResolution.height = Int32(screenSize.height)
     }
 }
 
