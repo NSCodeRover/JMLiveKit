@@ -213,6 +213,7 @@ extension JMMediaEngine{
     
     public func enableAudioOnlyMode(_ flag: Bool, includeScreenShare: Bool = true) {
         vm_manager.enableAudioOnlyMode(flag, includeScreenShare: includeScreenShare)
+        self.handleAudioOnlyForSelfCamera(flag)
     }
 }
 
@@ -295,6 +296,23 @@ extension JMMediaEngine{
         if vm_manager.userState.selfCameraEnabled{
             LOG.debug("AVVideoDevice- PARTICIPANT_BACKGROUND_INACTIVATED")
             vm_manager.sendJMBroadcastPublicMessage(messageInfo: vm_manager.createMessageInfo(message: JMRTMMessage.PARTICIPANT_BACKGROUND_INACTIVATED.rawValue, senderName: vm_manager.userState.selfUserName, senderParticipantId: vm_manager.userState.selfPeerId))
+        }
+    }
+    
+    internal func handleAudioOnlyForSelfCamera(_ enable: Bool){
+        if enable{
+            if vm_manager.userState.selfCameraEnabled{
+                LOG.info("Video- AudioOnly- \(enable) | self camera turning OFF.")
+                vm_manager.userState.selfCameraForceOff = true
+                handleVideo(false)
+            }
+        }
+        else{
+            if vm_manager.userState.selfCameraForceOff{
+                vm_manager.userState.selfCameraForceOff = false
+                LOG.info("Video- AudioOnly- \(enable) | self camera turning ON.")
+                handleVideo(true)
+            }
         }
     }
     
