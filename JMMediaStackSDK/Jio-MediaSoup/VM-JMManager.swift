@@ -73,6 +73,7 @@ class JMManagerViewModel: NSObject{
     var videoTrackScreen:RTCVideoTrack?
     var videoSourceScreen:RTCVideoSource!
     var videoSourceScreenCapture:RTCVideoCapturer?
+    var screenShareFrameRotation:RTCVideoRotation = ._0
         
     //Transport
     var sendTransport:SendTransport?
