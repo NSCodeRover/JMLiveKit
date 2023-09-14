@@ -136,7 +136,7 @@ class JioSocket : NSObject {
             
             if let json = self?.getJson(data: data), let status = json["status"] as? String{
                 if status.lowercased() != "ok"{
-                    LOG.debug("Socket- Ack- Status:\(status) error: \(json["error"])")
+                    LOG.debug("Socket- Ack- Event-\(action.rawValue) Status:\(status) error: \(json["error"])")
                 }
             }
             

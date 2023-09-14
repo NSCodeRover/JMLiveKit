@@ -40,8 +40,8 @@ extension JMManagerViewModel{
     }
     
     func screenShareStop(){
-        if let producerId = screenShareProducerID as? String{
-            socketScreenShareCloseProducer(producerId: producerId)
+        if userState.selfScreenShareEnabled{
+            socketScreenShareCloseProducer(producerId: userState.selfScreenShareProducerId)
         }
     }
     
@@ -143,13 +143,16 @@ extension JMManagerViewModel{
     public func updateStopScreenShare(error:String = "") {
         LOG.debug("ScreenShare- stop with error \(error)")
         wormholeBufferListener.stopListeningForMessage(withIdentifier:  JMScreenShareManager.MediaSoupScreenShareId)
-        socketEmitCloseProducer(for: screenShareProducerID)
+        
+        if userState.selfScreenShareEnabled{
+            socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
+        }
         screenShareProducer = nil
     }
     
     public func handleAudioOnlyModeForScreenShare() {
-       if !subscriptionScreenShareVideo.isEmpty {
-           feedHandler(!isAudioOnlyModeEnabled, remoteId: subscriptionScreenShareVideo, mediaType: .shareScreen)
+        if userState.remoteScreenShareEnabled {
+            feedHandler(!isAudioOnlyModeEnabled, remoteId: userState.remoteScreenShareRemoteId, mediaType: .shareScreen)
        }
    }
 }
@@ -183,10 +186,8 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     func removeRemoteShareViews(_ view: UIView?) {
         qJMMediaMainQueue.async {
             if let remoteShareView = view{
-                for subview in remoteShareView.subviews where subview is UIScrollView {
-                    for subviewRtc in subview.subviews where subviewRtc is RTCMTLVideoView {
-                        subviewRtc.removeFromSuperview()
-                    }
+                for subviewRtc in remoteShareView.subviews where subviewRtc is RTCMTLVideoView {
+                    subviewRtc.removeFromSuperview()
                 }
             }
         }
@@ -215,26 +216,13 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     }
     
     private func bindScreenShareRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{
-        let scrollView = UIScrollView(frame: renderView.bounds)
-        let remoteView = RTCMTLVideoView(frame: renderView.bounds)
+        let remoteView = RTCMTLVideoView()
         rtcVideoTrack.add(remoteView)
+        remoteView.videoContentMode = .scaleAspectFit
         rtcVideoTrack.isEnabled = true
-        scrollView.addSubview(remoteView)
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 4.0
-        scrollView.isUserInteractionEnabled = true
-        remoteView.isUserInteractionEnabled = true
-        renderView.addSubview(scrollView)
+        renderView.addSubview(remoteView)
+        renderView.contentMode = .scaleAspectFit
+        setConstrainsts(of: remoteView, toView: renderView)
         return renderView
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        for subview in scrollView.subviews {
-            if let remoteView = subview as? RTCMTLVideoView {
-                return remoteView
-            }
-        }
-        return nil
     }
 }

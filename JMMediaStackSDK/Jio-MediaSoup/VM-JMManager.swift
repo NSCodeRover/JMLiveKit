@@ -92,20 +92,12 @@ class JMManagerViewModel: NSObject{
     var peersMap:[String:Peer] = [:]
     var subscriptionVideoList: [String] = []
     
-    //ScreenShare producer
-    var subscriptionScreenShareVideo: String = ""
-    var screenShareProducerID = ""
-    
     //AudioOnly
     var isAudioOnlyModeEnabled: Bool = false
     
     var totalProducers:[String:Producer] = [:]
     var totalVideoConsumer:[String:String] = [:]
     var currentMediaQualityPreference: JMMediaQuality = .high
-        
-    //TODO: need to remove this hardcoding.
-    let width = 1170
-    let height = 2532
     
     var isCallEnded: Bool = false
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
@@ -147,7 +139,7 @@ extension JMManagerViewModel{
     }
     
     func dispose() {
-        LOG.debug("End- disposeComplete")
+        LOG.debug("End- dispose")
         peersMap.forEach({
             if let consumer = $0.value.consumerAudio{
                 consumer.close()
@@ -171,7 +163,8 @@ extension JMManagerViewModel{
         self.stopNetworkMonitor()
         self.jioSocket.disconnectSocket()
     }
-        
+      
+    //NOT IN USE
     func disposeComplete() {
         LOG.debug("End- disposeComplete")
         
@@ -182,8 +175,10 @@ extension JMManagerViewModel{
         
         if let screenShareProducer = screenShareProducer{
             screenShareProducer.close()
-            socketEmitCloseProducer(for: subscriptionScreenShareVideo)
-            subscriptionScreenShareVideo = ""
+            
+            if userState.selfScreenShareEnabled{
+                socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
+            }
         }
         
         self.jioSocket.disconnectSocket()

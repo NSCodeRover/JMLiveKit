@@ -132,6 +132,11 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func socketEmitSetPreferredPriority(for consumerIds: [String], priority: Int) {
+        
+        if consumerIds.isEmpty{
+            return
+        }
+        
         let consumerObjects = consumerIds.map{ JioSocketProperty.createPreferredPriorityObject(for: $0, priority: priority) }
         self.jioSocket.emit(action: .setConsumersPreferedLayersNPriorities, parameters: JioSocketProperty.getPreferredPriorityProperty(consumerObjects: consumerObjects))
     }

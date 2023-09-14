@@ -16,6 +16,7 @@ class LocalState{
     //Self States
     var selfMicEnabled: Bool = false
     var selfCameraEnabled: Bool = false
+    var selfCameraForceOff: Bool = false
     
     //TODO: Producer
 //    var producerVideo: Producer?
@@ -38,7 +39,7 @@ class LocalState{
     //Remote ScreenShare
     private(set) var remoteScreenShareEnabled: Bool = false
     private(set) var remoteScreenShareRemoteId: String = ""
-    private(set) var remoteScreenShareConsumerId: String = ""
+    private(set) var remoteScreenShareConsumerId: String = "" //Not in use
     
     func enableRemoteScreenShare(for remoteId: String, consumerId: String){
         self.remoteScreenShareEnabled = true
