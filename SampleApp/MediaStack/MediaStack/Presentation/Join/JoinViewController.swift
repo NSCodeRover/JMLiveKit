@@ -95,8 +95,8 @@ class JoinViewController: UIViewController {
             self.txtRoomId.text = "6918050138"
             self.txtPin.text = "MPm1d"
         case .Prestage:
-            self.txtRoomId.text = "7566620752"//"7330377010"
-            self.txtPin.text = "7VdHg"//"Z381t"
+            self.txtRoomId.text = "7330377010"
+            self.txtPin.text = "Z381t"
         }
     }
 }

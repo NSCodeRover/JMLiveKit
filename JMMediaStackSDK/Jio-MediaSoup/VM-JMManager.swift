@@ -94,10 +94,6 @@ class JMManagerViewModel: NSObject{
     var totalProducers:[String:Producer] = [:]
     var totalVideoConsumer:[String:String] = [:]
     var currentMediaQualityPreference: JMMediaQuality = .high
-        
-    //TODO: need to remove this hardcoding.
-    let width = 1170
-    let height = 2532
     
     var isCallEnded: Bool = false
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
@@ -139,7 +135,7 @@ extension JMManagerViewModel{
     }
     
     func dispose() {
-        LOG.debug("End- disposeComplete")
+        LOG.debug("End- dispose")
         peersMap.forEach({
             if let consumer = $0.value.consumerAudio{
                 consumer.close()
@@ -163,7 +159,8 @@ extension JMManagerViewModel{
         self.stopNetworkMonitor()
         self.jioSocket.disconnectSocket()
     }
-        
+      
+    //NOT IN USE
     func disposeComplete() {
         LOG.debug("End- disposeComplete")
         
