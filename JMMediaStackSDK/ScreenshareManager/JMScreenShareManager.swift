@@ -3,29 +3,17 @@ import AVFoundation
 import MMWormhole
 
 public class JMScreenShareManager {
-    static let wormhole = MMWormhole(applicationGroupIdentifier: appGroupIdentifierEX, optionalDirectory: "wormhole")
+    static var wormhole = MMWormhole(applicationGroupIdentifier: appId, optionalDirectory: "wormhole")
     public static var MediaSoupScreenShareId = "MediaSoupScreenShare"
     public static var ScreenShareState = "ScreenShareState"
     
-    public static var appGroupIdentifier: String {
-        get {
-            let id = Bundle.main.bundleIdentifier!
-            return "group.\(id)"
+    public static var appId: String = "group.\(Bundle.main.bundleIdentifier!)"
+    {
+        didSet{
+            wormhole = MMWormhole(applicationGroupIdentifier: appId, optionalDirectory: "wormhole")
         }
     }
     
-    public static var appGroupIdentifierEX: String {
-         get {
-             let id = Bundle.main.bundleIdentifier!
-             if let range = id.range(of: ".", options: .backwards) {
-                 let updatedString = String(id[..<range.lowerBound])
-                 let finalString = "group.\(updatedString)"
-                 return finalString
-             }
-             return "group.\(id)"
-         }
-    }
-
     public static func sendSampleBuffer(_ sampleBuffer: CMSampleBuffer) {
         if let dataSample = convertSampleBufferToImageData(sampleBuffer: sampleBuffer) {
             let timestamp = Int64(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).value) * 1000

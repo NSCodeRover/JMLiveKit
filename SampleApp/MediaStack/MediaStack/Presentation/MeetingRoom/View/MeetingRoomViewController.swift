@@ -11,7 +11,14 @@ import ReplayKit
 import JMMediaStackSDK
 import MMWormhole
 
-let screenShareStateExtensionListener = MMWormhole(applicationGroupIdentifier:JMScreenShareManager.appGroupIdentifier, optionalDirectory: "wormhole")
+public var appGroupIdentifier: String {
+    get {
+        let appId = Bundle.main.bundleIdentifier!
+        return "group.\(appId)"
+    }
+}
+let screenShareStateExtensionListener = MMWormhole(applicationGroupIdentifier:appGroupIdentifier, optionalDirectory: "wormhole")
+
 class MeetingRoomViewController: UIViewController {
     @IBOutlet var localVideoView: UIView!
     @IBOutlet weak var remoteVideoBGView: UIView!
