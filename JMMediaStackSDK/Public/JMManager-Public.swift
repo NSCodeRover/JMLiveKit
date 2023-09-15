@@ -67,7 +67,8 @@ protocol JMMediaEngineAbstract{
     func subscribeFeed(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType)
     func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality)
     
-    func enableAudioOnlyMode(_ flag: Bool, includeScreenShare: Bool)
+    //AudioOnly - userList will only be used while disable audio only mode.
+    func enableAudioOnlyMode(_ flag: Bool, userList: [String], includeScreenShare: Bool)
     
     //Screenshare
     func setupShareVideo(_ view: UIView, remoteId: String)

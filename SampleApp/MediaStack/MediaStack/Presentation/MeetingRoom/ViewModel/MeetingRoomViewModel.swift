@@ -94,7 +94,15 @@ extension MeetingRoomViewModel {
             
         case .audioOnly(let enabled):
             self.isAudioOnly = enabled
-            self.client.enableAudioOnlyMode(enabled,includeScreenShare: false)
+            
+            if enabled{
+                self.client.enableAudioOnlyMode(enabled,includeScreenShare: false)
+            }
+            else{
+                let ids = peers.map { $0.userId }
+                self.client.enableAudioOnlyMode(enabled,userList: ids,includeScreenShare: false)
+            }
+            
             
             //Screenshare subscribe/unsubscribe testing (one user only)
 //            self.client.subscribeFeed(!enabled, remoteId: peers.first!.userId, mediaType: .shareScreen)
