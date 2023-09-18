@@ -88,6 +88,7 @@ extension JMManagerViewModel: SendTransportDelegate, ReceiveTransportDelegate{
     func onConnectionStateChange(transport: Transport, connectionState: TransportConnectionState) {
         LOG.debug("Transport- Reconnect- \(transport.id == sendTransport?.id ? "send" : "receive") onConnectionStateChange == \(connectionState)")
         
+        /*
         qJMMediaBGQueue.async {
             if connectionState == .disconnected{
                 LOG.error("Transport- End- transport closed")
@@ -100,6 +101,7 @@ extension JMManagerViewModel: SendTransportDelegate, ReceiveTransportDelegate{
                 self.videoCapture?.stopCapture()
             }
         }
+        */
     }
 }
 

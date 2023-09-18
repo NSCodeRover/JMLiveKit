@@ -152,13 +152,16 @@ extension JMManagerViewModel{
             }
         })
         
+        videoCapture?.stopCapture()
         totalProducers.forEach({
-            $0.value.close()
-            socketEmitCloseProducer(for: $0.key)
+            if !$0.value.closed{
+                $0.value.close()
+                socketEmitCloseProducer(for: $0.key)
+            }
         })
             
-        self.stopNetworkMonitor()
         self.jioSocket.disconnectSocket()
+        self.stopNetworkMonitor()
     }
       
     //NOT IN USE
