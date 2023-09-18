@@ -153,6 +153,7 @@ extension JMManagerViewModel{
             socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
         }
         screenShareProducer = nil
+        userState.disableSelfScreenShare()
     }
     
     public func handleAudioOnlyModeForScreenShare() {
