@@ -30,6 +30,7 @@ extension JMManagerViewModel{
     }
     
     func screenShareStart(){
+        addOrientationObserver()
         qJMMediaBGQueue.async {
             wormholeBufferListener.listenForMessage(withIdentifier: JMScreenShareManager.MediaSoupScreenShareId, listener: { (messageObject) -> Void in
                 if let messageBuffer = messageObject as? [String:Any]{
@@ -40,6 +41,7 @@ extension JMManagerViewModel{
     }
     
     func screenShareStop(){
+        removeOrientationObserver()
         if userState.selfScreenShareEnabled{
             socketScreenShareCloseProducer(producerId: userState.selfScreenShareProducerId)
         }
@@ -55,7 +57,10 @@ extension JMManagerViewModel{
             LOG.error("ScreenShare- source nil")
             return
         }
+        
+        getDeviceResolution()
         screenShareSource.adaptOutputFormat(toWidth: JioMediaStackDefaultScreenShareCaptureResolution.width, height: JioMediaStackDefaultScreenShareCaptureResolution.height, fps: JioMediaStackDefaultScreenShareCaptureResolution.fps)
+        
         videoSourceScreenCapture = RTCVideoCapturer(delegate: screenShareSource)
     
         videoTrackScreen = self.peerConnectionFactory?.videoTrack(with: screenShareSource, trackId: JioMediaId.screenShareTrackId)
@@ -131,7 +136,7 @@ extension JMManagerViewModel{
         CVPixelBufferUnlockBaseAddress(unwrappedPixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
 
         let rtcPixelBuffer = RTCCVPixelBuffer(pixelBuffer: unwrappedPixelBuffer)
-        let rtcVideoFrame = RTCVideoFrame(buffer: rtcPixelBuffer, rotation: RTCVideoRotation._0, timeStampNs: timeStamp)
+        let rtcVideoFrame = RTCVideoFrame(buffer: rtcPixelBuffer, rotation: screenShareFrameRotation, timeStampNs: timeStamp)
         return rtcVideoFrame
     }
     
@@ -148,6 +153,7 @@ extension JMManagerViewModel{
             socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
         }
         screenShareProducer = nil
+        userState.disableSelfScreenShare()
     }
     
     public func handleAudioOnlyModeForScreenShare() {
@@ -155,6 +161,51 @@ extension JMManagerViewModel{
             feedHandler(!isAudioOnlyModeEnabled, remoteId: userState.remoteScreenShareRemoteId, mediaType: .shareScreen)
        }
    }
+}
+
+extension JMManagerViewModel{
+    func addOrientationObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    func removeOrientationObserver(){
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func orientationChanged() {
+        let orientation = UIDevice.current.orientation
+        switch orientation {
+        case .portrait:
+            screenShareFrameRotation = ._0
+            LOG.debug("ScreenShare- Rotation changed to portrait (0)")
+        case .portraitUpsideDown:
+            screenShareFrameRotation = ._180
+            LOG.debug("ScreenShare- Rotation changed to portraitUpsideDown (180)")
+        case .landscapeLeft:
+            screenShareFrameRotation = ._270
+            LOG.debug("ScreenShare- Rotation changed to landscapeLeft (270)")
+        case .landscapeRight:
+            screenShareFrameRotation = ._90
+            LOG.debug("ScreenShare- Rotation changed to landscapeRight (90)")
+        default:
+            LOG.debug("ScreenShare- Ignore rotation \(orientation)")
+            break
+        }
+    }
+    
+    func getDeviceResolution(){
+        let screenSize = UIScreen.main.bounds.size
+        
+        //FUTURE REF
+//        let screenScale = UIScreen.main.scale
+//        let screenWidthPixels = screenSize.width * screenScale
+//        let screenHeightPixels = screenSize.height * screenScale
+//        LOG.debug("ScreenShare- Screen size (Pixels) with scale \(screenScale): \(screenWidthPixels)*\(screenHeightPixels)")
+
+        LOG.debug("ScreenShare- Screen size (Points): \(screenSize.width)*\(screenSize.height)")
+        JioMediaStackDefaultScreenShareCaptureResolution.width = Int32(screenSize.width)
+        JioMediaStackDefaultScreenShareCaptureResolution.height = Int32(screenSize.height)
+    }
 }
 
 //MARK: ScreenShare

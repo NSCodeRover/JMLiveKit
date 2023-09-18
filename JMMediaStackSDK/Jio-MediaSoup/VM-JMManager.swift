@@ -77,6 +77,7 @@ class JMManagerViewModel: NSObject{
     var videoTrackScreen:RTCVideoTrack?
     var videoSourceScreen:RTCVideoSource!
     var videoSourceScreenCapture:RTCVideoCapturer?
+    var screenShareFrameRotation:RTCVideoRotation = ._0
         
     //Transport
     var sendTransport:SendTransport?
@@ -141,27 +142,30 @@ extension JMManagerViewModel{
     func dispose() {
         LOG.debug("End- dispose")
         peersMap.forEach({
-            if let consumer = $0.value.consumerAudio{
+            if let consumer = $0.value.consumerAudio, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-            if let consumer = $0.value.consumerVideo{
+            if let consumer = $0.value.consumerVideo, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-            if let consumer = $0.value.consumerScreenShare{
+            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
         })
         
+        videoCapture?.stopCapture()
         totalProducers.forEach({
-            $0.value.close()
-            socketEmitCloseProducer(for: $0.key)
+            if !$0.value.closed{
+                $0.value.close()
+                socketEmitCloseProducer(for: $0.key)
+            }
         })
             
-        self.stopNetworkMonitor()
         self.jioSocket.disconnectSocket()
+        self.stopNetworkMonitor()
     }
       
     //NOT IN USE

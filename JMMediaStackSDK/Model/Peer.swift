@@ -12,6 +12,7 @@ struct Peer: Codable {
     public var consumerAudio: Consumer?
     public var consumerVideo: Consumer?
     public var consumerScreenShare: Consumer?
+    var consumerQueue: [JMMediaType:Bool] = [:]
     
     public var producers: [PeerProducer]
     public var isAudioEnabled: Bool = false

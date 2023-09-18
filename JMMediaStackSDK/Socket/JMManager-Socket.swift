@@ -518,6 +518,8 @@ extension JMManagerViewModel{
     
     func updatePeerMediaConsumer(_ consumer: Consumer?, remoteId: String, mediaType: JMMediaType){
         if var updatedPeer = self.peersMap[remoteId] {
+            updatedPeer.consumerQueue.removeValue(forKey: mediaType)
+            
             if mediaType == .audio{
                 updatedPeer.consumerAudio = consumer
             }
@@ -623,7 +625,7 @@ extension JMManagerViewModel{
     }
     
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
-        guard let peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType)
+        guard var peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType)
         else{
             LOG.error("Subscribe- \(peersMap[remoteId]?.displayName) not producing. remoteid-\(remoteId) \(mediaType) ")
             return
@@ -638,9 +640,14 @@ extension JMManagerViewModel{
                 socketEmitResumeConsumer(for: consumer.id)
             }
             else{
-                consumer?.close()
-                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer fetch")
-                socketEmitGetConsumerInfo(for: producerId)
+                if peer.consumerQueue[mediaType] == nil{
+                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer fetch")
+                    socketEmitGetConsumerInfo(for: producerId)
+                    
+                    //Adding to queue
+                    peer.consumerQueue[mediaType] = true
+                    peersMap[remoteId] = peer
+                }
             }
         }
         else{

@@ -222,8 +222,8 @@ extension JMMediaEngine{
         vm_manager.setPreferredFeedQuality(remoteId: remoteId, preferredQuality: preferredQuality)
     }
     
-    public func enableAudioOnlyMode(_ flag: Bool, includeScreenShare: Bool = true) {
-        vm_manager.enableAudioOnlyMode(flag, includeScreenShare: includeScreenShare)
+    public func enableAudioOnlyMode(_ flag: Bool, userList: [String] = [], includeScreenShare: Bool = true) {
+        vm_manager.enableAudioOnlyMode(flag, userList: userList , includeScreenShare: includeScreenShare)
         self.handleAudioOnlyForSelfCamera(flag)
     }
 }
