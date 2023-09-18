@@ -138,15 +138,15 @@ extension JMManagerViewModel{
     func dispose() {
         LOG.debug("End- dispose")
         peersMap.forEach({
-            if let consumer = $0.value.consumerAudio{
+            if let consumer = $0.value.consumerAudio, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-            if let consumer = $0.value.consumerVideo{
+            if let consumer = $0.value.consumerVideo, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-            if let consumer = $0.value.consumerScreenShare{
+            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
