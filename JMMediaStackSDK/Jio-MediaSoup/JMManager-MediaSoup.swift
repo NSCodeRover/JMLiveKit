@@ -50,7 +50,7 @@ extension JMManagerViewModel{
                 }
                 
                 self.device = device
-                self.jioSocket.emit(action: .join, parameters: getRoomConfiguration())
+                self.jioSocket?.emit(action: .join, parameters: getRoomConfiguration())
             }
         }
     }
@@ -364,50 +364,63 @@ extension JMManagerViewModel {
     }
     
     func disposeVideoAudioTrack() {
-        if self.peerConnectionFactory != nil {
-            self.peerConnectionFactory = nil
-        }
         
-        if self.mediaStream != nil {
-            self.mediaStream?.audioTracks.forEach({ mediaStream?.removeAudioTrack($0) })
-            self.mediaStream?.videoTracks.forEach({ mediaStream?.removeVideoTrack($0) })
-            self.mediaStream = nil
-        }
-        
-        if self.mediaStreamScreenCapture != nil {
-            self.mediaStreamScreenCapture?.audioTracks.forEach({ mediaStream?.removeAudioTrack($0) })
-            self.mediaStreamScreenCapture?.videoTracks.forEach({ mediaStream?.removeVideoTrack($0) })
-            self.mediaStreamScreenCapture = nil
-        }
-        
+        //Audio
         if let track = self.audioTrack {
             track.isEnabled = false
             self.audioTrack = nil
         }
         
-        audioProducer?.close()
         if self.audioProducer != nil {
             audioProducer = nil
         }
-                
+        
+        //Video
+        videoCapture?.stopCapture()
+        if videoCapture != nil{
+            self.videoCapture = nil
+        }
+        
+        if videoSource != nil{
+            self.videoSource = nil
+        }
+             
         if let track = self.videoTrack {
             track.isEnabled = false
             self.videoTrack = nil
         }
         
-        videoProducer?.close()
         if self.videoProducer != nil {
             videoProducer = nil
         }
         
+        //Screenshare
         if let track = self.videoTrackScreen {
             track.isEnabled = false
             self.videoTrackScreen = nil
         }
         
-        screenShareProducer?.close()
         if self.screenShareProducer != nil {
             screenShareProducer = nil
+        }
+        
+        //Stream
+        if self.mediaStream != nil {
+            self.mediaStream = nil
+        }
+        
+        if self.mediaStreamScreenCapture != nil {
+            self.mediaStreamScreenCapture = nil
+        }
+        
+        //ConnectionFactory
+        if self.peerConnectionFactory != nil {
+            self.peerConnectionFactory = nil
+        }
+        
+        //Device
+        if self.device != nil{
+            self.device = nil
         }
     }
 }
@@ -422,14 +435,14 @@ extension JMManagerViewModel{
     
     private func onCreateSendTransport() {
         if let json = self.getDataOf(key: SocketDataKey.sendTransport.rawValue, dictionary: self.socketConnectedData) {
-            self.sendTransport = self.createSendTransport(json: json, device: self.device, socketIp: self.jioSocket.getSocketIp())
+            self.sendTransport = self.createSendTransport(json: json, device: self.device)
             self.sendTransport?.delegate = self
         }
     }
     
     private func onCreateRecvTransport(){
         if let json = self.getDataOf(key: SocketDataKey.receiveTransport.rawValue, dictionary: self.socketConnectedData) {
-            self.recvTransport = self.createReceiveTransport(json: json, device: self.device, socketIp: self.jioSocket.getSocketIp())
+            self.recvTransport = self.createReceiveTransport(json: json, device: self.device)
             self.recvTransport?.delegate = self
         }
     }

@@ -86,6 +86,10 @@ class JMVideoDeviceManager: NSObject{
     }
     
     func dispose(){
+        delegateToManager = nil
+        isDevicePreferenceIsSet = false
+        userSelectedDevice = nil
+        
         NotificationCenter.default.removeObserver(self, name: .AVCaptureSessionWasInterrupted, object: nil)
         NotificationCenter.default.removeObserver(self, name: .AVCaptureSessionInterruptionEnded, object: nil)
         NotificationCenter.default.removeObserver(self, name: .AVCaptureSessionRuntimeError, object: nil)

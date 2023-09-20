@@ -23,7 +23,7 @@ extension JMManagerViewModel {
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: .broadcastMessage, parameters:broadcastMessage){ [weak self] data in
+        self.jioSocket?.emit(action: .broadcastMessage, parameters:broadcastMessage){ [weak self] data in
             self?.handleAck(with: data, resultCompletion)
         }
     }
@@ -36,7 +36,7 @@ extension JMManagerViewModel {
                "msgData": messageInfo
            ]
         
-        self.jioSocket.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ [weak self] data in
+        self.jioSocket?.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ [weak self] data in
             self?.handleAck(with: data, resultCompletion)
         }
     }

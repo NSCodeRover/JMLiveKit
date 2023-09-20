@@ -50,7 +50,7 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        jioSocket.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
+        jioSocket?.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
     }
 }
 
@@ -236,7 +236,7 @@ extension JMManagerViewModel{
     private func handleSocketSelfPeerConnected(_ json: [String : Any]) {
         if let peerId = json[SocketDataKey.peerId.rawValue] as? String {
             self.userState.selfPeerId = peerId
-            self.jioSocket.updateConfig(peerId)
+            self.jioSocket?.updateConfig(peerId)
             
             self.delegateBackToManager?.sendClientJoinSocketSuccess(selfId: peerId)
         }
@@ -388,39 +388,39 @@ extension JMManagerViewModel{
     
     //Self Producer
     func socketEmitCloseProducer(for producerId: String) {
-        self.jioSocket.emit(action: .closeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
+        self.jioSocket?.emit(action: .closeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
     func socketEmitPauseProducer(for producerId: String) {
-        self.jioSocket.emit(action: .pauseProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
+        self.jioSocket?.emit(action: .pauseProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
     func socketEmitResumeProducer(for producerId: String) {
-        self.jioSocket.emit(action: .resumeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
+        self.jioSocket?.emit(action: .resumeProducer, parameters: JioSocketProperty.getProducerProperty(with: producerId))
     }
     
     //Remote Consumer
     func socketEmitGetConsumerInfo(for consumerId: String) {
         //Consume needs producerId
-        self.jioSocket.emit(action: .consume, parameters: JioSocketProperty.getProducerProperty(with: consumerId))
+        self.jioSocket?.emit(action: .consume, parameters: JioSocketProperty.getProducerProperty(with: consumerId))
     }
     
     func socketEmitResumeConsumer(for consumerId: String) {
-        self.jioSocket.emit(action: .resumeConsumer, parameters: JioSocketProperty.getConsumerProperty(with: consumerId))
+        self.jioSocket?.emit(action: .resumeConsumer, parameters: JioSocketProperty.getConsumerProperty(with: consumerId))
     }
     
     func socketEmitPauseConsumer(for consumerId: String) {
-        self.jioSocket.emit(action: .pauseConsumer, parameters:JioSocketProperty.getConsumerProperty(with: consumerId))
+        self.jioSocket?.emit(action: .pauseConsumer, parameters:JioSocketProperty.getConsumerProperty(with: consumerId))
     }
 
     //Join, Leave
     func socketEmitSelfPeerLeave() {
-        self.jioSocket.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
+        self.jioSocket?.emit(action: .peerLeave, parameters: JioSocketProperty.getClosePeerLeaveProperty(peerId: self.userState.selfPeerId))
     }
     
     //Transportstats
     func socketEmitSetTransportStats() {
-        self.jioSocket.emit(action: .getTransportStats , parameters: transportStatsParam)
+        self.jioSocket?.emit(action: .getTransportStats , parameters: transportStatsParam)
     }
     
 }
@@ -434,7 +434,7 @@ extension JMManagerViewModel{
             return
         }
         
-        self.jioSocket.getSocket().emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
+        self.jioSocket?.getSocket().emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
             
             if let json = self.getJson(data: data) {
                 LOG.debug("Socket- Transport- Ack- Emit Webrtc json == \(json)")
@@ -452,11 +452,11 @@ extension JMManagerViewModel{
         
         if appData == JioMediaAppData.screenShareAppData{
             parameters[SocketDataKey.appData.rawValue] = ["share":true]
-            self.jioSocket.emit(action: .produce, parameters: parameters)
+            self.jioSocket?.emit(action: .produce, parameters: parameters)
             handler?("ID not found")
         }
         else {
-            self.jioSocket.getSocket().emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
+            self.jioSocket?.getSocket().emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
                 if let json = self.getJson(data: data),
                    let dataObj = json["data"] as? [String:Any],
                    let id = dataObj["id"] as? String {

@@ -46,7 +46,7 @@ class JMManagerViewModel: NSObject{
     var userState = LocalState()
     
     //SOCKET
-    var jioSocket: JioSocket = JioSocket()
+    var jioSocket: JioSocket?
     
     //MEDIA SOUP
     var device:Device?
@@ -97,8 +97,8 @@ class JMManagerViewModel: NSObject{
     var currentMediaQualityPreference: JMMediaQuality = .high
     
     var isCallEnded: Bool = false
-    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
-    let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .background)
+    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .default)
+    let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
     var connectionState: JMSocketConnectionState = .connecting
@@ -112,6 +112,7 @@ class JMManagerViewModel: NSObject{
         
         self.delegateBackToManager = delegate
         self.mediaOptions = mediaOptions
+        self.jioSocket = JioSocket()
         //self.setupConfig()
         self.startNetworkMonitor()
     }
@@ -137,6 +138,7 @@ extension JMManagerViewModel{
     
     func dispose() {
         LOG.debug("End- dispose")
+        
         peersMap.forEach({
             if let consumer = $0.value.consumerAudio, !consumer.closed{
                 consumer.close()
@@ -152,55 +154,26 @@ extension JMManagerViewModel{
             }
         })
         
-        videoCapture?.stopCapture()
         totalProducers.forEach({
             if !$0.value.closed{
                 $0.value.close()
                 socketEmitCloseProducer(for: $0.key)
             }
         })
-            
-        self.jioSocket.disconnectSocket()
-        self.stopNetworkMonitor()
-    }
-      
-    //NOT IN USE
-    func disposeComplete() {
-        LOG.debug("End- disposeComplete")
-        
-        totalProducers.forEach({
-            $0.value.close()
-            socketEmitCloseProducer(for: $0.key)
-        })
-        
-        if let screenShareProducer = screenShareProducer{
-            screenShareProducer.close()
-            
-            if userState.selfScreenShareEnabled{
-                socketEmitCloseProducer(for: userState.selfScreenShareProducerId)
-            }
-        }
-        
-        self.jioSocket.disconnectSocket()
-        self.stopNetworkMonitor()
-        
-        peersMap.forEach({
-            $0.value.consumerAudio?.close()
-            $0.value.consumerVideo?.close()
-            $0.value.consumerScreenShare?.close()
-        })
         
         peersMap = [:]
         subscriptionVideoList = []
-       
-        JMAudioDeviceManager.shared.dispose()
-        JMVideoDeviceManager.shared.dispose()
+        totalProducers = [:]
+        totalVideoConsumer = [:]
         
         self.disposeVideoAudioTrack()
+        JMAudioDeviceManager.shared.dispose()
+        JMVideoDeviceManager.shared.dispose()
+            
+        self.jioSocket?.disconnectSocket()
+        self.jioSocket = nil
         
-        if device != nil{
-            device = nil
-        }
+        self.stopNetworkMonitor()
     }
 }
 

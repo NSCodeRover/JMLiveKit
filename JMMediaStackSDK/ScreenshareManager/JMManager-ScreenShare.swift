@@ -215,7 +215,7 @@ extension JMManagerViewModel{
     func socketScreenShareCloseProducer(producerId: String) {
         var parameters = JioSocketProperty.getProducerProperty(with: producerId)
         parameters[SocketDataKey.appData.rawValue] = ["share":true]
-        self.jioSocket.emit(action: .closeProducer, parameters: parameters)
+        self.jioSocket?.emit(action: .closeProducer, parameters: parameters)
     }
     func socketScreenShareResumeProducer(producerId: String) {
         //TODO: future scope

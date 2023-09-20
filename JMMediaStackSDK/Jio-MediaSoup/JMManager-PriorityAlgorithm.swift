@@ -138,11 +138,11 @@ extension JMManagerViewModel{
         }
         
         let consumerObjects = consumerIds.map{ JioSocketProperty.createPreferredPriorityObject(for: $0, priority: priority) }
-        self.jioSocket.emit(action: .setConsumersPreferedLayersNPriorities, parameters: JioSocketProperty.getPreferredPriorityProperty(consumerObjects: consumerObjects))
+        self.jioSocket?.emit(action: .setConsumersPreferedLayersNPriorities, parameters: JioSocketProperty.getPreferredPriorityProperty(consumerObjects: consumerObjects))
     }
     
     fileprivate func socketEmitSetPreferredLayer(for consumerId: String, spatialLayer: Int, temporalLayer: Int) {
-        self.jioSocket.emit(action: .setConsumerPreferredLayers, parameters: JioSocketProperty.getPreferredLayerProperty(consumerId: consumerId, spatialLayer: spatialLayer, temporalLayer: temporalLayer))
+        self.jioSocket?.emit(action: .setConsumerPreferredLayers, parameters: JioSocketProperty.getPreferredLayerProperty(consumerId: consumerId, spatialLayer: spatialLayer, temporalLayer: temporalLayer))
     }
 }
 

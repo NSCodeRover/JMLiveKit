@@ -109,7 +109,11 @@ class JioSocket : NSObject {
     
     func disconnectSocket() {
         manager?.disconnect()
+        socket.disconnect()
+        manager = nil
+        socket = nil
     }
+    
     func getReconnect(){
         manager?.reconnect()
     }

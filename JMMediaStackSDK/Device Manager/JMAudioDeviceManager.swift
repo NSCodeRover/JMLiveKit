@@ -85,10 +85,13 @@ class JMAudioDeviceManager: NSObject {
     }
     
     func dispose(){
+        delegateToManager = nil
+        isDevicePreferenceIsSet = false
+        userSelectedDevice = nil
+        
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        isDevicePreferenceIsSet = false
     }
 }
 

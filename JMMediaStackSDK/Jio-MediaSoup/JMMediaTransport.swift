@@ -12,11 +12,11 @@ import Mediasoup
 
 extension JMManagerViewModel {
     
-    func createSendTransport(json: [String: Any], device: Device?, socketIp: String) -> SendTransport? {
+    func createSendTransport(json: [String: Any], device: Device?) -> SendTransport? {
         
         var sendTransport: SendTransport? = nil
         handleMediaSoupErrors("Transport- Send-"){
-            let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
+            let tuple = self.getTransportParameters(json: json)
             sendTransport = try device?.createSendTransport(
                 id: tuple.id,
                 iceParameters: tuple.iceParameters,
@@ -31,11 +31,11 @@ extension JMManagerViewModel {
         return sendTransport
     }
         
-    func createReceiveTransport(json: [String: Any], device: Device?, socketIp: String) -> ReceiveTransport? {
+    func createReceiveTransport(json: [String: Any], device: Device?) -> ReceiveTransport? {
         
         var receiveTransport: ReceiveTransport? = nil
         handleMediaSoupErrors("Transport- Receive-"){
-            let tuple = self.getTransportParameters(json: json, socketIp: socketIp)
+            let tuple = self.getTransportParameters(json: json)
             receiveTransport = try device?.createReceiveTransport(
                 id: tuple.id,
                 iceParameters: tuple.iceParameters,
@@ -48,7 +48,7 @@ extension JMManagerViewModel {
         return receiveTransport
     }
     
-    private func getTransportParameters(json: [String: Any], socketIp: String) -> (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String, iceServers: String?, isRelayTransportPolicy: Bool) {
+    private func getTransportParameters(json: [String: Any]) -> (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String, iceServers: String?, isRelayTransportPolicy: Bool) {
         let id = json.strValue("id")
         let iceParameters = JSON(json.dictionary(SocketDataKey.iceParameters.rawValue)).description
         let iceCandidatesArray = json.array(SocketDataKey.iceCandidates.rawValue)

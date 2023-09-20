@@ -77,7 +77,7 @@ extension JMManagerViewModel{
     
     func restartIce(restartData: [String: Any]) {
         LOG.debug("Reconnect- emit restartIce \(restartData.description)")
-        jioSocket.emit(action: .restartIce, parameters:restartData)
+        jioSocket?.emit(action: .restartIce, parameters:restartData)
     }
 }
 

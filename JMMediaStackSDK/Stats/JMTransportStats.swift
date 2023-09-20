@@ -78,7 +78,7 @@ extension JMManagerViewModel {
     
     private func scheduleTask() {
         self.socketEmitSetTransportStats()
-        if sendTransport == nil || recvTransport == nil{
+        if sendTransport == nil || recvTransport == nil || isCallEnded{
             return
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [weak self] in
