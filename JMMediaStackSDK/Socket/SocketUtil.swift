@@ -41,6 +41,13 @@ enum ReceiveTransportKey: String {
 
 class JioSocketProperty {
     
+    static func getConsumerProperty(with producerId: String, remoteId: String) -> [String: Any] {
+        return [
+            "producerId": producerId,
+            "producerPeerId": remoteId
+        ]
+    }
+    
     static func getProducerProperty(with producerId: String) -> [String: Any] {
         return [
             "producerId": producerId

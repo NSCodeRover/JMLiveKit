@@ -170,7 +170,7 @@ extension JMManagerViewModel{
                 self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))
                 
                 if let audioConsumer = $0.producers.first(where: { $0.mediaType == .audio }){
-                    self.socketEmitGetConsumerInfo(for: audioConsumer.producerId)
+                    self.socketEmitGetConsumerInfo(for: $0.peerId, consumerId: audioConsumer.producerId)
                 }
             }
         }
@@ -400,9 +400,9 @@ extension JMManagerViewModel{
     }
     
     //Remote Consumer
-    func socketEmitGetConsumerInfo(for consumerId: String) {
+    func socketEmitGetConsumerInfo(for peerId: String, consumerId: String) {
         //Consume needs producerId
-        self.jioSocket?.emit(action: .consume, parameters: JioSocketProperty.getProducerProperty(with: consumerId))
+        self.jioSocket?.emit(action: .consume, parameters: JioSocketProperty.getConsumerProperty(with: consumerId, remoteId: peerId))
     }
     
     func socketEmitResumeConsumer(for consumerId: String) {
@@ -625,7 +625,7 @@ extension JMManagerViewModel{
             else{
                 if peer.consumerQueue[mediaType] == nil{
                     LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer fetch")
-                    socketEmitGetConsumerInfo(for: producerId)
+                    socketEmitGetConsumerInfo(for: remoteId, consumerId: producerId)
                     
                     //Adding to queue
                     peer.consumerQueue[mediaType] = true
