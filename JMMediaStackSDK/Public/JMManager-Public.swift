@@ -72,7 +72,7 @@ protocol JMMediaEngineAbstract{
     
     //Screenshare
     func setupShareVideo(_ view: UIView, remoteId: String)
-    func startScreenShare()
+    func startScreenShare(with appId: String)
     func stopScreenShare(error: String)
     
     func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)

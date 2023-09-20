@@ -230,8 +230,8 @@ extension JMMediaEngine{
     public func setupShareVideo(_ view: UIView, remoteId: String) {
         vm_manager.addRemoteScreenShareRenderView(view,remoteId: remoteId)
     }
-    public func startScreenShare() {
-        vm_manager.updateStartScreenShare()
+    public func startScreenShare(with appId: String) {
+        vm_manager.updateStartScreenShare(with: appId)
     }
     public func stopScreenShare(error: String = "") {
         vm_manager.updateStopScreenShare(error: error)

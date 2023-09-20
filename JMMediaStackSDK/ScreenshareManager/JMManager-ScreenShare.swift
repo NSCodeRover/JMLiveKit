@@ -10,7 +10,7 @@ import Foundation
 import MMWormhole
 import WebRTC
 
-let wormholeBufferListener = MMWormhole(applicationGroupIdentifier: JMScreenShareManager.appGroupIdentifier, optionalDirectory: "wormhole")
+var wormholeBufferListener: MMWormhole?
 extension JMManagerViewModel{
     
      func setSampleBufferwithTimestamp(_ messageObject: [String:Any]) {
@@ -29,10 +29,12 @@ extension JMManagerViewModel{
         }
     }
     
-    func screenShareStart(){
+    func screenShareStart(with appId: String){
         addOrientationObserver()
+        
+        wormholeBufferListener = MMWormhole(applicationGroupIdentifier: appId,optionalDirectory: "wormhole")
         qJMMediaBGQueue.async {
-            wormholeBufferListener.listenForMessage(withIdentifier: JMScreenShareManager.MediaSoupScreenShareId, listener: { (messageObject) -> Void in
+            wormholeBufferListener?.listenForMessage(withIdentifier: JMScreenShareManager.MediaSoupScreenShareId, listener: { (messageObject) -> Void in
                 if let messageBuffer = messageObject as? [String:Any]{
                     self.setSampleBufferwithTimestamp(messageBuffer)
                 }
@@ -140,14 +142,14 @@ extension JMManagerViewModel{
         return rtcVideoFrame
     }
     
-    public func updateStartScreenShare() {
+    public func updateStartScreenShare(with appId: String) {
         LOG.debug("ScreenShare- start")
-        screenShareStart()
+        screenShareStart(with: appId)
     }
     
     public func updateStopScreenShare(error:String = "") {
         LOG.debug("ScreenShare- stop with error \(error)")
-        wormholeBufferListener.stopListeningForMessage(withIdentifier:  JMScreenShareManager.MediaSoupScreenShareId)
+        wormholeBufferListener?.stopListeningForMessage(withIdentifier:  JMScreenShareManager.MediaSoupScreenShareId)
         
         if userState.selfScreenShareEnabled{
             socketEmitCloseProducer(for: userState.selfScreenShareProducerId)

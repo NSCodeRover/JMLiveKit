@@ -128,7 +128,7 @@ extension MeetingRoomViewModel {
             client.setupRemoteVideo(view, remoteId: remoteId)
             
         case .setStartScreenShare:
-            client.startScreenShare()
+            client.startScreenShare(with: "group.com.reliance.JMMediaStack")
             
         case .setStopScreenShare(error: let error):
             client.stopScreenShare(error: error)
