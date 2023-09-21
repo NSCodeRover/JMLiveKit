@@ -265,14 +265,6 @@ extension MeetingRoomViewModel{
 
 extension MeetingRoomViewModel: JMMediaEngineDelegate {
     
-    func onRemoteNetworkQuality(id: String, quality: JMMediaStackSDK.JMNetworkQuality, mediaType: JMMediaStackSDK.JMMediaType) {
-        
-    }
-    
-    func onRemoteVideoLayerChange(_ msg: [String : Any]) {
-        
-    }
-    
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)
         if user.hasScreenShare {
@@ -344,6 +336,9 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     
     func onNetworkQuality(stats: JMNetworkStatistics) {
         //print("NetworkQuality- \(stats.networkQuality)|\(stats.localPacketPercentLoss)|\(stats.remotePacketPercentLoss)")
+    }
+    
+    func onRemoteNetworkQuality(id: String, quality: JMNetworkQuality, mediaType: JMMediaType) {
     }
     
     func onAudioDeviceChanged(_ device: JMAudioDevice) {

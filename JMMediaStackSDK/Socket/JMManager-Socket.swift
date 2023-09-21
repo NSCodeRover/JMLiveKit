@@ -42,11 +42,14 @@ extension JMManagerViewModel {
             .broadcastMessage,
             .broadcastMessageToPeer,
             
+            .score
+            
+            //NOT NEEDED
+//            .layerschange
+            
             //NOT HANDLED
-            .layerschange,
 //            .botsJoined,
 //            .botsLeft,
-            .score
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
@@ -156,10 +159,12 @@ extension JMManagerViewModel: JioSocketDelegate {
         case .broadcastMessageToPeer: //1-1 messaging
             handleSocketBroadcastMessageToPeer(json)
             
-        case .score:
+        case .score: //Remote quality
             handleSocketScoreChange(json)
-        case .layerschange:
+            
+        case .layerschange: //Layer (Resolution/FPS) producer change
             handleLayerChange(json)
+            
         default: break
         }
     }    
@@ -331,16 +336,18 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketScoreChange(_ json: [String : Any]) {
-        print("handleSocketScoreChange "+json.description)
+        //LOG.debug("Score- "+json.description)
         if let score = parse(json: json, model: ScoreInfo.self) {
             let scoreQuality:JMNetworkQuality = score.score.score <= 7 ? .Bad : .Good
-            let mediaType:JMMediaType = !score.share ? .video : .shareScreen
-            self.delegateBackToManager?.sendRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
+            let mediaType: JMMediaType = score.share ? .shareScreen : score.mediaType == "video" ? .video : .audio
+            LOG.debug("Score- for \(score.producerPeerId)|\(score.score.score)|\(mediaType.rawValue)")
+            self.delegateBackToManager?.sendClientRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
         }
     }
     
     private func handleLayerChange(_ json: [String : Any]) {
-        self.delegateBackToManager?.sendRemoteVideoLayerChange(json)
+        //Future scope - We are not yet handling anything for layer change.
+        LOG.debug("Layer- \(json.description)")
     }
 }
 

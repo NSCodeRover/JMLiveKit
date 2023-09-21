@@ -28,17 +28,6 @@ public class JMMediaEngine : NSObject{
 
 //MARK: Communicating back to Client (send data and event to client app)
 extension JMMediaEngine: delegateManager{
-    func sendRemoteNetworkQuality(id:String,quality:JMNetworkQuality,mediaType:JMMediaType) {
-        vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onRemoteNetworkQuality(id: id, quality: quality, mediaType: mediaType)
-        }
-    }
-    
-    func sendRemoteVideoLayerChange(_ msg: [String : Any]) {
-        vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onRemoteVideoLayerChange(msg)
-        }
-    }
     
     //Join
     func sendClientJoinSocketSuccess(selfId: String) {
@@ -121,6 +110,12 @@ extension JMMediaEngine: delegateManager{
     func sendClientNetworkQuality(stats: JMNetworkStatistics) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onNetworkQuality(stats: stats)
+        }
+    }
+    
+    func sendClientRemoteNetworkQuality(id: String, quality: JMNetworkQuality, mediaType: JMMediaType) {
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onRemoteNetworkQuality(id: id, quality: quality, mediaType: mediaType)
         }
     }
     

@@ -39,8 +39,7 @@ protocol delegateManager: AnyObject{
     func handleForegroundVideoEvent()
     
     //Remote network
-    func sendRemoteNetworkQuality(id:String,quality:JMNetworkQuality,mediaType:JMMediaType)
-    func sendRemoteVideoLayerChange(_ msg: [String : Any])
+    func sendClientRemoteNetworkQuality(id: String, quality: JMNetworkQuality, mediaType: JMMediaType)
 }
 
 class JMManagerViewModel: NSObject{

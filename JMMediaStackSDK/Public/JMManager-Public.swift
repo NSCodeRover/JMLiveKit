@@ -28,9 +28,9 @@ public protocol JMMediaEngineDelegate {
     func onConnectionStateChanged(state: JMSocketConnectionState)
     func onNetworkQuality(stats: JMNetworkStatistics)
     
+    func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType)
+    
     func onChannelLeft()
-    func onRemoteNetworkQuality(id:String,quality:JMNetworkQuality,mediaType:JMMediaType)
-    func onRemoteVideoLayerChange(_ msg: [String : Any])
 }
 
 //Note: Optional callbacks - All methods mentioned below will become optional.
@@ -45,6 +45,7 @@ extension JMMediaEngineDelegate{
     
     func onConnectionStateChanged(state: JMSocketConnectionState){}
     func onNetworkQuality(stats: JMNetworkStatistics){}
+    func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType){}
     
     func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality){}
 }
