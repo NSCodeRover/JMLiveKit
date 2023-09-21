@@ -267,10 +267,12 @@ extension JMMediaEngine{
         
         //Client Initial values
         if vm_manager.mediaOptions.isCameraOn{
+            LOG.info("Video- Client set initial value ON")
             handleVideo(true)
         }
         
         if vm_manager.mediaOptions.isMicOn{
+            LOG.info("Audio- Client set initial value ON")
             handleAudio(true)
         }
     }
