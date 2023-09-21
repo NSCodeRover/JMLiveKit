@@ -264,6 +264,15 @@ extension JMMediaEngine{
         
         JMAudioDeviceManager.shared.setupSession()
         JMVideoDeviceManager.shared.setupSession()
+        
+        //Client Initial values
+        if vm_manager.mediaOptions.isCameraOn{
+            handleVideo(true)
+        }
+        
+        if vm_manager.mediaOptions.isMicOn{
+            handleAudio(true)
+        }
     }
     
     //MARK: Conversion from AVAudioDevice to JMAudioDevice

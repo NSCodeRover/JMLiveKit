@@ -212,6 +212,8 @@ extension MeetingRoomViewModel {
     func createEngine(meetingId: String,meetingPin: String,userName: String,meetingUrl: String,isHd: Bool){
         var jmMediaOptions = JMMediaOptions()
         jmMediaOptions.isHDEnabled = isHd
+        jmMediaOptions.isMicOn = isMicEnabled
+        jmMediaOptions.isCameraOn = isCameraEnabled
         
         client = JMMediaEngine.shared.create(withAppId: "", mediaOptions: jmMediaOptions, delegate: self)
         enableLogs()
