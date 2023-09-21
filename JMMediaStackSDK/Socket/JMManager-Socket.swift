@@ -40,13 +40,13 @@ extension JMManagerViewModel {
             .resumedProducer,
             
             .broadcastMessage,
-            .broadcastMessageToPeer
+            .broadcastMessageToPeer,
             
             //NOT HANDLED
-//            .layerschange,
+            .layerschange,
 //            .botsJoined,
 //            .botsLeft,
-//            .score,
+            .score
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
@@ -156,6 +156,10 @@ extension JMManagerViewModel: JioSocketDelegate {
         case .broadcastMessageToPeer: //1-1 messaging
             handleSocketBroadcastMessageToPeer(json)
             
+        case .score:
+            handleSocketScoreChange(json)
+        case .layerschange:
+            handleLayerChange(json)
         default: break
         }
     }    
@@ -324,6 +328,19 @@ extension JMManagerViewModel{
         else{
             LOG.error("Reconnect- socketReconnected event json mismatch \(data.description)")
         }
+    }
+    
+    private func handleSocketScoreChange(_ json: [String : Any]) {
+        print("handleSocketScoreChange "+json.description)
+        if let score = parse(json: json, model: ScoreInfo.self) {
+            let scoreQuality:JMNetworkQuality = score.score.score <= 7 ? .Bad : .Good
+            let mediaType:JMMediaType = !score.share ? .video : .shareScreen
+            self.delegateBackToManager?.sendRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
+        }
+    }
+    
+    private func handleLayerChange(_ json: [String : Any]) {
+        self.delegateBackToManager?.sendRemoteVideoLayerChange(json)
     }
 }
 
