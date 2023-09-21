@@ -6,7 +6,7 @@ public class JMScreenShareManager {
     static var wormhole = MMWormhole(applicationGroupIdentifier: appId, optionalDirectory: "wormhole")
     public static var MediaSoupScreenShareId = "MediaSoupScreenShare"
     public static var ScreenShareState = "ScreenShareState"
-    
+    public static var lastFrameTimestamp: CMTime = CMTime.zero
     public static var appId: String = "group.\(Bundle.main.bundleIdentifier!)"
     {
         didSet{
@@ -15,6 +15,12 @@ public class JMScreenShareManager {
     }
     
     public static func sendSampleBuffer(_ sampleBuffer: CMSampleBuffer) {
+        let kDesiredFrameRate = 5.0
+        let currentTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        let delta = CMTimeSubtract(currentTimestamp, lastFrameTimestamp).seconds
+        let threshold = Double(1.0/kDesiredFrameRate)
+        guard delta > threshold else {return}
+        lastFrameTimestamp = currentTimestamp
         if let dataSample = convertSampleBufferToImageData(sampleBuffer: sampleBuffer) {
             let timestamp = Int64(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).value) * 1000
             let object = ["buffer": dataSample as Any, "timeStamp": timestamp] as [String: Any]
