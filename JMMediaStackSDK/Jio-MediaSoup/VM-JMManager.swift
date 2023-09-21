@@ -290,8 +290,8 @@ extension JMManagerViewModel{
         return nil
     }
     
-    func getIceServer(fromReceiveTransport receiveTransport: [String:Any]) -> String? {
-        if let object = receiveTransport[ReceiveTransportKey.iceServers.rawValue] as? [[String: Any]] {
+    func getIceServer(from transportObject: [String:Any]) -> String? {
+        if let object = transportObject[ReceiveTransportKey.iceServers.rawValue] as? [[String: Any]] {
             let json:JSON = JSON(object)
             LOG.debug("Device- Custom version with ice servers")
             return json.description
@@ -300,8 +300,8 @@ extension JMManagerViewModel{
         return nil
     }
     
-    func isRelayTransportPolicy(fromReceiveTransport receiveTransport: [String:Any]) -> Bool {
-        if let iceTransportPolicy = receiveTransport[ReceiveTransportKey.iceTransportPolicy.rawValue] as? String {
+    func isRelayTransportPolicy(forTransport transport: [String:Any]) -> Bool {
+        if let iceTransportPolicy = transport[ReceiveTransportKey.iceTransportPolicy.rawValue] as? String {
             LOG.debug("Device- iceTransportPolicy to Relay")
             return iceTransportPolicy.lowercased() == "relay"
         }

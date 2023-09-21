@@ -55,8 +55,8 @@ extension JMManagerViewModel {
         let iceCandidates = JSON(iceCandidatesArray).description
         let dtlsParameters = JSON(json.dictionary(SocketDataKey.dtlsParameters.rawValue)).description
         
-        let iceServers = getIceServer(fromReceiveTransport: json)
-        let isRelayTransportPolicy = isRelayTransportPolicy(fromReceiveTransport: json)
+        let iceServers = getIceServer(from: json)
+        let isRelayTransportPolicy = isRelayTransportPolicy(forTransport: json)
         
         let tuple: (id: String, iceParameters: String, iceCandidates: String, dtlsParameters: String, iceServers: String?, isRelayTransportPolicy: Bool) = (id: id, iceParameters: iceParameters, iceCandidates: iceCandidates, dtlsParameters: dtlsParameters,iceServers: iceServers, isRelayTransportPolicy: isRelayTransportPolicy)
             

@@ -20,20 +20,6 @@ extension JMManagerViewModel{
             let device = Device()
             handleMediaSoupErrors("Device-") {
                 
-                /*
-                if let transportConfigurationObject = getReceiveTransport(),
-                    let iceServers = getIceServer(fromReceiveTransport: transportConfigurationObject)
-                {
-                    LOG.debug("Device- Custom version with ice servers and relay")
-                    let isRelayTransportPolicy = isRelayTransportPolicy(fromReceiveTransport: transportConfigurationObject)
-                    try device.load(with: rtpCapabilities, peerConnectionOptions: iceServers, isRelayTransportPolicy: isRelayTransportPolicy)
-                }
-                else{
-                    LOG.debug("Device- Default version")
-                    try device.load(with: rtpCapabilities)
-                }
-                */
-                
                 try device.load(with: rtpCapabilities)
                 
                 let canProduceAudio = try device.canProduce(.audio)
