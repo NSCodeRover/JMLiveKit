@@ -133,11 +133,15 @@ extension JoinViewController: UITextFieldDelegate {
 extension UIView {
     func showBlurLoader() {
         let blurLoader = BlurLoader(frame: frame)
+        blurLoader.enableAnimation(true)
         self.addSubview(blurLoader)
     }
 
     func removeBlurLoader() {
         if let blurLoader = subviews.first(where: { $0 is BlurLoader }) {
+            if let blurInstance = blurLoader as? BlurLoader{
+                blurInstance.enableAnimation(false)
+            }
             blurLoader.removeFromSuperview()
         }
     }
@@ -147,7 +151,8 @@ extension UIView {
 class BlurLoader: UIView {
 
     var blurEffectView: UIVisualEffectView?
-
+    var activityIndicator: UIActivityIndicatorView!
+    
     override init(frame: CGRect) {
         let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -162,17 +167,23 @@ class BlurLoader: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func enableAnimation(_ enable: Bool){
+        if activityIndicator != nil{
+            enable ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        }
+    }
 
     private func addLoader() {
         guard let blurEffectView = blurEffectView else { return }
         if #available(iOS 13.0, *) {
-            let activityIndicator = UIActivityIndicatorView(style: .large)
+            activityIndicator = UIActivityIndicatorView(style: .large)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             blurEffectView.contentView.addSubview(activityIndicator)
             activityIndicator.center = blurEffectView.contentView.center
             activityIndicator.startAnimating()
         } else {
-            let activityIndicator = UIActivityIndicatorView()
+            activityIndicator = UIActivityIndicatorView()
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             blurEffectView.contentView.addSubview(activityIndicator)
             activityIndicator.center = blurEffectView.contentView.center
