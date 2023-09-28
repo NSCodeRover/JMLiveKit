@@ -95,6 +95,12 @@ extension JMManagerViewModel{
 }
 
 //MARK: Video
+extension JMManagerViewModel: RTCVideoCapturerDelegate{
+    func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
+        videoSource.capturer(capturer, didCapture: frame)
+    }
+}
+
 extension JMManagerViewModel{
     func startVideo(_ completion: ((_ isSuccess: Bool)->())){
         LOG.debug("Video- startVideo")
@@ -168,7 +174,7 @@ extension JMManagerViewModel{
     }
     
     private func checkVideoCameraCapture() -> Bool{
-        self.videoCapture = RTCCameraVideoCapturer(delegate: self.videoSource)
+        self.videoCapture = RTCCameraVideoCapturer(delegate: self)
         
         let isResumeSuccess = self.startVideoCameraCapture()
         if isResumeSuccess == false{
