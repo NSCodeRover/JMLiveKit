@@ -28,8 +28,11 @@ Pod::Spec.new do |spec|
       "CoreMedia",
       "CoreVideo"
       
+  spec.resource_bundle = { 'JMResources' => ["JMMediaStackSDK/Resources/*.xcassets"] }
+      
   spec.dependency 'SwiftyJSON'
   spec.dependency 'Socket.IO-Client-Swift', '~> 16.1.0'
   spec.dependency 'MMWormhole'
   spec.dependency 'SwiftyBeaver'
+  spec.dependency 'GoogleMLKit/SegmentationSelfie'
 end

@@ -104,6 +104,10 @@ class JMManagerViewModel: NSObject{
     let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
+    //VB
+    var virtualBackgroundManager: JMVirtualBackgroundManager!
+    let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
+    
     var connectionState: JMSocketConnectionState = .connecting
     
     var networkMonitor: NWPathMonitor?
@@ -177,6 +181,7 @@ extension JMManagerViewModel{
         self.jioSocket = nil
         
         self.stopNetworkMonitor()
+        self.disposeVirtualBackground()
     }
 }
 

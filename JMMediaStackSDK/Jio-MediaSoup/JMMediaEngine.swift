@@ -231,6 +231,9 @@ extension JMMediaEngine{
     public func setupRemoteVideo(_ view: UIView, remoteId: String) {
         vm_manager.addRemoteRenderView(view,remoteId: remoteId)
     }
+    public func enableVirtualBackground(_ isEnabled: Bool){
+        vm_manager.enableVirtualBackground(isEnabled)
+    }
     
     //ScreenShare
     public func setupShareVideo(_ view: UIView, remoteId: String) {

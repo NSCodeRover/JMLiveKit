@@ -27,6 +27,7 @@ class MeetingRoomViewModel {
     var meetingPin = ""
     var meetingId = ""
     var isRejoin: Bool = false
+    var isVirtualBackgroundEnabled: Bool = false
     enum MeetingRoomEvent {
         case join(roomId: String, pin: String, name: String, isHd: Bool)
         case startMeeting
@@ -34,6 +35,7 @@ class MeetingRoomViewModel {
         
         case audio
         case video
+        case virtualBackground(_ enabled: Bool)
         
         case audioDevice
         case videoDevice
@@ -111,6 +113,8 @@ extension MeetingRoomViewModel {
             self.handleAudio()
         case .video:
             self.handleVideo()
+        case .virtualBackground(let enabled):
+            self.client.enableVirtualBackground(enabled)
         case .setDevice(let device):
             self.setAudioDevice(device)
         case .setVideoDevice(let device):

@@ -17,6 +17,7 @@ class LocalState{
     var selfMicEnabled: Bool = false
     var selfCameraEnabled: Bool = false
     var selfCameraForceOff: Bool = false
+    var isVirtualBackgroundEnabled: Bool = false
     
     //TODO: Producer
 //    var producerVideo: Producer?

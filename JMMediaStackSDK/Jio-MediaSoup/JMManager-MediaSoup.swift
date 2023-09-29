@@ -97,7 +97,18 @@ extension JMManagerViewModel{
 //MARK: Video
 extension JMManagerViewModel: RTCVideoCapturerDelegate{
     func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
-        videoSource.capturer(capturer, didCapture: frame)
+        
+        qJMMediaVBQueue.async {
+            if self.userState.isVirtualBackgroundEnabled{
+                
+                if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
+                    self.videoSource.capturer(capturer, didCapture: processedRTCVideoFrame)
+                    return
+                }
+            }
+            
+            self.videoSource.capturer(capturer, didCapture: frame)
+        }
     }
 }
 
@@ -466,5 +477,65 @@ extension JMManagerViewModel{
             LOG.error("\(loggerPrefix) MediaSoupError- error \(error.localizedDescription)")
             return false
         }
+    }
+}
+
+//MARK: Virtual Background
+extension JMManagerViewModel{
+    
+    func initVirtualBackground(){
+        let image = UIImage(named: "coconut", in: Bundle.resources, compatibleWith: nil)
+        virtualBackgroundManager = JMVirtualBackgroundManager(backgroundImage: image,fps: JioMediaStackDefaultCameraCaptureResolution.fps)
+        LOG.debug("Video- VB- JMVirtualBackgroundManager configured. \(image?.description)")
+    }
+    
+    func enableVirtualBackground(_ isEnabled: Bool){
+        LOG.info("Video- VB- Virtual background enabled \(isEnabled)")
+        
+        if isEnabled{
+            initVirtualBackground()
+        }
+        else {
+            disposeVirtualBackground()
+        }
+        
+        defer{
+            userState.isVirtualBackgroundEnabled = isEnabled
+        }
+    }
+    
+    func applyVirtualBackground(for frame: RTCVideoFrame) -> RTCVideoFrame?{
+        if let frameBufferPixel = self.convertRTCVideoFrameToPixelBuffer(frame){
+            let processedframeBufferPixel = self.virtualBackgroundManager.process(buffer: frameBufferPixel)
+            let processedRTCVideoFrame = self.convertPixelBufferToRTCVideoFrame(processedframeBufferPixel,rotation: frame.rotation, timeStamp: frame.timeStampNs)
+            return processedRTCVideoFrame
+        }
+        
+        return nil
+    }
+    
+    func disposeVirtualBackground(){
+        if virtualBackgroundManager != nil{
+            self.virtualBackgroundManager.dispose()
+            self.virtualBackgroundManager = nil
+        }
+    }
+}
+
+extension JMManagerViewModel{
+    func convertRTCVideoFrameToPixelBuffer(_ rtcVideoFrame: RTCVideoFrame) -> CVPixelBuffer? {
+        guard let rtcPixelBuffer = rtcVideoFrame.buffer as? RTCCVPixelBuffer else {
+            return nil
+        }
+        
+        let pixelBuffer = rtcPixelBuffer.pixelBuffer
+        return pixelBuffer
+    }
+    
+    func convertPixelBufferToRTCVideoFrame(_ unwrappedPixelBuffer: CVPixelBuffer,rotation: RTCVideoRotation = ._0, timeStamp: Int64) -> RTCVideoFrame{
+        let rtcPixelBuffer = RTCCVPixelBuffer(pixelBuffer: unwrappedPixelBuffer)
+        
+        let rtcVideoFrame = RTCVideoFrame(buffer: rtcPixelBuffer, rotation: rotation, timeStampNs: timeStamp)
+        return rtcVideoFrame
     }
 }
