@@ -70,13 +70,16 @@ class JMAudioDetector:NSObject {
     
     // MARK: - Voice Activity Detection
     @objc func startSpeechTimeout() {
-        print("VAD- start")
         toastCallback?()
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
     @objc func endSpeechTimeout() {
         speakEndCounter = speakEndCounter + 1
+        if speakEndCounter != 0 && speakEndCounter % 3 == 0 {
+            toastCallback?()
+            speakEndCounter = 0
+        }
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
@@ -85,12 +88,7 @@ class JMAudioDetector:NSObject {
     }
     
     func scheduleSpeechTimeoutEnd() {
-        print("VAD- scheduleSpeechTimeoutEnd")
         perform(#selector(endSpeechTimeout), with: nil, afterDelay: 1.9)
-        if speakEndCounter != 0 && speakEndCounter % 5 == 0 {
-            toastCallback?()
-            NSObject.cancelPreviousPerformRequests(withTarget: self)
-        }
     }
     
     // MARK: - Audio Recording
