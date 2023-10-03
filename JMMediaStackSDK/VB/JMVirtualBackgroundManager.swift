@@ -17,6 +17,17 @@ extension Bundle {
 private class BundleToken {}
 
 class JMVirtualBackgroundManager: NSObject {
+    
+    var mlEngine: String {
+        get{
+            if #available(iOS 15.0, *){
+                return "apple"
+            }
+            else{
+                return "google"
+            }
+        }
+    }
 
     private var jmVBHelper: JMVirtualBackgroundHelper?
     private var rateLimiter: RateLimiter?
@@ -51,7 +62,7 @@ class JMVirtualBackgroundManager: NSObject {
     }
 
     public func process(buffer: CVPixelBuffer) -> CVPixelBuffer {
-        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer,with: coreBackgroundImage,blurRadius: blurRadius ?? 10,
+        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer,with: coreBackgroundImage,blurRadius: blurRadius ?? 10, mlEngine: mlEngine,
         shouldSkip: {
             return !(rateLimiter?.shouldFeed() ?? false)
         })

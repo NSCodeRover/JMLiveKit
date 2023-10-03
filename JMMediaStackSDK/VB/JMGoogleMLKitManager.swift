@@ -12,9 +12,12 @@ import MLKitSegmentationCommon
 import MLKitSegmentationSelfie
 import MLKitVision
 
-class JMMLKitManager: NSObject {
+class JMGoogleMLKitManager: NSObject {
     
-    let segmenter: Segmenter = {
+    public static let shared = JMGoogleMLKitManager()
+    private override init() {}
+    
+    private let segmenter: Segmenter = {
         let options = SelfieSegmenterOptions()
         options.segmenterMode = .stream
         options.shouldEnableRawSizeMask = true

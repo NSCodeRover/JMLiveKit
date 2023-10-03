@@ -9,10 +9,8 @@ import Foundation
 import AVFoundation
 
 class JMVirtualBackgroundHelper: NSObject {
-    
-    let jmMLKit = JMMLKitManager()
+        
     private var ciContext = CIContext()
-    
     private var previousBuffer: CVImageBuffer?
     private var _pixelBufferPool: CVPixelBufferPool?
     private var pixelBufferPool: CVPixelBufferPool! {
@@ -52,27 +50,47 @@ class JMVirtualBackgroundHelper: NSObject {
         pixelBufferPool = nil
     }
     
-    func replaceBackground(in framePixelBuffer: CVPixelBuffer, with backgroundImage: CIImage?, blurRadius: CGFloat, shouldSkip: ()->Bool) -> CVImageBuffer {
-
+    func replaceBackground(in framePixelBuffer: CVPixelBuffer, with backgroundImage: CIImage?, blurRadius: CGFloat, mlEngine: String, shouldSkip: ()->Bool) -> CVImageBuffer {
+        
         guard !shouldSkip() else { return previousBuffer ?? framePixelBuffer }
+        
+        var maskPixelBuffer: CVPixelBuffer?
+        if #available(iOS 15.0, *){
+            //Apple ML
+            maskPixelBuffer =  JMAppleMLKitManager.shared.getMask(for: framePixelBuffer) ?? previousBuffer ?? framePixelBuffer
+        }
+        else{
+            //Google ML
+            var info = CMSampleTimingInfo()
+            info.presentationTimeStamp = CMTime.zero
+            info.duration = CMTime.invalid
+            info.decodeTimeStamp = CMTime.invalid
 
-        var info = CMSampleTimingInfo()
-        info.presentationTimeStamp = CMTime.zero
-        info.duration = CMTime.invalid
-        info.decodeTimeStamp = CMTime.invalid
+            var formatDesc: CMFormatDescription? = nil
+            CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: framePixelBuffer, formatDescriptionOut: &formatDesc)
 
-        var formatDesc: CMFormatDescription? = nil
-        CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: framePixelBuffer, formatDescriptionOut: &formatDesc)
+            var sampleBuffer: CMSampleBuffer? = nil
+            CMSampleBufferCreateReadyWithImageBuffer(allocator: kCFAllocatorDefault,
+                                                     imageBuffer: framePixelBuffer,
+                                                     formatDescription: formatDesc!,
+                                                     sampleTiming: &info,
+                                                     sampleBufferOut: &sampleBuffer);
+            
+            guard let sampleBuffer = sampleBuffer
+            else {
+                LOG.error("VB- GoogleML- failed to convert into sample buffer")
+                return previousBuffer ?? framePixelBuffer
+            }
 
-        var sampleBuffer: CMSampleBuffer? = nil
-        CMSampleBufferCreateReadyWithImageBuffer(allocator: kCFAllocatorDefault,
-                                                 imageBuffer: framePixelBuffer,
-                                                 formatDescription: formatDesc!,
-                                                 sampleTiming: &info,
-                                                 sampleBufferOut: &sampleBuffer);
+            // Get the pixel buffer from ML kit that contains the mask image.
+            maskPixelBuffer = JMGoogleMLKitManager.shared.getMask(for: sampleBuffer)
+        }
 
-        // Get the pixel buffer from google ML kit that contains the mask image.
-        guard let maskPixelBuffer = jmMLKit.getMask(for: sampleBuffer!) else { return framePixelBuffer }
+        guard let maskPixelBuffer = maskPixelBuffer
+        else {
+            LOG.error("VB- ML- maskPixelBuffer failed")
+            return framePixelBuffer
+        }
 
         // Blend the images and mask.
         return blend(original: framePixelBuffer, mask: maskPixelBuffer, backgroundImage: backgroundImage, blurRadius: blurRadius) ?? framePixelBuffer
@@ -112,6 +130,9 @@ class JMVirtualBackgroundHelper: NSObject {
         // Redner image to a new buffer.
         if let finalImage = blendFilter?.outputImage {
             imageBuffer = renderToBuffer(image: finalImage)
+        }
+        else{
+            LOG.error("VB- ML- Blend failed")
         }
 
         previousBuffer = imageBuffer
