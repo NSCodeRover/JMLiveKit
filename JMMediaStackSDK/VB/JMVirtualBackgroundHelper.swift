@@ -61,22 +61,7 @@ class JMVirtualBackgroundHelper: NSObject {
         }
         else{
             //Google ML
-            var info = CMSampleTimingInfo()
-            info.presentationTimeStamp = CMTime.zero
-            info.duration = CMTime.invalid
-            info.decodeTimeStamp = CMTime.invalid
-
-            var formatDesc: CMFormatDescription? = nil
-            CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault, imageBuffer: framePixelBuffer, formatDescriptionOut: &formatDesc)
-
-            var sampleBuffer: CMSampleBuffer? = nil
-            CMSampleBufferCreateReadyWithImageBuffer(allocator: kCFAllocatorDefault,
-                                                     imageBuffer: framePixelBuffer,
-                                                     formatDescription: formatDesc!,
-                                                     sampleTiming: &info,
-                                                     sampleBufferOut: &sampleBuffer);
-            
-            guard let sampleBuffer = sampleBuffer
+            guard let sampleBuffer = JMGoogleMLKitManager.shared.convertPixelToBuffer(framePixelBuffer)
             else {
                 LOG.error("VB- GoogleML- failed to convert into sample buffer")
                 return previousBuffer ?? framePixelBuffer
