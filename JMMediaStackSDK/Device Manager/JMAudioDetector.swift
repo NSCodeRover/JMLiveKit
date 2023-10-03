@@ -76,7 +76,6 @@ class JMAudioDetector:NSObject {
     }
     
     @objc func endSpeechTimeout() {
-        print("VAD- stop")
         speakEndCounter = speakEndCounter + 1
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
@@ -86,8 +85,9 @@ class JMAudioDetector:NSObject {
     }
     
     func scheduleSpeechTimeoutEnd() {
+        print("VAD- scheduleSpeechTimeoutEnd")
         perform(#selector(endSpeechTimeout), with: nil, afterDelay: 1.9)
-        if speakEndCounter % 3 == 0 {
+        if speakEndCounter != 0 && speakEndCounter % 5 == 0 {
             toastCallback?()
             NSObject.cancelPreviousPerformRequests(withTarget: self)
         }
