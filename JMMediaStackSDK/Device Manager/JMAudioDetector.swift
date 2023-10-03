@@ -47,7 +47,7 @@ class JMAudioDetector:NSObject {
     )
     
     var toastCallback: (() -> Void)?
-    
+    var speakEndCounter = 0
     override init() {
         super.init()
         setupAudioRecording()
@@ -77,6 +77,7 @@ class JMAudioDetector:NSObject {
     
     @objc func endSpeechTimeout() {
         print("VAD- stop")
+        speakEndCounter = speakEndCounter + 1
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
@@ -86,6 +87,10 @@ class JMAudioDetector:NSObject {
     
     func scheduleSpeechTimeoutEnd() {
         perform(#selector(endSpeechTimeout), with: nil, afterDelay: 1.9)
+        if speakEndCounter % 3 == 0 {
+            toastCallback?()
+            NSObject.cancelPreviousPerformRequests(withTarget: self)
+        }
     }
     
     // MARK: - Audio Recording
