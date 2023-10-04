@@ -28,8 +28,9 @@ public class JMRTCLogger {
     func setLogFileName(fileName:String) {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         self.logFileURL = documentsDirectory.appendingPathComponent("\(fileName).log")
-        
-        FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+        if !FileManager.default.fileExists(atPath: logFileURL.path) {
+            FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+        }
         self.fileHandle = try! FileHandle(forWritingTo: logFileURL)
     }
     
