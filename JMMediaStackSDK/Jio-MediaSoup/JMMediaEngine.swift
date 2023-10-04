@@ -168,6 +168,13 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         LOG.info("LOG- isEnabled:\(isEnable)|path:\(path == "" ? "Default" : path)")
         return JMLogManager.shared.enableLogger(isEnable,withPath: path)
     }
+    
+    public func enableWebRTCLog(_ isEnable: Bool = true,withSeverity type:RTCLoggingSeverity = .info, withPath path: String = "", withFile Name:String = "JMMediaStack-WEBRTC" , logCallback: ((String) -> Void)? = nil)  {
+        JMRTCLogger.shared.enableWebRTCLogs(isEnabled: isEnable,severity: type,fileName: Name) { log in
+            logCallback!(log)
+        }
+    }
+
 }
 
 //MARK: AUDIO PUBLIC ACCESS

@@ -217,12 +217,19 @@ extension MeetingRoomViewModel {
         
         client = JMMediaEngine.shared.create(withAppId: "", mediaOptions: jmMediaOptions, delegate: self)
         enableLogs()
+        enableRTCLogs()
         getJoin(meetingId, meetingPin, userName, meetingUrl)
     }
     
     func enableLogs(){
         let logPath = client.enableLog(true)
         print("LOG- client \(logPath)")
+    }
+    
+    func enableRTCLogs() {
+        client.enableWebRTCLog(true,withSeverity: .info,withFile: meetingId) { logs in
+            JMRTCLogger.shared.log(logs)
+        }
     }
     
     func onRejoined() {
