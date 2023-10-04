@@ -17,17 +17,6 @@ extension Bundle {
 private class BundleToken {}
 
 class JMVirtualBackgroundManager: NSObject {
-    
-    var mlEngine: String {
-        get{
-            if #available(iOS 15.0, *){
-                return "apple"
-            }
-            else{
-                return "google"
-            }
-        }
-    }
 
     private var jmVBHelper: JMVirtualBackgroundHelper?
     private var rateLimiter: RateLimiter?
@@ -53,16 +42,23 @@ class JMVirtualBackgroundManager: NSObject {
         self.rateLimiter = {.init(limit: 1/Double(fps))}()
         self.jmVBHelper = JMVirtualBackgroundHelper()
         
+        if #available(iOS 15.0, *){
+            JMAppleMLKitManager.shared.setupSession()
+        }
+        else{
+            JMGoogleMLKitManager.shared.setupSession()
+        }
+        
         super.init()
         
-        // This defer is to make didSet get triggered for backgroundImage from init
+        //This defer is to make didSet get triggered for backgroundImage from init
         defer {
             self.backgroundImage = backgroundImage
         }
     }
 
     public func process(buffer: CVPixelBuffer) -> CVPixelBuffer {
-        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer,with: coreBackgroundImage,blurRadius: blurRadius ?? 10, mlEngine: mlEngine,
+        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer, with: coreBackgroundImage, blurRadius: blurRadius ?? 10,
         shouldSkip: {
             return !(rateLimiter?.shouldFeed() ?? false)
         })
@@ -75,6 +71,13 @@ class JMVirtualBackgroundManager: NSObject {
         
         jmVBHelper?.dispose()
         rateLimiter?.dispose()
+        
+        if #available(iOS 15.0, *){
+            JMAppleMLKitManager.shared.dispose()
+        }
+        else{
+            JMGoogleMLKitManager.shared.dispose()
+        }
     }
 }
 

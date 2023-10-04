@@ -486,7 +486,6 @@ extension JMManagerViewModel{
     func initVirtualBackground(){
         let image = UIImage(named: "coconut", in: Bundle.resources, compatibleWith: nil)
         virtualBackgroundManager = JMVirtualBackgroundManager(backgroundImage: image,fps: JioMediaStackDefaultCameraCaptureResolution.fps)
-        LOG.debug("Video- VB- JMVirtualBackgroundManager configured with \(virtualBackgroundManager.mlEngine) kit. \(image?.description)")
     }
     
     func enableVirtualBackground(_ isEnabled: Bool){

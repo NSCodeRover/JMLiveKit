@@ -16,25 +16,33 @@ class JMAppleMLKitManager: NSObject {
     public static let shared = JMAppleMLKitManager()
     private override init() {}
     
-    private let segmenter: VNGeneratePersonSegmentationRequest = {
-        let segmenter = VNGeneratePersonSegmentationRequest()
-        segmenter.qualityLevel = .balanced
-        segmenter.outputPixelFormat = kCVPixelFormatType_OneComponent8
-        
-        return segmenter
-    }()
+    private var segmenter: VNGeneratePersonSegmentationRequest?
+    private var ciContext: CIContext?
     
-    private var ciContext = CIContext(options: nil)
+    func setupSession(){
+        segmenter = VNGeneratePersonSegmentationRequest()
+        segmenter?.qualityLevel = .balanced
+        segmenter?.outputPixelFormat = kCVPixelFormatType_OneComponent8
+        
+        ciContext = CIContext(options: nil)
+        LOG.info("Video- VB- JMVirtualBackgroundManager configured with Apple MLKit.")
+    }
+    
+    func dispose(){
+        segmenter = nil
+        ciContext = nil
+    }
     
     func getMask(for framePixelBuffer: CVPixelBuffer) -> CVPixelBuffer?{
 
         let originalImage = CIImage(cvPixelBuffer: framePixelBuffer)
-        guard let originalCG = ciContext.createCGImage(originalImage, from: originalImage.extent)
+        guard let originalCG = ciContext?.createCGImage(originalImage, from: originalImage.extent)
         else {
             LOG.error("VB- AppleML- failed to convert into CGImage")
             return nil
         }
         
+        guard let segmenter = segmenter else { return nil }
         let handler = VNImageRequestHandler(cgImage: originalCG)
         do{
             try handler.perform([segmenter])

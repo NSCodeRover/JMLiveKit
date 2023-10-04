@@ -17,31 +17,34 @@ class JMGoogleMLKitManager: NSObject {
     public static let shared = JMGoogleMLKitManager()
     private override init() {}
     
-    private let segmenter: Segmenter = {
+    private var segmenter: Segmenter?
+    
+    func setupSession(){
         let options = SelfieSegmenterOptions()
         options.segmenterMode = .stream
         options.shouldEnableRawSizeMask = true
-
-        let segmenter = Segmenter.segmenter(options: options)
-        return segmenter
-    }()
+        segmenter = Segmenter.segmenter(options: options)
+        
+        LOG.info("Video- VB- JMVirtualBackgroundManager configured with Google MLKit.")
+    }
+    
+    func dispose(){
+        segmenter = nil
+    }
     
     func getMask(for sampleBuffer: CMSampleBuffer) -> CVPixelBuffer?{
         
         let image = VisionImage(buffer: sampleBuffer)
-        image.orientation = imageOrientation(
-          deviceOrientation: UIDevice.current.orientation,
-          cameraPosition: .front)
+        //image.orientation = imageOrientation(deviceOrientation: UIDevice.current.orientation,cameraPosition: .front)
 
         var mask: SegmentationMask?
         do {
-            mask = try segmenter.results(in: image)
+            mask = try segmenter?.results(in: image)
         }
         catch let error {
             LOG.error("VB- ML- Failed to perform segmentation with error: \(error.localizedDescription).")
         }
 
-        // Get the pixel buffer that contains the mask image.
         return mask?.buffer
     }
 }
@@ -67,6 +70,7 @@ extension JMGoogleMLKitManager{
         return sampleBuffer
     }
     
+    //NOT IN USE
     func imageOrientation(deviceOrientation: UIDeviceOrientation, cameraPosition: AVCaptureDevice.Position) -> UIImage.Orientation
     {
         switch deviceOrientation {

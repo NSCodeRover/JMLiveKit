@@ -50,24 +50,21 @@ class JMVirtualBackgroundHelper: NSObject {
         pixelBufferPool = nil
     }
     
-    func replaceBackground(in framePixelBuffer: CVPixelBuffer, with backgroundImage: CIImage?, blurRadius: CGFloat, mlEngine: String, shouldSkip: ()->Bool) -> CVImageBuffer {
+    func replaceBackground(in framePixelBuffer: CVPixelBuffer, with backgroundImage: CIImage?, blurRadius: CGFloat, shouldSkip: ()->Bool) -> CVImageBuffer {
         
         guard !shouldSkip() else { return previousBuffer ?? framePixelBuffer }
         
         var maskPixelBuffer: CVPixelBuffer?
         if #available(iOS 15.0, *){
-            //Apple ML
             maskPixelBuffer =  JMAppleMLKitManager.shared.getMask(for: framePixelBuffer) ?? previousBuffer ?? framePixelBuffer
         }
         else{
-            //Google ML
             guard let sampleBuffer = JMGoogleMLKitManager.shared.convertPixelToBuffer(framePixelBuffer)
             else {
                 LOG.error("VB- GoogleML- failed to convert into sample buffer")
                 return previousBuffer ?? framePixelBuffer
             }
 
-            // Get the pixel buffer from ML kit that contains the mask image.
             maskPixelBuffer = JMGoogleMLKitManager.shared.getMask(for: sampleBuffer)
         }
 
@@ -77,7 +74,7 @@ class JMVirtualBackgroundHelper: NSObject {
             return framePixelBuffer
         }
 
-        // Blend the images and mask.
+        //Blend the images and mask.
         return blend(original: framePixelBuffer, mask: maskPixelBuffer, backgroundImage: backgroundImage, blurRadius: blurRadius) ?? framePixelBuffer
     }
     
