@@ -31,5 +31,4 @@ Pod::Spec.new do |spec|
   spec.dependency 'SwiftyJSON'
   spec.dependency 'Socket.IO-Client-Swift', '~> 16.1.0'
   spec.dependency 'MMWormhole'
-  spec.dependency 'SwiftyBeaver'
 end

@@ -20,6 +20,7 @@ protocol delegateManager: AnyObject{
     func sendClientNetworkQuality(stats: JMNetworkStatistics)
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant])
     func sendClientError(error: JMMediaError)
+    func sendClientLogMsg(log: String)
     
     //DeviceManager
     func sendClientAudioDeviceInUse(_ device: AVAudioDevice)

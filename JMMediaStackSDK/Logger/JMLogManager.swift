@@ -6,58 +6,90 @@
 //
 
 import Foundation
-import SwiftyBeaver
+import WebRTC
 
 @objc public class JMLogManager: NSObject{
     @objc public static let shared = JMLogManager()
     
-    var isEnabled: Bool = false
-    var logPath: URL!
-    
+    static var isEnabled: Bool = false
+    let webrtcLogger = RTCCallbackLogger()
+    static var delegateToManager: delegateManager? = nil
+    private let queue = DispatchQueue(label: "com.jmedia.webrtc.logQueue")
     private override init(){}
     internal func setupLogger(){
-        let console = ConsoleDestination()
-        LOG.addDestination(console)
     }
     
-    func enableLogger(_ isEnable: Bool, withPath path: String = "") -> String{
-        
-        if !isEnable{
-            if isEnabled{
-                clearLogs()
+    public func enableLogs(isEnabled:Bool = true,severity: RTCLoggingSeverity = .info) {
+        JMLogManager.isEnabled = isEnabled
+        webrtcLogger.severity = severity
+        if isEnabled {
+            webrtcLogger.stop()
+            webrtcLogger.start { (message) in
+                // Inside the log callback, pass the message to the completionHandler
+                JMLogManager.delegateToManager?.sendClientLogMsg(log: JMLogManager.log("[webrtc] \(self.getHeart(severity: severity))" + message.trimmingCharacters(in: .whitespacesAndNewlines)))
             }
-            
-            isEnabled = isEnable
-            return ""
+        }else{
+            webrtcLogger.stop()
         }
-        
-        isEnabled = true
-        if path != "", let logPathUrl = URL(string: path){
-            logPath = logPathUrl
-        }
-        else{
-            if let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-                logPath = url.appendingPathComponent("JMMediaStack.log", isDirectory: false)
-            }
-            else{
-                LOG.error("LOG- failed to find any path - \(logPath)")
-                return ""
-            }
-        }
-        
-        let file = FileDestination(logFileURL: logPath)
-        LOG.addDestination(file)
-        return logPath.absoluteString
     }
     
-    func clearLogs(){
-        if logPath != nil {
-            do{
-                try FileManager.default.removeItem(at: logPath)
-            }
-            catch(let error){
-                LOG.error("LOG- failed to delete the file at path - \(logPath)")
-            }
+    func getHeart(severity:RTCLoggingSeverity)->String {
+        switch severity {
+        case .error:
+            return "❤️"
+        case .info:
+            return "💙"
+        case .verbose:
+            return "💜"
+        case .warning:
+            return "💛"
+        default:
+            return "💚"
+        }
+    }
+    
+    public class func log(_ message: String)->String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        let formattedDate = dateFormatter.string(from: Date())
+        return "[\(formattedDate)] \(message)\n"
+    }
+}
+
+extension JMLogManager {
+    
+    /// log something generally unimportant (lowest priority)
+    open class func verbose(_ message: String = "") {
+        if isEnabled {
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💜 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+        }
+    }
+
+    /// log something which help during debugging (low priority)
+    open class func debug(_ message: String = "") {
+        if isEnabled {
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💚 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+        }
+    }
+
+    /// log something which you are really interested but which is not an issue or error (normal priority)
+    open class func info(_ message: String = "") {
+        if isEnabled {
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💙 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+        }
+    }
+
+    /// log something which may cause big trouble soon (high priority)
+    open class func warning(_ message: String = "") {
+        if isEnabled {
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💛 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+        }
+    }
+
+    /// log something which will keep you awake at night (highest priority)
+    open class func error(_ message: String = "") {
+        if isEnabled {
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" ❤️ " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
 }
