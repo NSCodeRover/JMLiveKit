@@ -114,7 +114,15 @@ extension MeetingRoomViewModel {
         case .video:
             self.handleVideo()
         case .virtualBackground(let enabled):
-            self.client.enableVirtualBackground(enabled)
+            
+            if enabled{
+                self.client.enableVirtualBackground(enabled, withOption: .image(data: UIImage(named: "vb1")!.pngData()!))
+//                self.client.enableVirtualBackground(enabled, withOption: .blur(intensity: .high))
+            }
+            else{
+                self.client.enableVirtualBackground(enabled)
+            }
+
         case .setDevice(let device):
             self.setAudioDevice(device)
         case .setVideoDevice(let device):

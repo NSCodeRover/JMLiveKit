@@ -105,7 +105,7 @@ class JMManagerViewModel: NSObject{
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
     //VB
-    var virtualBackgroundManager: JMVirtualBackgroundManager!
+    var virtualBackgroundManager: JMVirtualBackgroundManager?
     let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
     
     var connectionState: JMSocketConnectionState = .connecting

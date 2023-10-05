@@ -152,3 +152,28 @@ class JMVirtualBackgroundHelper: NSObject {
     }
 }
 
+class RateLimiter {
+   private let limit: TimeInterval
+   private var lastExecutedAt: Date?
+
+   init(limit: TimeInterval) {
+       self.limit = limit
+   }
+    
+    func dispose(){
+        lastExecutedAt = nil
+    }
+
+   func shouldFeed() -> Bool {
+       let now = Date()
+       let timeInterval = now.timeIntervalSince(lastExecutedAt ?? .distantPast)
+
+       if timeInterval > limit {
+           lastExecutedAt = now
+
+           return true
+       }
+
+       return false
+   }
+}

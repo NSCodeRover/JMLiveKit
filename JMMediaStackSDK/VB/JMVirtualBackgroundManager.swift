@@ -6,15 +6,17 @@
 //
 
 import Foundation
-
-extension Bundle {
-    static let resources: Bundle = {
-        let bundle = Bundle(for: BundleToken.self)
-        let path = bundle.path(forResource: "JMResources", ofType: "bundle")
-        return Bundle(path: path!)!
-    }()
+ 
+public enum JMVirtualBackgroundOption{
+    case none
+    case blur(intensity: JMVirtualBackgroundBlurIntensity)
+    case image(data: Data)
 }
-private class BundleToken {}
+public enum JMVirtualBackgroundBlurIntensity:Int{
+    case low = 10
+    case medium = 15
+    case high = 25
+}
 
 class JMVirtualBackgroundManager: NSObject {
 
@@ -35,10 +37,8 @@ class JMVirtualBackgroundManager: NSObject {
             }
         }
     }
-
-    public init(backgroundImage: UIImage?, fps: Int32, blurRadius: NSNumber? = nil) {
-        self.backgroundImage = backgroundImage
-        self.blurRadius = blurRadius != nil ? CGFloat(blurRadius!.doubleValue) : nil
+    
+    public init(fps: Int32) {
         self.rateLimiter = {.init(limit: 1/Double(fps))}()
         self.jmVBHelper = JMVirtualBackgroundHelper()
         
@@ -50,11 +50,6 @@ class JMVirtualBackgroundManager: NSObject {
         }
         
         super.init()
-        
-        //This defer is to make didSet get triggered for backgroundImage from init
-        defer {
-            self.backgroundImage = backgroundImage
-        }
     }
 
     public func process(buffer: CVPixelBuffer) -> CVPixelBuffer {
@@ -81,28 +76,35 @@ class JMVirtualBackgroundManager: NSObject {
     }
 }
 
-class RateLimiter {
-   private let limit: TimeInterval
-   private var lastExecutedAt: Date?
-
-   init(limit: TimeInterval) {
-       self.limit = limit
-   }
-    
-    func dispose(){
-        lastExecutedAt = nil
+extension JMVirtualBackgroundManager{
+    func enableVirtualBackground(option: JMVirtualBackgroundOption){
+        
+        switch option {
+        case .none:
+            LOG.info("VB- Type set to NONE.")
+            return
+            
+        case .blur(let intensity):
+            configureOptionForBlur(withIntensity: intensity)
+            
+        case .image(let path):
+            configureOptionForImage(from: path)
+        }
     }
-
-   func shouldFeed() -> Bool {
-       let now = Date()
-       let timeInterval = now.timeIntervalSince(lastExecutedAt ?? .distantPast)
-
-       if timeInterval > limit {
-           lastExecutedAt = now
-
-           return true
-       }
-
-       return false
-   }
+    
+    private func configureOptionForBlur(withIntensity intensity: JMVirtualBackgroundBlurIntensity){
+        LOG.info("VB- Type set to blur with intensity \(intensity).")
+        blurRadius = CGFloat(intensity.rawValue)
+        coreBackgroundImage = nil
+    }
+    
+    private func configureOptionForImage(from data: Data){
+        LOG.info("VB- Type set to image.")
+        if let image = UIImage(data: data){
+            backgroundImage = image
+        }
+        else {
+            LOG.error("VB- failed to fetch from data - \(data)")
+        }
+    }
 }

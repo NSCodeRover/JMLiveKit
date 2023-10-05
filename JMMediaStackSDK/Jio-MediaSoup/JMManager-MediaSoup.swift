@@ -484,15 +484,17 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func initVirtualBackground(){
-        let image = UIImage(named: "coconut", in: Bundle.resources, compatibleWith: nil)
-        virtualBackgroundManager = JMVirtualBackgroundManager(backgroundImage: image,fps: JioMediaStackDefaultCameraCaptureResolution.fps)
+        if virtualBackgroundManager == nil{
+            virtualBackgroundManager = JMVirtualBackgroundManager(fps: JioMediaStackDefaultCameraCaptureResolution.fps)
+        }
     }
     
-    func enableVirtualBackground(_ isEnabled: Bool){
+    func enableVirtualBackground(_ isEnabled: Bool, withOption option: JMVirtualBackgroundOption = JMVirtualBackgroundOption.none){
         LOG.info("Video- VB- Virtual background enabled \(isEnabled)")
         
         if isEnabled{
             initVirtualBackground()
+            virtualBackgroundManager?.enableVirtualBackground(option: option)
         }
         else {
             disposeVirtualBackground()
@@ -504,8 +506,8 @@ extension JMManagerViewModel{
     }
     
     func applyVirtualBackground(for frame: RTCVideoFrame) -> RTCVideoFrame?{
-        if let frameBufferPixel = self.convertRTCVideoFrameToPixelBuffer(frame){
-            let processedframeBufferPixel = self.virtualBackgroundManager.process(buffer: frameBufferPixel)
+        if let frameBufferPixel = self.convertRTCVideoFrameToPixelBuffer(frame), let vbManager = self.virtualBackgroundManager{
+            let processedframeBufferPixel = vbManager.process(buffer: frameBufferPixel)
             let processedRTCVideoFrame = self.convertPixelBufferToRTCVideoFrame(processedframeBufferPixel,rotation: frame.rotation, timeStamp: frame.timeStampNs)
             return processedRTCVideoFrame
         }
@@ -516,7 +518,7 @@ extension JMManagerViewModel{
     
     func disposeVirtualBackground(){
         if virtualBackgroundManager != nil{
-            self.virtualBackgroundManager.dispose()
+            self.virtualBackgroundManager?.dispose()
             self.virtualBackgroundManager = nil
         }
     }

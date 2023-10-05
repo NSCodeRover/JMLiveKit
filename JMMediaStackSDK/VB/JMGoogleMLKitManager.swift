@@ -8,7 +8,6 @@
 import Foundation
 import AVFoundation
 
-import MLKitSegmentationCommon
 import MLKitSegmentationSelfie
 import MLKitVision
 
