@@ -53,7 +53,7 @@ extension JMManagerViewModel {
 //            .userRoleUpdated
         ]
         initFactoryAndStream()
-        jioSocket?.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin)
+        jioSocket?.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin, queue: qJMMediaNWQueue)
     }
 }
 
