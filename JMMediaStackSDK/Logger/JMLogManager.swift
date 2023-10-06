@@ -59,37 +59,38 @@ import WebRTC
 extension JMLogManager {
     
     /// log something generally unimportant (lowest priority)
-    open class func verbose(_ message: String = "") {
+    open class func verbose(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
         if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💜 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💜 \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
 
     /// log something which help during debugging (low priority)
-    open class func debug(_ message: String = "") {
+    open class func debug(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
         if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💚 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💚 \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
 
     /// log something which you are really interested but which is not an issue or error (normal priority)
-    open class func info(_ message: String = "") {
+    open class func info(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
         if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💙 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💙 \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
 
     /// log something which may cause big trouble soon (high priority)
-    open class func warning(_ message: String = "") {
+    open class func warning(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
         if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💛 " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💛 \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
+   
 
     /// log something which will keep you awake at night (highest priority)
-    open class func error(_ message: String = "") {
+    open class func error(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
         if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" ❤️ " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" ❤️ \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
         }
     }
 }
