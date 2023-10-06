@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 class JMVirtualBackgroundHelper: NSObject {
         
@@ -50,7 +51,7 @@ class JMVirtualBackgroundHelper: NSObject {
         pixelBufferPool = nil
     }
     
-    func replaceBackground(in framePixelBuffer: CVPixelBuffer, with backgroundImage: CIImage?, blurRadius: CGFloat, shouldSkip: ()->Bool) -> CVImageBuffer {
+    func replaceBackground(in framePixelBuffer: CVPixelBuffer,with backgroundType: JMVirtualBackgroundOption, backgroundImage: CIImage?, blurRadius: CGFloat?, backgroundColor: UIColor?, shouldSkip: ()->Bool) -> CVImageBuffer {
         
         guard !shouldSkip() else { return previousBuffer ?? framePixelBuffer }
         
@@ -75,10 +76,10 @@ class JMVirtualBackgroundHelper: NSObject {
         }
 
         //Blend the images and mask.
-        return blend(original: framePixelBuffer, mask: maskPixelBuffer, backgroundImage: backgroundImage, blurRadius: blurRadius) ?? framePixelBuffer
+        return blend(original: framePixelBuffer, mask: maskPixelBuffer, backgroundType: backgroundType, backgroundImage: backgroundImage, blurRadius: blurRadius, backgroundColor: backgroundColor) ?? framePixelBuffer
     }
     
-    private func blend(original framePixelBuffer: CVPixelBuffer, mask maskPixelBuffer: CVPixelBuffer, backgroundImage: CIImage? = nil, blurRadius: CGFloat) -> CVImageBuffer? {
+    private func blend(original framePixelBuffer: CVPixelBuffer, mask maskPixelBuffer: CVPixelBuffer,backgroundType: JMVirtualBackgroundOption, backgroundImage: CIImage? = nil, blurRadius: CGFloat?,backgroundColor: UIColor?) -> CVImageBuffer? {
 
         var imageBuffer: CVImageBuffer?
         let originalImage = CIImage(cvPixelBuffer: framePixelBuffer)
@@ -89,15 +90,18 @@ class JMVirtualBackgroundHelper: NSObject {
 
         // Create a clear colored background image.
         var background: CIImage
-        if let backgroundImage = backgroundImage {
+        if case .image = backgroundType, let backgroundImage = backgroundImage {
             background = backgroundImage.oriented(.left)
+        }
+        else if case .color = backgroundType, let backgroundColor = backgroundColor {
+            background = CIImage(color: CIColor(color: backgroundColor))
         }
         else {
             background = originalImage.clampedToExtent()
                 .applyingFilter(
                     "CIBokehBlur",
                     parameters: [
-                        kCIInputRadiusKey: blurRadius,
+                        kCIInputRadiusKey: blurRadius ?? JMVirtualBackgroundBlurIntensity.medium.rawValue,
                     ]
                 )
                 .cropped(to: originalImage.extent)
@@ -111,6 +115,7 @@ class JMVirtualBackgroundHelper: NSObject {
 
         // Redner image to a new buffer.
         if let finalImage = blendFilter?.outputImage {
+            extent = originalImage.extent
             imageBuffer = renderToBuffer(image: finalImage)
         }
         else{
@@ -123,7 +128,7 @@ class JMVirtualBackgroundHelper: NSObject {
     
     private func renderToBuffer(image: CIImage) -> CVImageBuffer? {
         var imageBuffer: CVImageBuffer?
-        extent = image.extent
+        //extent = image.extent //This is breaking for color.
 
         CVPixelBufferPoolCreatePixelBuffer(nil, pixelBufferPool, &imageBuffer)
         if let imageBuffer = imageBuffer {

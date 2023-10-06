@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import UIKit
  
 public enum JMVirtualBackgroundOption{
     case none
     case blur(intensity: JMVirtualBackgroundBlurIntensity)
     case image(data: Data)
+    case color(color: UIColor)
 }
 public enum JMVirtualBackgroundBlurIntensity:Int{
     case low = 10
@@ -23,8 +25,10 @@ class JMVirtualBackgroundManager: NSObject {
     private var jmVBHelper: JMVirtualBackgroundHelper?
     private var rateLimiter: RateLimiter?
     
-    private var blurRadius: CGFloat?
-    private var coreBackgroundImage: CIImage?
+    private var backgroundType: JMVirtualBackgroundOption = .none
+    
+    private var backgroundBlurRadius: CGFloat?
+    private var backgroundColor: UIColor?
     private var backgroundImage: UIImage? {
         didSet {
             if let cgImage = backgroundImage?.cgImage {
@@ -37,6 +41,7 @@ class JMVirtualBackgroundManager: NSObject {
             }
         }
     }
+    private var coreBackgroundImage: CIImage?
     
     public init(fps: Int32) {
         self.rateLimiter = {.init(limit: 1/Double(fps))}()
@@ -53,8 +58,7 @@ class JMVirtualBackgroundManager: NSObject {
     }
 
     public func process(buffer: CVPixelBuffer) -> CVPixelBuffer {
-        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer, with: coreBackgroundImage, blurRadius: blurRadius ?? 10,
-        shouldSkip: {
+        let processedPixelBuffer = jmVBHelper?.replaceBackground(in: buffer, with: backgroundType, backgroundImage: coreBackgroundImage, blurRadius: backgroundBlurRadius, backgroundColor: backgroundColor, shouldSkip:{
             return !(rateLimiter?.shouldFeed() ?? false)
         })
         return processedPixelBuffer ?? buffer
@@ -63,6 +67,7 @@ class JMVirtualBackgroundManager: NSObject {
     public func dispose(){
         backgroundImage = nil
         coreBackgroundImage = nil
+        backgroundColor = nil
         
         jmVBHelper?.dispose()
         rateLimiter?.dispose()
@@ -78,11 +83,15 @@ class JMVirtualBackgroundManager: NSObject {
 
 extension JMVirtualBackgroundManager{
     func enableVirtualBackground(option: JMVirtualBackgroundOption){
+        backgroundType = option
         
         switch option {
         case .none:
             LOG.info("VB- Type set to NONE.")
             return
+            
+        case .color(let color):
+            configureOptionForColor(for: color)
             
         case .blur(let intensity):
             configureOptionForBlur(withIntensity: intensity)
@@ -91,11 +100,14 @@ extension JMVirtualBackgroundManager{
             configureOptionForImage(from: path)
         }
     }
+    private func configureOptionForColor(for color: UIColor){
+        LOG.info("VB- Type set to color with \(color).")
+        backgroundColor = color
+    }
     
     private func configureOptionForBlur(withIntensity intensity: JMVirtualBackgroundBlurIntensity){
         LOG.info("VB- Type set to blur with intensity \(intensity).")
-        blurRadius = CGFloat(intensity.rawValue)
-        coreBackgroundImage = nil
+        backgroundBlurRadius = CGFloat(intensity.rawValue)
     }
     
     private func configureOptionForImage(from data: Data){
