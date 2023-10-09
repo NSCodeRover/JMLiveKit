@@ -34,5 +34,4 @@ Pod::Spec.new do |spec|
   spec.dependency 'Socket.IO-Client-Swift', '~> 16.1.0'
   spec.dependency 'MMWormhole'
   spec.dependency 'VoiceActivityDetector'
-  spec.dependency 'GoogleMLKit/SegmentationSelfie'
 end

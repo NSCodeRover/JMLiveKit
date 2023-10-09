@@ -59,15 +59,6 @@ class JMVirtualBackgroundHelper: NSObject {
         if #available(iOS 15.0, *){
             maskPixelBuffer =  JMAppleMLKitManager.shared.getMask(for: framePixelBuffer) ?? previousBuffer ?? framePixelBuffer
         }
-        else{
-            guard let sampleBuffer = JMGoogleMLKitManager.shared.convertPixelToBuffer(framePixelBuffer)
-            else {
-                LOG.error("VB- GoogleML- failed to convert into sample buffer")
-                return previousBuffer ?? framePixelBuffer
-            }
-
-            maskPixelBuffer = JMGoogleMLKitManager.shared.getMask(for: sampleBuffer)
-        }
 
         guard let maskPixelBuffer = maskPixelBuffer
         else {

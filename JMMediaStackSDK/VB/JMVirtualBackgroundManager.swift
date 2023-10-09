@@ -50,9 +50,6 @@ class JMVirtualBackgroundManager: NSObject {
         if #available(iOS 15.0, *){
             JMAppleMLKitManager.shared.setupSession()
         }
-        else{
-            JMGoogleMLKitManager.shared.setupSession()
-        }
         
         super.init()
     }
@@ -74,9 +71,6 @@ class JMVirtualBackgroundManager: NSObject {
         
         if #available(iOS 15.0, *){
             JMAppleMLKitManager.shared.dispose()
-        }
-        else{
-            JMGoogleMLKitManager.shared.dispose()
         }
     }
 }
