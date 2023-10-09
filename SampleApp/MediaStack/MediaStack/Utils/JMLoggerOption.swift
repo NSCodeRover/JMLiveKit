@@ -8,8 +8,8 @@
 import Foundation
 import WebRTC
 
-public class JMRTCLogger {
-    public static let shared = JMRTCLogger()
+public class JMLoggerOption {
+    public static let shared = JMLoggerOption()
     
     private var logFileURL: URL
     private var fileHandle: FileHandle

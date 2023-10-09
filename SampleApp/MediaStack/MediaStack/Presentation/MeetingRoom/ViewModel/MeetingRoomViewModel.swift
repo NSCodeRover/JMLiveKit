@@ -221,7 +221,7 @@ extension MeetingRoomViewModel {
     }
     
     func enableLogs(){
-        JMRTCLogger.shared.setLogFileName(fileName: "JMMediaStack-\(meetingId)")
+        JMLoggerOption.shared.setLogFileName(fileName: "JMMediaStack-\(meetingId)")
         client.enableLog(true,severity: .info)
     }
     
@@ -352,8 +352,8 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     func onVideoDeviceChanged(_ device: JMVideoDevice) {
     }
     
-    func onLogMsgReceive(log: String) {
-        JMRTCLogger.shared.log(log)
-        print(log)
+    func onLogMessage(message: String) {
+        JMLoggerOption.shared.log(message)
+        print(message)
     }
 }

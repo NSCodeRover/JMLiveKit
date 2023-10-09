@@ -11,7 +11,7 @@ import WebRTC
 
 import SwiftyJSON
 
-let LOG = JMLogManager.self//SwiftyBeaver.self
+let LOG = JMLogManager.self
 
 public class JMMediaEngine : NSObject{
     
@@ -126,7 +126,7 @@ extension JMMediaEngine: delegateManager{
     //log
     func sendClientLogMsg(log: String) {
         vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onLogMsgReceive(log: log)
+            self.delegateBackToClient?.onLogMessage(message: log)
         }
     }
 }
@@ -140,7 +140,6 @@ public struct JMMediaOptions{
 
 extension JMMediaEngine: JMMediaEngineAbstract {
     
-
     public func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine{
         LOG.debug("\(#function) - \(appID)")
         delegateBackToClient = delegate
@@ -170,10 +169,8 @@ extension JMMediaEngine: JMMediaEngineAbstract {
     }
     
     public func enableLog(_ isEnabled:Bool = true,severity: RTCLoggingSeverity = .info){
-        JMLogManager.delegateToManager = self
-        JMLogManager.shared.enableLogs(isEnabled: isEnabled,severity: severity)
+        JMLogManager.shared.enableLogs(isEnabled: isEnabled,severity: severity,delegate: self)
     }
-
 
 }
 

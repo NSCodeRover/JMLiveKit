@@ -32,7 +32,7 @@ public protocol JMMediaEngineDelegate {
     func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType)
     
     func onChannelLeft()
-    func onLogMsgReceive(log: String)
+    func onLogMessage(message: String)
 }
 
 //Note: Optional callbacks - All methods mentioned below will become optional.
