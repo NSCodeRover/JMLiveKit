@@ -32,6 +32,7 @@ class JMAudioDeviceManager: NSObject {
     public static let shared = JMAudioDeviceManager()
     internal var delegateToManager: delegateManager? = nil
     
+    let audioDetector = JMAudioDetector()
     private let audioSession = AVAudioSession.sharedInstance()
     private var supportedCategory: AVAudioSession.CategoryOptions = [
         .defaultToSpeaker,
@@ -56,6 +57,7 @@ class JMAudioDeviceManager: NSObject {
     
     func setupSession(){
         setupNotifications()
+        addAudioDetectorCallbackListener()
         
         /*
         if #available(iOS 14.5, *) {
@@ -88,6 +90,7 @@ class JMAudioDeviceManager: NSObject {
         delegateToManager = nil
         isDevicePreferenceIsSet = false
         userSelectedDevice = nil
+        removeAudioDetectorCallbackListener()
         
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
@@ -307,5 +310,19 @@ extension AVAudioDevice{
         default:
             return .UnKnown
         }
+    }
+}
+
+//MARK: VAD
+extension JMAudioDeviceManager{
+    func addAudioDetectorCallbackListener(){
+        self.audioDetector.toastCallback = { [weak self] in
+            self?.delegateToManager?.sendClientSpeakOnMute()
+        }
+    }
+    
+    func removeAudioDetectorCallbackListener(){
+        self.audioDetector.toastCallback = nil
+        self.audioDetector.dispose()
     }
 }

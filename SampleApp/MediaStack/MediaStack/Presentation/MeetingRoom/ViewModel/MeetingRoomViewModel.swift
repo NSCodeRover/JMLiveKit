@@ -19,6 +19,7 @@ class MeetingRoomViewModel {
     var pushToMeetingRoom: ((Bool,String) -> Void)?
     var joinChannelLoader: (() -> ())?
     var onErrorShowToast: ((JMMediaError) -> Void)?
+    var onShowToast: (() -> Void)?
     
     var isMicEnabled: Bool = false
     var isCameraEnabled: Bool = false
@@ -350,5 +351,9 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onVideoDeviceChanged(_ device: JMVideoDevice) {
+    }
+    
+    func onUserSpeakingOnMute() {
+        self.onShowToast?()
     }
 }
