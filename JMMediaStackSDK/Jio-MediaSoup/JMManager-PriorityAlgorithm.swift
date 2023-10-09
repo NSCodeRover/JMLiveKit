@@ -170,7 +170,8 @@ extension JMManagerViewModel{
     //Spatial layer has some issue and it starts with 1 when setting 'setMaxSpatialLayer'
     fileprivate func getSpatialValues() -> Int{
         
-        if connectionNetworkType != .WIFI{
+        if userState.selfScreenShareEnabled || connectionNetworkType != .WIFI{
+            //If self is sharing screen OR on mobile network then use MEDIUM stream.
             return 2
         }
         
