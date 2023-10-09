@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation.AVFAudio
 import VoiceActivityDetector
 
-class VoiceActivityMonitor: NSObject {
+class JMAudioDetector: NSObject {
     
     // Initialize Voice Activity Detector
     let voiceActivityDetector = VoiceActivityDetector(agressiveness: .veryAggressive)!
@@ -103,7 +103,7 @@ class VoiceActivityMonitor: NSObject {
             inBuffer: AudioQueueBufferRef,_,_,_
         ) in
             guard let inUserData = inUserData else { return }
-            let myself = Unmanaged<VoiceActivityMonitor>.fromOpaque(inUserData).takeUnretainedValue()
+            let myself = Unmanaged<JMAudioDetector>.fromOpaque(inUserData).takeUnretainedValue()
             guard myself.isMicrophoneActive else { return }
             myself.didReceivceSampleBuffer(buffer: inBuffer.pointee)
             
