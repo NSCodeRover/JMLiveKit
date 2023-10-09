@@ -4,6 +4,7 @@
 //
 //  Created by Harsh1 Surati on 27/07/23.
 //
+//TODO: Check ARC (memory leaks)
 
 import Foundation
 import WebRTC
@@ -11,27 +12,19 @@ import WebRTC
 @objc public class JMLogManager: NSObject{
     @objc public static let shared = JMLogManager()
     
-    static var isEnabled: Bool = false
     let webrtcLogger = RTCCallbackLogger()
-    static var delegateToManager: delegateManager? = nil
     private let queue = DispatchQueue(label: "com.jmedia.webrtc.logQueue")
+    
+    static var isEnabled: Bool = false
+    static var delegateToManager: delegateManager? = nil
+    
     private override init(){}
-    internal func setupLogger(){
-    }
     
     public func enableLogs(isEnabled:Bool = true,severity: RTCLoggingSeverity = .info,delegate:JMMediaEngine) {
         JMLogManager.delegateToManager = delegate
         JMLogManager.isEnabled = isEnabled
-        webrtcLogger.severity = severity
-        if isEnabled {
-            webrtcLogger.stop()
-            webrtcLogger.start { (message) in
-                // Inside the log callback, pass the message to the completionHandler
-                JMLogManager.delegateToManager?.sendClientLogMsg(log: JMLogManager.log("[webrtc] \(self.getHeart(severity: severity))" + message.trimmingCharacters(in: .whitespacesAndNewlines)))
-            }
-        }else{
-            webrtcLogger.stop()
-        }
+        
+        listenToWebrtcLogs(isEnabled, severity: severity)
     }
     
     func getHeart(severity:RTCLoggingSeverity)->String {
@@ -54,6 +47,23 @@ import WebRTC
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let formattedDate = dateFormatter.string(from: Date())
         return "[\(formattedDate)] \(message)\n"
+    }
+}
+
+//MARK: WEBRTC LOGS
+extension JMLogManager{
+    func listenToWebrtcLogs(_ isEnabled: Bool, severity: RTCLoggingSeverity){
+        webrtcLogger.severity = severity
+        
+        if isEnabled {
+            webrtcLogger.stop()
+            webrtcLogger.start { (message) in
+                // Inside the log callback, pass the message to the completionHandler
+                JMLogManager.delegateToManager?.sendClientLogMsg(log: JMLogManager.log("[webrtc] \(self.getHeart(severity: severity))" + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+            }
+        }else{
+            webrtcLogger.stop()
+        }
     }
 }
 
