@@ -86,14 +86,8 @@ extension JMLogManager{
     }
 }
 
+//For JMMediaStack, we have enabled all logs/ INFO.
 extension JMLogManager {
-    
-    /// log something generally unimportant (lowest priority)
-    public class func verbose(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
-        if isEnabled {
-            self.delegateToManager?.sendClientLogMsg(log: JMLogManager.log(" 💜 \(URL(fileURLWithPath: file).lastPathComponent) \(function) line: \(line) " + message.trimmingCharacters(in: .whitespacesAndNewlines)))
-        }
-    }
 
     /// log something which help during debugging (low priority)
     public class func debug(_ message: String = "",file: String = #file, function: String = #function, line: Int = #line) {
