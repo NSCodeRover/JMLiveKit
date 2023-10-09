@@ -9,6 +9,23 @@
 import Foundation
 import WebRTC
 
+public enum JMLogSeverity{
+    case debug
+    case info
+    case warning
+    case error
+}
+extension JMLogSeverity{
+    func webrtcType() -> RTCLoggingSeverity{
+        switch self{
+        case .debug: return .verbose
+        case .info: return .info
+        case .warning: return .warning
+        case .error: return .error
+        }
+    }
+}
+
 @objc public class JMLogManager: NSObject{
     @objc public static let shared = JMLogManager()
     
@@ -20,7 +37,7 @@ import WebRTC
     
     private override init(){}
     
-    public func enableLogs(isEnabled:Bool = true,severity: RTCLoggingSeverity = .info,delegate:JMMediaEngine) {
+    public func enableLogs(isEnabled:Bool = true, severity: JMLogSeverity = .info, delegate:JMMediaEngine) {
         JMLogManager.delegateToManager = delegate
         JMLogManager.isEnabled = isEnabled
         
@@ -52,14 +69,16 @@ import WebRTC
 
 //MARK: WEBRTC LOGS
 extension JMLogManager{
-    func listenToWebrtcLogs(_ isEnabled: Bool, severity: RTCLoggingSeverity){
-        webrtcLogger.severity = severity
+    
+    func listenToWebrtcLogs(_ isEnabled: Bool, severity: JMLogSeverity){
+        let webrtcSeverity = severity.webrtcType()
+        webrtcLogger.severity = webrtcSeverity
         
         if isEnabled {
             webrtcLogger.stop()
             webrtcLogger.start { (message) in
                 // Inside the log callback, pass the message to the completionHandler
-                JMLogManager.delegateToManager?.sendClientLogMsg(log: JMLogManager.log("[webrtc] \(self.getHeart(severity: severity))" + message.trimmingCharacters(in: .whitespacesAndNewlines)))
+                JMLogManager.delegateToManager?.sendClientLogMsg(log: JMLogManager.log("[webrtc] \(self.getHeart(severity: webrtcSeverity))" + message.trimmingCharacters(in: .whitespacesAndNewlines)))
             }
         }else{
             webrtcLogger.stop()

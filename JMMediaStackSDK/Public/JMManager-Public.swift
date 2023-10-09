@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import WebRTC
 
 //Note: These callback will be received by SDK to Client
 public protocol JMMediaEngineDelegate {
@@ -85,5 +84,5 @@ protocol JMMediaEngineAbstract{
     func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     func sendPrivateMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
    
-    func enableLog( _ isEnabled:Bool ,severity: RTCLoggingSeverity )
+    func enableLog(_ isEnabled: Bool,severity: JMLogSeverity)
 }

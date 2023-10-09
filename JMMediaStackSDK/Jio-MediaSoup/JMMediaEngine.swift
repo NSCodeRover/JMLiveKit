@@ -176,10 +176,9 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         sendClientEndCall()
     }
     
-    public func enableLog(_ isEnabled:Bool = true,severity: RTCLoggingSeverity = .info){
-        JMLogManager.shared.enableLogs(isEnabled: isEnabled,severity: severity,delegate: self)
+    public func enableLog(_ isEnabled: Bool, severity: JMLogSeverity = .info){
+        JMLogManager.shared.enableLogs(isEnabled: isEnabled, severity: severity, delegate: self)
     }
-
 }
 
 //MARK: AUDIO PUBLIC ACCESS
