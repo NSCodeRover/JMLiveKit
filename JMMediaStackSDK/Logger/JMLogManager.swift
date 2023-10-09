@@ -44,21 +44,6 @@ extension JMLogSeverity{
         listenToWebrtcLogs(isEnabled, severity: severity)
     }
     
-    func getHeart(severity:RTCLoggingSeverity)->String {
-        switch severity {
-        case .error:
-            return "❤️"
-        case .info:
-            return "💙"
-        case .verbose:
-            return "💜"
-        case .warning:
-            return "💛"
-        default:
-            return "💚"
-        }
-    }
-    
     public class func log(_ message: String)->String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
@@ -82,6 +67,21 @@ extension JMLogManager{
             }
         }else{
             webrtcLogger.stop()
+        }
+    }
+    
+    func getHeart(severity:RTCLoggingSeverity)->String {
+        switch severity {
+        case .error:
+            return "❤️"
+        case .info:
+            return "💙"
+        case .verbose:
+            return "💜"
+        case .warning:
+            return "💛"
+        default:
+            return "💚"
         }
     }
 }
