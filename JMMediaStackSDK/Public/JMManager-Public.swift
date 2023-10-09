@@ -24,6 +24,7 @@ public protocol JMMediaEngineDelegate {
     func onAudioDeviceChanged(_ device: JMAudioDevice)
     func onVideoDeviceChanged(_ device: JMVideoDevice)
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant])
+    func onUserSpeakingOnMute()
     
     func onConnectionStateChanged(state: JMSocketConnectionState)
     func onNetworkQuality(stats: JMNetworkStatistics)
@@ -31,6 +32,7 @@ public protocol JMMediaEngineDelegate {
     func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType)
     
     func onChannelLeft()
+    func onLogMessage(message: String)
 }
 
 //Note: Optional callbacks - All methods mentioned below will become optional.
@@ -42,6 +44,7 @@ extension JMMediaEngineDelegate{
     func onVideoDeviceChanged(_ device: JMVideoDevice){}
     
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant]){}
+    func onUserSpeakingOnMute(){}
     
     func onConnectionStateChanged(state: JMSocketConnectionState){}
     func onNetworkQuality(stats: JMNetworkStatistics){}
@@ -81,6 +84,6 @@ protocol JMMediaEngineAbstract{
     
     func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     func sendPrivateMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
-    
-    func enableLog(_ isEnable: Bool,withPath path: String) -> String
+   
+    func enableLog(_ isEnabled: Bool,severity: JMLogSeverity)
 }

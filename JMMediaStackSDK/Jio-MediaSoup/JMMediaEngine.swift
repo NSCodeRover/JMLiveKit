@@ -11,15 +11,13 @@ import WebRTC
 
 import SwiftyJSON
 
-import SwiftyBeaver
-let LOG = SwiftyBeaver.self
+let LOG = JMLogManager.self
 
 public class JMMediaEngine : NSObject{
     
     static public let shared = JMMediaEngine()
     private override init() {
         super.init()
-        JMLogManager.shared.setupLogger()
     }
     
     public var delegateBackToClient:JMMediaEngineDelegate?
@@ -28,7 +26,6 @@ public class JMMediaEngine : NSObject{
 
 //MARK: Communicating back to Client (send data and event to client app)
 extension JMMediaEngine: delegateManager{
-    
     //Join
     func sendClientJoinSocketSuccess(selfId: String) {
         vm_manager.qJMMediaMainQueue.async {
@@ -94,6 +91,14 @@ extension JMMediaEngine: delegateManager{
         }
     }
     
+    func sendClientSpeakOnMute() {
+        vm_manager.qJMMediaMainQueue.async {
+            if !self.vm_manager.userState.selfMicEnabled {
+                self.delegateBackToClient?.onUserSpeakingOnMute()
+            }
+        }
+    }
+    
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant]) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onTopSpeakers(listActiveParticipant: listActiveParticipant)
@@ -125,6 +130,13 @@ extension JMMediaEngine: delegateManager{
             self.delegateBackToClient?.onChannelLeft()
         }
     }
+    
+    //log
+    func sendClientLogMsg(log: String) {
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onLogMessage(message: log)
+        }
+    }
 }
 
 public struct JMMediaOptions{
@@ -135,7 +147,7 @@ public struct JMMediaOptions{
 }
 
 extension JMMediaEngine: JMMediaEngineAbstract {
-
+    
     public func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine{
         LOG.debug("\(#function) - \(appID)")
         delegateBackToClient = delegate
@@ -164,9 +176,8 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         sendClientEndCall()
     }
     
-    public func enableLog(_ isEnable: Bool,withPath path: String = "") -> String{
-        LOG.info("LOG- isEnabled:\(isEnable)|path:\(path == "" ? "Default" : path)")
-        return JMLogManager.shared.enableLogger(isEnable,withPath: path)
+    public func enableLog(_ isEnabled: Bool, severity: JMLogSeverity = .info){
+        JMLogManager.shared.enableLogs(isEnabled: isEnabled, severity: severity, delegate: self)
     }
 }
 

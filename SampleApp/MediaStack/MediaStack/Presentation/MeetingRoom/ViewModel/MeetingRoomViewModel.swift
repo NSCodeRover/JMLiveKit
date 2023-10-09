@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import WebRTC
-
 import JMMediaStackSDK
 
 class MeetingRoomViewModel {
@@ -19,6 +17,7 @@ class MeetingRoomViewModel {
     var pushToMeetingRoom: ((Bool,String) -> Void)?
     var joinChannelLoader: (() -> ())?
     var onErrorShowToast: ((JMMediaError) -> Void)?
+    var onShowToast: (() -> Void)?
     
     var isMicEnabled: Bool = false
     var isCameraEnabled: Bool = false
@@ -104,7 +103,6 @@ extension MeetingRoomViewModel {
                 let ids = peers.map { $0.userId }
                 self.client.enableAudioOnlyMode(enabled,userList: ids,includeScreenShare: false)
             }
-            
             
             //Screenshare subscribe/unsubscribe testing (one user only)
 //            self.client.subscribeFeed(!enabled, remoteId: peers.first!.userId, mediaType: .shareScreen)
@@ -240,8 +238,8 @@ extension MeetingRoomViewModel {
     }
     
     func enableLogs(){
-        let logPath = client.enableLog(true)
-        print("LOG- client \(logPath)")
+        JMLoggerOption.shared.setLogFileName(fileName: "JMMediaStack-\(meetingId)")
+        client.enableLog(true,severity: .info)
     }
     
     func onRejoined() {
@@ -369,5 +367,14 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onVideoDeviceChanged(_ device: JMVideoDevice) {
+    }
+    
+    func onLogMessage(message: String) {
+        JMLoggerOption.shared.log(message)
+        print(message)
+    }
+    
+    func onUserSpeakingOnMute() {
+        self.onShowToast?()
     }
 }
