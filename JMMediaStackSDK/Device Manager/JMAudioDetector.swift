@@ -9,25 +9,25 @@ import Foundation
 import AVFoundation.AVFAudio
 import VoiceActivityDetector
 
-class JMAudioDetector:NSObject {
-    var timer1: Timer?
-    var timer2: Timer?
-    var event1Timestamp: Date?
+class JMAudioDetector: NSObject {
     
     // Initialize Voice Activity Detector
     let voiceActivityDetector = VoiceActivityDetector(agressiveness: .veryAggressive)!
+    
+    // Property to store the current voice activity state
     var voiceActivity: VoiceActivityDetector.VoiceActivity? {
-      didSet {
-        guard oldValue != voiceActivity else { return }
-        if let voiceActivity = voiceActivity {
-          switch voiceActivity {
-          case .activeVoice:
-              scheduleSpeechTimeoutStart()
-          case .inActiveVoice:
-              scheduleSpeechTimeoutEnd()
-          }
+        didSet {
+            // Check for changes in voice activity state
+            guard oldValue != voiceActivity else { return }
+            if let voiceActivity = voiceActivity {
+                switch voiceActivity {
+                case .activeVoice:
+                    scheduleSpeechTimeoutStart() // Schedule the start of speech timeout
+                case .inActiveVoice:
+                    scheduleSpeechTimeoutEnd() // Schedule the end of speech timeout
+                }
+            }
         }
-      }
     }
     
     // Initialize audio recording properties
@@ -46,52 +46,56 @@ class JMAudioDetector:NSObject {
         mReserved: 0
     )
     
+    // Callback for a toast message
     var toastCallback: (() -> Void)?
     var speakEndCounter = 0
+    
+    // Initialize the class
     override init() {
         super.init()
-        setupAudioRecording()
-        activateMicrophone()
+        setupAudioRecording() // Set up audio recording
+        activateMicrophone() // Activate the microphone
     }
     
+    // Function to dispose of resources
     func dispose() {
-        timer1?.invalidate()
-        timer1 = nil
-        timer2?.invalidate()
-        timer2 = nil
-
-        deactivateMicrophone()
-
+        deactivateMicrophone() // Deactivate the microphone
         audioBuffers.removeAll()
         audioQueue = nil
-
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
     // MARK: - Voice Activity Detection
+    
+    // Function to start speech timeout
     @objc func startSpeechTimeout() {
         toastCallback?()
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
+    // Function to end speech timeout
     @objc func endSpeechTimeout() {
-        speakEndCounter = speakEndCounter + 1
         if speakEndCounter != 0 && speakEndCounter % 3 == 0 {
             toastCallback?()
             speakEndCounter = 0
         }
+        speakEndCounter = speakEndCounter + 1
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
+    // Function to schedule the start of speech timeout
     func scheduleSpeechTimeoutStart() {
         perform(#selector(startSpeechTimeout), with: nil, afterDelay: 2.5)
     }
     
+    // Function to schedule the end of speech timeout
     func scheduleSpeechTimeoutEnd() {
         perform(#selector(endSpeechTimeout), with: nil, afterDelay: 1.9)
     }
     
     // MARK: - Audio Recording
+    
+    // Function to set up audio recording
     func setupAudioRecording() {
         let callback: AudioQueueInputCallback = { (
             inUserData: UnsafeMutableRawPointer?,
@@ -99,7 +103,6 @@ class JMAudioDetector:NSObject {
             inBuffer: AudioQueueBufferRef,_,_,_
         ) in
             guard let inUserData = inUserData else { return }
-            
             let myself = Unmanaged<JMAudioDetector>.fromOpaque(inUserData).takeUnretainedValue()
             guard myself.isMicrophoneActive else { return }
             myself.didReceivceSampleBuffer(buffer: inBuffer.pointee)
@@ -120,6 +123,7 @@ class JMAudioDetector:NSObject {
         }
     }
     
+    // Function to activate the microphone
     func activateMicrophone() {
         guard let audioQueue = audioQueue else { return }
         
@@ -143,6 +147,7 @@ class JMAudioDetector:NSObject {
         }
     }
     
+    // Function to deactivate the microphone
     func deactivateMicrophone() {
         isMicrophoneActive = false
         guard let audioQueue = audioQueue else { return }
@@ -155,12 +160,14 @@ class JMAudioDetector:NSObject {
         dequeueBuffers()
     }
     
+    // Function to enqueue audio buffers
     func enqueueBuffers() {
         guard let audioQueue = audioQueue else { return }
         
         let format = audioStreamDescription
-        let bufferSize = UInt32(format.mSampleRate) * UInt32(format.mBytesPerFrame) / 1000 * UInt32(30)
+        let bufferSize = UInt32(format.mSampleRate) * UInt32(format.mBytesPerFrame) / 1000 * UInt32(30)// It calculates the buffer size in bytes based on the sample rate, bytes per frame, and a duration of 30 milliseconds. This buffer size determines how much audio data can be stored in each buffer
         for _ in 0 ..< 3 {
+            //This loop runs three times, indicating that it will create and enqueue three audio buffers. These buffers will be used for storing audio data during recording.
             var buffer: AudioQueueBufferRef?
             var err = AudioQueueAllocateBuffer(audioQueue, bufferSize, &buffer)
             if (err != noErr) {
@@ -176,6 +183,7 @@ class JMAudioDetector:NSObject {
         }
     }
     
+    // Function to dequeue audio buffers and process sample data
     func dequeueBuffers() {
         guard let audioQueue = audioQueue else { return }
         while let buffer = audioBuffers.popLast() {
@@ -183,11 +191,13 @@ class JMAudioDetector:NSObject {
         }
     }
     
+    // Function to process sample buffer data and detect voice activity
     func didReceivceSampleBuffer(buffer: AudioQueueBuffer) {
         let frames = buffer.mAudioData.assumingMemoryBound(to: Int16.self)
         var count = Int(buffer.mAudioDataByteSize) / MemoryLayout<Int16>.size
-        let detectorFrameUnit = Int(audioStreamDescription.mSampleRate) * VoiceActivityDetector.Duration.msec10.rawValue / 1000
-        count = count - (count % detectorFrameUnit)
+        let detectorFrameUnit = Int(audioStreamDescription.mSampleRate) * VoiceActivityDetector.Duration.msec10.rawValue / 1000 // It calculates the frame unit size required by the Voice Activity Detector (VAD). This is based on the sample rate of the audio stream and a predefined duration (msec10 is typically 10 milliseconds).
+        
+        count = count - (count % detectorFrameUnit)//It ensures that the count of frames is a multiple of the detectorFrameUnit. This step helps in aligning the audio data with the VAD's frame size, ensuring consistent analysis.
         guard 0 < count else { return }
         
         let voiceActivity = voiceActivityDetector.detect(frames: frames, count: count)
@@ -197,17 +207,18 @@ class JMAudioDetector:NSObject {
     }
 }
 
+// Extension to provide descriptions for VoiceActivityDetector's DetectionAggressiveness enum cases
 extension VoiceActivityDetector.DetectionAggressiveness {
-  var description: String {
-    switch self {
-    case .quality:
-      return "quality"
-    case .lowBitRate:
-      return "lowBitRate"
-    case .aggressive:
-      return "aggressive"
-    case .veryAggressive:
-      return "veryAggressive"
+    var description: String {
+        switch self {
+        case .quality:
+            return "quality"
+        case .lowBitRate:
+            return "lowBitRate"
+        case .aggressive:
+            return "aggressive"
+        case .veryAggressive:
+            return "veryAggressive"
+        }
     }
-  }
 }
