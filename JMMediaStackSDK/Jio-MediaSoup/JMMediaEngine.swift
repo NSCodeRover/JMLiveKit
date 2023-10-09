@@ -243,6 +243,11 @@ extension JMMediaEngine{
         vm_manager.addRemoteRenderView(view,remoteId: remoteId)
     }
     
+    @available(iOS 15.0, *)
+    public func enableVirtualBackground(_ isEnabled: Bool, withOption option: JMVirtualBackgroundOption = .none){
+        vm_manager.enableVirtualBackground(isEnabled, withOption: option)
+    }
+    
     //ScreenShare
     public func setupShareVideo(_ view: UIView, remoteId: String) {
         vm_manager.addRemoteScreenShareRenderView(view,remoteId: remoteId)

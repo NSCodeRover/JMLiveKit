@@ -67,6 +67,9 @@ protocol JMMediaEngineAbstract{
     func setupLocalVideo(_ view: UIView)
     func setupRemoteVideo(_ view: UIView, remoteId: String)
     
+    @available(iOS 15.0, *)
+    func enableVirtualBackground(_ isEnabled: Bool, withOption option: JMVirtualBackgroundOption)
+    
     func setLocalAudioEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     func setLocalVideoEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     

@@ -41,6 +41,7 @@
 		64834A3F2A6015110074EB5D /* VM-JMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A352A6015110074EB5D /* VM-JMManager.swift */; };
 		64834A492A60151D0074EB5D /* SocketUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A452A60151D0074EB5D /* SocketUtil.swift */; };
 		64834A4B2A60151D0074EB5D /* JioSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64834A472A60151D0074EB5D /* JioSocket.swift */; };
+		6495DA252AC5C26300916FE3 /* VB.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6495DA242AC5C26300916FE3 /* VB.xcassets */; };
 		64ADA2162A6ED7390009A4F5 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 64ADA2122A6ED7390009A4F5 /* Logger.m */; };
 		64ADA2182A6ED7390009A4F5 /* Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 64ADA2142A6ED7390009A4F5 /* Logger.h */; };
 /* End PBXBuildFile section */
@@ -118,6 +119,7 @@
 		64834A452A60151D0074EB5D /* SocketUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketUtil.swift; sourceTree = "<group>"; };
 		64834A462A60151D0074EB5D /* JioSocketProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioSocketProperty.swift; sourceTree = "<group>"; };
 		64834A472A60151D0074EB5D /* JioSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioSocket.swift; sourceTree = "<group>"; };
+		6495DA242AC5C26300916FE3 /* VB.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = VB.xcassets; sourceTree = "<group>"; };
 		64ADA2122A6ED7390009A4F5 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
 		64ADA2132A6ED7390009A4F5 /* JioMeetRealTimeLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioMeetRealTimeLogger.swift; sourceTree = "<group>"; };
 		64ADA2142A6ED7390009A4F5 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
@@ -326,6 +328,14 @@
 			path = Socket;
 			sourceTree = "<group>";
 		};
+		6495DA232AC5C26300916FE3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6495DA242AC5C26300916FE3 /* VB.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		64ADA2112A6ED7390009A4F5 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +389,7 @@
 		F71B612F2A1F7E2300482D6E /* JMMediaStackSDK */ = {
 			isa = PBXGroup;
 			children = (
+				6495DA232AC5C26300916FE3 /* Resources */,
 				64297B5A2A9DD23A000B3770 /* Public */,
 				64297B392A9DD1DB000B3770 /* Jio-MediaSoup */,
 				64297B282A9DD1DB000B3770 /* Model */,
@@ -470,6 +481,7 @@
 				64297B672A9DD265000B3770 /* JMMediaStackSDK.podspec in Resources */,
 				64297B662A9DD265000B3770 /* Getting Started.md in Resources */,
 				64297B652A9DD265000B3770 /* README.md in Resources */,
+				6495DA252AC5C26300916FE3 /* VB.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -289,6 +289,11 @@ extension MeetingRoomViewController{
             self.viewModel.handleEvent(event: .videoDevice)
         }
         
+        let virtualBG = UIAlertAction(title: self.viewModel.isVirtualBackgroundEnabled ? "Disable Virtual Background" : "Enable Virtual Background", style: .default) { _ in
+            self.viewModel.isVirtualBackgroundEnabled = !self.viewModel.isVirtualBackgroundEnabled
+            self.viewModel.handleEvent(event: .virtualBackground(self.viewModel.isVirtualBackgroundEnabled))
+        }
+        
         let endCall = UIAlertAction(title: "End Call", style: .destructive) { _ in
             self.viewModel.handleEvent(event: .endCall)
         }
@@ -302,6 +307,7 @@ extension MeetingRoomViewController{
         actionSheet.addAction(audioOnlyMode)
         actionSheet.addAction(audioDevice)
         actionSheet.addAction(videoDevice)
+        actionSheet.addAction(virtualBG)
         actionSheet.addAction(endCall)
         actionSheet.addAction(cancel)
         
