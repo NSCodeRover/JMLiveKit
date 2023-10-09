@@ -193,6 +193,10 @@ extension MeetingRoomViewController {
             self.showToast("JMMediaError: \(mediaError.description)")
         }
         
+        self.viewModel.onShowToast = {
+            self.showToast("Are you trying to speak? Unmute yourself if you are speaking.")
+        }
+        
         lblDisplayName.text = viewModel.displayName
     }
 }

@@ -25,6 +25,7 @@ public protocol JMMediaEngineDelegate {
     func onAudioDeviceChanged(_ device: JMAudioDevice)
     func onVideoDeviceChanged(_ device: JMVideoDevice)
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant])
+    func onUserSpeakingOnMute()
     
     func onConnectionStateChanged(state: JMSocketConnectionState)
     func onNetworkQuality(stats: JMNetworkStatistics)
@@ -44,6 +45,7 @@ extension JMMediaEngineDelegate{
     func onVideoDeviceChanged(_ device: JMVideoDevice){}
     
     func onTopSpeakers(listActiveParticipant: [JMActiveParticipant]){}
+    func onUserSpeakingOnMute(){}
     
     func onConnectionStateChanged(state: JMSocketConnectionState){}
     func onNetworkQuality(stats: JMNetworkStatistics){}

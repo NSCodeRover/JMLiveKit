@@ -19,6 +19,7 @@ class MeetingRoomViewModel {
     var pushToMeetingRoom: ((Bool,String) -> Void)?
     var joinChannelLoader: (() -> ())?
     var onErrorShowToast: ((JMMediaError) -> Void)?
+    var onShowToast: (() -> Void)?
     
     var isMicEnabled: Bool = false
     var isCameraEnabled: Bool = false
@@ -355,5 +356,9 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     func onLogMessage(message: String) {
         JMLoggerOption.shared.log(message)
         print(message)
+    }
+    
+    func onUserSpeakingOnMute() {
+        self.onShowToast?()
     }
 }

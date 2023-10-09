@@ -26,6 +26,9 @@ protocol delegateManager: AnyObject{
     func sendClientAudioDeviceInUse(_ device: AVAudioDevice)
     func sendClientVideoDeviceInUse(_ device: AVVideoDevice)
     
+    //Speak On Mute
+    func sendClientSpeakOnMute()
+    
     //Remote User actions
     func sendClientUserPublished(id: String, type: JMMediaType)
     func sendClientUserUnPublished(id: String, type: JMMediaType)

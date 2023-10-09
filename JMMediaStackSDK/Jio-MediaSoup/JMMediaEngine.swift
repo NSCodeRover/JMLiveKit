@@ -91,6 +91,14 @@ extension JMMediaEngine: delegateManager{
         }
     }
     
+    func sendClientSpeakOnMute() {
+        vm_manager.qJMMediaMainQueue.async {
+            if !self.vm_manager.userState.selfMicEnabled {
+                self.delegateBackToClient?.onUserSpeakingOnMute()
+            }
+        }
+    }
+    
     func sendClientTopSpeakers(listActiveParticipant: [JMActiveParticipant]) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onTopSpeakers(listActiveParticipant: listActiveParticipant)
