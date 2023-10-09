@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64AB4CEE2AD40196001EE7AD /* JMLoggerOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AB4CED2AD40196001EE7AD /* JMLoggerOption.swift */; };
 		6F0C37D4696540268C972BD0 /* libPods-MediaStack-MediaStackScreenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED82EC819D2B0C5E471D8A75 /* libPods-MediaStack-MediaStackScreenShare.a */; };
 		8C0732379ECAE6FF68914559 /* libPods-MediaStack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731FE1A37EA898EC06619EC4 /* libPods-MediaStack.a */; };
 		C50450A22A4C0E8D00450052 /* MeetingRoomShareVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50450A02A4C0E8D00450052 /* MeetingRoomShareVideoCell.swift */; };
@@ -63,6 +64,7 @@
 		33FEE0BACB5FB4EEF6C35F5B /* Pods-MediaStackScreenShare.rc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaStackScreenShare.rc.xcconfig"; path = "Target Support Files/Pods-MediaStackScreenShare/Pods-MediaStackScreenShare.rc.xcconfig"; sourceTree = "<group>"; };
 		4D95B361B2C5F4AC723B9718 /* Pods-MediaStack.prestage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaStack.prestage.xcconfig"; path = "Target Support Files/Pods-MediaStack/Pods-MediaStack.prestage.xcconfig"; sourceTree = "<group>"; };
 		57A5F119D549CB4B2F6F5714 /* Pods-MediaStackScreenShare.production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaStackScreenShare.production.xcconfig"; path = "Target Support Files/Pods-MediaStackScreenShare/Pods-MediaStackScreenShare.production.xcconfig"; sourceTree = "<group>"; };
+		64AB4CED2AD40196001EE7AD /* JMLoggerOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMLoggerOption.swift; sourceTree = "<group>"; };
 		731FE1A37EA898EC06619EC4 /* libPods-MediaStack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaStack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D7061353B34B0747AA993A /* Pods-MediaStackScreenShare.prestage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaStackScreenShare.prestage.xcconfig"; path = "Target Support Files/Pods-MediaStackScreenShare/Pods-MediaStackScreenShare.prestage.xcconfig"; sourceTree = "<group>"; };
 		7D5874D03326696179A66018 /* Pods-MediaStack-MediaStackScreenShare.prestage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaStack-MediaStackScreenShare.prestage.xcconfig"; path = "Target Support Files/Pods-MediaStack-MediaStackScreenShare/Pods-MediaStack-MediaStackScreenShare.prestage.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 		F7CF81C7299A60DD00B4BF6F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				64AB4CED2AD40196001EE7AD /* JMLoggerOption.swift */,
 				F7CF81C8299A60E800B4BF6F /* Extension */,
 			);
 			path = Utils;
@@ -483,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7C18B7A29ACF084005A103F /* JoinViewController.swift in Sources */,
+				64AB4CEE2AD40196001EE7AD /* JMLoggerOption.swift in Sources */,
 				F75151CD29B5F24200BAD13B /* MeetingRoomVideoCell.swift in Sources */,
 				F719E97F2992732500937D2C /* AppConfiguration.swift in Sources */,
 				C5C81B002A4D3E3000BB66FC /* UIView+ExtensionInspectible.swift in Sources */,
