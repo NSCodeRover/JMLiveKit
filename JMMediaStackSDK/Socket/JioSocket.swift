@@ -91,9 +91,9 @@ class JioSocket : NSObject {
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
     
-    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent], isRejoin: Bool) {
+    func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent], isRejoin: Bool, queue: DispatchQueue) {
         if let url = URL.init(string: socketUrl) {
-            manager = SocketManager(socketURL: url,config: getSocketConfiguration())
+            manager = SocketManager(socketURL: url,config: getSocketConfiguration(withQueue: queue))
             if let manager = self.manager {
                 self.delegate = delegate
                 self.socketIp = ip
@@ -178,12 +178,12 @@ class JioSocket : NSObject {
 
 // MARK: - Private Methods
 extension JioSocket {
-    private func getSocketConfiguration() -> SocketIOClientConfiguration {
+    private func getSocketConfiguration(withQueue queue: DispatchQueue) -> SocketIOClientConfiguration {
         return [
             .log(false),
             .compress,
             .path("/socket.io/"),
-            
+            .handleQueue(queue),
             .forceNew(false),
             .reconnects(true),    // Enable reconnection attempts
             .reconnectAttempts(10), // Set the number of reconnection attempts
