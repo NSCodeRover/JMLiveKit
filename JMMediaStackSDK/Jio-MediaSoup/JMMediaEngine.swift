@@ -65,6 +65,13 @@ extension JMMediaEngine: delegateManager{
         }
     }
     
+    //Local media state
+    func sendClientSelfLocalMediaState(type: JMMediaType, reason: JMMediaReason) {
+        vm_manager.qJMMediaMainQueue.async {
+            self.delegateBackToClient?.onLocalMediaStateChange(type: type, reason: reason)
+        }
+    }
+        
     //Messaging
     func sendClientBroadcastMessage(msg: [String: Any]) {
         vm_manager.qJMMediaMainQueue.async {

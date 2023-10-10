@@ -380,4 +380,7 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     func onUserSpeakingOnMute() {
         self.onShowToast?()
     }
+    
+    func onLocalMediaStateChange(type: JMMediaType, reason: JMMediaReason) {
+    }
 }

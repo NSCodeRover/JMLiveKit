@@ -32,6 +32,7 @@ protocol delegateManager: AnyObject{
     //Remote User actions
     func sendClientUserPublished(id: String, type: JMMediaType)
     func sendClientUserUnPublished(id: String, type: JMMediaType)
+    func sendClientSelfLocalMediaState(type: JMMediaType, reason: JMMediaReason)
     func sendClientBroadcastMessage(msg: [String: Any])
     func sendClientBroadcastMessageToPeer(msg: [String: Any])
     func sendClientUserJoined(user: JMUserInfo)

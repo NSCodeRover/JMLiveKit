@@ -85,6 +85,13 @@ public enum JMMediaErrorType: String{
     case remoteScreenShareStreamFailed
 }
 
+//Media for local state
+public enum JMMediaReason{
+    case audioStoppedByServer
+    case videoStoppedByServer
+    case screenshareStoppedByServer
+}
+
 public enum JMMediaQuality: Int{
     case low = 0
     case medium

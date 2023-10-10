@@ -15,6 +15,7 @@ public protocol JMMediaEngineDelegate {
     func onUserJoined(user: JMUserInfo)
     func onUserLeft(id: String, reason: JMUserLeaveReason)
     
+    func onLocalMediaStateChange(type: JMMediaType, reason: JMMediaReason)
     func onUserPublished(id: String, type: JMMediaType)
     func onUserUnPublished(id: String, type: JMMediaType)
     
@@ -51,6 +52,8 @@ extension JMMediaEngineDelegate{
     func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType){}
     
     func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality){}
+    
+    func onLocalMediaStateChange(type: JMMediaType, reason: JMMediaReason){}
 }
 
 //Note: These SDK functions are available for Client to call.

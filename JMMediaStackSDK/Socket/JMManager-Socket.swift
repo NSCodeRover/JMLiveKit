@@ -511,17 +511,17 @@ extension JMManagerViewModel{
         case .audio:
             if producerId == audioProducer?.id{
                 disableMic()
-                delegateBackToManager?.sendClientError(error: .init(type: .audioStoppedByServer, description: "Server requested to stop the audio. maybe noisy"))
+                delegateBackToManager?.sendClientSelfLocalMediaState(type: mediaType, reason: .audioStoppedByServer)
             }
         case .video:
             if producerId == videoProducer?.id{
                 disableVideo()
-                delegateBackToManager?.sendClientError(error: .init(type: .videoStoppedByServer, description: "Server requested to stop the video. maybe glitchy"))
+                delegateBackToManager?.sendClientSelfLocalMediaState(type: mediaType, reason: .videoStoppedByServer)
             }
         case .shareScreen:
             if producerId == screenShareProducer?.id{
                 updateStopScreenShare()
-                delegateBackToManager?.sendClientError(error: .init(type: .screenshareStoppedByServer, description: "Server requested to stop the screenshare. maybe glitchy"))
+                delegateBackToManager?.sendClientSelfLocalMediaState(type: mediaType, reason: .screenshareStoppedByServer)
             }
         }
     }
