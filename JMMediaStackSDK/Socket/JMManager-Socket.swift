@@ -28,6 +28,8 @@ extension JMManagerViewModel {
             .reconnect,
             .reconnectAttempt,
             
+            .closeProducer,
+            
             .peerConnected,
             .newPeer,
             .peerClosed,
@@ -132,6 +134,9 @@ extension JMManagerViewModel: JioSocketDelegate {
         case .peerConnected: // When Local User call connected
             handleSocketSelfPeerConnected(json)
             
+        case .closeProducer: //Server requesting to stop
+            handleSocketProducer(json, event: event)
+            
         case .newPeer: // When Local User call connected
             handleSocketNewPeerJoined(json)
          
@@ -235,6 +240,9 @@ extension JMManagerViewModel{
                 }
                 else if event == .producerEnd{
                     self.endProducer(for: remoteId, mediaType: jmMediaType)
+                }
+                else if event == .closeProducer{ //self event
+                    self.handleSocketSelfCloseRequest(producerId, peerId: remoteId, mediaType: jmMediaType)
                 }
                 
                 self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
@@ -491,6 +499,29 @@ extension JMManagerViewModel{
                     LOG.warning("Socket- Transport- Ack- produce no Id.")
                     handler?("ID not found")
                 }
+            }
+        }
+    }
+    
+    func handleSocketSelfCloseRequest(_ producerId: String, peerId: String, mediaType: JMMediaType){
+        
+        guard peerId == userState.selfPeerId else { return }
+        
+        switch mediaType {
+        case .audio:
+            if producerId == audioProducer?.id{
+                disableMic()
+                delegateBackToManager?.sendClientError(error: .init(type: .audioStoppedByServer, description: "Server requested to stop the audio. maybe noisy"))
+            }
+        case .video:
+            if producerId == videoProducer?.id{
+                disableVideo()
+                delegateBackToManager?.sendClientError(error: .init(type: .videoStoppedByServer, description: "Server requested to stop the video. maybe glitchy"))
+            }
+        case .shareScreen:
+            if producerId == screenShareProducer?.id{
+                updateStopScreenShare()
+                delegateBackToManager?.sendClientError(error: .init(type: .screenshareStoppedByServer, description: "Server requested to stop the screenshare. maybe glitchy"))
             }
         }
     }

@@ -10,6 +10,9 @@ enum SocketEvent: String,CaseIterable {
     case reconnect
     case reconnectAttempt
     
+    //Server requesting to stop
+    case closeProducer
+    
     case socketConnected
     case socketReconnected
     

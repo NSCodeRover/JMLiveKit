@@ -74,6 +74,11 @@ public enum JMMediaErrorType: String{
     case audioSetDeviceFailed
     case audioStartFailed
     
+    //Server request to mute
+    case audioStoppedByServer
+    case videoStoppedByServer
+    case screenshareStoppedByServer
+    
     //Remote Stream
     case remoteVideoStreamFailed
     case remoteAudioStreamFailed
