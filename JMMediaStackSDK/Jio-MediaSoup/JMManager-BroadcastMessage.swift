@@ -28,12 +28,14 @@ extension JMManagerViewModel {
         }
     }
     
-    func sendJMBroadcastPrivateMessage(messageInfo:[String: Any],_ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
+   
+    func sendJMBroadcastPrivateMessage(messageInfo:[String: Any], toPeer: String,_ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
         let broadcastMessage: [String: Any] = [
                "eventName": SocketEmitAction.broadcastMessageToPeer.rawValue,
                "timeStamp":  Date().timeIntervalSince1970 * 1000,
                "peerId": userState.selfPeerId,
-               "msgData": messageInfo
+               "msgData": messageInfo,
+               "targetPeerId": toPeer
            ]
         
         self.jioSocket?.emit(action: .broadcastMessageToPeer, parameters:broadcastMessage){ [weak self] data in
