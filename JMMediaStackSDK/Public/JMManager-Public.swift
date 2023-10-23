@@ -79,7 +79,7 @@ protocol JMMediaEngineAbstract{
     func stopScreenShare(error: String)
     
     func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
-    func sendPrivateMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    func sendPrivateMessage(_ message: [String:Any],toPeer:String, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
     
     func enableLog(_ isEnable: Bool,withPath path: String) -> String
 }

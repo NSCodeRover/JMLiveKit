@@ -249,8 +249,8 @@ extension JMMediaEngine{
     public func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil) {
         vm_manager.sendJMBroadcastPublicMessage(messageInfo: message, resultCompletion)
     }
-    public func sendPrivateMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil) {
-        vm_manager.sendJMBroadcastPrivateMessage(messageInfo: message, resultCompletion)
+    public func sendPrivateMessage(_ message: [String : Any], toPeer: String, _ resultCompletion: ((Bool) -> ())?) {
+        vm_manager.sendJMBroadcastPrivateMessage(messageInfo: message,toPeer: toPeer,resultCompletion)
     }
 }
 
