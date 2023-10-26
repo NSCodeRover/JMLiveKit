@@ -619,6 +619,10 @@ extension JMManagerViewModel{
     
     func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: JMMediaType){
         if var updatedPeer = self.peersMap[remoteId] {
+            
+            //On new producer, clear the consumer queue.
+            updatedPeer.consumerQueue.removeValue(forKey: mediaType)
+            
             if let objectPresentAtIndex = updatedPeer.producers.firstIndex(where: { $0.mediaType == mediaType })
             {
                 LOG.debug("Subscribe- pid updated \(updatedPeer.displayName)")
@@ -672,10 +676,15 @@ extension JMManagerViewModel{
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
             if let consumer = consumer, consumer.producerId == producerId{
-                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer resumed")
-                consumer.resume()
-                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
-                socketEmitResumeConsumer(for: consumer.id)
+                if consumer.paused{
+                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer resumed")
+                    consumer.resume()
+                    updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
+                    socketEmitResumeConsumer(for: consumer.id)
+                }
+                else{
+                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer already resumed. no action.")
+                }
             }
             else{
                 if peer.consumerQueue[mediaType] == nil{
