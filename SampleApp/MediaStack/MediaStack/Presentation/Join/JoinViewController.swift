@@ -89,6 +89,7 @@ class JoinViewController: UIViewController {
         
         switch server{
         case .Prod:
+            1188668380&pwd=nmr5H
             self.txtRoomId.text = "2498110346"
             self.txtPin.text = "VX9Hf"
         case .RC:
