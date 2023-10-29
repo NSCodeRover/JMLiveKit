@@ -69,6 +69,13 @@ struct Peer: Codable {
         return nil
     }
     
+    func isProducerPaused(for mediaType: JMMediaType) -> Bool{
+        if let objectPresent = producers.first(where: { $0.mediaType == mediaType }) {
+            return objectPresent.paused
+        }
+        return true
+    }
+    
     func getConsumer(for mediaType: JMMediaType) -> Consumer?{
         var consumerObject: Consumer?
         switch mediaType{
@@ -80,6 +87,17 @@ struct Peer: Codable {
             consumerObject = consumerScreenShare
         }
         return consumerObject
+    }
+    
+    func isResumed(for mediaType: JMMediaType) -> Bool{
+        switch mediaType{
+        case .audio:
+            return isAudioEnabled
+        case .video:
+            return isVideoEnabled
+        case .shareScreen:
+            return isScreenShareEnabled
+        }
     }
 }
 
