@@ -241,7 +241,7 @@ extension JMManagerViewModel{
     }
     
     func addRemoteRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId]
+        if var updatedPeer = self.peersMap[remoteId], updatedPeer.remoteView != renderView
         {
             updatedPeer.remoteView = renderView
             peersMap[remoteId] = updatedPeer
