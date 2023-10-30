@@ -235,16 +235,13 @@ extension JMManagerViewModel{
                 let isScreenShareEnabled = json["share"] as? Bool ?? false
                 let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaType.lowercased() == "video" ? .video : .audio
                 
-                if event == .newProducer{
-                    self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: jmMediaType)
-                }
-                else if event == .producerEnd{
-                    self.endProducer(for: remoteId, mediaType: jmMediaType)
-                }
-                else if event == .closeProducer{ //self event
+                if event == .closeProducer{ //self event
                     self.handleSocketSelfCloseRequest(producerId, peerId: remoteId, mediaType: jmMediaType)
+                    return
                 }
                 
+                LOG.debug("Subscribe- Socket- \(event) for type- \(jmMediaType).")
+                self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
                 self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
             }
         }
@@ -506,6 +503,7 @@ extension JMManagerViewModel{
     func handleSocketSelfCloseRequest(_ producerId: String, peerId: String, mediaType: JMMediaType){
         
         guard peerId == userState.selfPeerId else { return }
+        LOG.debug("Socket- Self stop request for type- \(mediaType)")
         
         switch mediaType {
         case .audio:
@@ -583,24 +581,29 @@ extension JMManagerViewModel{
             else if mediaType == .shareScreen{
                 updatedPeer.isScreenShareEnabled = isEnabled
             }
-             
+            
             self.peersMap[remoteId] = updatedPeer
             self.setRemoteUserMediaAction(isEnabled: isEnabled, id: remoteId, type: mediaType)
         }
     }
+}
+
+//MARK: Producer id updation
+extension JMManagerViewModel{
     
     func endProducer(for remoteId: String, mediaType: JMMediaType) {
         guard var updatedPeer = self.peersMap[remoteId] else {
             return
         }
         
-        LOG.debug("Subscribe- consumer updated to nil \(updatedPeer.displayName) mediatype \(mediaType)")
+        LOG.debug("Subscribe- consumer updated to nil. User- \(updatedPeer.displayName) for type- \(mediaType)")
         switch mediaType {
         case .video:
             updatedPeer.consumerVideo?.close()
             updatedPeer.consumerVideo = nil
             
             self.updatePreferredQuality()
+            
         case .shareScreen:
             updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
@@ -609,15 +612,37 @@ extension JMManagerViewModel{
             
             userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
+            
         case .audio:
             updatedPeer.consumerAudio?.close()
             updatedPeer.consumerAudio = nil
         }
         
+        //Clear the consumer queue for type.
+        updatedPeer.consumerQueue.removeValue(forKey: mediaType)
+        
+        //Deleting the producer object...
+        if let objectPresentAtIndex = updatedPeer.producers.firstIndex(where: { $0.mediaType == mediaType })
+        {
+            updatedPeer.producers.remove(at: objectPresentAtIndex)
+        }
+        
         peersMap[remoteId] = updatedPeer
     }
     
-    func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: JMMediaType){
+    func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: JMMediaType, event: SocketEvent){
+        if event == .newProducer || event == .resumedProducer{
+            updateVideoProducerId(producerId, producerPaused: false, remoteId: remoteId, mediaType: mediaType)
+        }
+        else if event == .pausedProducer{
+            updateVideoProducerId(producerId, producerPaused: true, remoteId: remoteId, mediaType: mediaType)
+        }
+        else if event == .producerEnd{
+            endProducer(for: remoteId, mediaType: mediaType)
+        }
+    }
+    
+    func updateVideoProducerId(_ producerId: String, producerPaused: Bool, remoteId: String, mediaType: JMMediaType){
         if var updatedPeer = self.peersMap[remoteId] {
             
             //On new producer, clear the consumer queue.
@@ -625,14 +650,15 @@ extension JMManagerViewModel{
             
             if let objectPresentAtIndex = updatedPeer.producers.firstIndex(where: { $0.mediaType == mediaType })
             {
-                LOG.debug("Subscribe- pid updated \(updatedPeer.displayName)")
+                LOG.debug("Subscribe- pid updated. User- \(updatedPeer.displayName) for type- \(mediaType)")
                 var updatedProducer = updatedPeer.producers[objectPresentAtIndex]
                 updatedProducer.producerId = producerId
+                updatedProducer.paused = producerPaused
                 updatedPeer.producers[objectPresentAtIndex] = updatedProducer
             }
             else{
-                LOG.debug("Subscribe- new pid updated \(updatedPeer.displayName)")
-                let producer = PeerProducer(mediaType: mediaType, producerId: producerId, paused: false)
+                LOG.debug("Subscribe- new pid updated. User- \(updatedPeer.displayName) for type- \(mediaType)")
+                let producer = PeerProducer(mediaType: mediaType, producerId: producerId, paused: producerPaused)
                 updatedPeer.producers.append(producer)
             }
             peersMap[remoteId] = updatedPeer
@@ -667,28 +693,41 @@ extension JMManagerViewModel{
     }
     
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
-        guard var peer = peersMap[remoteId], let producerId = peer.getProducerId(for: mediaType)
+        guard var peer = peersMap[remoteId]
         else{
-            LOG.error("Subscribe- \(peersMap[remoteId]?.displayName) not producing. remoteid-\(remoteId) \(mediaType) ")
+            LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
             return
         }
         
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
+            
+            guard let producerId = peer.getProducerId(for: mediaType)
+            else{
+                LOG.debug("Subscribe- Not producing id. No action. User- \(peer.displayName) for type- \(mediaType).")
+                return
+            }
+            
+            if peer.isProducerPaused(for: mediaType){
+                LOG.debug("Subscribe- Not producing enable. No action. User- \(peer.displayName) for type- \(mediaType).")
+                return
+            }
+            
             if let consumer = consumer, consumer.producerId == producerId{
-                if consumer.paused{
-                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer resumed")
-                    consumer.resume()
-                    updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
-                    socketEmitResumeConsumer(for: consumer.id)
+                
+                if peer.isResumed(for: mediaType){
+                    LOG.debug("Subscribe- Consumer already resumed. no action. User- \(peer.displayName) for type- \(mediaType).")
+                    return
                 }
-                else{
-                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer already resumed. no action.")
-                }
+                
+                LOG.debug("Subscribe- consumer resumed. User- \(peer.displayName) for type- \(mediaType).")
+                consumer.resume()
+                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
+                socketEmitResumeConsumer(for: consumer.id)
             }
             else{
                 if peer.consumerQueue[mediaType] == nil{
-                    LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer fetch")
+                    LOG.debug("Subscribe- consumer fetch User- \(peer.displayName) for type- \(mediaType).")
                     socketEmitGetConsumerInfo(for: remoteId, consumerId: producerId)
                     
                     //Adding to queue
@@ -701,10 +740,10 @@ extension JMManagerViewModel{
             if let consumer = consumer{
                 consumer.pause()
                 socketEmitPauseConsumer(for: consumer.id)
-                LOG.debug("Subscribe- \(mediaType) \(peer.displayName):consumer paused")
+                LOG.debug("Subscribe- consumer paused. User- \(peer.displayName) for type- \(mediaType).")
             }
             else{
-                LOG.debug("Subscribe- Not an issue. Consumer is nil for \(peer.displayName)")
+                LOG.debug("Subscribe- Not an issue. Consumer is nil. User- \(peer.displayName) for type- \(mediaType).")
             }
             updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
         }
