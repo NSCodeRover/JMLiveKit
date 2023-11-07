@@ -183,7 +183,7 @@ extension JMManagerViewModel{
         JMVideoDeviceManager.shared.dispose()
             
         self.jioSocket?.disconnectSocket()
-        self.jioSocket = nil
+        //self.jioSocket = nil
         
         self.stopNetworkMonitor()
         self.disposeVirtualBackground()
