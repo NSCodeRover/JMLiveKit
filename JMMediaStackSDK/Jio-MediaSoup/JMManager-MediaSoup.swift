@@ -102,12 +102,12 @@ extension JMManagerViewModel: RTCVideoCapturerDelegate{
             if self.userState.isVirtualBackgroundEnabled{
                 
                 if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
-                    self.videoSource.capturer(capturer, didCapture: processedRTCVideoFrame)
+                    self.videoSource?.capturer(capturer, didCapture: processedRTCVideoFrame)
                     return
                 }
             }
             
-            self.videoSource.capturer(capturer, didCapture: frame)
+            self.videoSource?.capturer(capturer, didCapture: frame)
         }
     }
 }
@@ -174,9 +174,9 @@ extension JMManagerViewModel{
         videoCaptureFormat = format
         
         if #available(iOS 13.0, *) {
-            self.videoSource.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
+            self.videoSource?.adaptOutputFormat(toWidth: format.formatDescription.dimensions.width, height: format.formatDescription.dimensions.height, fps: fps)
         } else {
-            self.videoSource.adaptOutputFormat(toWidth: JioMediaStackDefaultCameraCaptureResolution.width, height: JioMediaStackDefaultCameraCaptureResolution.height, fps: fps)
+            self.videoSource?.adaptOutputFormat(toWidth: JioMediaStackDefaultCameraCaptureResolution.width, height: JioMediaStackDefaultCameraCaptureResolution.height, fps: fps)
         }
         
         self.videoCapture?.startCapture(with: cameraDevice, format:format, fps: Int(fps))
@@ -200,7 +200,12 @@ extension JMManagerViewModel{
             LOG.debug("Video- track removed")
         }
         
-        guard let videoTrack = self.peerConnectionFactory?.videoTrack(with: self.videoSource, trackId: JioMediaId.videoTrackId) else{
+        guard let videoSource = videoSource else{
+            LOG.error("Video- video source dealloc")
+            return false
+        }
+        
+        guard let videoTrack = self.peerConnectionFactory?.videoTrack(with: videoSource, trackId: JioMediaId.videoTrackId) else{
             LOG.error("Video- new track failed")
             delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .videoStartFailed, description: "Video track failed"))
             return false

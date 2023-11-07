@@ -69,7 +69,7 @@ class JMManagerViewModel: NSObject{
     var videoTrack:RTCVideoTrack?
     var videoProducer:Producer?
     var mediaStream:RTCMediaStream?
-    var videoSource:RTCVideoSource!
+    var videoSource:RTCVideoSource?
     var videoCaptureFormat:AVCaptureDevice.Format?
     var videoCapture:RTCCameraVideoCapturer?
     var videoSelfRTCRenderView: RTCMTLVideoView?
@@ -79,7 +79,7 @@ class JMManagerViewModel: NSObject{
     var screenShareProducer:Producer?
     var mediaStreamScreenCapture:RTCMediaStream?
     var videoTrackScreen:RTCVideoTrack?
-    var videoSourceScreen:RTCVideoSource!
+    var videoSourceScreen:RTCVideoSource?
     var videoSourceScreenCapture:RTCVideoCapturer?
     var screenShareFrameRotation:RTCVideoRotation = ._0
         

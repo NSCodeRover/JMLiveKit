@@ -18,14 +18,15 @@ extension JMManagerViewModel{
            let buffer = object["buffer"] as? Data,
            let timeStamp = object["timeStamp"] as? Int64{
             
-            guard let frameNew = self.convertDataToRTCCVPixelBuffer(data: buffer, timeStamp: timeStamp)
+            guard let frameNew = self.convertDataToRTCCVPixelBuffer(data: buffer, timeStamp: timeStamp),
+                  let capturer = self.videoSourceScreenCapture
             else {
-                LOG.debug("ScreenShare- convertor failed")
+                LOG.debug("ScreenShare- convertor failed, capture is \(videoSourceScreenCapture)")
                 return
             }
             
             self.createScreenShareProducer()
-            self.videoSourceScreen?.capturer(self.videoSourceScreenCapture!, didCapture: frameNew)
+            self.videoSourceScreen?.capturer(capturer, didCapture: frameNew)
         }
     }
     
