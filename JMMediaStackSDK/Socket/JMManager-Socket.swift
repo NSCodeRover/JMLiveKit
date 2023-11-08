@@ -56,6 +56,15 @@ extension JMManagerViewModel {
         ]
         initFactoryAndStream()
         jioSocket?.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin, queue: qJMMediaNWQueue)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            print("TTT self.connectionState == .connecting checking")
+            if self.connectionState == .connecting {
+                print("TTT self.connectionState == .connecting tried")
+                self.jioSocket?.getReconnect()
+            }
+         }
+
     }
 }
 
