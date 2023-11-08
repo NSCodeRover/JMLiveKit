@@ -13,7 +13,6 @@ import SwiftyJSON
 import Mediasoup
 
 extension JMManagerViewModel {
-    
     internal func connect(socketUrl: String, roomId: String, jwtToken: String, isRejoin: Bool) {
         LOG.debug("socket- \(#function) \(socketUrl)|\(roomId)|\(jwtToken)")
         
@@ -56,15 +55,15 @@ extension JMManagerViewModel {
         ]
         initFactoryAndStream()
         jioSocket?.connect(socketUrl: url, roomId: roomId, jwtToken: jwtToken, ip: ip, delegate: self, socketEvents: events, isRejoin: isRejoin, queue: qJMMediaNWQueue)
-        
+        getConnectAfterDelay()
+    }
+    
+    fileprivate func getConnectAfterDelay() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            print("TTT self.connectionState == .connecting checking")
             if self.connectionState == .connecting {
-                print("TTT self.connectionState == .connecting tried")
                 self.jioSocket?.getReconnect()
             }
-         }
-
+        }
     }
 }
 
