@@ -7,3 +7,5 @@ SampleApp/MediaStack/Pods/
 *.DS_Store
 xcuserdata
 
+Xcframeworks_Output/**/*.zip
+Xcframeworks_Output/**/*.xcframework
