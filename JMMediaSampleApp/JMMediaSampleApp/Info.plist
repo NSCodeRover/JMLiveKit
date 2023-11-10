@@ -29,5 +29,9 @@
 		<string>remote-notification</string>
 		<string>voip</string>
 	</array>
+    <key>NSCameraUsageDescription</key>
+    <string>This app will use the camera for video conferencing calls</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app will use the microphone for calling</string>
 </dict>
 </plist>
