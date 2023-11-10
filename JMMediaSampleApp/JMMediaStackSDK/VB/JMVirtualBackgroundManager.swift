@@ -10,14 +10,9 @@ import UIKit
  
 public enum JMVirtualBackgroundOption{
     case none
-    case blur(intensity: JMVirtualBackgroundBlurIntensity)
+    case blur(intensity: Int)
     case image(data: Data)
     case color(color: UIColor)
-}
-public enum JMVirtualBackgroundBlurIntensity:Int{
-    case low = 10
-    case medium = 15
-    case high = 25
 }
 
 class JMVirtualBackgroundManager: NSObject {
@@ -99,9 +94,9 @@ extension JMVirtualBackgroundManager{
         backgroundColor = color
     }
     
-    private func configureOptionForBlur(withIntensity intensity: JMVirtualBackgroundBlurIntensity){
+    private func configureOptionForBlur(withIntensity intensity: Int){
         LOG.info("VB- Type set to blur with intensity \(intensity).")
-        backgroundBlurRadius = CGFloat(intensity.rawValue)
+        backgroundBlurRadius = CGFloat(intensity)
     }
     
     private func configureOptionForImage(from data: Data){

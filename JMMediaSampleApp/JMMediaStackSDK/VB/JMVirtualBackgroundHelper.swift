@@ -92,7 +92,7 @@ class JMVirtualBackgroundHelper: NSObject {
                 .applyingFilter(
                     "CIBokehBlur",
                     parameters: [
-                        kCIInputRadiusKey: blurRadius ?? JMVirtualBackgroundBlurIntensity.medium.rawValue,
+                        kCIInputRadiusKey: blurRadius ?? 15,
                     ]
                 )
                 .cropped(to: originalImage.extent)

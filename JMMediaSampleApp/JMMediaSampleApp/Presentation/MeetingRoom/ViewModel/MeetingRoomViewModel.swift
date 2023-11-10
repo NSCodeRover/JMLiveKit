@@ -205,9 +205,9 @@ extension MeetingRoomViewModel {
                 //IMAGE
                 self.client.enableVirtualBackground(enabled, withOption: .image(data: UIImage(named: "vb1")!.pngData()!))
                 //BLUR
-//                self.client.enableVirtualBackground(enabled, withOption: .blur(intensity: .high))
+                //self.client.enableVirtualBackground(enabled, withOption: .blur(intensity: 20))
                 //COLOR
-//                self.client.enableVirtualBackground(enabled, withOption: .color(color: .cyan))
+                //self.client.enableVirtualBackground(enabled, withOption: .color(color: .cyan))
             }
             else{
                 self.client.enableVirtualBackground(enabled)
