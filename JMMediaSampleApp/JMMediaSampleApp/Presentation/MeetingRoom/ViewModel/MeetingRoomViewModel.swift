@@ -246,7 +246,7 @@ extension MeetingRoomViewModel {
     
     func enableLogs(){
         JMLoggerOption.shared.setLogFileName(fileName: "JMMediaStack-\(meetingId)")
-        client.enableLog(true,severity: .info)
+        client.enableLog(true,severity: .error)
     }
     
     func onRejoined() {
