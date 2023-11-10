@@ -183,7 +183,7 @@
         <!--Meeting Room View Controller-->
         <scene sceneID="6jE-Jq-HH6">
             <objects>
-                <viewController storyboardIdentifier="MeetingRoomViewController" id="Llg-cc-mPk" customClass="MeetingRoomViewController" customModule="MediaStack" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MeetingRoomViewController" id="Llg-cc-mPk" customClass="MeetingRoomViewController" customModule="JMMediaSampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1mT-cJ-hNH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -340,7 +340,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="yS5-lJ-BGk"/>
                                 </constraints>
                             </view>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="400" translatesAutoresizingMaskIntoConstraints="NO" id="J98-8a-ONK">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="J98-8a-ONK">
                                 <rect key="frame" x="6" y="252" width="381" height="62"/>
                                 <connections>
                                     <action selector="actionSlider:" destination="Llg-cc-mPk" eventType="valueChanged" id="XmE-dN-RU5"/>

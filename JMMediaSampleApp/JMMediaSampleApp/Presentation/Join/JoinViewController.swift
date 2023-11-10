@@ -45,6 +45,10 @@ class JoinViewController: UIViewController {
         setupPreview()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        previewManager?.dispose()
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

@@ -71,6 +71,12 @@ extension JMPreviewManager{
         isVirtualBackgroundEnabled = isEnabled
     }
     
+    public func dispose(){
+        videoCapture?.stopCapture()
+        videoCapture = nil
+        enableLocalRenderView(false)
+    }
+    
     internal func onError(error: JMMediaError){
         qJMMediaMainQueue.async {
             self.delegate?.onError(error: error)
@@ -103,12 +109,6 @@ extension JMPreviewManager{
         if let rtcview = videoSelfRTCRenderView, rtcview.isHidden{
             enableLocalRenderView(true)
         }
-    }
-    
-    internal func dispose(){
-        videoCapture?.stopCapture()
-        videoCapture = nil
-        enableLocalRenderView(false)
     }
     
     internal func startCapture(){
@@ -165,7 +165,6 @@ extension JMPreviewManager: RTCVideoCapturerDelegate{
         qJMMediaVBQueue.async {
             if self.isVirtualBackgroundEnabled{
                 if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
-                        self.log("Preview- VB frame")
                         self.videoSelfRTCRenderView?.renderFrame(processedRTCVideoFrame)
                     return
                 }
