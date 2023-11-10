@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		26CBABA317AEF6B93AA2C765 /* Pods_JMMediaSampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */; };
+		6415B50F2AFE043A00BA01FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6415B50E2AFE043A00BA01FC /* Assets.xcassets */; };
+		6415B5112AFE051900BA01FC /* JMPreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415B5102AFE051900BA01FC /* JMPreviewManager.swift */; };
+		6415B5122AFE054700BA01FC /* JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */; };
 		94F9BFCEE8BCF332404E8A65 /* Pods_JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */; };
 		EBB521662AFCB29400D39291 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521652AFCB29400D39291 /* AppDelegate.swift */; };
 		EBB521682AFCB29400D39291 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521672AFCB29400D39291 /* SceneDelegate.swift */; };
@@ -64,7 +67,6 @@
 		EBB521FD2AFCB46200D39291 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EE2AFCB46200D39291 /* Data+Extension.swift */; };
 		EBB521FE2AFCB46200D39291 /* JMLoggerOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EF2AFCB46200D39291 /* JMLoggerOption.swift */; };
 		EBB521FF2AFCB46200D39291 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521F02AFCB46200D39291 /* AppConfiguration.swift */; };
-		EBB522012AFCB4F500D39291 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBB522002AFCB4F500D39291 /* Assets.xcassets */; };
 		EBB522032AFCB53900D39291 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBB522022AFCB53900D39291 /* Main.storyboard */; };
 		EBB5220B2AFCBE6000D39291 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5220A2AFCBE6000D39291 /* ReplayKit.framework */; };
 		EBB5220E2AFCBE6000D39291 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5220D2AFCBE6000D39291 /* SampleHandler.swift */; };
@@ -72,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6415B5142AFE054700BA01FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBB5215A2AFCB29400D39291 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EBB5217D2AFCB2AC00D39291;
+			remoteInfo = JMMediaStackSDK;
+		};
 		EBB521822AFCB2AC00D39291 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EBB5215A2AFCB29400D39291 /* Project object */;
@@ -116,6 +125,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6415B50E2AFE043A00BA01FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6415B5102AFE051900BA01FC /* JMPreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMPreviewManager.swift; sourceTree = "<group>"; };
 		84855421C6E70111114C396A /* Pods-JMMediaStackSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaSampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +185,6 @@
 		EBB521EE2AFCB46200D39291 /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		EBB521EF2AFCB46200D39291 /* JMLoggerOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMLoggerOption.swift; sourceTree = "<group>"; };
 		EBB521F02AFCB46200D39291 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
-		EBB522002AFCB4F500D39291 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../../iOS Development/CPaaS_XCFramework/PLDT/MediaStack/Assets.xcassets"; sourceTree = "<group>"; };
 		EBB522022AFCB53900D39291 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EBB522042AFCBE1100D39291 /* JMMediaSampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JMMediaSampleApp.entitlements; sourceTree = "<group>"; };
 		EBB522092AFCBE6000D39291 /* MediaStackScreenShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MediaStackScreenShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6415B5122AFE054700BA01FC /* JMMediaStackSDK.framework in Frameworks */,
 				EBB5220B2AFCBE6000D39291 /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,7 +284,7 @@
 				EBB521672AFCB29400D39291 /* SceneDelegate.swift */,
 				EBB521692AFCB29400D39291 /* ViewController.swift */,
 				EBB522022AFCB53900D39291 /* Main.storyboard */,
-				EBB522002AFCB4F500D39291 /* Assets.xcassets */,
+				6415B50E2AFE043A00BA01FC /* Assets.xcassets */,
 				EBB521702AFCB29600D39291 /* LaunchScreen.storyboard */,
 				EBB521732AFCB29600D39291 /* Info.plist */,
 			);
@@ -332,6 +343,7 @@
 		EBB521A42AFCB3DE00D39291 /* Device Manager */ = {
 			isa = PBXGroup;
 			children = (
+				6415B5102AFE051900BA01FC /* JMPreviewManager.swift */,
 				EBB521A52AFCB3DE00D39291 /* JMAudioDeviceManager.swift */,
 				EBB521A62AFCB3DE00D39291 /* JMVideoDeviceManager.swift */,
 				EBB521A72AFCB3DE00D39291 /* JMAudioDetector.swift */,
@@ -572,6 +584,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6415B5152AFE054700BA01FC /* PBXTargetDependency */,
 			);
 			name = MediaStackScreenShare;
 			productName = MediaStackScreenShare;
@@ -628,7 +641,7 @@
 				EBB521722AFCB29600D39291 /* LaunchScreen.storyboard in Resources */,
 				EBB521F42AFCB46200D39291 /* MeetingRoomAudioCell.xib in Resources */,
 				EBB521F82AFCB46200D39291 /* MeetingRoomVideoCell.xib in Resources */,
-				EBB522012AFCB4F500D39291 /* Assets.xcassets in Resources */,
+				6415B50F2AFE043A00BA01FC /* Assets.xcassets in Resources */,
 				EBB521F72AFCB46200D39291 /* MeetingRoomShareVideoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,6 +758,7 @@
 				EBB521C12AFCB3DF00D39291 /* JMManager-Reconnect.swift in Sources */,
 				EBB521BC2AFCB3DF00D39291 /* JMJoinViewApiHandler.swift in Sources */,
 				EBB521CC2AFCB3DF00D39291 /* Config.swift in Sources */,
+				6415B5112AFE051900BA01FC /* JMPreviewManager.swift in Sources */,
 				EBB521D52AFCB3DF00D39291 /* JMManager-Socket.swift in Sources */,
 				EBB521D02AFCB3DF00D39291 /* JMManager-ScreenShare.swift in Sources */,
 				EBB521CD2AFCB3DF00D39291 /* State.swift in Sources */,
@@ -781,6 +795,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6415B5152AFE054700BA01FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */;
+			targetProxy = 6415B5142AFE054700BA01FC /* PBXContainerItemProxy */;
+		};
 		EBB521832AFCB2AC00D39291 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */;

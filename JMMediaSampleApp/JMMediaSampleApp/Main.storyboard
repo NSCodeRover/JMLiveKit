@@ -98,35 +98,63 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PEB-OU-DTt">
+                                <rect key="frame" x="86.666666666666686" y="522" width="220" height="229"/>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PEB-OU-DTt" secondAttribute="height" multiplier="24:25" id="86b-iS-1J9"/>
+                                    <constraint firstAttribute="width" constant="220" id="CN3-h2-zNG"/>
+                                </constraints>
+                            </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Zj5-TU-dgB">
+                                <rect key="frame" x="172" y="771" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switchPreviewAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="tjj-os-XAa"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVt-JP-2hS">
+                                <rect key="frame" x="99" y="775.66666666666663" width="68" height="22"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1lt-Lc-t2O"/>
+                            <constraint firstItem="Zj5-TU-dgB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4kn-sJ-Akb"/>
                             <constraint firstItem="uiN-ny-kpP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CAX-NY-pXh"/>
                             <constraint firstItem="Die-qw-Nuz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="CKl-5v-IdD"/>
+                            <constraint firstItem="Zj5-TU-dgB" firstAttribute="leading" secondItem="sVt-JP-2hS" secondAttribute="trailing" constant="5" id="Cfu-Sc-4rd"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ckl-jM-mGt"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="top" secondItem="Die-qw-Nuz" secondAttribute="bottom" constant="32" id="Dm7-T4-DKu"/>
                             <constraint firstItem="uiN-ny-kpP" firstAttribute="leading" secondItem="lcb-1g-0vJ" secondAttribute="trailing" constant="5" id="HMf-0b-e2B"/>
+                            <constraint firstItem="Zj5-TU-dgB" firstAttribute="top" secondItem="PEB-OU-DTt" secondAttribute="bottom" constant="20" id="HfN-ar-rNF"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="top" secondItem="VQ3-36-bfy" secondAttribute="bottom" constant="32" id="KWN-Oi-krx"/>
                             <constraint firstItem="VQ3-36-bfy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RSr-Jc-CKt"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="top" secondItem="30S-UZ-y7s" secondAttribute="bottom" constant="20" id="ZQM-H8-d9T"/>
+                            <constraint firstItem="sVt-JP-2hS" firstAttribute="centerY" secondItem="Zj5-TU-dgB" secondAttribute="centerY" id="fEd-uG-WcE"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="top" secondItem="zh9-3j-tbq" secondAttribute="bottom" constant="40" id="fNa-bN-s1J"/>
+                            <constraint firstAttribute="bottom" secondItem="Zj5-TU-dgB" secondAttribute="bottom" constant="50" id="iGs-FP-XhB"/>
                             <constraint firstItem="zh9-3j-tbq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iip-BT-EfQ"/>
                             <constraint firstItem="uiN-ny-kpP" firstAttribute="top" secondItem="WjG-7s-YUY" secondAttribute="bottom" constant="20" id="k2d-Ov-mUm"/>
                             <constraint firstItem="lcb-1g-0vJ" firstAttribute="centerY" secondItem="uiN-ny-kpP" secondAttribute="centerY" id="l0X-Es-Suu"/>
                             <constraint firstItem="WjG-7s-YUY" firstAttribute="leading" secondItem="5ls-W4-C6h" secondAttribute="trailing" constant="5" id="mp6-Lm-0DF"/>
                             <constraint firstItem="30S-UZ-y7s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oxO-Cz-yqM"/>
                             <constraint firstItem="5ls-W4-C6h" firstAttribute="centerY" secondItem="WjG-7s-YUY" secondAttribute="centerY" id="rLJ-Iv-WSv"/>
+                            <constraint firstItem="PEB-OU-DTt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sig-sJ-Q4x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hpC-wy-fPO"/>
                     <connections>
                         <outlet property="switchEnv" destination="uiN-ny-kpP" id="GRB-66-SFd"/>
                         <outlet property="switchHD" destination="WjG-7s-YUY" id="hF2-gM-wLA"/>
+                        <outlet property="switchPreview" destination="Zj5-TU-dgB" id="uFO-d5-k2i"/>
                         <outlet property="txtName" destination="30S-UZ-y7s" id="pq9-aG-RAc"/>
                         <outlet property="txtPin" destination="VQ3-36-bfy" id="bIF-dL-zfM"/>
                         <outlet property="txtRoomId" destination="Die-qw-Nuz" id="MVg-af-Kdr"/>
+                        <outlet property="vewPreview" destination="PEB-OU-DTt" id="dwd-NF-FLi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

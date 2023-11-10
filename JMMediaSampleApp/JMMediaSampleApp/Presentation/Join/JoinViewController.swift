@@ -9,6 +9,7 @@ import UIKit
 
 import UIKit
 import WebRTC
+import JMMediaStackSDK
 
 var globalServerPoint: AppEnvironment = .Prod
 enum AppEnvironment: String{
@@ -22,9 +23,12 @@ class JoinViewController: UIViewController {
     @IBOutlet weak var txtRoomId: UITextField!
     @IBOutlet weak var txtPin: UITextField!
     @IBOutlet weak var txtName: UITextField!
+    @IBOutlet weak var vewPreview: UIView!
+    @IBOutlet weak var switchPreview: UISwitch!
     @IBOutlet weak var switchHD: UISwitch!
     @IBOutlet weak var switchEnv: UIButton!
     private var viewModel = MeetingRoomViewModel()
+    var previewManager: JMPreviewManager?
     
     var envDropdown: UIAlertController!
 
@@ -35,6 +39,10 @@ class JoinViewController: UIViewController {
         
         configureEnv()
         addViewModelListener()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setupPreview()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -49,6 +57,10 @@ class JoinViewController: UIViewController {
         }
         
         self.viewModel.handleEvent(event: .join(roomId: self.txtRoomId.text ?? "", pin: self.txtPin.text ?? "", name: self.txtName.text ?? "", isHd: switchHD.isOn))
+    }
+    
+    @IBAction func switchPreviewAction(_ sender: Any) {
+        enablePreview()
     }
     
     @IBAction func switchEnvAction(_ sender: Any) {
@@ -235,5 +247,20 @@ extension UIViewController {
                 toastContainer.removeFromSuperview()
             })
         })
+    }
+}
+
+//MARK: Preview
+extension JoinViewController{
+    func setupPreview(){
+        previewManager = JMPreviewManager(withView: vewPreview)
+    }
+    
+    func enablePreview(){
+        previewManager?.enablePreview(isEnabled: switchPreview.isOn)
+        
+        if #available(iOS 15.0, *) {
+            previewManager?.enableVirtualBackground(true, withOption: .image(data: UIImage(named: "vb1")!.pngData()!))
+        }
     }
 }
