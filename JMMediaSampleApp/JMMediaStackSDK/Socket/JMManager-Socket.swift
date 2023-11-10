@@ -410,6 +410,13 @@ extension JMManagerViewModel{
                     self.totalVideoConsumer[remoteId] = consumerId
                     self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
+                else{
+                    if audioRemotePeerVolume != -1.0{
+                        LOG.info("Audio- User- \(remoteId) Remote peer volume set to \(audioRemotePeerVolume)")
+                        setVolume(consumer)
+                    }
+                }
+
             }
             
             LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")

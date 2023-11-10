@@ -92,6 +92,27 @@ extension JMManagerViewModel{
         }
         completion(result)
     }
+    //Client
+    func setRemotePeerVolume(volume: Double){
+      
+        if audioRemotePeerVolume == volume{
+            return
+        }
+        
+        LOG.info("Audio- Remote peer volume set to \(volume)")
+        audioRemotePeerVolume = volume
+        
+        peersMap.forEach { _,value in
+            setVolume(value.consumerAudio)
+        }
+    }
+    
+    func setVolume(_ consumer: Consumer?){
+        if let audioTrack = consumer?.track as? RTCAudioTrack{
+            audioTrack.source.volume = Double(audioRemotePeerVolume)
+        }
+    }
+
 }
 
 //MARK: Video

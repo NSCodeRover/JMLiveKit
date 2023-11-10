@@ -33,6 +33,7 @@ class MeetingRoomViewController: UIViewController {
     @IBOutlet weak var viewBigScreenshare: UIView!
     @IBOutlet weak var lblPlist: UILabel!
     
+    @IBOutlet weak var mSlider: UISlider!
     @IBOutlet weak var constraintHeightLocalview: NSLayoutConstraint!
     
     var viewModel: MeetingRoomViewModel!
@@ -75,6 +76,16 @@ class MeetingRoomViewController: UIViewController {
     @IBAction func videoDeviceAction(_ sender: Any) {
         self.viewModel.handleEvent(event: .videoDevice)
     }
+    @IBAction func actionSlider(_ sender: UISlider) {
+        let currentValue = Int(sender.value)
+        performActionForSliderValue(value: Double(currentValue))
+    }
+    
+    func performActionForSliderValue(value: Double) {
+           // Perform any action based on the slider's value
+        self.viewModel.handleEvent(event: .setVolume(volumn: value))
+    }
+
 }
 
 // MARK: - Public Methods

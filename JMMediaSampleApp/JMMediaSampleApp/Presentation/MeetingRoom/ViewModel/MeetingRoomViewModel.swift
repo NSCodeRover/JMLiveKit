@@ -52,6 +52,7 @@ class MeetingRoomViewModel {
         case setStopScreenShare(error:String = "")
         
         case retryJoin
+        case setVolume(volumn: Double)
     }
     
     var getLocalRenderView: (() -> UIView)?
@@ -141,6 +142,8 @@ extension MeetingRoomViewModel {
         case .retryJoin:
             self.isRejoin = true
             client.join(meetingId: meetingId, meetingPin: meetingPin, userName: displayName, meetingUrl: AppConfiguration().baseUrl)
+        case .setVolume(volumn: let volumn):
+            client.setRemotePeerVolume(volumn)
         }
     }
 }

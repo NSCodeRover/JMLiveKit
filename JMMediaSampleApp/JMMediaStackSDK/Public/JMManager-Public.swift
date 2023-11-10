@@ -65,6 +65,7 @@ protocol JMMediaEngineAbstract{
     
     func getAudioDevices() -> [JMAudioDevice]
     func setAudioDevice(_ device: JMAudioDevice)
+    func setRemotePeerVolume(_ volume: Double)
     func getVideoDevices() -> [JMVideoDevice]
     func setVideoDevice(_ device: JMVideoDevice)
     
