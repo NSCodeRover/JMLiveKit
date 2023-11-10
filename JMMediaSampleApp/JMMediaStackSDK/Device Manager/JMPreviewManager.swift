@@ -68,9 +68,7 @@ extension JMPreviewManager{
             disposeVirtualBackground()
         }
         
-        defer{
-            isVirtualBackgroundEnabled = isEnabled
-        }
+        isVirtualBackgroundEnabled = isEnabled
     }
     
     internal func onError(error: JMMediaError){
