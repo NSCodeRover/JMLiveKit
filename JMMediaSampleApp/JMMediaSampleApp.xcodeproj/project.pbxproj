@@ -1,0 +1,1186 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		26CBABA317AEF6B93AA2C765 /* Pods_JMMediaSampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */; };
+		6415B50F2AFE043A00BA01FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6415B50E2AFE043A00BA01FC /* Assets.xcassets */; };
+		6415B5112AFE051900BA01FC /* JMPreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415B5102AFE051900BA01FC /* JMPreviewManager.swift */; };
+		6415B5122AFE054700BA01FC /* JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */; };
+		94F9BFCEE8BCF332404E8A65 /* Pods_JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */; };
+		EBB521662AFCB29400D39291 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521652AFCB29400D39291 /* AppDelegate.swift */; };
+		EBB521682AFCB29400D39291 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521672AFCB29400D39291 /* SceneDelegate.swift */; };
+		EBB5216A2AFCB29400D39291 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521692AFCB29400D39291 /* ViewController.swift */; };
+		EBB521722AFCB29600D39291 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBB521702AFCB29600D39291 /* LaunchScreen.storyboard */; };
+		EBB521812AFCB2AC00D39291 /* JMMediaStackSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = EBB521802AFCB2AC00D39291 /* JMMediaStackSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EBB521842AFCB2AC00D39291 /* JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */; };
+		EBB521852AFCB2AC00D39291 /* JMMediaStackSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EBB5218E2AFCB38200D39291 /* Mediasoup.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218A2AFCB37A00D39291 /* Mediasoup.xcframework */; };
+		EBB521902AFCB38200D39291 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218B2AFCB37A00D39291 /* WebRTC.xcframework */; };
+		EBB521932AFCB39900D39291 /* Mediasoup.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218A2AFCB37A00D39291 /* Mediasoup.xcframework */; };
+		EBB521942AFCB39900D39291 /* Mediasoup.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218A2AFCB37A00D39291 /* Mediasoup.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EBB521952AFCB39C00D39291 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218B2AFCB37A00D39291 /* WebRTC.xcframework */; };
+		EBB521962AFCB39C00D39291 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5218B2AFCB37A00D39291 /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EBB521BC2AFCB3DF00D39291 /* JMJoinViewApiHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521982AFCB3DE00D39291 /* JMJoinViewApiHandler.swift */; };
+		EBB521BD2AFCB3DF00D39291 /* JMNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521992AFCB3DE00D39291 /* JMNetworkManager.swift */; };
+		EBB521BE2AFCB3DF00D39291 /* JMMediaEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5219B2AFCB3DE00D39291 /* JMMediaEngine.swift */; };
+		EBB521BF2AFCB3DF00D39291 /* JMMediaTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5219C2AFCB3DE00D39291 /* JMMediaTransport.swift */; };
+		EBB521C02AFCB3DF00D39291 /* JMManager-BroadcastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5219D2AFCB3DE00D39291 /* JMManager-BroadcastMessage.swift */; };
+		EBB521C12AFCB3DF00D39291 /* JMManager-Reconnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5219E2AFCB3DE00D39291 /* JMManager-Reconnect.swift */; };
+		EBB521C22AFCB3DF00D39291 /* JMManager-MediaSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5219F2AFCB3DE00D39291 /* JMManager-MediaSoup.swift */; };
+		EBB521C32AFCB3DF00D39291 /* VM-JMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A02AFCB3DE00D39291 /* VM-JMManager.swift */; };
+		EBB521C42AFCB3DF00D39291 /* JMManager-PriorityAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A12AFCB3DE00D39291 /* JMManager-PriorityAlgorithm.swift */; };
+		EBB521C52AFCB3DF00D39291 /* JMLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A32AFCB3DE00D39291 /* JMLogManager.swift */; };
+		EBB521C62AFCB3DF00D39291 /* JMAudioDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A52AFCB3DE00D39291 /* JMAudioDeviceManager.swift */; };
+		EBB521C72AFCB3DF00D39291 /* JMVideoDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A62AFCB3DE00D39291 /* JMVideoDeviceManager.swift */; };
+		EBB521C82AFCB3DF00D39291 /* JMAudioDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A72AFCB3DE00D39291 /* JMAudioDetector.swift */; };
+		EBB521C92AFCB3DF00D39291 /* JMAppleMLKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521A92AFCB3DE00D39291 /* JMAppleMLKitManager.swift */; };
+		EBB521CA2AFCB3DF00D39291 /* JMVirtualBackgroundHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521AA2AFCB3DE00D39291 /* JMVirtualBackgroundHelper.swift */; };
+		EBB521CB2AFCB3DF00D39291 /* JMVirtualBackgroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521AB2AFCB3DE00D39291 /* JMVirtualBackgroundManager.swift */; };
+		EBB521CC2AFCB3DF00D39291 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521AD2AFCB3DE00D39291 /* Config.swift */; };
+		EBB521CD2AFCB3DF00D39291 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521AE2AFCB3DE00D39291 /* State.swift */; };
+		EBB521CE2AFCB3DF00D39291 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521AF2AFCB3DE00D39291 /* Peer.swift */; };
+		EBB521CF2AFCB3DF00D39291 /* JMScreenShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B12AFCB3DE00D39291 /* JMScreenShareManager.swift */; };
+		EBB521D02AFCB3DF00D39291 /* JMManager-ScreenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B22AFCB3DE00D39291 /* JMManager-ScreenShare.swift */; };
+		EBB521D12AFCB3DF00D39291 /* Models-Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B42AFCB3DE00D39291 /* Models-Public.swift */; };
+		EBB521D22AFCB3DF00D39291 /* JMManager-Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B52AFCB3DE00D39291 /* JMManager-Public.swift */; };
+		EBB521D32AFCB3DF00D39291 /* SocketUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B72AFCB3DF00D39291 /* SocketUtil.swift */; };
+		EBB521D42AFCB3DF00D39291 /* JioSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B82AFCB3DF00D39291 /* JioSocket.swift */; };
+		EBB521D52AFCB3DF00D39291 /* JMManager-Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521B92AFCB3DF00D39291 /* JMManager-Socket.swift */; };
+		EBB521D62AFCB3DF00D39291 /* JMTransportStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521BB2AFCB3DF00D39291 /* JMTransportStats.swift */; };
+		EBB521F12AFCB46200D39291 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521D92AFCB46200D39291 /* JoinViewController.swift */; };
+		EBB521F22AFCB46200D39291 /* MeetingRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521DC2AFCB46200D39291 /* MeetingRoomViewModel.swift */; };
+		EBB521F32AFCB46200D39291 /* MeetingRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521DE2AFCB46200D39291 /* MeetingRoomViewController.swift */; };
+		EBB521F42AFCB46200D39291 /* MeetingRoomAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB521E12AFCB46200D39291 /* MeetingRoomAudioCell.xib */; };
+		EBB521F52AFCB46200D39291 /* MeetingRoomAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521E22AFCB46200D39291 /* MeetingRoomAudioCell.swift */; };
+		EBB521F62AFCB46200D39291 /* MeetingRoomShareVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521E42AFCB46200D39291 /* MeetingRoomShareVideoCell.swift */; };
+		EBB521F72AFCB46200D39291 /* MeetingRoomShareVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB521E52AFCB46200D39291 /* MeetingRoomShareVideoCell.xib */; };
+		EBB521F82AFCB46200D39291 /* MeetingRoomVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB521E72AFCB46200D39291 /* MeetingRoomVideoCell.xib */; };
+		EBB521F92AFCB46200D39291 /* MeetingRoomVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521E82AFCB46200D39291 /* MeetingRoomVideoCell.swift */; };
+		EBB521FA2AFCB46200D39291 /* UIView+ExtensionInspectible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EB2AFCB46200D39291 /* UIView+ExtensionInspectible.swift */; };
+		EBB521FB2AFCB46200D39291 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EC2AFCB46200D39291 /* UIView+Extension.swift */; };
+		EBB521FC2AFCB46200D39291 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521ED2AFCB46200D39291 /* Dictionary+Extension.swift */; };
+		EBB521FD2AFCB46200D39291 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EE2AFCB46200D39291 /* Data+Extension.swift */; };
+		EBB521FE2AFCB46200D39291 /* JMLoggerOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521EF2AFCB46200D39291 /* JMLoggerOption.swift */; };
+		EBB521FF2AFCB46200D39291 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521F02AFCB46200D39291 /* AppConfiguration.swift */; };
+		EBB522032AFCB53900D39291 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBB522022AFCB53900D39291 /* Main.storyboard */; };
+		EBB5220B2AFCBE6000D39291 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5220A2AFCBE6000D39291 /* ReplayKit.framework */; };
+		EBB5220E2AFCBE6000D39291 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB5220D2AFCBE6000D39291 /* SampleHandler.swift */; };
+		EBB522122AFCBE6000D39291 /* MediaStackScreenShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EBB522092AFCBE6000D39291 /* MediaStackScreenShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6415B5142AFE054700BA01FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBB5215A2AFCB29400D39291 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EBB5217D2AFCB2AC00D39291;
+			remoteInfo = JMMediaStackSDK;
+		};
+		EBB521822AFCB2AC00D39291 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBB5215A2AFCB29400D39291 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EBB5217D2AFCB2AC00D39291;
+			remoteInfo = JMMediaStackSDK;
+		};
+		EBB522102AFCBE6000D39291 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBB5215A2AFCB29400D39291 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EBB522082AFCBE6000D39291;
+			remoteInfo = MediaStackScreenShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EBB521892AFCB2AC00D39291 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EBB521852AFCB2AC00D39291 /* JMMediaStackSDK.framework in Embed Frameworks */,
+				EBB521942AFCB39900D39291 /* Mediasoup.xcframework in Embed Frameworks */,
+				EBB521962AFCB39C00D39291 /* WebRTC.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB522162AFCBE6000D39291 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EBB522122AFCBE6000D39291 /* MediaStackScreenShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6415B50E2AFE043A00BA01FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6415B5102AFE051900BA01FC /* JMPreviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMPreviewManager.swift; sourceTree = "<group>"; };
+		84855421C6E70111114C396A /* Pods-JMMediaStackSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaSampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8870A6708E8B1308D4E64AF /* Pods-JMMediaStackSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.release.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.release.xcconfig"; sourceTree = "<group>"; };
+		D68AB749965EB773C2E4A4D4 /* Pods-JMMediaSampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaSampleApp.release.xcconfig"; path = "Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp.release.xcconfig"; sourceTree = "<group>"; };
+		D866C1C609DE280096E3E473 /* Pods-JMMediaSampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaSampleApp.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp.debug.xcconfig"; sourceTree = "<group>"; };
+		EBB521622AFCB29400D39291 /* JMMediaSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JMMediaSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB521652AFCB29400D39291 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EBB521672AFCB29400D39291 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EBB521692AFCB29400D39291 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EBB521712AFCB29600D39291 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EBB521732AFCB29600D39291 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB521802AFCB2AC00D39291 /* JMMediaStackSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JMMediaStackSDK.h; sourceTree = "<group>"; };
+		EBB5218A2AFCB37A00D39291 /* Mediasoup.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Mediasoup.xcframework; path = ../JMMediaFrameworks/Mediasoup.xcframework; sourceTree = "<group>"; };
+		EBB5218B2AFCB37A00D39291 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WebRTC.xcframework; path = ../JMMediaFrameworks/WebRTC.xcframework; sourceTree = "<group>"; };
+		EBB521982AFCB3DE00D39291 /* JMJoinViewApiHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMJoinViewApiHandler.swift; sourceTree = "<group>"; };
+		EBB521992AFCB3DE00D39291 /* JMNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMNetworkManager.swift; sourceTree = "<group>"; };
+		EBB5219B2AFCB3DE00D39291 /* JMMediaEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMMediaEngine.swift; sourceTree = "<group>"; };
+		EBB5219C2AFCB3DE00D39291 /* JMMediaTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMMediaTransport.swift; sourceTree = "<group>"; };
+		EBB5219D2AFCB3DE00D39291 /* JMManager-BroadcastMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-BroadcastMessage.swift"; sourceTree = "<group>"; };
+		EBB5219E2AFCB3DE00D39291 /* JMManager-Reconnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-Reconnect.swift"; sourceTree = "<group>"; };
+		EBB5219F2AFCB3DE00D39291 /* JMManager-MediaSoup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-MediaSoup.swift"; sourceTree = "<group>"; };
+		EBB521A02AFCB3DE00D39291 /* VM-JMManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VM-JMManager.swift"; sourceTree = "<group>"; };
+		EBB521A12AFCB3DE00D39291 /* JMManager-PriorityAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-PriorityAlgorithm.swift"; sourceTree = "<group>"; };
+		EBB521A32AFCB3DE00D39291 /* JMLogManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMLogManager.swift; sourceTree = "<group>"; };
+		EBB521A52AFCB3DE00D39291 /* JMAudioDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMAudioDeviceManager.swift; sourceTree = "<group>"; };
+		EBB521A62AFCB3DE00D39291 /* JMVideoDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMVideoDeviceManager.swift; sourceTree = "<group>"; };
+		EBB521A72AFCB3DE00D39291 /* JMAudioDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMAudioDetector.swift; sourceTree = "<group>"; };
+		EBB521A92AFCB3DE00D39291 /* JMAppleMLKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMAppleMLKitManager.swift; sourceTree = "<group>"; };
+		EBB521AA2AFCB3DE00D39291 /* JMVirtualBackgroundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMVirtualBackgroundHelper.swift; sourceTree = "<group>"; };
+		EBB521AB2AFCB3DE00D39291 /* JMVirtualBackgroundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMVirtualBackgroundManager.swift; sourceTree = "<group>"; };
+		EBB521AD2AFCB3DE00D39291 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		EBB521AE2AFCB3DE00D39291 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		EBB521AF2AFCB3DE00D39291 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		EBB521B12AFCB3DE00D39291 /* JMScreenShareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMScreenShareManager.swift; sourceTree = "<group>"; };
+		EBB521B22AFCB3DE00D39291 /* JMManager-ScreenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-ScreenShare.swift"; sourceTree = "<group>"; };
+		EBB521B42AFCB3DE00D39291 /* Models-Public.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Models-Public.swift"; sourceTree = "<group>"; };
+		EBB521B52AFCB3DE00D39291 /* JMManager-Public.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-Public.swift"; sourceTree = "<group>"; };
+		EBB521B72AFCB3DF00D39291 /* SocketUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketUtil.swift; sourceTree = "<group>"; };
+		EBB521B82AFCB3DF00D39291 /* JioSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JioSocket.swift; sourceTree = "<group>"; };
+		EBB521B92AFCB3DF00D39291 /* JMManager-Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JMManager-Socket.swift"; sourceTree = "<group>"; };
+		EBB521BB2AFCB3DF00D39291 /* JMTransportStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMTransportStats.swift; sourceTree = "<group>"; };
+		EBB521D92AFCB46200D39291 /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		EBB521DC2AFCB46200D39291 /* MeetingRoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingRoomViewModel.swift; sourceTree = "<group>"; };
+		EBB521DE2AFCB46200D39291 /* MeetingRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingRoomViewController.swift; sourceTree = "<group>"; };
+		EBB521E12AFCB46200D39291 /* MeetingRoomAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingRoomAudioCell.xib; sourceTree = "<group>"; };
+		EBB521E22AFCB46200D39291 /* MeetingRoomAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingRoomAudioCell.swift; sourceTree = "<group>"; };
+		EBB521E42AFCB46200D39291 /* MeetingRoomShareVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingRoomShareVideoCell.swift; sourceTree = "<group>"; };
+		EBB521E52AFCB46200D39291 /* MeetingRoomShareVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingRoomShareVideoCell.xib; sourceTree = "<group>"; };
+		EBB521E72AFCB46200D39291 /* MeetingRoomVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingRoomVideoCell.xib; sourceTree = "<group>"; };
+		EBB521E82AFCB46200D39291 /* MeetingRoomVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingRoomVideoCell.swift; sourceTree = "<group>"; };
+		EBB521EB2AFCB46200D39291 /* UIView+ExtensionInspectible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ExtensionInspectible.swift"; sourceTree = "<group>"; };
+		EBB521EC2AFCB46200D39291 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		EBB521ED2AFCB46200D39291 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
+		EBB521EE2AFCB46200D39291 /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		EBB521EF2AFCB46200D39291 /* JMLoggerOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JMLoggerOption.swift; sourceTree = "<group>"; };
+		EBB521F02AFCB46200D39291 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		EBB522022AFCB53900D39291 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		EBB522042AFCBE1100D39291 /* JMMediaSampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JMMediaSampleApp.entitlements; sourceTree = "<group>"; };
+		EBB522092AFCBE6000D39291 /* MediaStackScreenShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MediaStackScreenShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB5220A2AFCBE6000D39291 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		EBB5220D2AFCBE6000D39291 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
+		EBB5220F2AFCBE6000D39291 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBB522172AFCBECC00D39291 /* MediaStackScreenShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MediaStackScreenShare.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBB5215F2AFCB29400D39291 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB521952AFCB39C00D39291 /* WebRTC.xcframework in Frameworks */,
+				EBB521842AFCB2AC00D39291 /* JMMediaStackSDK.framework in Frameworks */,
+				26CBABA317AEF6B93AA2C765 /* Pods_JMMediaSampleApp.framework in Frameworks */,
+				EBB521932AFCB39900D39291 /* Mediasoup.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB5217B2AFCB2AC00D39291 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94F9BFCEE8BCF332404E8A65 /* Pods_JMMediaStackSDK.framework in Frameworks */,
+				EBB5218E2AFCB38200D39291 /* Mediasoup.xcframework in Frameworks */,
+				EBB521902AFCB38200D39291 /* WebRTC.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB522062AFCBE6000D39291 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6415B5122AFE054700BA01FC /* JMMediaStackSDK.framework in Frameworks */,
+				EBB5220B2AFCBE6000D39291 /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7751ECDF18C97206694D2B51 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D866C1C609DE280096E3E473 /* Pods-JMMediaSampleApp.debug.xcconfig */,
+				D68AB749965EB773C2E4A4D4 /* Pods-JMMediaSampleApp.release.xcconfig */,
+				84855421C6E70111114C396A /* Pods-JMMediaStackSDK.debug.xcconfig */,
+				C8870A6708E8B1308D4E64AF /* Pods-JMMediaStackSDK.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C59940AA84E4E971D44AC547 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */,
+				963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */,
+				EBB5220A2AFCBE6000D39291 /* ReplayKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EBB521592AFCB29400D39291 = {
+			isa = PBXGroup;
+			children = (
+				EBB5218A2AFCB37A00D39291 /* Mediasoup.xcframework */,
+				EBB5218B2AFCB37A00D39291 /* WebRTC.xcframework */,
+				EBB521642AFCB29400D39291 /* JMMediaSampleApp */,
+				EBB5217F2AFCB2AC00D39291 /* JMMediaStackSDK */,
+				EBB5220C2AFCBE6000D39291 /* MediaStackScreenShare */,
+				EBB521632AFCB29400D39291 /* Products */,
+				7751ECDF18C97206694D2B51 /* Pods */,
+				C59940AA84E4E971D44AC547 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EBB521632AFCB29400D39291 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521622AFCB29400D39291 /* JMMediaSampleApp.app */,
+				EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */,
+				EBB522092AFCBE6000D39291 /* MediaStackScreenShare.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBB521642AFCB29400D39291 /* JMMediaSampleApp */ = {
+			isa = PBXGroup;
+			children = (
+				EBB522042AFCBE1100D39291 /* JMMediaSampleApp.entitlements */,
+				EBB521F02AFCB46200D39291 /* AppConfiguration.swift */,
+				EBB521D72AFCB46200D39291 /* Presentation */,
+				EBB521E92AFCB46200D39291 /* Utils */,
+				EBB521652AFCB29400D39291 /* AppDelegate.swift */,
+				EBB521672AFCB29400D39291 /* SceneDelegate.swift */,
+				EBB521692AFCB29400D39291 /* ViewController.swift */,
+				EBB522022AFCB53900D39291 /* Main.storyboard */,
+				6415B50E2AFE043A00BA01FC /* Assets.xcassets */,
+				EBB521702AFCB29600D39291 /* LaunchScreen.storyboard */,
+				EBB521732AFCB29600D39291 /* Info.plist */,
+			);
+			path = JMMediaSampleApp;
+			sourceTree = "<group>";
+		};
+		EBB5217F2AFCB2AC00D39291 /* JMMediaStackSDK */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521A42AFCB3DE00D39291 /* Device Manager */,
+				EBB5219A2AFCB3DE00D39291 /* Jio-MediaSoup */,
+				EBB521A22AFCB3DE00D39291 /* Logger */,
+				EBB521AC2AFCB3DE00D39291 /* Model */,
+				EBB521972AFCB3DE00D39291 /* Network-REST */,
+				EBB521B32AFCB3DE00D39291 /* Public */,
+				EBB521B02AFCB3DE00D39291 /* ScreenshareManager */,
+				EBB521B62AFCB3DF00D39291 /* Socket */,
+				EBB521BA2AFCB3DF00D39291 /* Stats */,
+				EBB521A82AFCB3DE00D39291 /* VB */,
+				EBB521802AFCB2AC00D39291 /* JMMediaStackSDK.h */,
+			);
+			path = JMMediaStackSDK;
+			sourceTree = "<group>";
+		};
+		EBB521972AFCB3DE00D39291 /* Network-REST */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521982AFCB3DE00D39291 /* JMJoinViewApiHandler.swift */,
+				EBB521992AFCB3DE00D39291 /* JMNetworkManager.swift */,
+			);
+			path = "Network-REST";
+			sourceTree = "<group>";
+		};
+		EBB5219A2AFCB3DE00D39291 /* Jio-MediaSoup */ = {
+			isa = PBXGroup;
+			children = (
+				EBB5219B2AFCB3DE00D39291 /* JMMediaEngine.swift */,
+				EBB5219C2AFCB3DE00D39291 /* JMMediaTransport.swift */,
+				EBB5219D2AFCB3DE00D39291 /* JMManager-BroadcastMessage.swift */,
+				EBB5219E2AFCB3DE00D39291 /* JMManager-Reconnect.swift */,
+				EBB5219F2AFCB3DE00D39291 /* JMManager-MediaSoup.swift */,
+				EBB521A02AFCB3DE00D39291 /* VM-JMManager.swift */,
+				EBB521A12AFCB3DE00D39291 /* JMManager-PriorityAlgorithm.swift */,
+			);
+			path = "Jio-MediaSoup";
+			sourceTree = "<group>";
+		};
+		EBB521A22AFCB3DE00D39291 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521A32AFCB3DE00D39291 /* JMLogManager.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		EBB521A42AFCB3DE00D39291 /* Device Manager */ = {
+			isa = PBXGroup;
+			children = (
+				6415B5102AFE051900BA01FC /* JMPreviewManager.swift */,
+				EBB521A52AFCB3DE00D39291 /* JMAudioDeviceManager.swift */,
+				EBB521A62AFCB3DE00D39291 /* JMVideoDeviceManager.swift */,
+				EBB521A72AFCB3DE00D39291 /* JMAudioDetector.swift */,
+			);
+			path = "Device Manager";
+			sourceTree = "<group>";
+		};
+		EBB521A82AFCB3DE00D39291 /* VB */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521A92AFCB3DE00D39291 /* JMAppleMLKitManager.swift */,
+				EBB521AA2AFCB3DE00D39291 /* JMVirtualBackgroundHelper.swift */,
+				EBB521AB2AFCB3DE00D39291 /* JMVirtualBackgroundManager.swift */,
+			);
+			path = VB;
+			sourceTree = "<group>";
+		};
+		EBB521AC2AFCB3DE00D39291 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521AD2AFCB3DE00D39291 /* Config.swift */,
+				EBB521AE2AFCB3DE00D39291 /* State.swift */,
+				EBB521AF2AFCB3DE00D39291 /* Peer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EBB521B02AFCB3DE00D39291 /* ScreenshareManager */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521B12AFCB3DE00D39291 /* JMScreenShareManager.swift */,
+				EBB521B22AFCB3DE00D39291 /* JMManager-ScreenShare.swift */,
+			);
+			path = ScreenshareManager;
+			sourceTree = "<group>";
+		};
+		EBB521B32AFCB3DE00D39291 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521B42AFCB3DE00D39291 /* Models-Public.swift */,
+				EBB521B52AFCB3DE00D39291 /* JMManager-Public.swift */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		EBB521B62AFCB3DF00D39291 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521B72AFCB3DF00D39291 /* SocketUtil.swift */,
+				EBB521B82AFCB3DF00D39291 /* JioSocket.swift */,
+				EBB521B92AFCB3DF00D39291 /* JMManager-Socket.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		EBB521BA2AFCB3DF00D39291 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521BB2AFCB3DF00D39291 /* JMTransportStats.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		EBB521D72AFCB46200D39291 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521D82AFCB46200D39291 /* Join */,
+				EBB521DA2AFCB46200D39291 /* MeetingRoom */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		EBB521D82AFCB46200D39291 /* Join */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521D92AFCB46200D39291 /* JoinViewController.swift */,
+			);
+			path = Join;
+			sourceTree = "<group>";
+		};
+		EBB521DA2AFCB46200D39291 /* MeetingRoom */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521DB2AFCB46200D39291 /* ViewModel */,
+				EBB521DD2AFCB46200D39291 /* View */,
+			);
+			path = MeetingRoom;
+			sourceTree = "<group>";
+		};
+		EBB521DB2AFCB46200D39291 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521DC2AFCB46200D39291 /* MeetingRoomViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		EBB521DD2AFCB46200D39291 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521DE2AFCB46200D39291 /* MeetingRoomViewController.swift */,
+				EBB521DF2AFCB46200D39291 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EBB521DF2AFCB46200D39291 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521E02AFCB46200D39291 /* MeetingRoomAudioCell */,
+				EBB521E32AFCB46200D39291 /* MeetingRoomShareCell */,
+				EBB521E62AFCB46200D39291 /* MeetingRoomVideoCell */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		EBB521E02AFCB46200D39291 /* MeetingRoomAudioCell */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521E12AFCB46200D39291 /* MeetingRoomAudioCell.xib */,
+				EBB521E22AFCB46200D39291 /* MeetingRoomAudioCell.swift */,
+			);
+			path = MeetingRoomAudioCell;
+			sourceTree = "<group>";
+		};
+		EBB521E32AFCB46200D39291 /* MeetingRoomShareCell */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521E42AFCB46200D39291 /* MeetingRoomShareVideoCell.swift */,
+				EBB521E52AFCB46200D39291 /* MeetingRoomShareVideoCell.xib */,
+			);
+			path = MeetingRoomShareCell;
+			sourceTree = "<group>";
+		};
+		EBB521E62AFCB46200D39291 /* MeetingRoomVideoCell */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521E72AFCB46200D39291 /* MeetingRoomVideoCell.xib */,
+				EBB521E82AFCB46200D39291 /* MeetingRoomVideoCell.swift */,
+			);
+			path = MeetingRoomVideoCell;
+			sourceTree = "<group>";
+		};
+		EBB521E92AFCB46200D39291 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521EA2AFCB46200D39291 /* Extension */,
+				EBB521EF2AFCB46200D39291 /* JMLoggerOption.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		EBB521EA2AFCB46200D39291 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EBB521EB2AFCB46200D39291 /* UIView+ExtensionInspectible.swift */,
+				EBB521EC2AFCB46200D39291 /* UIView+Extension.swift */,
+				EBB521ED2AFCB46200D39291 /* Dictionary+Extension.swift */,
+				EBB521EE2AFCB46200D39291 /* Data+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		EBB5220C2AFCBE6000D39291 /* MediaStackScreenShare */ = {
+			isa = PBXGroup;
+			children = (
+				EBB522172AFCBECC00D39291 /* MediaStackScreenShare.entitlements */,
+				EBB5220D2AFCBE6000D39291 /* SampleHandler.swift */,
+				EBB5220F2AFCBE6000D39291 /* Info.plist */,
+			);
+			path = MediaStackScreenShare;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EBB521792AFCB2AC00D39291 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB521812AFCB2AC00D39291 /* JMMediaStackSDK.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EBB521612AFCB29400D39291 /* JMMediaSampleApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBB521762AFCB29600D39291 /* Build configuration list for PBXNativeTarget "JMMediaSampleApp" */;
+			buildPhases = (
+				5F33AF166539FB3148AB04D3 /* [CP] Check Pods Manifest.lock */,
+				EBB5215E2AFCB29400D39291 /* Sources */,
+				EBB5215F2AFCB29400D39291 /* Frameworks */,
+				EBB521602AFCB29400D39291 /* Resources */,
+				EBB521892AFCB2AC00D39291 /* Embed Frameworks */,
+				88BC1922DD6D03892092BFCC /* [CP] Embed Pods Frameworks */,
+				EBB522162AFCBE6000D39291 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EBB521832AFCB2AC00D39291 /* PBXTargetDependency */,
+				EBB522112AFCBE6000D39291 /* PBXTargetDependency */,
+			);
+			name = JMMediaSampleApp;
+			productName = JMMediaSampleApp;
+			productReference = EBB521622AFCB29400D39291 /* JMMediaSampleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBB521862AFCB2AC00D39291 /* Build configuration list for PBXNativeTarget "JMMediaStackSDK" */;
+			buildPhases = (
+				6231770BF54B3ADCD67CCC5E /* [CP] Check Pods Manifest.lock */,
+				EBB521792AFCB2AC00D39291 /* Headers */,
+				EBB5217A2AFCB2AC00D39291 /* Sources */,
+				EBB5217B2AFCB2AC00D39291 /* Frameworks */,
+				EBB5217C2AFCB2AC00D39291 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JMMediaStackSDK;
+			productName = JMMediaStackSDK;
+			productReference = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EBB522082AFCBE6000D39291 /* MediaStackScreenShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBB522132AFCBE6000D39291 /* Build configuration list for PBXNativeTarget "MediaStackScreenShare" */;
+			buildPhases = (
+				EBB522052AFCBE6000D39291 /* Sources */,
+				EBB522062AFCBE6000D39291 /* Frameworks */,
+				EBB522072AFCBE6000D39291 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6415B5152AFE054700BA01FC /* PBXTargetDependency */,
+			);
+			name = MediaStackScreenShare;
+			productName = MediaStackScreenShare;
+			productReference = EBB522092AFCBE6000D39291 /* MediaStackScreenShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBB5215A2AFCB29400D39291 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					EBB521612AFCB29400D39291 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					EBB5217D2AFCB2AC00D39291 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					EBB522082AFCBE6000D39291 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = EBB5215D2AFCB29400D39291 /* Build configuration list for PBXProject "JMMediaSampleApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EBB521592AFCB29400D39291;
+			productRefGroup = EBB521632AFCB29400D39291 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBB521612AFCB29400D39291 /* JMMediaSampleApp */,
+				EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */,
+				EBB522082AFCBE6000D39291 /* MediaStackScreenShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EBB521602AFCB29400D39291 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB522032AFCB53900D39291 /* Main.storyboard in Resources */,
+				EBB521722AFCB29600D39291 /* LaunchScreen.storyboard in Resources */,
+				EBB521F42AFCB46200D39291 /* MeetingRoomAudioCell.xib in Resources */,
+				EBB521F82AFCB46200D39291 /* MeetingRoomVideoCell.xib in Resources */,
+				6415B50F2AFE043A00BA01FC /* Assets.xcassets in Resources */,
+				EBB521F72AFCB46200D39291 /* MeetingRoomShareVideoCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB5217C2AFCB2AC00D39291 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB522072AFCBE6000D39291 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5F33AF166539FB3148AB04D3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JMMediaSampleApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6231770BF54B3ADCD67CCC5E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JMMediaStackSDK-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88BC1922DD6D03892092BFCC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBB5215E2AFCB29400D39291 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB521FD2AFCB46200D39291 /* Data+Extension.swift in Sources */,
+				EBB521FE2AFCB46200D39291 /* JMLoggerOption.swift in Sources */,
+				EBB521FB2AFCB46200D39291 /* UIView+Extension.swift in Sources */,
+				EBB521F22AFCB46200D39291 /* MeetingRoomViewModel.swift in Sources */,
+				EBB521FA2AFCB46200D39291 /* UIView+ExtensionInspectible.swift in Sources */,
+				EBB521F52AFCB46200D39291 /* MeetingRoomAudioCell.swift in Sources */,
+				EBB521FF2AFCB46200D39291 /* AppConfiguration.swift in Sources */,
+				EBB521F62AFCB46200D39291 /* MeetingRoomShareVideoCell.swift in Sources */,
+				EBB5216A2AFCB29400D39291 /* ViewController.swift in Sources */,
+				EBB521662AFCB29400D39291 /* AppDelegate.swift in Sources */,
+				EBB521F32AFCB46200D39291 /* MeetingRoomViewController.swift in Sources */,
+				EBB521F12AFCB46200D39291 /* JoinViewController.swift in Sources */,
+				EBB521F92AFCB46200D39291 /* MeetingRoomVideoCell.swift in Sources */,
+				EBB521682AFCB29400D39291 /* SceneDelegate.swift in Sources */,
+				EBB521FC2AFCB46200D39291 /* Dictionary+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB5217A2AFCB2AC00D39291 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB521BE2AFCB3DF00D39291 /* JMMediaEngine.swift in Sources */,
+				EBB521BF2AFCB3DF00D39291 /* JMMediaTransport.swift in Sources */,
+				EBB521C12AFCB3DF00D39291 /* JMManager-Reconnect.swift in Sources */,
+				EBB521BC2AFCB3DF00D39291 /* JMJoinViewApiHandler.swift in Sources */,
+				EBB521CC2AFCB3DF00D39291 /* Config.swift in Sources */,
+				6415B5112AFE051900BA01FC /* JMPreviewManager.swift in Sources */,
+				EBB521D52AFCB3DF00D39291 /* JMManager-Socket.swift in Sources */,
+				EBB521D02AFCB3DF00D39291 /* JMManager-ScreenShare.swift in Sources */,
+				EBB521CD2AFCB3DF00D39291 /* State.swift in Sources */,
+				EBB521C22AFCB3DF00D39291 /* JMManager-MediaSoup.swift in Sources */,
+				EBB521D22AFCB3DF00D39291 /* JMManager-Public.swift in Sources */,
+				EBB521D12AFCB3DF00D39291 /* Models-Public.swift in Sources */,
+				EBB521C62AFCB3DF00D39291 /* JMAudioDeviceManager.swift in Sources */,
+				EBB521C82AFCB3DF00D39291 /* JMAudioDetector.swift in Sources */,
+				EBB521D42AFCB3DF00D39291 /* JioSocket.swift in Sources */,
+				EBB521CE2AFCB3DF00D39291 /* Peer.swift in Sources */,
+				EBB521D62AFCB3DF00D39291 /* JMTransportStats.swift in Sources */,
+				EBB521CF2AFCB3DF00D39291 /* JMScreenShareManager.swift in Sources */,
+				EBB521C92AFCB3DF00D39291 /* JMAppleMLKitManager.swift in Sources */,
+				EBB521CB2AFCB3DF00D39291 /* JMVirtualBackgroundManager.swift in Sources */,
+				EBB521C02AFCB3DF00D39291 /* JMManager-BroadcastMessage.swift in Sources */,
+				EBB521C42AFCB3DF00D39291 /* JMManager-PriorityAlgorithm.swift in Sources */,
+				EBB521D32AFCB3DF00D39291 /* SocketUtil.swift in Sources */,
+				EBB521BD2AFCB3DF00D39291 /* JMNetworkManager.swift in Sources */,
+				EBB521C32AFCB3DF00D39291 /* VM-JMManager.swift in Sources */,
+				EBB521C72AFCB3DF00D39291 /* JMVideoDeviceManager.swift in Sources */,
+				EBB521C52AFCB3DF00D39291 /* JMLogManager.swift in Sources */,
+				EBB521CA2AFCB3DF00D39291 /* JMVirtualBackgroundHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBB522052AFCBE6000D39291 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB5220E2AFCBE6000D39291 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6415B5152AFE054700BA01FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */;
+			targetProxy = 6415B5142AFE054700BA01FC /* PBXContainerItemProxy */;
+		};
+		EBB521832AFCB2AC00D39291 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EBB5217D2AFCB2AC00D39291 /* JMMediaStackSDK */;
+			targetProxy = EBB521822AFCB2AC00D39291 /* PBXContainerItemProxy */;
+		};
+		EBB522112AFCBE6000D39291 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EBB522082AFCBE6000D39291 /* MediaStackScreenShare */;
+			targetProxy = EBB522102AFCBE6000D39291 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EBB521702AFCB29600D39291 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBB521712AFCB29600D39291 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EBB521742AFCB29600D39291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EBB521752AFCB29600D39291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EBB521772AFCB29600D39291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D866C1C609DE280096E3E473 /* Pods-JMMediaSampleApp.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = JMMediaSampleApp/JMMediaSampleApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JMMediaSampleApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reliance.JMMediaStack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EBB521782AFCB29600D39291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D68AB749965EB773C2E4A4D4 /* Pods-JMMediaSampleApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = JMMediaSampleApp/JMMediaSampleApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JMMediaSampleApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reliance.JMMediaStack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EBB521872AFCB2AC00D39291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84855421C6E70111114C396A /* Pods-JMMediaStackSDK.debug.xcconfig */;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = VSQ9KLSSUY;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jio.jiomeet.JMMediaStackSDK;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EBB521882AFCB2AC00D39291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C8870A6708E8B1308D4E64AF /* Pods-JMMediaStackSDK.release.xcconfig */;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = VSQ9KLSSUY;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jio.jiomeet.JMMediaStackSDK;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EBB522142AFCBE6000D39291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MediaStackScreenShare/MediaStackScreenShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MediaStackScreenShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MediaStackScreenShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reliance.JMMediaStack.ScreenShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EBB522152AFCBE6000D39291 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MediaStackScreenShare/MediaStackScreenShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PVH2NGH42;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MediaStackScreenShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MediaStackScreenShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reliance.JMMediaStack.ScreenShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EBB5215D2AFCB29400D39291 /* Build configuration list for PBXProject "JMMediaSampleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBB521742AFCB29600D39291 /* Debug */,
+				EBB521752AFCB29600D39291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBB521762AFCB29600D39291 /* Build configuration list for PBXNativeTarget "JMMediaSampleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBB521772AFCB29600D39291 /* Debug */,
+				EBB521782AFCB29600D39291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBB521862AFCB2AC00D39291 /* Build configuration list for PBXNativeTarget "JMMediaStackSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBB521872AFCB2AC00D39291 /* Debug */,
+				EBB521882AFCB2AC00D39291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBB522132AFCBE6000D39291 /* Build configuration list for PBXNativeTarget "MediaStackScreenShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBB522142AFCBE6000D39291 /* Debug */,
+				EBB522152AFCBE6000D39291 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBB5215A2AFCB29400D39291 /* Project object */;
+}

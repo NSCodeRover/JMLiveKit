@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   
-  spec.name         = 'JMMediaStackSDK'
+  spec.name         = 'JMMediaStackSDK_iOS'
   spec.version      = '1.0.0'
   spec.summary      = 'Media stack SDK which will responsible to provide video conferencing experience.'
   spec.description  = 'Media stack SDK developed on top of MediaSoup and webrtc framework will handling everything related to join, streaming, communication, etc.'
@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
     :git => "https://devops.jio.com/JioPlatforms/JioMeet_Pilot/_git/JMMediaSoup_iOS",
     :branch => "develop"
   }
-  spec.source_files = "JMMediaStackSDK/**/*.{h,m,swift}"
+  spec.source_files = "JMMediaSampleApp/JMMediaStackSDK/**/*.{h,m,swift}"
   spec.vendored_frameworks =
   "JMMediaFrameworks/Mediasoup.xcframework",
   "JMMediaFrameworks/WebRTC.xcframework"

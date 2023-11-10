@@ -1,0 +1,95 @@
+//
+//  JMManager-Public.swift
+//  MediaStack
+//
+//  Created by Harsh1 Surati on 03/07/23.
+//
+
+import Foundation
+import UIKit
+
+//Note: These callback will be received by SDK to Client
+public protocol JMMediaEngineDelegate {
+    func onJoinSuccess(id: String)
+    func onError(error: JMMediaError)
+    
+    func onUserJoined(user: JMUserInfo)
+    func onUserLeft(id: String, reason: JMUserLeaveReason)
+    
+    func onLocalMediaStateChange(type: JMMediaType, reason: JMMediaReason)
+    func onUserPublished(id: String, type: JMMediaType)
+    func onUserUnPublished(id: String, type: JMMediaType)
+    
+    func onBroadcastMessage(msg: [String: Any])
+    func onBroadcastMessageToPeer(msg: [String: Any])
+    
+    func onAudioDeviceChanged(_ device: JMAudioDevice)
+    func onVideoDeviceChanged(_ device: JMVideoDevice)
+    func onTopSpeakers(listActiveParticipant: [JMActiveParticipant])
+    func onUserSpeakingOnMute()
+    
+    func onConnectionStateChanged(state: JMSocketConnectionState)
+    func onNetworkQuality(stats: JMNetworkStatistics)
+    
+    func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType)
+    
+    func onChannelLeft()
+    func onLogMessage(message: String)
+}
+
+//Note: Optional callbacks - All methods mentioned below will become optional.
+extension JMMediaEngineDelegate{
+    func onBroadcastMessage(msg: [String: Any]){}
+    func onBroadcastMessageToPeer(msg: [String: Any]){}
+    
+    func onAudioDeviceChanged(_ device: JMAudioDevice){}
+    func onVideoDeviceChanged(_ device: JMVideoDevice){}
+    
+    func onTopSpeakers(listActiveParticipant: [JMActiveParticipant]){}
+    func onUserSpeakingOnMute(){}
+    
+    func onConnectionStateChanged(state: JMSocketConnectionState){}
+    func onNetworkQuality(stats: JMNetworkStatistics){}
+    func onRemoteNetworkQuality(id:String, quality:JMNetworkQuality, mediaType:JMMediaType){}
+    
+    func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality){}
+    
+    func onLocalMediaStateChange(type: JMMediaType, reason: JMMediaReason){}
+}
+
+//Note: These SDK functions are available for Client to call.
+protocol JMMediaEngineAbstract{
+
+    func create(withAppId appID: String, mediaOptions: JMMediaOptions, delegate: JMMediaEngineDelegate?) -> JMMediaEngine
+    func join(meetingId: String, meetingPin: String, userName: String, meetingUrl: String, isRejoin: Bool)
+    
+    func getAudioDevices() -> [JMAudioDevice]
+    func setAudioDevice(_ device: JMAudioDevice)
+    func getVideoDevices() -> [JMVideoDevice]
+    func setVideoDevice(_ device: JMVideoDevice)
+    
+    func setupLocalVideo(_ view: UIView)
+    func setupRemoteVideo(_ view: UIView, remoteId: String)
+    
+    @available(iOS 15.0, *)
+    func enableVirtualBackground(_ isEnabled: Bool, withOption option: JMVirtualBackgroundOption)
+    
+    func setLocalAudioEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    func setLocalVideoEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    
+    func subscribeFeed(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType)
+    func setRemoteFeed(for remoteId: String, preferredQuality: JMMediaQuality)
+    
+    //AudioOnly - userList will only be used while disable audio only mode.
+    func enableAudioOnlyMode(_ flag: Bool, userList: [String], includeScreenShare: Bool)
+    
+    //Screenshare
+    func setupShareVideo(_ view: UIView, remoteId: String)
+    func startScreenShare(with appId: String)
+    func stopScreenShare(error: String)
+    
+    func sendPublicMessage(_ message: [String:Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    func sendPrivateMessage(_ message: [String:Any], toPeer: String, _ resultCompletion: ((_ isSuccess: Bool) -> ())?)
+    func enableLog(_ isEnabled: Bool,severity: JMLogSeverity)
+
+}
