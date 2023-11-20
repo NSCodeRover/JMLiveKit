@@ -142,6 +142,9 @@ extension JMPreviewManager{
             renderView.addSubview(localView)
             self.setConstrainsts(of: localView, toView: renderView)
             self.videoSelfRTCRenderView = localView
+            
+            self.videoSelfRenderView?.contentMode = .scaleAspectFit
+            self.videoSelfRTCRenderView?.contentMode = .scaleAspectFit
         }
     }
     
