@@ -116,6 +116,16 @@ extension JMManagerViewModel{
             audioTrack.source.volume = Double(audioRemotePeerVolume)
         }
     }
+    
+    func setRemoteAudioMute(_ isDisable:Bool = false){
+        LOG.info("Audio- Remote peer mute \(isDisable)")
+        
+        peersMap.forEach { _,value in
+            if let audioTrack = value.consumerAudio?.track{
+                audioTrack.isEnabled = !isDisable
+            }
+        }
+    }
 
 }
 
