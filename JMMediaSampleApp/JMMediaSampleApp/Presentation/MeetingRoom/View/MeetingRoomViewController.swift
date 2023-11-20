@@ -38,6 +38,7 @@ class MeetingRoomViewController: UIViewController {
     
     var viewModel: MeetingRoomViewModel!
     var screenShareState:JMScreenShareState = .ScreenShareStateStopping
+    var isRemoteAudioDisable = true
     
     @IBOutlet weak var constraintWidthLocalView: NSLayoutConstraint!
     
@@ -308,7 +309,10 @@ extension MeetingRoomViewController{
         let endCall = UIAlertAction(title: "End Call", style: .destructive) { _ in
             self.viewModel.handleEvent(event: .endCall)
         }
-        
+        let noAudio = UIAlertAction(title: "No Remote Audio", style: .default) { _ in
+            self.viewModel.handleEvent(event: .setNoAudio(isDisabled:  self.isRemoteAudioDisable))
+            self.isRemoteAudioDisable =  !self.isRemoteAudioDisable
+        }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             // Handle Cancel
             print("Action canceled")
@@ -320,6 +324,7 @@ extension MeetingRoomViewController{
         actionSheet.addAction(videoDevice)
         actionSheet.addAction(virtualBG)
         actionSheet.addAction(endCall)
+        actionSheet.addAction(noAudio)
         actionSheet.addAction(cancel)
         
         // For iPad, to avoid crashes when presenting action sheets

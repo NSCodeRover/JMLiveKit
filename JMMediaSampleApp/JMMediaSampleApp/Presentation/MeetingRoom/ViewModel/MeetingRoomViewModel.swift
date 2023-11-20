@@ -53,6 +53,7 @@ class MeetingRoomViewModel {
         
         case retryJoin
         case setVolume(volumn: Double)
+        case setNoAudio(isDisabled: Bool)
     }
     
     var getLocalRenderView: (() -> UIView)?
@@ -144,6 +145,8 @@ extension MeetingRoomViewModel {
             client.join(meetingId: meetingId, meetingPin: meetingPin, userName: displayName, meetingUrl: AppConfiguration().baseUrl)
         case .setVolume(volumn: let volumn):
             client.setRemotePeerVolume(volumn)
+        case .setNoAudio(isDisabled: let isDisable):
+            client.setRemoteAudioMute(isDisable)
         }
     }
 }
