@@ -157,11 +157,15 @@ extension JMManagerViewModel{
         
         if let videoProducer = videoProducer{
             qJMMediaBGQueue.async {
-                self.handleMediaSoupErrors("Video- Reconnect-"){
+                let result = self.handleMediaSoupErrors("Video- Reconnect-"){
                     
                     let recommendedLayer = self.getSpatialValues()
                     try videoProducer.setMaxSpatialLayer(recommendedLayer)
                     LOG.info("Video- Reconnect- producer layers set to \(recommendedLayer).")
+                }
+                
+                if !result{
+                    LOG.error("Video- Reconnect- failed")
                 }
             }
         }

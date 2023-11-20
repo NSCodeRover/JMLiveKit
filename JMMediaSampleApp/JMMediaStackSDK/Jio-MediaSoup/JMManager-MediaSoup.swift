@@ -18,7 +18,7 @@ extension JMManagerViewModel{
         if let rtpCapabilities = getRTPCapabilities() {
             
             let device = Device()
-            handleMediaSoupErrors("Device-") {
+            let result = handleMediaSoupErrors("Device-") {
                 
                 try device.load(with: rtpCapabilities)
                 
@@ -37,6 +37,10 @@ extension JMManagerViewModel{
                 
                 self.device = device
                 self.jioSocket?.emit(action: .join, parameters: getRoomConfiguration())
+            }
+            
+            if !result{
+                LOG.error("Device- failed")
             }
         }
     }

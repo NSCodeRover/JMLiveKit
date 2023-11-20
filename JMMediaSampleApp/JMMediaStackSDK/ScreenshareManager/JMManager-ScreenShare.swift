@@ -14,18 +14,17 @@ var wormholeBufferListener: MMWormhole?
 extension JMManagerViewModel{
     
      func setSampleBufferwithTimestamp(_ messageObject: [String:Any]) {
-        if let object: [String:Any] = messageObject as? [String:Any],
-           let buffer = object["buffer"] as? Data,
-           let timeStamp = object["timeStamp"] as? Int64{
+        if let buffer = messageObject["buffer"] as? Data,
+           let timeStamp = messageObject["timeStamp"] as? Int64{
             
+            self.createScreenShareProducer()
             guard let frameNew = self.convertDataToRTCCVPixelBuffer(data: buffer, timeStamp: timeStamp),
                   let capturer = self.videoSourceScreenCapture
             else {
-                LOG.debug("ScreenShare- convertor failed, capture is \(videoSourceScreenCapture)")
+                LOG.debug("ScreenShare- convertor failed, capture is \(String(describing: videoSourceScreenCapture))")
                 return
             }
             
-            self.createScreenShareProducer()
             self.videoSourceScreen?.capturer(capturer, didCapture: frameNew)
         }
     }
@@ -76,16 +75,20 @@ extension JMManagerViewModel{
         mediaStreamScreenCapture?.addVideoTrack(screenShareTrack)
         
         guard let sendTransport = sendTransport,let videoTrackScreen = videoTrackScreen else {
-            LOG.error("ScreenShare- send Transport not available | transport:\(sendTransport) | track:\(videoTrack)")
+            LOG.error("ScreenShare- send Transport not available | transport:\(String(describing: sendTransport)) | track:\(String(describing: videoTrack))")
             return
         }
         
-        handleMediaSoupErrors("ScreenShare-") {
+        let result = handleMediaSoupErrors("ScreenShare-") {
             let producer = try sendTransport.createProducer(for: videoTrackScreen, encodings: nil, codecOptions:  nil, codec: nil, appData: JioMediaAppData.screenShareAppData)
             LOG.debug("ScreenShare- \(producer.id)")
             screenShareProducer = producer
             totalProducers[producer.id] = producer
             producer.resume()
+        }
+        
+        if !result{
+            LOG.error("ScreenShare- producer resume failed")
         }
     }
     

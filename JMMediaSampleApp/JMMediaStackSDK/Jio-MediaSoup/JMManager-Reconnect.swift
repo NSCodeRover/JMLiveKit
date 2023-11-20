@@ -34,8 +34,12 @@ extension JMManagerViewModel {
            let iceParams = iceData["iceParameters"] as? [String: Any] {
             
             if let jsonString = convertDictionaryToJsonString(dictionary: iceParams) {
-                handleMediaSoupErrors("Reconnect-"){
+                let result = handleMediaSoupErrors("Reconnect-"){
                     consumeFlag ? try self.recvTransport?.restartICE(with: jsonString) : try self.sendTransport?.restartICE(with: jsonString)
+                }
+                
+                if !result{
+                    LOG.error("Reconnect- failed")
                 }
             }
         }

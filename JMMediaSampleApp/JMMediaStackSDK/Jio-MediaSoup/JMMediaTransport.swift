@@ -15,7 +15,7 @@ extension JMManagerViewModel {
     func createSendTransport(json: [String: Any], device: Device?) -> SendTransport? {
         
         var sendTransport: SendTransport? = nil
-        handleMediaSoupErrors("Transport- Send-"){
+        let result = handleMediaSoupErrors("Transport- Send-"){
             let tuple = self.getTransportParameters(json: json)
             sendTransport = try device?.createSendTransport(
                 id: tuple.id,
@@ -28,13 +28,18 @@ extension JMManagerViewModel {
                 appData: nil
             )
         }
+        
+        if !result{
+            LOG.error("Transport- Send- failed")
+        }
+        
         return sendTransport
     }
         
     func createReceiveTransport(json: [String: Any], device: Device?) -> ReceiveTransport? {
         
         var receiveTransport: ReceiveTransport? = nil
-        handleMediaSoupErrors("Transport- Receive-"){
+        let result = handleMediaSoupErrors("Transport- Receive-"){
             let tuple = self.getTransportParameters(json: json)
             receiveTransport = try device?.createReceiveTransport(
                 id: tuple.id,
@@ -45,6 +50,11 @@ extension JMManagerViewModel {
                 iceTransportPolicy: tuple.isRelayTransportPolicy ? .relay : .all
             )
         }
+        
+        if !result{
+            LOG.error("Transport- Receive- failed")
+        }
+        
         return receiveTransport
     }
     
