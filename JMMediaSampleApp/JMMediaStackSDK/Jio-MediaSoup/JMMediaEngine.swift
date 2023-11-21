@@ -208,8 +208,8 @@ extension JMMediaEngine{
         vm_manager.setRemotePeerVolume(volume: volume)
     }
     
-    public func enableRemotePeerAudio(_ isEnable: Bool = true){
-        vm_manager.enableRemotePeerAudio(isEnable)
+    public func setRemoteAudioMute(_ isDisable:Bool = false){
+        vm_manager.setRemoteAudioMute(isDisable)
     }
 
     public func setLocalAudioEnabled(_ isEnabled: Bool, _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){

@@ -135,7 +135,7 @@ extension MeetingRoomViewModel {
             client.setupRemoteVideo(view, remoteId: remoteId)
             
         case .setStartScreenShare:
-            client.startScreenShare(with: "group.com.onkar.MediaStackDev")
+            client.startScreenShare(with: "group.com.reliance.JMMediaStack")
             
         case .setStopScreenShare(error: let error):
             client.stopScreenShare(error: error)
@@ -146,7 +146,7 @@ extension MeetingRoomViewModel {
         case .setVolume(volumn: let volumn):
             client.setRemotePeerVolume(volumn)
         case .setNoAudio(isDisabled: let isDisable):
-            client.enableRemotePeerAudio(!isDisable)
+            client.setRemoteAudioMute(isDisable)
         }
     }
 }
@@ -285,8 +285,6 @@ extension MeetingRoomViewModel{
                 DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in
                     setRemoteScreenShareView(updatedPeer.userId, view: getLocalScreenShareView!())
                 }
-            @unknown default:
-                break;
             }
             
             self.peers[index] = updatedPeer
