@@ -117,12 +117,12 @@ extension JMManagerViewModel{
         }
     }
     
-    func setRemoteAudioMute(_ isDisable:Bool = false){
-        LOG.info("Audio- Remote peer mute \(isDisable)")
+    func enableRemotePeerAudio(_ isEnable: Bool = true){
+        LOG.info("Audio- Remote peer mute \(isEnable)")
         
         peersMap.forEach { _,value in
             if let audioTrack = value.consumerAudio?.track{
-                audioTrack.isEnabled = !isDisable
+                audioTrack.isEnabled = isEnable
             }
         }
     }
