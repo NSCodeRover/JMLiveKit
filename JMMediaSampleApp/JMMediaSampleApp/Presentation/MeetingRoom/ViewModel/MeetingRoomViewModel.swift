@@ -135,7 +135,7 @@ extension MeetingRoomViewModel {
             client.setupRemoteVideo(view, remoteId: remoteId)
             
         case .setStartScreenShare:
-            client.startScreenShare(with: "group.com.reliance.JMMediaStack")
+            client.startScreenShare(with: "group.com.onkar.MediaStackDev")
             
         case .setStopScreenShare(error: let error):
             client.stopScreenShare(error: error)
@@ -146,7 +146,7 @@ extension MeetingRoomViewModel {
         case .setVolume(volumn: let volumn):
             client.setRemotePeerVolume(volumn)
         case .setNoAudio(isDisabled: let isDisable):
-            client.setRemoteAudioMute(isDisable)
+            client.enableRemotePeerAudio(!isDisable)
         }
     }
 }
