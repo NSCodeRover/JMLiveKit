@@ -126,19 +126,13 @@ class JMAudioDetector: NSObject {
     // Function to activate the microphone
     func activateMicrophone() {
         guard let audioQueue = audioQueue else { return }
-        do {
             enqueueBuffers()
-            
             let err = AudioQueueStart(audioQueue, nil)
             if err == noErr {
                 isMicrophoneActive = true
             } else {
                 NSLog("AudioQueueStart failed with error (\(err))")
             }
-        } catch {
-            print(error.localizedDescription)
-            dequeueBuffers()
-        }
     }
     
     // Function to deactivate the microphone
