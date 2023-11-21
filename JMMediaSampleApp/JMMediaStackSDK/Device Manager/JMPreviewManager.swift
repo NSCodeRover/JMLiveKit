@@ -75,6 +75,7 @@ extension JMPreviewManager{
         videoCapture?.stopCapture()
         videoCapture = nil
         enableLocalRenderView(false)
+        virtualBackgroundManager?.dispose()
     }
     
     internal func onError(error: JMMediaError){
