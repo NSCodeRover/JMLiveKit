@@ -50,9 +50,7 @@ class JMAudioDetector: NSObject {
     var toastCallback: (() -> Void)?
     var speakEndCounter = 0
     
-    // Initialize the class
-    override init() {
-        super.init()
+    func setupSession(){
         setupAudioRecording() // Set up audio recording
         activateMicrophone() // Activate the microphone
     }

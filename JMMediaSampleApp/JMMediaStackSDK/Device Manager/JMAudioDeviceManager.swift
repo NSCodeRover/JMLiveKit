@@ -32,7 +32,7 @@ class JMAudioDeviceManager: NSObject {
     public static let shared = JMAudioDeviceManager()
     internal var delegateToManager: delegateManager? = nil
     
-    let audioDetector = JMAudioDetector()
+    var audioDetector:JMAudioDetector? = nil
     private let audioSession = AVAudioSession.sharedInstance()
     private var supportedCategory: AVAudioSession.CategoryOptions = [
         .defaultToSpeaker,
@@ -146,7 +146,7 @@ extension JMAudioDeviceManager{
             delegateToManager?.sendClientAudioDeviceInUse(device)
         }
         else if let error = deviceStatus.1{
-            delegateToManager?.sendClientError(error: JMMediaError.init(type: .audioDeviceNotAvailable, description: "No device found."))
+            delegateToManager?.sendClientError(error: error)
         }
     }
 }
@@ -161,7 +161,6 @@ extension JMAudioDeviceManager{
             return
         }
         
-        var preferredDevice: AVAudioSession?
         if let bluetoothDevice = availableInputs.first(where: { $0.portType.rawValue.lowercased().contains("bluetooth") || $0.portType.rawValue.lowercased().contains("head") }) {
             // Find the first Bluetooth device (headsetMic or headphones)
             setAudioDevice(bluetoothDevice)
@@ -218,12 +217,13 @@ extension JMAudioDeviceManager{
             //Note - Consider this as - onAudioSessionConnected - now we can perform our task.
             //This logic is only needed once after setting the Category, as we need to change the output route to speaker if no device is found.
             
-            guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
-            if !route.inputs.isEmpty{
+           // guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
+            //if !route.inputs.isEmpty{
                 LOG.debug("AVAudioDevice- Setting Device preference.")
                 getAllDeviceAndSetPreference()
                 fetchCurrentDeviceAndUpdate()
-            }
+                audioDetector?.setupSession()
+           // }
         }
         else if reason == .newDeviceAvailable{
             LOG.debug("AVAudioDevice- callback device change")
@@ -238,7 +238,7 @@ extension JMAudioDeviceManager{
     }
         
     @objc func handleSecondaryAudio(notification: Notification) {
-        LOG.debug("AVAudioDevice- callback \(notification.userInfo)")
+        LOG.debug("AVAudioDevice- callback \(String(describing: notification.userInfo))")
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionSilenceSecondaryAudioHintTypeKey] as? UInt,
               let type = AVAudioSession.SilenceSecondaryAudioHintType(rawValue: typeValue) else {
@@ -256,7 +256,7 @@ extension JMAudioDeviceManager{
     }
     
     @objc func handleInterruption(_ notification: Notification) {
-        LOG.debug("AVAudioDevice- callback \(notification.userInfo)")
+        LOG.debug("AVAudioDevice- callback \(String(describing: notification.userInfo))")
         guard let info = notification.userInfo,
               let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
@@ -316,13 +316,15 @@ extension AVAudioDevice{
 //MARK: VAD
 extension JMAudioDeviceManager{
     func addAudioDetectorCallbackListener(){
-        self.audioDetector.toastCallback = { [weak self] in
+        audioDetector = JMAudioDetector()
+        self.audioDetector?.toastCallback = { [weak self] in
             self?.delegateToManager?.sendClientSpeakOnMute()
         }
     }
     
     func removeAudioDetectorCallbackListener(){
-        self.audioDetector.toastCallback = nil
-        self.audioDetector.dispose()
+        self.audioDetector?.toastCallback = nil
+        self.audioDetector?.dispose()
+        audioDetector = nil
     }
 }
