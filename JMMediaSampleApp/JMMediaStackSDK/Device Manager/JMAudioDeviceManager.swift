@@ -146,7 +146,7 @@ extension JMAudioDeviceManager{
             delegateToManager?.sendClientAudioDeviceInUse(device)
         }
         else if let error = deviceStatus.1{
-            delegateToManager?.sendClientError(error: JMMediaError.init(type: .audioDeviceNotAvailable, description: "No device found."))
+            delegateToManager?.sendClientError(error: error)
         }
     }
 }
@@ -161,7 +161,6 @@ extension JMAudioDeviceManager{
             return
         }
         
-        var preferredDevice: AVAudioSession?
         if let bluetoothDevice = availableInputs.first(where: { $0.portType.rawValue.lowercased().contains("bluetooth") || $0.portType.rawValue.lowercased().contains("head") }) {
             // Find the first Bluetooth device (headsetMic or headphones)
             setAudioDevice(bluetoothDevice)
@@ -239,7 +238,7 @@ extension JMAudioDeviceManager{
     }
         
     @objc func handleSecondaryAudio(notification: Notification) {
-        LOG.debug("AVAudioDevice- callback \(notification.userInfo)")
+        LOG.debug("AVAudioDevice- callback \(String(describing: notification.userInfo))")
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionSilenceSecondaryAudioHintTypeKey] as? UInt,
               let type = AVAudioSession.SilenceSecondaryAudioHintType(rawValue: typeValue) else {
@@ -257,7 +256,7 @@ extension JMAudioDeviceManager{
     }
     
     @objc func handleInterruption(_ notification: Notification) {
-        LOG.debug("AVAudioDevice- callback \(notification.userInfo)")
+        LOG.debug("AVAudioDevice- callback \(String(describing: notification.userInfo))")
         guard let info = notification.userInfo,
               let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
