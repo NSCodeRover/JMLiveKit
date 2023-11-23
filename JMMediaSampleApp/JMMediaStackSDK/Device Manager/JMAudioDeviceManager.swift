@@ -32,7 +32,7 @@ class JMAudioDeviceManager: NSObject {
     public static let shared = JMAudioDeviceManager()
     internal var delegateToManager: delegateManager? = nil
     
-    let audioDetector = JMAudioDetector()
+    var audioDetector:JMAudioDetector? = nil
     private let audioSession = AVAudioSession.sharedInstance()
     private var supportedCategory: AVAudioSession.CategoryOptions = [
         .defaultToSpeaker,
@@ -218,12 +218,13 @@ extension JMAudioDeviceManager{
             //Note - Consider this as - onAudioSessionConnected - now we can perform our task.
             //This logic is only needed once after setting the Category, as we need to change the output route to speaker if no device is found.
             
-            guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
-            if !route.inputs.isEmpty{
+           // guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
+            //if !route.inputs.isEmpty{
                 LOG.debug("AVAudioDevice- Setting Device preference.")
                 getAllDeviceAndSetPreference()
                 fetchCurrentDeviceAndUpdate()
-            }
+                audioDetector?.setupSession()
+           // }
         }
         else if reason == .newDeviceAvailable{
             LOG.debug("AVAudioDevice- callback device change")
@@ -316,13 +317,15 @@ extension AVAudioDevice{
 //MARK: VAD
 extension JMAudioDeviceManager{
     func addAudioDetectorCallbackListener(){
-        self.audioDetector.toastCallback = { [weak self] in
+        audioDetector = JMAudioDetector()
+        self.audioDetector?.toastCallback = { [weak self] in
             self?.delegateToManager?.sendClientSpeakOnMute()
         }
     }
     
     func removeAudioDetectorCallbackListener(){
-        self.audioDetector.toastCallback = nil
-        self.audioDetector.dispose()
+        self.audioDetector?.toastCallback = nil
+        self.audioDetector?.dispose()
+        audioDetector = nil
     }
 }
