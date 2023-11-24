@@ -588,12 +588,21 @@ extension JMManagerViewModel{
     func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType) {
         if var updatedPeer = self.peersMap[remoteId] {
             if mediaType == .audio{
+                if updatedPeer.isAudioEnabled == isEnabled{
+                    return
+                }
                 updatedPeer.isAudioEnabled = isEnabled
             }
             else if mediaType == .video{
+                if updatedPeer.isVideoEnabled == isEnabled{
+                    return
+                }
                 updatedPeer.isVideoEnabled = isEnabled
             }
             else if mediaType == .shareScreen{
+                if updatedPeer.isScreenShareEnabled == isEnabled{
+                    return
+                }
                 updatedPeer.isScreenShareEnabled = isEnabled
             }
             
