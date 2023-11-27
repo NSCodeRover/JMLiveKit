@@ -81,7 +81,7 @@ class JioSocket : NSObject {
     private var jwtToken = ""
     
     private var manager:SocketManager?
-    private var socket: SocketIOClient!
+    private var socket: SocketIOClient?
     
     var selfPeerId: String = ""
     
@@ -105,14 +105,14 @@ class JioSocket : NSObject {
                 self.socketEvents = socketEvents
                 socket = manager.defaultSocket
                 self.addSocketListener()
-                socket.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, isRejoin: isRejoin))
+                socket?.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, isRejoin: isRejoin))
             }
         }
     }
     
     func disconnectSocket() {
         manager?.disconnect()
-        socket.disconnect()
+        socket?.disconnect()
         manager = nil
         socket = nil
     }
@@ -125,7 +125,7 @@ class JioSocket : NSObject {
         return self.socketIp
     }
     
-    func getSocket() -> SocketIOClient {
+    func getSocket() -> SocketIOClient? {
         return self.socket
     }
     
@@ -139,7 +139,7 @@ class JioSocket : NSObject {
     }
 
     func emit(action: SocketEmitAction, parameters: [String: Any]) {
-        self.socket.emitWithAck(action.rawValue, parameters).timingOut(after: 5) {[weak self] data in
+        self.socket?.emitWithAck(action.rawValue, parameters).timingOut(after: 5) {[weak self] data in
             
             if let json = self?.getJson(data: data), let status = json["status"] as? String{
                 if status.lowercased() != "ok"{
@@ -160,12 +160,12 @@ class JioSocket : NSObject {
     }
     
     func emit(action: SocketEmitAction, parameters: [String: Any],callback: (([Any])->())?) {
-        self.socket.emitWithAck(action.rawValue, parameters).timingOut(after: 5) { data in
+        self.socket?.emitWithAck(action.rawValue, parameters).timingOut(after: 5) { data in
             callback?(data)
         }
     }
     func emit(ack: Int, parameters: [String]) {
-        self.socket.emitAck(ack, with: parameters)
+        self.socket?.emitAck(ack, with: parameters)
     }
     
     func getJson(data: [Any]) -> [String: Any]? {
@@ -213,31 +213,31 @@ extension JioSocket {
     private func addSocketListener() {
         for event in socketEvents {
             if event == .connect {
-                socket.on(clientEvent: .connect) { data, ack in
+                socket?.on(clientEvent: .connect) { data, ack in
                     self.delegate?.didConnectionStateChange(.connected)
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }
             else if event == .disconnect {
-                socket.on(clientEvent: .disconnect) { data, ack in
+                socket?.on(clientEvent: .disconnect) { data, ack in
                     self.delegate?.didConnectionStateChange(.disconnected)
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }
             else if event == .reconnect  {
-                socket.on(clientEvent: .reconnect) {data, ack in
+                socket?.on(clientEvent: .reconnect) {data, ack in
                     LOG.debug("Reconnect- reconnected | \(data.description)")
                     self.delegate?.didConnectionStateChange(.connected)
                 }
             }
             else if event == .reconnectAttempt  {
-                socket.on(clientEvent: .reconnectAttempt) { data, ack in
+                socket?.on(clientEvent: .reconnectAttempt) { data, ack in
                     LOG.debug("Reconnect- reconnectAttempting... | \(data.description)")
                     self.delegate?.didConnectionStateChange(.reconnecting)
                 }
             }
             else {
-                socket.on(event.rawValue) { data, ack in
+                socket?.on(event.rawValue) { data, ack in
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
             }

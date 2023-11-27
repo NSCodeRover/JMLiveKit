@@ -478,7 +478,7 @@ extension JMManagerViewModel{
             return
         }
         
-        self.jioSocket?.getSocket().emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
+        self.jioSocket?.getSocket()?.emitWithAck(SocketEmitAction.connectWebRtcTransport.rawValue, parameters).timingOut(after: 10) { data in
             
             if let json = self.getJson(data: data) {
                 LOG.debug("Socket- Transport- Ack- Emit Webrtc json == \(json)")
@@ -500,7 +500,7 @@ extension JMManagerViewModel{
             handler?("ID not found")
         }
         else {
-            self.jioSocket?.getSocket().emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
+            self.jioSocket?.getSocket()?.emitWithAck(SocketEmitAction.produce.rawValue, parameters).timingOut(after: 10) { data in
                 if let json = self.getJson(data: data),
                    let dataObj = json["data"] as? [String:Any],
                    let id = dataObj["id"] as? String {
