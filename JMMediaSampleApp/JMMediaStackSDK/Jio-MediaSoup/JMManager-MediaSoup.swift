@@ -132,19 +132,74 @@ extension JMManagerViewModel{
 //MARK: Video
 extension JMManagerViewModel: RTCVideoCapturerDelegate{
     func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
-        
+        let orientationFixedFrame = fixVideoFrameOrientation(frame: frame)
+		
         qJMMediaVBQueue.async {
             if self.userState.isVirtualBackgroundEnabled{
-                
-                if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
+                if let processedRTCVideoFrame = self.applyVirtualBackground(for: orientationFixedFrame){
                     self.videoSource?.capturer(capturer, didCapture: processedRTCVideoFrame)
                     return
                 }
             }
-            
-            self.videoSource?.capturer(capturer, didCapture: frame)
+            self.videoSource?.capturer(capturer, didCapture: orientationFixedFrame)
         }
     }
+	
+	private func fixVideoFrameOrientation(frame: RTCVideoFrame) -> RTCVideoFrame {
+		let deviceOrientation = UIDevice.current.orientation
+		let isUsingFrontCamera = JMVideoDeviceManager.shared.getCameraDevice()?.position == .front
+		
+		var fixedRotation = frame.rotation
+		if deviceOrientation == .portrait && frame.rotation != ._90 {
+			fixedRotation = ._90
+		} else if deviceOrientation == .portraitUpsideDown && frame.rotation != ._270 {
+			fixedRotation = ._270
+		} else if deviceOrientation == .landscapeLeft {
+			if isUsingFrontCamera && frame.rotation != ._180 {
+				fixedRotation = ._180
+			} else if isUsingFrontCamera == false && frame.rotation != ._0 {
+				fixedRotation = ._0
+			}
+		} else if deviceOrientation == .landscapeRight && frame.rotation != ._0 {
+			if isUsingFrontCamera && frame.rotation != ._0 {
+				fixedRotation = ._0
+			} else if isUsingFrontCamera == false && frame.rotation != ._180 {
+				fixedRotation = ._180
+			}
+		} else {
+			if currentStatusBarOrientation == .portrait && frame.rotation != ._90 {
+				fixedRotation = ._90
+			} else if currentStatusBarOrientation == .portraitUpsideDown && frame.rotation != ._270 {
+				fixedRotation = ._270
+			} else if currentStatusBarOrientation == .landscapeLeft {
+				if isUsingFrontCamera && frame.rotation != ._0 {
+					fixedRotation = ._0
+				} else if isUsingFrontCamera == false && frame.rotation != ._180 {
+					fixedRotation = ._180
+				}
+			} else if currentStatusBarOrientation == .landscapeRight {
+				if isUsingFrontCamera && frame.rotation != ._180 {
+					fixedRotation = ._180
+				} else if isUsingFrontCamera == false && frame.rotation != ._0 {
+					fixedRotation = ._0
+				}
+			} else {
+				// Do Nothing
+			}
+		}
+		
+		if fixedRotation != frame.rotation {
+			let fixedVideoFrame = RTCVideoFrame(
+				buffer: frame.buffer,
+				rotation: fixedRotation,
+				timeStampNs: frame.timeStampNs
+			)
+			return fixedVideoFrame
+		} else {
+			return frame
+		}
+	}
+	
 }
 
 extension JMManagerViewModel{
@@ -199,7 +254,6 @@ extension JMManagerViewModel{
             delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .cameraNotAvailable, description: "No camera device found"))
             return false
         }
-        
         let fps = JioMediaStackDefaultCameraCaptureResolution.fps
         guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
             LOG.error("Video- No format found")

@@ -118,7 +118,7 @@ class JMManagerViewModel: NSObject{
     
     var networkMonitor: NWPathMonitor?
     var connectionNetworkType: JMNetworkType = .NoInternet
-
+	var currentStatusBarOrientation: UIInterfaceOrientation = .portrait
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
         super.init()
@@ -128,6 +128,9 @@ class JMManagerViewModel: NSObject{
         self.jioSocket = JioSocket()
         //self.setupConfig()
         self.startNetworkMonitor()
+		DispatchQueue.main.async {[weak self] in
+			self?.currentStatusBarOrientation = UIApplication.shared.statusBarOrientation
+		}
     }
     
     //TODO: Capture with 360p is not matching any format available and taking 480*360

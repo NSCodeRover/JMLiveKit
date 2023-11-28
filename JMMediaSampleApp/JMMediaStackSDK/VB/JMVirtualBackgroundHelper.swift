@@ -82,7 +82,12 @@ class JMVirtualBackgroundHelper: NSObject {
         // Create a clear colored background image.
         var background: CIImage
         if case .image = backgroundType, let backgroundImage = backgroundImage {
-            background = backgroundImage.oriented(.left)
+			if UIDevice.current.userInterfaceIdiom == .pad {
+				background = backgroundImage.oriented(.down)
+			} else {
+				background = backgroundImage.oriented(.left)
+			}
+            
         }
         else if case .color = backgroundType, let backgroundColor = backgroundColor {
             background = CIImage(color: CIColor(color: backgroundColor))
