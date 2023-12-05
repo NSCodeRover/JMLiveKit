@@ -116,8 +116,8 @@ class JMManagerViewModel: NSObject{
     
     var connectionState: JMSocketConnectionState = .connecting
     
-    var networkMonitor: NWPathMonitor?
-    var connectionNetworkType: JMNetworkType = .NoInternet
+	var networkMonitor: NWPathMonitor?
+	var connectionNetworkType: JMNetworkType = .NoInternet
 	var currentStatusBarOrientation: UIInterfaceOrientation = .portrait
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
@@ -128,11 +128,15 @@ class JMManagerViewModel: NSObject{
         self.jioSocket = JioSocket()
         //self.setupConfig()
         self.startNetworkMonitor()
+		self.getStatusBarOrientation()
+    }
+	
+	func getStatusBarOrientation() {
 		DispatchQueue.main.async {[weak self] in
 			self?.currentStatusBarOrientation = UIApplication.shared.statusBarOrientation
 		}
-    }
-    
+	}
+	
     //TODO: Capture with 360p is not matching any format available and taking 480*360
     //Hence, capture is commmented above, capturing HD but sending based on checks.
     func setupConfig(){

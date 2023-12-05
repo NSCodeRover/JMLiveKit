@@ -149,49 +149,15 @@ extension JMManagerViewModel: RTCVideoCapturerDelegate{
 		let deviceOrientation = UIDevice.current.orientation
 		let isUsingFrontCamera = JMVideoDeviceManager.shared.getCameraDevice()?.position == .front
 		
-		var fixedRotation = frame.rotation
-		if deviceOrientation == .portrait && frame.rotation != ._90 {
-			fixedRotation = ._90
-		} else if deviceOrientation == .portraitUpsideDown && frame.rotation != ._270 {
-			fixedRotation = ._270
-		} else if deviceOrientation == .landscapeLeft {
-			if isUsingFrontCamera && frame.rotation != ._180 {
-				fixedRotation = ._180
-			} else if isUsingFrontCamera == false && frame.rotation != ._0 {
-				fixedRotation = ._0
-			}
-		} else if deviceOrientation == .landscapeRight && frame.rotation != ._0 {
-			if isUsingFrontCamera && frame.rotation != ._0 {
-				fixedRotation = ._0
-			} else if isUsingFrontCamera == false && frame.rotation != ._180 {
-				fixedRotation = ._180
-			}
-		} else {
-			if currentStatusBarOrientation == .portrait && frame.rotation != ._90 {
-				fixedRotation = ._90
-			} else if currentStatusBarOrientation == .portraitUpsideDown && frame.rotation != ._270 {
-				fixedRotation = ._270
-			} else if currentStatusBarOrientation == .landscapeLeft {
-				if isUsingFrontCamera && frame.rotation != ._0 {
-					fixedRotation = ._0
-				} else if isUsingFrontCamera == false && frame.rotation != ._180 {
-					fixedRotation = ._180
-				}
-			} else if currentStatusBarOrientation == .landscapeRight {
-				if isUsingFrontCamera && frame.rotation != ._180 {
-					fixedRotation = ._180
-				} else if isUsingFrontCamera == false && frame.rotation != ._0 {
-					fixedRotation = ._0
-				}
-			} else {
-				// Do Nothing
-			}
-		}
+		let expectedOrientation = getExpectedFrameOrientation(
+			deviceOrientation: deviceOrientation,
+			isFrontCamera: isUsingFrontCamera
+		)
 		
-		if fixedRotation != frame.rotation {
+		if expectedOrientation != frame.rotation {
 			let fixedVideoFrame = RTCVideoFrame(
 				buffer: frame.buffer,
-				rotation: fixedRotation,
+				rotation: expectedOrientation,
 				timeStampNs: frame.timeStampNs
 			)
 			return fixedVideoFrame
@@ -200,6 +166,35 @@ extension JMManagerViewModel: RTCVideoCapturerDelegate{
 		}
 	}
 	
+	private func getExpectedFrameOrientation(deviceOrientation: UIDeviceOrientation, isFrontCamera: Bool) -> RTCVideoRotation {
+		switch deviceOrientation {
+		case .portrait:
+			return ._90
+		case .portraitUpsideDown:
+			return ._270
+		case .landscapeLeft:
+			return isFrontCamera ? ._180 : ._0
+		case .landscapeRight:
+			return isFrontCamera ? ._0 : ._180
+		default:
+			switch currentStatusBarOrientation {
+			case .portrait:
+				return ._90
+			case .portraitUpsideDown:
+				return ._270
+			case .landscapeLeft:
+				// Status bar landscape orientation are reverse of device orientation
+				// So calling recursive function with reverse value of status bar orientation
+				return getExpectedFrameOrientation(deviceOrientation: .landscapeRight, isFrontCamera: isFrontCamera)
+			case .landscapeRight:
+				// Status bar landscape orientation are reverse of device orientation
+				// So calling recursive function with reverse value of status bar orientation
+				return getExpectedFrameOrientation(deviceOrientation: .landscapeLeft, isFrontCamera: isFrontCamera)
+			default:
+				return ._90
+			}
+		}
+	}
 }
 
 extension JMManagerViewModel{
