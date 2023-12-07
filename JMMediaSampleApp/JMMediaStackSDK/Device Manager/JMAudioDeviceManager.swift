@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 
 public enum JMAudioDeviceType: String{
     case Speaker
@@ -108,7 +109,10 @@ extension JMAudioDeviceManager{
     
     internal func getAllJMDevices() -> [JMAudioDevice] {
         var availableDevice = getAllDevices().map { $0.format() }
-        availableDevice.append(JMAudioDevice(deviceName: "Earpiece", deviceType: .Earpiece, deviceUid: "Earpiece"))
+        
+        if UIDevice.current.userInterfaceIdiom == .phone { //Only iPhone has earpiece
+            availableDevice.append(JMAudioDevice(deviceName: "Earpiece", deviceType: .Earpiece, deviceUid: "Earpiece"))
+        }
         
         LOG.debug("AVAudioDevice- devices: \(availableDevice)")
         return availableDevice
