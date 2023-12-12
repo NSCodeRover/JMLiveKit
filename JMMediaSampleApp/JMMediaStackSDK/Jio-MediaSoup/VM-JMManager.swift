@@ -65,6 +65,7 @@ class JMManagerViewModel: NSObject{
     var audioProducer:Producer?
     var audioTrack:RTCAudioTrack?
     var audioRemotePeerVolume: Double = -1.0
+    var audioRemoteEnabled: Bool = true
     
     //Video
     var videoTrack:RTCVideoTrack?
