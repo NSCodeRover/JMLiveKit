@@ -132,19 +132,69 @@ extension JMManagerViewModel{
 //MARK: Video
 extension JMManagerViewModel: RTCVideoCapturerDelegate{
     func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
-        
+        let orientationFixedFrame = fixVideoFrameOrientation(frame: frame)
+		
         qJMMediaVBQueue.async {
             if self.userState.isVirtualBackgroundEnabled{
-                
-                if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
+                if let processedRTCVideoFrame = self.applyVirtualBackground(for: orientationFixedFrame){
                     self.videoSource?.capturer(capturer, didCapture: processedRTCVideoFrame)
                     return
                 }
             }
-            
-            self.videoSource?.capturer(capturer, didCapture: frame)
+            self.videoSource?.capturer(capturer, didCapture: orientationFixedFrame)
         }
     }
+	
+	private func fixVideoFrameOrientation(frame: RTCVideoFrame) -> RTCVideoFrame {
+		let deviceOrientation = UIDevice.current.orientation
+		let isUsingFrontCamera = JMVideoDeviceManager.shared.getCameraDevice()?.position == .front
+		
+		let expectedOrientation = getExpectedFrameOrientation(
+			deviceOrientation: deviceOrientation,
+			isFrontCamera: isUsingFrontCamera
+		)
+		
+		if expectedOrientation != frame.rotation {
+			let fixedVideoFrame = RTCVideoFrame(
+				buffer: frame.buffer,
+				rotation: expectedOrientation,
+				timeStampNs: frame.timeStampNs
+			)
+			return fixedVideoFrame
+		} else {
+			return frame
+		}
+	}
+	
+	private func getExpectedFrameOrientation(deviceOrientation: UIDeviceOrientation, isFrontCamera: Bool) -> RTCVideoRotation {
+		switch deviceOrientation {
+		case .portrait:
+			return ._90
+		case .portraitUpsideDown:
+			return ._270
+		case .landscapeLeft:
+			return isFrontCamera ? ._180 : ._0
+		case .landscapeRight:
+			return isFrontCamera ? ._0 : ._180
+		default:
+			switch currentStatusBarOrientation {
+			case .portrait:
+				return ._90
+			case .portraitUpsideDown:
+				return ._270
+			case .landscapeLeft:
+				// Status bar landscape orientation are reverse of device orientation
+				// So calling recursive function with reverse value of status bar orientation
+				return getExpectedFrameOrientation(deviceOrientation: .landscapeRight, isFrontCamera: isFrontCamera)
+			case .landscapeRight:
+				// Status bar landscape orientation are reverse of device orientation
+				// So calling recursive function with reverse value of status bar orientation
+				return getExpectedFrameOrientation(deviceOrientation: .landscapeLeft, isFrontCamera: isFrontCamera)
+			default:
+				return ._90
+			}
+		}
+	}
 }
 
 extension JMManagerViewModel{
@@ -199,7 +249,6 @@ extension JMManagerViewModel{
             delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .cameraNotAvailable, description: "No camera device found"))
             return false
         }
-        
         let fps = JioMediaStackDefaultCameraCaptureResolution.fps
         guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
             LOG.error("Video- No format found")
