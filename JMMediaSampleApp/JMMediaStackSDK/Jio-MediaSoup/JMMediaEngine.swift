@@ -191,17 +191,11 @@ extension JMMediaEngine: JMMediaEngineAbstract {
 //MARK: AUDIO PUBLIC ACCESS
 extension JMMediaEngine{
     public func getAudioDevices() -> [JMAudioDevice] {
-        let jmAudioDevices = convertToJMAudioDevice(JMAudioDeviceManager.shared.getAllDevices())
-        return jmAudioDevices
+        return JMAudioDeviceManager.shared.getAllJMDevices()
     }
     
     public func setAudioDevice(_ jmDevice: JMAudioDevice) {
-        if let avDevice = jmDevice.device{
-            JMAudioDeviceManager.shared.setAudioDevice(avDevice)
-        }
-        else{
-            LOG.error("AVAudioDevice: failed to get device for object")
-        }
+        JMAudioDeviceManager.shared.setJMAudioDevice(jmDevice)
     }
     
     public func setRemotePeerVolume(_ volume: Double){

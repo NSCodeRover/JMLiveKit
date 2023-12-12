@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 
 public enum JMAudioDeviceType: String{
     case Speaker
@@ -106,6 +107,17 @@ extension JMAudioDeviceManager{
         return availableInputs
     }
     
+    internal func getAllJMDevices() -> [JMAudioDevice] {
+        var availableDevice = getAllDevices().map { $0.format() }
+        
+        if UIDevice.current.userInterfaceIdiom == .phone { //Only iPhone has earpiece
+            availableDevice.append(JMAudioDevice(deviceName: "Earpiece", deviceType: .Earpiece, deviceUid: "Earpiece"))
+        }
+        
+        LOG.debug("AVAudioDevice- devices: \(availableDevice)")
+        return availableDevice
+    }
+    
     internal func getCurrentDevice() -> (AVAudioDevice?,JMMediaError?){
         let currentRoute = audioSession.currentRoute
         
@@ -126,7 +138,23 @@ extension JMAudioDeviceManager{
         return (outputDevice,nil)
     }
     
-    internal func setAudioDevice(_ device: AVAudioDevice){
+    internal func setJMAudioDevice(_ jmDevice: JMAudioDevice){
+        
+        if jmDevice.deviceType == .Speaker{
+            setAudioPort(toSpeaker: true)
+        }
+        else if jmDevice.deviceType == .Earpiece{
+            setAudioPort(toSpeaker: false)
+        }
+        else if let avDevice = jmDevice.device{
+            setAudioDevice(avDevice)
+        }
+        else{
+            LOG.error("AVAudioDevice- failed to get device for object: \(jmDevice.deviceName)|\(jmDevice.deviceUid)|\(jmDevice.deviceType)")
+        }
+    }
+    
+    private func setAudioDevice(_ device: AVAudioDevice){
         do {
             try audioSession.setPreferredInput(device)
             try audioSession.setActive(true)
@@ -167,15 +195,15 @@ extension JMAudioDeviceManager{
         }
         else{
             // If Bluetooth device is not available, use the built-in speaker
-            forceAudioToSpeaker()
+            setAudioPort(toSpeaker: true)
         }
         
         isDevicePreferenceIsSet = true
     }
     
-    private func forceAudioToSpeaker(){
+    private func setAudioPort(toSpeaker speaker: Bool){
         do {
-            try audioSession.overrideOutputAudioPort(.speaker)
+            try audioSession.overrideOutputAudioPort(speaker ? .speaker : .none)
             try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- set device to Speaker (override)")
         }
@@ -184,11 +212,12 @@ extension JMAudioDeviceManager{
         }
     }
     
+    //NOT IN USE
     private func audioOutputDeviceCorrection() -> Bool{
         let currentRoute = audioSession.currentRoute.outputs.first
         if currentRoute?.portType == .builtInReceiver{
             if currentDevice?.portType != .builtInReceiver{
-                forceAudioToSpeaker()
+                setAudioPort(toSpeaker: true)
                 return true
             }
         }
@@ -230,9 +259,12 @@ extension JMAudioDeviceManager{
             fetchCurrentDeviceAndUpdate()
         }
         else if reason == .oldDeviceUnavailable || reason == .override{
-            if audioOutputDeviceCorrection(){
-                LOG.debug("AVAudioDevice- Audio corrected to speaker.")
-            }
+            
+            //NO need to correct now, as we are supported earpiece as well. will remove commnet post few releases.
+//            if audioOutputDeviceCorrection(){
+//                LOG.debug("AVAudioDevice- Audio corrected to speaker.")
+//            }
+            
             fetchCurrentDeviceAndUpdate()
         }
     }
