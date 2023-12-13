@@ -96,6 +96,10 @@ class JMAudioDeviceManager: NSObject {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
     }
+    
+    internal func getSystemVolume() -> Double{
+        return Double(audioSession.outputVolume)
+    }
 }
 
 //MARK: Public to Client
