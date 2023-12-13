@@ -158,6 +158,11 @@ extension MeetingRoomViewController {
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
             optionMenu.addAction(cancel)
                 
+            if let popoverPresentationController = optionMenu.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverPresentationController.permittedArrowDirections = []
+            }
             self.present(optionMenu, animated: true, completion: nil)
         }
         
@@ -306,13 +311,15 @@ extension MeetingRoomViewController{
             self.viewModel.handleEvent(event: .virtualBackground(self.viewModel.isVirtualBackgroundEnabled))
         }
         
-        let endCall = UIAlertAction(title: "End Call", style: .destructive) { _ in
-            self.viewModel.handleEvent(event: .endCall)
-        }
         let noAudio = UIAlertAction(title: "No Remote Audio", style: .default) { _ in
             self.viewModel.handleEvent(event: .setNoAudio(isDisabled:  self.isRemoteAudioDisable))
             self.isRemoteAudioDisable =  !self.isRemoteAudioDisable
         }
+        
+        let endCall = UIAlertAction(title: "End Call", style: .destructive) { _ in
+            self.viewModel.handleEvent(event: .endCall)
+        }
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             // Handle Cancel
             print("Action canceled")

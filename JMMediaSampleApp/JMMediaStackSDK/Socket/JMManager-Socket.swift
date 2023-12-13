@@ -551,11 +551,6 @@ extension JMManagerViewModel{
             return
         }
         
-        if isRemoteAudioDisable(mediaType){
-            //IGNORE no audio mode
-            return
-        }
-        
         let mediaStateEnabled = (event == .resumedProducer || event == .newProducer) ? true : false
         if mediaType == .video{
             if subscriptionVideoList.contains(remoteId){
