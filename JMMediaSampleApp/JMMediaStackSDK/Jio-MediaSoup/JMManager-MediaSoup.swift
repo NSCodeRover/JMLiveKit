@@ -118,6 +118,11 @@ extension JMManagerViewModel{
     }
     
     func enableRemotePeerAudio(_ isEnable: Bool = true){
+        
+        if audioRemoteEnabled == isEnable{
+            return
+        }
+        
         LOG.info("Audio- Remote peer mute \(isEnable)")
         audioRemoteEnabled = isEnable
         peersMap.forEach { _,value in
