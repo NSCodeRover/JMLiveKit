@@ -558,6 +558,9 @@ extension JMManagerViewModel{
                 feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
             }
         }
+        else if mediaType == .shareScreen{
+            updatePeerMediaState(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
+        }
         else{
             feedHandler(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
         }

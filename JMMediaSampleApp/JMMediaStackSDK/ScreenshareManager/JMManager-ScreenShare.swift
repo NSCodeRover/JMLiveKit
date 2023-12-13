@@ -231,12 +231,11 @@ extension JMManagerViewModel{
 extension JMManagerViewModel:UIScrollViewDelegate{
     
     func addRemoteScreenShareRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId],
-           let consumer = updatedPeer.consumerScreenShare,
-           let rtcVideoTrack = consumer.track as? RTCVideoTrack
+        if var updatedPeer = self.peersMap[remoteId]
         {
-            updatedPeer.remoteScreenshareView = bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
+            updatedPeer.remoteScreenshareView = renderView
             peersMap[remoteId] = updatedPeer
+            LOG.info("Screenshare- Subscribe- view set for id - \(remoteId)")
         }
     }
     
@@ -267,9 +266,9 @@ extension JMManagerViewModel:UIScrollViewDelegate{
             peersMap[remoteId] = updatedPeer
             LOG.info("Subscribe- UI success")
         }
-//        else{
-//            LOG.error("Subscribe- UI failed - \( self.peersMap[remoteId]?.remoteScreenshareView)|\( self.peersMap[remoteId]?.consumerScreenShare)|\( self.peersMap[remoteId]?.consumerScreenShare?.track)")
-//        }
+        else{
+            LOG.error("Subscribe- UI failed - \(remoteId)|\( String(describing: self.peersMap[remoteId]?.remoteScreenshareView))|\( String(describing: self.peersMap[remoteId]?.consumerScreenShare))|\( String(describing: self.peersMap[remoteId]?.consumerScreenShare?.track))")
+        }
     }
     
     private func bindScreenShareRenderViewAndTrack(_ rtcVideoTrack: RTCVideoTrack, renderView: UIView) -> UIView{

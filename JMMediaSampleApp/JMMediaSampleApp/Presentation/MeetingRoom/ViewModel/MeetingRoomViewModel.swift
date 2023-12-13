@@ -178,11 +178,7 @@ extension MeetingRoomViewModel {
     func setRemoteView(_ remoteId: String, view: UIView){
         client.setupRemoteVideo(view, remoteId: remoteId)
     }
-    
-    func setRemoteScreenShareView(_ remoteId: String, view: UIView){
-        client.setupShareVideo(view, remoteId: remoteId)
-    }
-    
+
     func handleAudio(){
         client.setLocalAudioEnabled(!isMicEnabled) { (isSuccess) in
             if isSuccess{
@@ -270,6 +266,7 @@ extension MeetingRoomViewModel {
 //MARK: handle client delegate helper
 extension MeetingRoomViewModel{
     func mediaState(isEnabled: Bool,id: String,type: JMMediaType){
+        print("Subscribe- Screenshare- CLIENT- \(isEnabled)|\(id)|\(type)")
         if let index = peers.firstIndex(where: { $0.userId == id }){
             var updatedPeer = self.peers[index]
             
@@ -282,12 +279,19 @@ extension MeetingRoomViewModel{
                 updatedPeer.hasScreenShare = isEnabled
                 self.peers[index] = updatedPeer
                 
-                DispatchQueue.main.asyncAfter(deadline: .now()) { [self] in
-                    setRemoteScreenShareView(updatedPeer.userId, view: getLocalScreenShareView!())
-                }
+                if isEnabled{
+                    startRemoteScreenShare(id)
+                }                
             }
             
             self.peers[index] = updatedPeer
+        }
+    }
+    
+    func startRemoteScreenShare(_ id: String){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.client.setupShareVideo(self.getLocalScreenShareView!(), remoteId: id)
+            self.client.subscribeFeed(true, remoteId: id, mediaType: .shareScreen)
         }
     }
 }
@@ -297,10 +301,7 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     func onUserJoined(user: JMUserInfo) {
         self.peers.append(user)
         if user.hasScreenShare {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.client.setupShareVideo(self.getLocalScreenShareView!(), remoteId: user.userId)
-                self.client.subscribeFeed(true, remoteId: user.userId, mediaType: .shareScreen)
-            }
+            startRemoteScreenShare(user.userId)
         }
         client.subscribeFeed(true, remoteId: user.userId, mediaType: .video)
     }
