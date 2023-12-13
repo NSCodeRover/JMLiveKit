@@ -551,10 +551,7 @@ extension JMManagerViewModel{
             return
         }
         
-        if isRemoteAudioDisable(mediaType){
-            //IGNORE no audio mode
-            return
-        }
+      
         
         let mediaStateEnabled = (event == .resumedProducer || event == .newProducer) ? true : false
         if mediaType == .video{
@@ -751,6 +748,9 @@ extension JMManagerViewModel{
                 
                 LOG.debug("Subscribe- consumer resumed. User- \(peer.displayName) for type- \(mediaType).")
                 consumer.resume()
+                if isRemoteAudioDisable(mediaType){
+                    enableRemotePeerAudio(false)
+                }
                 updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
                 socketEmitResumeConsumer(for: consumer.id)
             }
