@@ -398,7 +398,9 @@ extension JMManagerViewModel{
                 self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaType)
                 self.socketEmitResumeConsumer(for: consumerId)
                 consumer.resume()
-                
+                if isRemoteAudioDisable(jmMediaType){
+                    enableRemotePeerAudio(false)
+                }
                 //Update renderer track
                 if jmMediaType == .shareScreen{
                     self.updateRemoteScreenShareRenderViewTrack(for: remoteId)
