@@ -330,8 +330,8 @@ extension MeetingRoomViewController{
         actionSheet.addAction(audioDevice)
         actionSheet.addAction(videoDevice)
         actionSheet.addAction(virtualBG)
-        actionSheet.addAction(endCall)
         actionSheet.addAction(noAudio)
+        actionSheet.addAction(endCall)
         actionSheet.addAction(cancel)
         
         // For iPad, to avoid crashes when presenting action sheets
