@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-import SwiftyJSON
+@_implementationOnly import SwiftyJSON
 import Mediasoup
 
 //MARK: Transport Reconnect

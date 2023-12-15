@@ -9,7 +9,7 @@ import UIKit
 import WebRTC
 import ReplayKit
 import JMMediaStackSDK
-import MMWormhole
+@_implementationOnly import MMWormhole
 
 public var appGroupIdentifier: String {
     get {

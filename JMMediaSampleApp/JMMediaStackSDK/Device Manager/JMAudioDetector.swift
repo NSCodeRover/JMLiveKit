@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFoundation.AVFAudio
-import VoiceActivityDetector
+@_implementationOnly import VoiceActivityDetector
 
 class JMAudioDetector: NSObject {
     

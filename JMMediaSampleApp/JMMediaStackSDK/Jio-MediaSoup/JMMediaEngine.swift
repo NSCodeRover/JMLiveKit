@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 import WebRTC
 
-import SwiftyJSON
+@_implementationOnly import SwiftyJSON
 
 let LOG = JMLogManager.self
 

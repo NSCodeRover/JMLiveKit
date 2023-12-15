@@ -8,8 +8,8 @@
 
 import Foundation
 
-import SocketIO
-import SwiftyJSON
+@_implementationOnly import SocketIO
+@_implementationOnly import SwiftyJSON
 import Mediasoup
 
 extension JMManagerViewModel {
