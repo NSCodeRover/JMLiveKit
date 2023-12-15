@@ -1,5 +1,7 @@
 import Foundation
 import AVFoundation
+import CoreImage
+import UIKit
 @_implementationOnly import MMWormhole
 
 public class JMScreenShareManager {
