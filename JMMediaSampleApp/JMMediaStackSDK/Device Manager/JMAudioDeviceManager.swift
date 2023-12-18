@@ -99,7 +99,7 @@ class JMAudioDeviceManager: NSObject {
     }
     
     internal func getSystemVolume() -> Double{
-        return Double(audioSession.outputVolume)
+        return Double(audioSession.outputVolume) * 10
     }
 }
 
