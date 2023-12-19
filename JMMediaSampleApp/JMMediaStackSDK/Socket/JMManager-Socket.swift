@@ -715,11 +715,11 @@ extension JMManagerViewModel{
         subscriptionHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
         
         if !isVideoFeedDisable(mediaType){
-            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
+            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType, isRemoteUser: false)
         }
     }
     
-    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
+    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType, isRemoteUser: Bool = true){
         guard var peer = peersMap[remoteId]
         else{
             LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
@@ -772,7 +772,10 @@ extension JMManagerViewModel{
             else{
                 LOG.debug("Subscribe- Not an issue. Consumer is nil. User- \(peer.displayName) for type- \(mediaType).")
             }
-            updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
+            
+            if isRemoteUser{
+                updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
+            }
         }
     }
     
