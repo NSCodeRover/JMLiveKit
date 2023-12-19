@@ -588,7 +588,7 @@ extension JMManagerViewModel{
         }
     }
     
-    func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType) {
+    func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false) {
         if var updatedPeer = self.peersMap[remoteId] {
             if mediaType == .audio{
                 if updatedPeer.isAudioEnabled == isEnabled{
@@ -610,7 +610,13 @@ extension JMManagerViewModel{
             }
             
             self.peersMap[remoteId] = updatedPeer
-            self.setRemoteUserMediaAction(isEnabled: isEnabled, id: remoteId, type: mediaType)
+            
+            if isSelfAction{
+                LOG.debug("Subscribe- SELF ACTION callback ignored. User- \(updatedPeer.displayName) for type- \(mediaType)")
+            }
+            else{
+                self.setRemoteUserMediaAction(isEnabled: isEnabled, id: remoteId, type: mediaType)
+            }
         }
     }
 }
@@ -715,11 +721,11 @@ extension JMManagerViewModel{
         subscriptionHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
         
         if !isVideoFeedDisable(mediaType){
-            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType, isRemoteUser: false)
+            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType, isSelfAction: true)
         }
     }
     
-    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType, isRemoteUser: Bool = true){
+    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false){
         guard var peer = peersMap[remoteId]
         else{
             LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
@@ -773,9 +779,7 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- Not an issue. Consumer is nil. User- \(peer.displayName) for type- \(mediaType).")
             }
             
-            if isRemoteUser{
-                updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
-            }
+            updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType, isSelfAction: isSelfAction)
         }
     }
     
