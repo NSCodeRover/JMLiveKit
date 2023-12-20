@@ -755,7 +755,7 @@ extension JMManagerViewModel{
                 
                 LOG.debug("Subscribe- consumer resumed. User- \(peer.displayName) for type- \(mediaType).")
                 consumer.resume()
-                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
+                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType, isSelfAction: isSelfAction)
                 socketEmitResumeConsumer(for: consumer.id)
             }
             else{
@@ -771,6 +771,12 @@ extension JMManagerViewModel{
         }
         else{
             if let consumer = consumer{
+                
+                if !peer.isResumed(for: mediaType){
+                    LOG.debug("Subscribe- Consumer already paused. no action. User- \(peer.displayName) for type- \(mediaType).")
+                    return
+                }
+                
                 consumer.pause()
                 socketEmitPauseConsumer(for: consumer.id)
                 LOG.debug("Subscribe- consumer paused. User- \(peer.displayName) for type- \(mediaType).")
