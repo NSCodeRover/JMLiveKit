@@ -611,7 +611,7 @@ extension JMManagerViewModel{
             
             self.peersMap[remoteId] = updatedPeer
             
-            if isSelfAction{
+            if isSelfAction && mediaType == .shareScreen {
                 LOG.debug("Subscribe- SELF ACTION callback ignored. User- \(updatedPeer.displayName) for type- \(mediaType)")
             }
             else{
