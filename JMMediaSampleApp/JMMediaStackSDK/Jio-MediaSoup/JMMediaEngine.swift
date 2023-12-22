@@ -142,6 +142,7 @@ extension JMMediaEngine: delegateManager{
     func sendClientLogMsg(log: String) {
         vm_manager.qJMMediaMainQueue.async {
             self.delegateBackToClient?.onLogMessage(message: log)
+            JMLoggerOption.shared.log(log)
         }
     }
 }
