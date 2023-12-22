@@ -588,7 +588,7 @@ extension JMManagerViewModel{
         }
     }
     
-    func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType) {
+    func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false) {
         if var updatedPeer = self.peersMap[remoteId] {
             if mediaType == .audio{
                 if updatedPeer.isAudioEnabled == isEnabled{
@@ -610,7 +610,13 @@ extension JMManagerViewModel{
             }
             
             self.peersMap[remoteId] = updatedPeer
-            self.setRemoteUserMediaAction(isEnabled: isEnabled, id: remoteId, type: mediaType)
+            
+            if isSelfAction && mediaType == .shareScreen {
+                LOG.debug("Subscribe- SELF ACTION callback ignored. User- \(updatedPeer.displayName) for type- \(mediaType)")
+            }
+            else{
+                self.setRemoteUserMediaAction(isEnabled: isEnabled, id: remoteId, type: mediaType)
+            }
         }
     }
 }
@@ -715,11 +721,11 @@ extension JMManagerViewModel{
         subscriptionHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
         
         if !isVideoFeedDisable(mediaType){
-            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
+            feedHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType, isSelfAction: true)
         }
     }
     
-    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
+    func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false){
         guard var peer = peersMap[remoteId]
         else{
             LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
@@ -749,7 +755,7 @@ extension JMManagerViewModel{
                 
                 LOG.debug("Subscribe- consumer resumed. User- \(peer.displayName) for type- \(mediaType).")
                 consumer.resume()
-                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType)
+                updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType, isSelfAction: isSelfAction)
                 socketEmitResumeConsumer(for: consumer.id)
             }
             else{
@@ -765,6 +771,12 @@ extension JMManagerViewModel{
         }
         else{
             if let consumer = consumer{
+                
+                if !peer.isResumed(for: mediaType){
+                    LOG.debug("Subscribe- Consumer already paused. no action. User- \(peer.displayName) for type- \(mediaType).")
+                    return
+                }
+                
                 consumer.pause()
                 socketEmitPauseConsumer(for: consumer.id)
                 LOG.debug("Subscribe- consumer paused. User- \(peer.displayName) for type- \(mediaType).")
@@ -772,7 +784,8 @@ extension JMManagerViewModel{
             else{
                 LOG.debug("Subscribe- Not an issue. Consumer is nil. User- \(peer.displayName) for type- \(mediaType).")
             }
-            updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType)
+            
+            updatePeerMediaState(false, remoteId: remoteId, mediaType: mediaType, isSelfAction: isSelfAction)
         }
     }
     
