@@ -205,8 +205,8 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketEmitPeerLeave() {
-        qJMMediaBGQueue.async {
-            self.dispose()
+        qJMMediaBGQueue.async { [weak self] in
+            self?.dispose()
         }
     }
     
