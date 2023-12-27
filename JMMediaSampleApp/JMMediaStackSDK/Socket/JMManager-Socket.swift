@@ -324,6 +324,7 @@ extension JMManagerViewModel{
     
     private func handleSocketReconnected() {
         if device == nil{
+            LOG.debug("Reconnect- reconnected  device == nil")
             return
         }
         
@@ -717,7 +718,9 @@ extension JMManagerViewModel{
     //Only client action will call this function
     func subscribeFeed(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType){
         LOG.debug("Subscribe- \(isSubscribe)|\(remoteId)|\(mediaType)")
-        
+        if jioSocket?.getSocket()?.status != .connected {
+            return
+        }
         subscriptionHandler(isSubscribe, remoteId: remoteId, mediaType: mediaType)
         
         if !isVideoFeedDisable(mediaType){

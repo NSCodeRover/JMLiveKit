@@ -80,6 +80,8 @@ class JMVideoDeviceManager: NSObject{
         //Error
         NotificationCenter.default.addObserver(self, selector: #selector(handleCaptureSessionRuntimeError(_:)), name: .AVCaptureSessionRuntimeError, object: videoSession)
         
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
         //Background Foreground
         NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationWentIntoBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleApplicationDidBecomeActive(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -246,6 +248,7 @@ extension JMVideoDeviceManager{
     @objc func handleApplicationDidBecomeActive(_ notification: Notification) {
         LOG.info("AVVideoDevice- Foreground mode.")
         delegateToManager?.handleForegroundVideoEvent()
+        delegateToManager?.handleForegroundSocketEvent()
     }
 }
 
