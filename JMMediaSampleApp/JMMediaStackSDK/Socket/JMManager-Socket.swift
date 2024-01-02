@@ -607,7 +607,9 @@ extension JMManagerViewModel{
                 if updatedPeer.isScreenShareEnabled == isEnabled{
                     return
                 }
-                updatedPeer.isScreenShareEnabled = isEnabled
+                if !isSelfAction {
+                    updatedPeer.isScreenShareEnabled = isEnabled
+                }
             }
             
             self.peersMap[remoteId] = updatedPeer
