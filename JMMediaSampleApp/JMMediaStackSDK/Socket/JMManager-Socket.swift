@@ -604,12 +604,10 @@ extension JMManagerViewModel{
                 updatedPeer.isVideoEnabled = isEnabled
             }
             else if mediaType == .shareScreen{
-                if updatedPeer.isScreenShareEnabled == isEnabled{
+                if (updatedPeer.isScreenShareEnabled == isEnabled) && isEnabled {
                     return
                 }
-                if !isSelfAction {
-                    updatedPeer.isScreenShareEnabled = isEnabled
-                }
+                updatedPeer.isScreenShareEnabled = isEnabled
             }
             
             self.peersMap[remoteId] = updatedPeer
