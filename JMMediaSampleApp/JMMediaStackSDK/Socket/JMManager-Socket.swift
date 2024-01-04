@@ -612,6 +612,7 @@ extension JMManagerViewModel{
             self.peersMap[remoteId] = updatedPeer
             
             if isSelfAction && mediaType == .shareScreen {
+                //Workaround - Cpass need this to handle the screenshare. self action for camera, mic is needed but not for screenshare.
                 LOG.debug("Subscribe- SELF ACTION callback ignored. User- \(updatedPeer.displayName) for type- \(mediaType)")
             }
             else{

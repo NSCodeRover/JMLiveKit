@@ -191,8 +191,8 @@ extension JioSocket {
             .reconnects(true),    // Enable reconnection attempts
             .reconnectAttempts(10), // Set the number of reconnection attempts
             .reconnectWait(1),
-            .reconnectWaitMax(2),
-            .forceWebsockets(false)//After 2 secs, it will attempt to reconnect //Ping pong takes 8 seconds to detect network loss. Total = 20sec.
+            .reconnectWaitMax(2),//After 2 secs, it will attempt to reconnect //Ping pong takes 8 seconds to detect network loss. Total = 20sec.
+            .forceWebsockets(true)
         ]
     }
     
