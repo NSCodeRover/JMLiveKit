@@ -83,6 +83,7 @@ public enum JMMediaErrorType: String{
     case remoteVideoStreamFailed
     case remoteAudioStreamFailed
     case remoteScreenShareStreamFailed
+    case remoteScreenShareAudioStreamFailed
 }
 
 //Media for local state

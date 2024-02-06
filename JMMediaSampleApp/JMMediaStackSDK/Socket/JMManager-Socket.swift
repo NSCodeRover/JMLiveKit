@@ -65,6 +65,22 @@ extension JMManagerViewModel {
             }
         }
     }
+    
+    func getJMMediaType(_ type: String, isScreenShareEnabled: Bool) -> JMMediaType{
+        let mediaType = type.lowercased()
+        
+        if mediaType == "video" && isScreenShareEnabled{
+            return JMMediaType.shareScreen
+        }
+        else if mediaType == "audio" && isScreenShareEnabled{
+            return JMMediaType.shareScreenAudio
+        }
+        else if mediaType == "video"{
+            return JMMediaType.video
+        }
+        
+        return JMMediaType.audio
+    }
 }
 
 // MARK: - Socket Callbacks
@@ -241,14 +257,14 @@ extension JMManagerViewModel{
                let mediaType = json[SocketDataKey.mediaType.rawValue] as? String{
                 
                 let isScreenShareEnabled = json["share"] as? Bool ?? false
-                let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaType.lowercased() == "video" ? .video : .audio
+                let jmMediaType: JMMediaType = self.getJMMediaType(mediaType, isScreenShareEnabled: isScreenShareEnabled)
                 
                 if event == .closeProducer{ //self event
                     self.handleSocketSelfCloseRequest(producerId, peerId: remoteId, mediaType: jmMediaType)
                     return
                 }
                 
-                LOG.debug("Subscribe- Socket- \(event) for type- \(jmMediaType).")
+                LOG.debug("Subscribe- Socket- \(event) for type- \(mediaType) and sharing \(isScreenShareEnabled) == \(jmMediaType)")
                 self.updateVideoProducerId(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
                 self.onProducerUpdate(producerId, remoteId: remoteId, mediaType: jmMediaType, event: event)
             }
@@ -352,7 +368,7 @@ extension JMManagerViewModel{
         //LOG.debug("Score- "+json.description)
         if let score = parse(json: json, model: ScoreInfo.self) {
             let scoreQuality:JMNetworkQuality = score.score.score <= 7 ? .Bad : .Good
-            let mediaType: JMMediaType = score.share ? .shareScreen : score.mediaType == "video" ? .video : .audio
+            let mediaType: JMMediaType = getJMMediaType(score.mediaType, isScreenShareEnabled: score.share)
             LOG.debug("Score- for \(score.producerPeerId)|\(score.score.score)|\(mediaType.rawValue)")
             self.delegateBackToManager?.sendClientRemoteNetworkQuality(id: score.producerPeerId, quality: scoreQuality, mediaType: mediaType)
         }
@@ -389,7 +405,7 @@ extension JMManagerViewModel{
             }
             
             let isScreenShareEnabled = appData["share"] as? Bool ?? false
-            let jmMediaType: JMMediaType = isScreenShareEnabled ? .shareScreen : mediaKind == .video ? .video : .audio
+            let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
             
             let result = handleMediaSoupErrors("Subscribe-"){
                 let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
@@ -536,6 +552,8 @@ extension JMManagerViewModel{
                 updateStopScreenShare()
                 delegateBackToManager?.sendClientSelfLocalMediaState(type: mediaType, reason: .screenshareStoppedByServer)
             }
+            
+        default: break
         }
     }
 }
@@ -582,6 +600,9 @@ extension JMManagerViewModel{
             }
             else if mediaType == .shareScreen{
                 updatedPeer.consumerScreenShare = consumer
+            }
+            else if mediaType == .shareScreenAudio{
+                updatedPeer.consumerScreenShareAudio = consumer
             }
             
             self.peersMap[remoteId] = updatedPeer
@@ -646,6 +667,10 @@ extension JMManagerViewModel{
             
             userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
+            
+        case .shareScreenAudio:
+            updatedPeer.consumerScreenShareAudio?.close()
+            updatedPeer.consumerScreenShareAudio = nil
             
         case .audio:
             updatedPeer.consumerAudio?.close()
