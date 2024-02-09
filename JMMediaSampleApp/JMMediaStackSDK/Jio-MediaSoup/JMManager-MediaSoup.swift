@@ -108,6 +108,10 @@ extension JMManagerViewModel{
         
         peersMap.forEach { _,value in
             setVolume(value.consumerAudio)
+            
+            if value.consumerScreenShareAudio != nil{
+                setVolume(value.consumerScreenShareAudio)
+            }
         }
     }
     
