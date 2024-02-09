@@ -335,6 +335,8 @@ extension JMManagerViewModel{
             return JMMediaErrorType.remoteVideoStreamFailed
         case .shareScreen:
             return JMMediaErrorType.remoteScreenShareStreamFailed
+        case .shareScreenAudio:
+            return JMMediaErrorType.remoteScreenShareAudioStreamFailed
         }
     }
 }
