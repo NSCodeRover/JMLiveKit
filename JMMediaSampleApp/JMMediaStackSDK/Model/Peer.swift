@@ -12,6 +12,7 @@ struct Peer: Codable {
     public var consumerAudio: Consumer?
     public var consumerVideo: Consumer?
     public var consumerScreenShare: Consumer?
+    public var consumerScreenShareAudio: Consumer?
     var consumerQueue: [JMMediaType:Bool] = [:]
     
     public var producers: [PeerProducer]
@@ -34,6 +35,7 @@ struct Peer: Codable {
         self.consumerAudio = nil
         self.consumerVideo = nil
         self.consumerScreenShare = nil
+        self.consumerScreenShareAudio = nil
         self.producers = []
     }
     
@@ -44,6 +46,7 @@ struct Peer: Codable {
         consumerAudio = nil
         consumerVideo = nil
         consumerScreenShare = nil
+        consumerScreenShareAudio = nil
         producers = try values.decodeIfPresent([PeerProducer].self, forKey: .producers) ?? []
         
         for producer in producers{
@@ -56,6 +59,7 @@ struct Peer: Codable {
                 isVideoEnabled = isEnable
             case .shareScreen:
                 isScreenShareEnabled = isEnable
+            default:break
             }
         }
     }
@@ -85,6 +89,8 @@ struct Peer: Codable {
             consumerObject = consumerVideo
         case .shareScreen:
             consumerObject = consumerScreenShare
+        case .shareScreenAudio:
+            consumerObject = consumerScreenShareAudio
         }
         return consumerObject
     }
@@ -97,6 +103,7 @@ struct Peer: Codable {
             return isVideoEnabled
         case .shareScreen:
             return isScreenShareEnabled
+        default:return false
         }
     }
 }
