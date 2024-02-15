@@ -71,6 +71,7 @@ class JMAudioDeviceManager: NSObject {
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
                                          mode: AVAudioSession.Mode.default,
                                          options: supportedCategory)
+            try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- audio session category set.")
         }
         catch let error as NSError {

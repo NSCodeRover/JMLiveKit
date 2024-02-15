@@ -25,6 +25,7 @@ public enum JMMediaType: String {
     case audio
     case video
     case shareScreen
+    case shareScreenAudio
 }
 
 var JioMediaStackDefaultCameraCaptureResolution: (width:Int32,height:Int32,fps:Int32) = (width:1280,height:720,fps:15)

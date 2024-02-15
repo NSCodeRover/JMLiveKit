@@ -281,7 +281,8 @@ extension MeetingRoomViewModel{
                 
                 if isEnabled{
                     startRemoteScreenShare(id)
-                }                
+                }
+            default: break
             }
             
             self.peers[index] = updatedPeer
