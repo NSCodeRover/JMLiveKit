@@ -89,7 +89,7 @@ class JMAudioDeviceManager: NSObject {
     }
     
     func dispose(){
-        try? audioSession.setActive(true)
+        try? audioSession.setActive(false)
         delegateToManager = nil
         isDevicePreferenceIsSet = false
         userSelectedDevice = nil
