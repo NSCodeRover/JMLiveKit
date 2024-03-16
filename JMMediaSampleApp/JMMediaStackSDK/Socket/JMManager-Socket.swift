@@ -282,8 +282,8 @@ extension JMManagerViewModel{
     
     private func handleSocketNewPeerJoined(_ json: [String : Any]) {
         qJMMediaBGQueue.async {
-            if let peer = parse(json: json, model: Peer.self) {
-                let user = formatToJMUserInfo(from: peer)
+            if let peer = self.parse(json: json, model: Peer.self) {
+                let user = self.formatToJMUserInfo(from: peer)
                 self.delegateBackToManager?.sendClientUserJoined(user: user)
                 self.peersMap[peer.peerId] = peer
             }
