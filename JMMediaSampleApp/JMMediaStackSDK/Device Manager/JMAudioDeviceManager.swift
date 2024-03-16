@@ -7,6 +7,7 @@
 
 import AVFoundation
 import UIKit
+import WebRTC
 
 public enum JMAudioDeviceType: String{
     case Speaker
@@ -57,6 +58,7 @@ class JMAudioDeviceManager: NSObject {
     }
     
     func setupSession(){
+        setupWebRTCSession(true)
         setupNotifications()
         addAudioDetectorCallbackListener()
         
@@ -89,6 +91,8 @@ class JMAudioDeviceManager: NSObject {
     }
     
     func dispose(){
+        LOG.debug("AVAudioDevice- disposed.")
+        setupWebRTCSession(false)
         delegateToManager = nil
         isDevicePreferenceIsSet = false
         userSelectedDevice = nil
@@ -108,7 +112,7 @@ class JMAudioDeviceManager: NSObject {
 extension JMAudioDeviceManager{
     internal func getAllDevices() -> [AVAudioDevice] {
         guard let availableInputs = audioSession.availableInputs else { return [] }
-        LOG.debug("AVAudioDevice- devices: \(availableInputs)")
+        //LOG.debug("AVAudioDevice- devices: \(availableInputs)")
         return availableInputs
     }
     
@@ -132,12 +136,12 @@ extension JMAudioDeviceManager{
             return (nil,JMMediaError(type: .audioDeviceNotAvailable, description: "No device found"))
         }
 
-        if inputDevice.portType == outputDevice.portType {
-            LOG.debug("AVAudioDevice- Device in use:\(inputDevice.portName)")
-        }
-        else{
-            LOG.warning("AVAudioDevice- Input device:\(inputDevice.portName)| Output device:\(outputDevice.portName)")
-        }
+//        if inputDevice.portType == outputDevice.portType {
+//            LOG.debug("AVAudioDevice- Device in use:\(inputDevice.portName)")
+//        }
+//        else{
+//            LOG.warning("AVAudioDevice- Input device:\(inputDevice.portName)| Output device:\(outputDevice.portName)")
+//        }
         
         currentDevice = outputDevice
         return (outputDevice,nil)
@@ -174,7 +178,7 @@ extension JMAudioDeviceManager{
     private func fetchCurrentDeviceAndUpdate(){
         let deviceStatus = getCurrentDevice()
         if let device = deviceStatus.0, device.uid != userSelectedDevice?.uid{
-            LOG.debug("AVAudioDevice- UI updated")
+//            LOG.debug("AVAudioDevice- UI updated")
             userSelectedDevice = device
             delegateToManager?.sendClientAudioDeviceInUse(device)
         }
@@ -208,6 +212,7 @@ extension JMAudioDeviceManager{
     
     private func setAudioPort(toSpeaker speaker: Bool){
         do {
+            try audioSession.setMode(.default) //default is needed, otherwise take receiver
             try audioSession.overrideOutputAudioPort(speaker ? .speaker : .none)
             try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- set device to Speaker (override)")
@@ -230,48 +235,54 @@ extension JMAudioDeviceManager{
     }
 }
 
+//MARK: Correction
+extension JMAudioDeviceManager{
+    
+    private func getCurrentRouteDevice() -> AVAudioDevice?{
+        return audioSession.currentRoute.outputs.first
+    }
+    
+    private func devicePreferenceAlgorithm(){
+        let currentDevice = getCurrentRouteDevice()
+        
+        if let currentDevice = currentDevice{
+            if currentDevice.portType == .builtInReceiver{
+                LOG.debug("AVAudioDevice- correcting reciever.")
+                
+                let availableInputs = getAllDevices()
+                LOG.debug("AVAudioDevice- Available Devices - \(availableInputs.map{ $0.portName})")
+                if let bluetoothDevice = availableInputs.first(where: { $0.portType.rawValue.lowercased().contains("bluetooth") || $0.portType.rawValue.lowercased().contains("head") }) {
+                    setAudioDevice(bluetoothDevice)
+                }
+                else{
+                    setAudioPort(toSpeaker: true)
+                }
+            }
+        }
+    }
+    
+    func setupWebRTCSession(_ isActive: Bool){
+        //WEBRTC - This is needed to avoid the video pause
+        RTCAudioSession.sharedInstance().useManualAudio = isActive
+        isActive ? RTCAudioSession.sharedInstance().audioSessionDidActivate(audioSession) : RTCAudioSession.sharedInstance().audioSessionDidDeactivate(audioSession)
+        RTCAudioSession.sharedInstance().isAudioEnabled = isActive
+    }
+}
+
 //MARK: Callback from AVSession
 extension JMAudioDeviceManager{
     @objc func handleRouteChange(_ notification: Notification) {
-        //LOG.debug("AVAudioDevice- callback \(notification.userInfo)")
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-              let reason = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
-            LOG.debug("AVAudioDevice- callback no object.")
+              let _ = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
+            LOG.debug("AVAudioDevice- handleRouteChange callback no object.")
             return
          }
         
-        LOG.debug("AVAudioDevice- Reason:\(reasonValue)")
-        if reason == .categoryChange{
-            
-            if isDevicePreferenceIsSet{
-                return
-            }
-            
-            //Note - Consider this as - onAudioSessionConnected - now we can perform our task.
-            //This logic is only needed once after setting the Category, as we need to change the output route to speaker if no device is found.
-            
-           // guard let route = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription else { return }
-            //if !route.inputs.isEmpty{
-                LOG.debug("AVAudioDevice- Setting Device preference.")
-                getAllDeviceAndSetPreference()
-                fetchCurrentDeviceAndUpdate()
-                audioDetector?.setupSession()
-           // }
-        }
-        else if reason == .newDeviceAvailable{
-            LOG.debug("AVAudioDevice- callback device change")
-            fetchCurrentDeviceAndUpdate()
-        }
-        else if reason == .oldDeviceUnavailable || reason == .override{
-            
-            //NO need to correct now, as we are supported earpiece as well. will remove commnet post few releases.
-//            if audioOutputDeviceCorrection(){
-//                LOG.debug("AVAudioDevice- Audio corrected to speaker.")
-//            }
-            
-            fetchCurrentDeviceAndUpdate()
-        }
+        LOG.debug("AVAudioDevice- Category:\(audioSession.category.rawValue) | Mode:\(audioSession.mode.rawValue)")
+        LOG.debug("AVAudioDevice- Reason:\(reasonValue) | Current: \(audioSession.currentRoute.inputs.first?.portName ?? "NA"):\(audioSession.currentRoute.outputs.first?.portName ?? "NA")")
+        devicePreferenceAlgorithm()
+        fetchCurrentDeviceAndUpdate()
     }
         
     @objc func handleSecondaryAudio(notification: Notification) {
