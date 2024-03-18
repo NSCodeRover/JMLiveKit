@@ -141,9 +141,9 @@ extension JMPreviewManager{
         qJMMediaMainQueue.async {
             let localView = RTCMTLVideoView()
             renderView.addSubview(localView)
+            localView.videoContentMode = .scaleAspectFit
             self.setConstrainsts(of: localView, toView: renderView)
             self.videoSelfRTCRenderView = localView
-            
             self.videoSelfRenderView?.contentMode = .scaleAspectFit
             self.videoSelfRTCRenderView?.contentMode = .scaleAspectFit
         }
