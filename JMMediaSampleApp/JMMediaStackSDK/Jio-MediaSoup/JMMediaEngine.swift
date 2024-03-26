@@ -212,6 +212,7 @@ extension JMMediaEngine: JMMediaEngineAbstract {
         vm_manager.isCallEnded = true
         vm_manager.socketEmitSelfPeerLeave()
         sendClientEndCall()
+        JMAudioDeviceManager.shared.dispose() //To clean up audio session, in case no internet.
     }
     
     public func enableLog(_ isEnabled: Bool, severity: JMLogSeverity = .info){

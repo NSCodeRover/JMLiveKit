@@ -142,9 +142,9 @@ extension JMPreviewManager{
             let localView = RTCMTLVideoView()
             localView.videoContentMode = .scaleAspectFit
             renderView.addSubview(localView)
+            localView.videoContentMode = .scaleAspectFit
             self.setConstrainsts(of: localView, toView: renderView)
             self.videoSelfRTCRenderView = localView
-            
             self.videoSelfRenderView?.contentMode = .scaleAspectFit
             self.videoSelfRTCRenderView?.contentMode = .scaleAspectFit
         }
