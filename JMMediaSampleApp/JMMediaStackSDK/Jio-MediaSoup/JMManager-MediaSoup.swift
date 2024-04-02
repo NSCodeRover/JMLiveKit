@@ -338,7 +338,7 @@ extension JMManagerViewModel{
         {
             LOG.error("Subscribe- remote view available for user- \(remoteId)")
             updatedPeer.remoteView = renderView
-            peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
             updateRemoteRenderViewTrack(for: remoteId)
         }
         else{
@@ -364,8 +364,7 @@ extension JMManagerViewModel{
                 }
                 updatedPeer.remoteView = self.bindRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             }
-            
-            peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
         }
     }
     
