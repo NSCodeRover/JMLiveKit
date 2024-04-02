@@ -295,7 +295,7 @@ extension JMManagerViewModel{
             LOG.debug("UserLeave- \(peerId) with reason \(json["reason"] as? String)")
             let reason: JMUserLeaveReason = (json["reason"] as? String ?? "").lowercased() == "quit" ? .userAction : .unknown
             self.delegateBackToManager?.sendClientUserLeft(id: peerId, reason: reason)
-            self.peersMap.removeValue(forKey: peerId)
+            removePeer(for: peerId)
         }
     }
     
@@ -607,8 +607,7 @@ extension JMManagerViewModel{
             else if mediaType == .shareScreenAudio{
                 updatedPeer.consumerScreenShareAudio = consumer
             }
-            
-            self.peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
         }
     }
     
@@ -632,8 +631,7 @@ extension JMManagerViewModel{
                 }
                 updatedPeer.isScreenShareEnabled = isEnabled
             }
-            
-            self.peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
             
             if isSelfAction && mediaType == .shareScreen {
                 //Workaround - Cpass need this to handle the screenshare. self action for camera, mic is needed but not for screenshare.
@@ -688,8 +686,7 @@ extension JMManagerViewModel{
         {
             updatedPeer.producers.remove(at: objectPresentAtIndex)
         }
-        
-        peersMap[remoteId] = updatedPeer
+        updatePeerMap(for: remoteId, withPeer: updatedPeer)
     }
     
     func updateVideoProducerId(_ producerId: String, remoteId: String, mediaType: JMMediaType, event: SocketEvent){
@@ -723,7 +720,7 @@ extension JMManagerViewModel{
                 let producer = PeerProducer(mediaType: mediaType, producerId: producerId, paused: producerPaused)
                 updatedPeer.producers.append(producer)
             }
-            peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
         }
     }
 }
@@ -796,7 +793,7 @@ extension JMManagerViewModel{
                     
                     //Adding to queue
                     peer.consumerQueue[mediaType] = true
-                    peersMap[remoteId] = peer
+                    updatePeerMap(for: remoteId, withPeer: peer)
                 }
             }
         }
@@ -832,6 +829,21 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- removed \(remoteId)")
                 subscriptionVideoList.removeAll(where: {$0 == remoteId})
             }
+        }
+    }
+}
+
+//MARK: Peer updation
+extension JMManagerViewModel{
+    func updatePeerMap(for remoteId: String, withPeer: Peer) {
+        qJMMediaBGQueue.async(flags: .barrier) { [weak self] in
+            self?.peersMap[remoteId] = withPeer
+        }
+    }
+    
+    func removePeer(for remoteId: String) {
+        qJMMediaBGQueue.async(flags: .barrier) { [weak self] in
+            self?.peersMap.removeValue(forKey: remoteId)
         }
     }
 }
