@@ -446,7 +446,9 @@ extension JMManagerViewModel {
             track.isEnabled = false
         }
         if let producer = self.videoProducer {
-            producer.pause()
+            if !producer.paused {
+                producer.pause()
+            }
             socketEmitPauseProducer(for: producer.id)
             enableLocalRenderView(false)
         }

@@ -204,13 +204,16 @@ extension JMManagerViewModel{
     private func handleSocketEmitJoin(_ json: [String : Any]) {
         qJMMediaBGQueue.async {
             self.createSendAndReceiveTransport()
-            self.addPeerIfalreadyJoinMeetingRoom(json: json).forEach {
-                self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: $0))
-                
-                if let audioConsumer = $0.producers.first(where: { $0.mediaType == .audio }){
-                    self.socketEmitGetConsumerInfo(for: $0.peerId, consumerId: audioConsumer.producerId)
+            print("addPeerIfAlreadyJoinMeetingRoom out Start")
+            self.addPeerIfAlreadyJoinMeetingRoom(json: json) { peers in
+                for peer in peers {
+                    self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: peer))
+                    if let audioConsumer =  peer.producers.first(where: { $0.mediaType == .audio }){
+                        self.socketEmitGetConsumerInfo(for: peer.peerId, consumerId: audioConsumer.producerId)
+                    }
                 }
             }
+            print("addPeerIfAlreadyJoinMeetingRoom out End")
         }
     }
     
@@ -836,14 +839,14 @@ extension JMManagerViewModel{
 //MARK: Peer updation
 extension JMManagerViewModel{
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-        //qJMMediaBGQueue.async { [weak self] in
+       // qJMMediaBGQueue.async { [weak self] in
             self.peersMap[remoteId] = withPeer
         //}
     }
     
     func removePeer(for remoteId: String) {
-        //qJMMediaBGQueue.async(flags: .barrier) { [weak self] in
+       // qJMMediaBGQueue.async { [weak self] in
             self.peersMap.removeValue(forKey: remoteId)
-        //}
+       // }
     }
 }
