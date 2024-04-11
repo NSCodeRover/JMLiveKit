@@ -107,7 +107,7 @@ class JMManagerViewModel: NSObject{
     var currentMediaQualityPreference: JMMediaQuality = .high
     
     var isCallEnded: Bool = false
-    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .default)
+    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
     let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     
@@ -386,24 +386,81 @@ extension JMManagerViewModel{
         return nil
     }
     
+//    func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
+//        if let response = parse(json: json, model: JoinResponse.self), let data = response.data {
+//            return data.peers
+//        }
+//        return []
+//    }
+    
+//    func addPeerIfalreadyJoinMeetingRoom(json: [String: Any]) -> [Peer] {
+//        let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
+//        self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
+//        return Array(peersMap.values)
+//    }
+    func addPeerIfAlreadyJoinMeetingRoom(json: [String: Any], completion: @escaping ([Peer]) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async {
+        
+            let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
+           
+            self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
+           
+           // DispatchQueue.main.async {
+                completion(Array(self.peersMap.values))
+                print("addPeerIfAlreadyJoinMeetingRoom complete")
+           // }
+        }
+    }
+    
     func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
+        guard let data = json["data"] as? [String: Any],
+              let peersArray = data["peers"] as? [[String: Any]] else {
+            return []
+        }
+        
+        var allPeers: [Peer] = []
+        let batchSize = 10
+        let totalBatches = (peersArray.count + batchSize - 1) / batchSize
+        
+        for batchIndex in 0..<totalBatches {//0..<totalBatches
+            let batchStart = batchIndex * batchSize
+            let batchEnd = min(batchStart + batchSize, peersArray.count)
+            let peersBatch = Array(peersArray[batchStart..<batchEnd])
+            
+            // Create a new JSON object for each batch and parse it
+            let batchJson: [String: Any] = ["data": ["peers": peersBatch]]
+            if let batchPeers = parseBatchPeers(json: batchJson) {
+                allPeers.append(contentsOf: batchPeers)
+            }
+        }
+        
+        return allPeers
+    }
+
+    func parseBatchPeers(json: [String: Any]) -> [Peer]? {
         if let response = parse(json: json, model: JoinResponse.self), let data = response.data {
             return data.peers
         }
-        return []
+        return nil
     }
+
     
-    func addPeerIfalreadyJoinMeetingRoom(json: [String: Any]) -> [Peer] {
-        let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
-        self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
-        return Array(peersMap.values)
-    }
-    
+//    func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
+//        do {
+//            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+//            let decoder = JSONDecoder()
+//            let model = try? decoder.decode(model.self, from: data)
+//            return model
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//        return nil
+//    }
     func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
             let decoder = JSONDecoder()
-            let model = try? decoder.decode(model.self, from: data)
+            let model = try decoder.decode(model.self, from: data)
             return model
         } catch {
             print(error.localizedDescription)
