@@ -97,6 +97,7 @@ class JMManagerViewModel: NSObject{
     
     //Subscribe
     var peersMap:[String:Peer] = [:]
+    var lockPeer = ReadWriteLock()
     var subscriptionVideoList: [String] = []
     
     //AudioOnly
@@ -466,5 +467,31 @@ extension JMManagerViewModel{
             print(error.localizedDescription)
         }
         return nil
+    }
+}
+
+
+
+class ReadWriteLock {
+    private var rwLock = pthread_rwlock_t()
+
+    init() {
+        pthread_rwlock_init(&rwLock, nil)
+    }
+
+    deinit {
+        pthread_rwlock_destroy(&rwLock)
+    }
+
+    func readLock() {
+        pthread_rwlock_rdlock(&rwLock)
+    }
+
+    func writeLock() {
+        pthread_rwlock_wrlock(&rwLock)
+    }
+
+    func unlock() {
+        pthread_rwlock_unlock(&rwLock)
     }
 }

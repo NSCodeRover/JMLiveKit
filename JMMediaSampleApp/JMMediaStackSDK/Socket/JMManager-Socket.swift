@@ -288,7 +288,7 @@ extension JMManagerViewModel{
             if let peer = self.parse(json: json, model: Peer.self) {
                 let user = self.formatToJMUserInfo(from: peer)
                 self.delegateBackToManager?.sendClientUserJoined(user: user)
-                self.peersMap[peer.peerId] = peer
+                self.updatePeerMap(for: peer.peerId, withPeer: peer)
             }
         }
     }
@@ -595,7 +595,7 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func updatePeerMediaConsumer(_ consumer: Consumer?, remoteId: String, mediaType: JMMediaType){
-        if var updatedPeer = self.peersMap[remoteId] {
+        if var updatedPeer = self.getPeerObject(for: remoteId) {
             updatedPeer.consumerQueue.removeValue(forKey: mediaType)
             
             if mediaType == .audio{
@@ -615,7 +615,7 @@ extension JMManagerViewModel{
     }
     
     func updatePeerMediaState(_ isEnabled: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false) {
-        if var updatedPeer = self.peersMap[remoteId] {
+        if var updatedPeer = self.getPeerObject(for: remoteId) {
             if mediaType == .audio{
                 if updatedPeer.isAudioEnabled == isEnabled{
                     return
@@ -651,7 +651,7 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     
     func endProducer(for remoteId: String, mediaType: JMMediaType) {
-        guard var updatedPeer = self.peersMap[remoteId] else {
+        guard var updatedPeer = self.getPeerObject(for: remoteId) else {
             return
         }
         
@@ -705,7 +705,7 @@ extension JMManagerViewModel{
     }
     
     func updateVideoProducerId(_ producerId: String, producerPaused: Bool, remoteId: String, mediaType: JMMediaType){
-        if var updatedPeer = self.peersMap[remoteId] {
+        if var updatedPeer = self.getPeerObject(for: remoteId) {
             
             //On new producer, clear the consumer queue.
             updatedPeer.consumerQueue.removeValue(forKey: mediaType)
@@ -757,7 +757,7 @@ extension JMManagerViewModel{
     }
     
     func feedHandler(_ isSubscribe: Bool, remoteId: String, mediaType: JMMediaType, isSelfAction: Bool = false){
-        guard var peer = peersMap[remoteId]
+        guard var peer = self.getPeerObject(for: remoteId)
         else{
             LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
             return
@@ -837,16 +837,25 @@ extension JMManagerViewModel{
 }
 
 //MARK: Peer updation
-extension JMManagerViewModel{
+
+extension JMManagerViewModel {
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-       // qJMMediaBGQueue.async { [weak self] in
-            self.peersMap[remoteId] = withPeer
-        //}
+        lockPeer.writeLock()
+        self.peersMap[remoteId] = withPeer
+        lockPeer.unlock()
     }
     
     func removePeer(for remoteId: String) {
-       // qJMMediaBGQueue.async { [weak self] in
-            self.peersMap.removeValue(forKey: remoteId)
-       // }
+        lockPeer.writeLock()
+        self.peersMap.removeValue(forKey: remoteId)
+        lockPeer.unlock()
+    }
+    
+    func getPeerObject(for remoteId: String) -> Peer? {
+        var peer = Peer()
+        lockPeer.readLock()
+        peer = self.peersMap[remoteId] ?? peer
+        lockPeer.unlock()
+        return peer
     }
 }

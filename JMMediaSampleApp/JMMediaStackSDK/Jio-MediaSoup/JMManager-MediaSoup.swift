@@ -335,11 +335,12 @@ extension JMManagerViewModel{
     }
     
     func addRemoteRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId], updatedPeer.remoteView != renderView
+        if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
         {
             LOG.error("Subscribe- remote view available for user- \(remoteId)")
             updatedPeer.remoteView = renderView
             updatePeerMap(for: remoteId, withPeer: updatedPeer)
+            self.peersMap[remoteId] = updatedPeer
             updateRemoteRenderViewTrack(for: remoteId)
         }
         else{
@@ -348,7 +349,7 @@ extension JMManagerViewModel{
     }
     
     func updateRemoteRenderViewTrack(for remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId],
+        if var updatedPeer = self.getPeerObject(for: remoteId),
            let renderView = updatedPeer.remoteView,
            let consumer = updatedPeer.consumerVideo,
            let rtcVideoTrack = consumer.track as? RTCVideoTrack
