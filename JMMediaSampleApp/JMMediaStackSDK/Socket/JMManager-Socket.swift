@@ -419,6 +419,7 @@ extension JMManagerViewModel{
                 self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaType)
                 self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaType)
                 self.socketEmitResumeConsumer(for: consumerId)
+        
                 consumer.resume()
                 
                 //Update renderer track
@@ -840,9 +841,9 @@ extension JMManagerViewModel{
 
 extension JMManagerViewModel {
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-        lockPeer.writeLock()
+        //lockPeer.writeLock()
         self.peersMap[remoteId] = withPeer
-        lockPeer.unlock()
+        //lockPeer.unlock()
     }
     
     func removePeer(for remoteId: String) {

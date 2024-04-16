@@ -261,8 +261,9 @@ extension JMManagerViewModel:UIScrollViewDelegate{
                     subview.removeFromSuperview()
                 }
                 updatedPeer.remoteScreenshareView = self.bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
+          
+                self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
             }
-            updatePeerMap(for: remoteId, withPeer: updatedPeer)
             LOG.info("Subscribe- UI success")
         }
         else{
