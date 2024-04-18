@@ -337,11 +337,10 @@ extension JMManagerViewModel{
     func addRemoteRenderView(_ renderView: UIView, remoteId: String){
         if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
         {
-            LOG.error("Subscribe- remote view available for user- \(remoteId)")
-            updatedPeer.remoteView = renderView
-            updatePeerMap(for: remoteId, withPeer: updatedPeer)
-            self.peersMap[remoteId] = updatedPeer
-            updateRemoteRenderViewTrack(for: remoteId)
+                LOG.error("Subscribe- remote view available for user- \(remoteId)")
+                updatedPeer.remoteView = renderView
+                self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
+                self.updateRemoteRenderViewTrack(for: remoteId)
         }
         else{
             LOG.error("Subscribe- remote view NOT available for user- \(remoteId)")

@@ -170,7 +170,7 @@ extension JMMediaEngine: delegateManager{
     
     //log
     func sendClientLogMsg(log: String) {
-        vm_manager.qJMMediaMainQueue.async {
+        vm_manager.qJMMediaBGQueue.async {
             self.delegateBackToClient?.onLogMessage(message: log)
         }
     }
