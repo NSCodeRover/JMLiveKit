@@ -111,6 +111,7 @@ class JMManagerViewModel: NSObject{
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
     let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
+    let qJMMediaLogQueue: DispatchQueue = DispatchQueue(label: "jmmedia.log",qos: .background)
     
     //VB
     var virtualBackgroundManager: JMVirtualBackgroundManager?

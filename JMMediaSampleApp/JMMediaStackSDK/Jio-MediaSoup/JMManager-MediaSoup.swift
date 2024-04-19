@@ -364,8 +364,9 @@ extension JMManagerViewModel{
                     subview.removeFromSuperview()
                 }
                 updatedPeer.remoteView = self.bindRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
+                self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
             }
-            updatePeerMap(for: remoteId, withPeer: updatedPeer)
+           
         }
     }
     

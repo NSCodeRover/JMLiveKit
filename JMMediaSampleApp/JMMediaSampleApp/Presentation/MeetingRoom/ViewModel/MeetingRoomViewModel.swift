@@ -382,7 +382,7 @@ extension MeetingRoomViewModel: JMMediaEngineDelegate {
     }
     
     func onLogMessage(message: String) {
-        JMLoggerOption.shared.log(message)
+      //  JMLoggerOption.shared.log(message)
         print(message)
     }
     

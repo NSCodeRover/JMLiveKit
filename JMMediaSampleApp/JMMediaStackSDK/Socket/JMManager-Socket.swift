@@ -841,9 +841,12 @@ extension JMManagerViewModel{
 
 extension JMManagerViewModel {
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-        //lockPeer.writeLock()
-        self.peersMap[remoteId] = withPeer
-        //lockPeer.unlock()
+       // lockPeer.writeLock()
+        var peers = self.peersMap
+        peers[remoteId] = withPeer
+        self.peersMap = peers
+        peers.removeAll()
+       // lockPeer.unlock()
     }
     
     func removePeer(for remoteId: String) {
@@ -853,10 +856,11 @@ extension JMManagerViewModel {
     }
     
     func getPeerObject(for remoteId: String) -> Peer? {
-        var peer = Peer()
-        lockPeer.readLock()
-        peer = self.peersMap[remoteId] ?? peer
-        lockPeer.unlock()
+        var peers = self.peersMap
+      //  lockPeer.readLock()
+        let peer = peers[remoteId]
+        peers.removeAll()
+      //  lockPeer.unlock()
         return peer
     }
 }
