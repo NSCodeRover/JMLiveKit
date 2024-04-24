@@ -55,8 +55,8 @@ struct Peer: Codable {
             switch producer.mediaType{
             case .audio:
                 isAudioEnabled = isEnable
-            case .video:
-                isVideoEnabled = isEnable
+//            case .video:
+//                isVideoEnabled //= isEnable
             case .shareScreen:
                 isScreenShareEnabled = isEnable
             default:break

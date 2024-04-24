@@ -659,13 +659,17 @@ extension JMManagerViewModel{
         LOG.debug("Subscribe- consumer updated to nil. User- \(updatedPeer.displayName) for type- \(mediaType)")
         switch mediaType {
         case .video:
-            updatedPeer.consumerVideo?.close()
+            if !(updatedPeer.consumerVideo?.closed ?? true) {
+                updatedPeer.consumerVideo?.close()
+            }
             updatedPeer.consumerVideo = nil
             
             self.updatePreferredQuality()
             
         case .shareScreen:
-            updatedPeer.consumerScreenShare?.close()
+            if !(updatedPeer.consumerScreenShare?.closed ?? true) {
+                updatedPeer.consumerScreenShare?.close()
+            }
             updatedPeer.consumerScreenShare = nil
             removeRemoteShareViews(updatedPeer.remoteScreenshareView)
             updatedPeer.remoteScreenshareView = nil
@@ -841,25 +845,31 @@ extension JMManagerViewModel{
 
 extension JMManagerViewModel {
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-       // lockPeer.writeLock()
-        var peers = self.peersMap
-        peers[remoteId] = withPeer
-        self.peersMap = peers
-        peers.removeAll()
+     //   lockPeer.writeLock()
+        //semaphore.wait()
+      //  var peers = self.peersMap
+        self.peersMap[remoteId] = withPeer
+        //self.peersMap = peers
+     //   peers.removeAll()
+        //semaphore.signal()
        // lockPeer.unlock()
     }
     
     func removePeer(for remoteId: String) {
-        lockPeer.writeLock()
+        //lockPeer.writeLock()
+      //  semaphore.wait()
         self.peersMap.removeValue(forKey: remoteId)
-        lockPeer.unlock()
+       // semaphore.signal()
+        //lockPeer.unlock()
     }
     
     func getPeerObject(for remoteId: String) -> Peer? {
-        var peers = self.peersMap
-      //  lockPeer.readLock()
-        let peer = peers[remoteId]
-        peers.removeAll()
+       // semaphore.wait()
+        //var peers = self.peersMap
+     //  lockPeer.readLock()
+        let peer = peersMap[remoteId]
+      //  semaphore.signal()
+        //peers.removeAll()
       //  lockPeer.unlock()
         return peer
     }

@@ -108,11 +108,12 @@ class JMManagerViewModel: NSObject{
     var currentMediaQualityPreference: JMMediaQuality = .high
     
     var isCallEnded: Bool = false
-    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
-    let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
+    let qJMMediaBGQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.background",qos: .background)
+    let qJMMediaNWQueue: DispatchQueue = DispatchQueue.global(qos: .default)//DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
-    let qJMMediaLogQueue: DispatchQueue = DispatchQueue(label: "jmmedia.log",qos: .background)
-    
+    let qJMMediaJoinQueue: DispatchQueue = DispatchQueue.global(qos: .utility)//DispatchQueue(label: "jmmedia.loe",qos: .utility)
+    let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.log",qos: .background,attributes: [.initiallyInactive])
+    let qJMMediaPeerMapQueue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)
     //VB
     var virtualBackgroundManager: JMVirtualBackgroundManager?
     let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
