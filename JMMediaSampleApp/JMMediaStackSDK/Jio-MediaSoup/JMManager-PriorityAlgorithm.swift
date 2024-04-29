@@ -32,7 +32,7 @@ extension JMManagerViewModel{
             LOG.debug("Quality- \(updatedPeer.displayName) changed to \(evaluatePreferredFeed). \(preferredQuality != evaluatePreferredFeed ? "(Override)" : "")")
             
             updatedPeer.preferredFeed = preferredQuality
-            self.peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
         }
     }
     
@@ -85,7 +85,7 @@ extension JMManagerViewModel{
                 }
                 
                 updatedPeer.preferredFeed = recommendedQuality
-                self.peersMap[remoteId] = updatedPeer
+                updatePeerMap(for: remoteId, withPeer: updatedPeer)
                 socketEmitSetPreferredLayer(for: videoConsumerId, spatialLayer: recommendedQuality.rawValue, temporalLayer: 2)
             }
         }

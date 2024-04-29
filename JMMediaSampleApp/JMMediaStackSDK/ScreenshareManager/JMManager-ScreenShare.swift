@@ -234,7 +234,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
         if var updatedPeer = self.peersMap[remoteId]
         {
             updatedPeer.remoteScreenshareView = renderView
-            peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
             LOG.info("Screenshare- Subscribe- view set for id - \(remoteId)")
         }
     }
@@ -262,8 +262,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
                 }
                 updatedPeer.remoteScreenshareView = self.bindScreenShareRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
             }
-            
-            peersMap[remoteId] = updatedPeer
+            updatePeerMap(for: remoteId, withPeer: updatedPeer)
             LOG.info("Subscribe- UI success")
         }
         else{

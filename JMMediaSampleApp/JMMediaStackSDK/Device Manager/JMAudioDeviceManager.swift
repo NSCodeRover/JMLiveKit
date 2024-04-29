@@ -93,6 +93,7 @@ class JMAudioDeviceManager: NSObject {
     func dispose(){
         LOG.debug("AVAudioDevice- disposed.")
         setupWebRTCSession(false)
+        try? audioSession.setActive(false)
         delegateToManager = nil
         isDevicePreferenceIsSet = false
         userSelectedDevice = nil
