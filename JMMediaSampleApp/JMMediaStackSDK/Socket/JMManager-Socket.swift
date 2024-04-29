@@ -678,7 +678,9 @@ extension JMManagerViewModel{
             self.updatePreferredPriority()
             
         case .shareScreenAudio:
-            updatedPeer.consumerScreenShareAudio?.close()
+            if !(updatedPeer.consumerScreenShareAudio?.closed ?? true) {
+                updatedPeer.consumerScreenShareAudio?.close()
+            }
             updatedPeer.consumerScreenShareAudio = nil
             
         case .audio:
@@ -845,32 +847,15 @@ extension JMManagerViewModel{
 
 extension JMManagerViewModel {
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-     //   lockPeer.writeLock()
-        //semaphore.wait()
-      //  var peers = self.peersMap
         self.peersMap[remoteId] = withPeer
-        //self.peersMap = peers
-     //   peers.removeAll()
-        //semaphore.signal()
-       // lockPeer.unlock()
     }
     
     func removePeer(for remoteId: String) {
-        //lockPeer.writeLock()
-      //  semaphore.wait()
         self.peersMap.removeValue(forKey: remoteId)
-       // semaphore.signal()
-        //lockPeer.unlock()
     }
     
     func getPeerObject(for remoteId: String) -> Peer? {
-       // semaphore.wait()
-        //var peers = self.peersMap
-     //  lockPeer.readLock()
         let peer = peersMap[remoteId]
-      //  semaphore.signal()
-        //peers.removeAll()
-      //  lockPeer.unlock()
         return peer
     }
 }
