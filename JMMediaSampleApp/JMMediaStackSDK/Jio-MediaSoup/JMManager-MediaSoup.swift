@@ -94,6 +94,7 @@ extension JMManagerViewModel{
             LOG.info("Audio- startAudio producer created")
             producer.resume()
         }
+        mediaRaceConditionCorrection(isAudio: true)
         completion(result)
     }
     //Client
@@ -129,6 +130,28 @@ extension JMManagerViewModel{
         }
         else{
             setRemotePeerVolume(volume: 0)
+        }
+    }
+}
+
+//MARK: Media Race Correction
+extension JMManagerViewModel{
+    
+    //This logic/workaround is needed when user quickly mute/unmute themselves. like - if initial ON, then mutes, producer is taking some time to update, avoiding the mute request.
+    
+    private func mediaRaceConditionCorrection(isAudio: Bool){
+        qJMMediaBGQueue.asyncAfter(deadline: .now() + 1){ [weak self] in
+            guard let self = self else { return }
+            if isAudio{
+                if !self.userState.selfMicEnabled{
+                    self.disableMic()
+                }
+            }
+            else{
+                if !self.userState.selfCameraEnabled{
+                    self.disableVideo()
+                }
+            }
         }
     }
 }
@@ -244,6 +267,7 @@ extension JMManagerViewModel{
             LOG.info("Video- startVideo producer created")
             producer.resume()
         }
+        mediaRaceConditionCorrection(isAudio: false)
         completion(result)
     }
     

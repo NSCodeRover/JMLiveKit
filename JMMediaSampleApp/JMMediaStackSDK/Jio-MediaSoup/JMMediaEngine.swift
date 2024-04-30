@@ -394,12 +394,12 @@ extension JMMediaEngine{
     }
     
     private func handleVideo(_ enable: Bool, _ completion: ((_ isSuccess: Bool) -> ())? = nil){
+        vm_manager.userState.selfCameraEnabled = enable
+        
         if enable{
             vm_manager.qJMMediaBGQueue.async { [weak self] in
                 guard let self = self else { return }
                 self.vm_manager.startVideo { isSuccess in
-                    self.vm_manager.userState.selfCameraEnabled = isSuccess ? enable : self.vm_manager.userState.selfCameraEnabled
-                    
                     self.vm_manager.qJMMediaMainQueue.async {
                         completion?(isSuccess)
                     }
@@ -408,8 +408,6 @@ extension JMMediaEngine{
         }
         else{
             vm_manager.disableVideo()
-            vm_manager.userState.selfCameraEnabled = false
-            
             self.vm_manager.qJMMediaMainQueue.async {
                 completion?(true)
             }
@@ -417,12 +415,12 @@ extension JMMediaEngine{
     }
     
     private func handleAudio(_ enable: Bool, _ completion: ((_ isSuccess: Bool) -> ())? = nil){
+        vm_manager.userState.selfMicEnabled = enable
+        
         if enable{
             vm_manager.qJMMediaBGQueue.async { [weak self] in
                 guard let self = self else { return }
                 self.vm_manager.startAudio { isSuccess in
-                    self.vm_manager.userState.selfMicEnabled = isSuccess ? enable : self.vm_manager.userState.selfMicEnabled
-                    
                     self.vm_manager.qJMMediaMainQueue.async {
                         completion?(isSuccess)
                     }
@@ -435,8 +433,6 @@ extension JMMediaEngine{
         }
         else{
             vm_manager.disableMic()
-            vm_manager.userState.selfMicEnabled = false
-            
             self.vm_manager.qJMMediaMainQueue.async {
                 completion?(true)
             }
