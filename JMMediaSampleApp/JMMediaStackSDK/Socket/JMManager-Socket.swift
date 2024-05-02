@@ -224,7 +224,7 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketEmitPeerLeave() {
-        qJMMediaBGQueue.async { [weak self] in
+        qJMMediaPeerMapQueue.sync { [weak self] in
             self?.dispose()
         }
     }
@@ -298,7 +298,7 @@ extension JMManagerViewModel{
             LOG.debug("UserLeave- \(peerId) with reason \(json["reason"] as? String)")
             let reason: JMUserLeaveReason = (json["reason"] as? String ?? "").lowercased() == "quit" ? .userAction : .unknown
             self.delegateBackToManager?.sendClientUserLeft(id: peerId, reason: reason)
-            removePeer(for: peerId)
+           // removePeer(for: peerId)
         }
     }
     
@@ -659,7 +659,7 @@ extension JMManagerViewModel{
         LOG.debug("Subscribe- consumer updated to nil. User- \(updatedPeer.displayName) for type- \(mediaType)")
         switch mediaType {
         case .video:
-            if !(updatedPeer.consumerVideo?.closed ?? true) {
+            if !(updatedPeer.consumerVideo?.closed ?? false) {
                 updatedPeer.consumerVideo?.close()
             }
             updatedPeer.consumerVideo = nil
@@ -667,7 +667,7 @@ extension JMManagerViewModel{
             self.updatePreferredQuality()
             
         case .shareScreen:
-            if !(updatedPeer.consumerScreenShare?.closed ?? true) {
+            if !(updatedPeer.consumerScreenShare?.closed ?? false) {
                 updatedPeer.consumerScreenShare?.close()
             }
             updatedPeer.consumerScreenShare = nil
@@ -678,7 +678,7 @@ extension JMManagerViewModel{
             self.updatePreferredPriority()
             
         case .shareScreenAudio:
-            if !(updatedPeer.consumerScreenShareAudio?.closed ?? true) {
+            if !(updatedPeer.consumerScreenShareAudio?.closed ?? false) {
                 updatedPeer.consumerScreenShareAudio?.close()
             }
             updatedPeer.consumerScreenShareAudio = nil

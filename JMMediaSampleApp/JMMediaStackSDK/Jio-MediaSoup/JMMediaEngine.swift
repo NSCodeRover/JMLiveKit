@@ -71,19 +71,17 @@ extension JMMediaEngine: delegateManager{
     }
     
     func sendClientUserJoined(user: JMUserInfo) {
-        vm_manager.qJMMediaJoinQueue.async {
+       // vm_manager.qJMMediaJoinQueue.sync {
             self.vm_manager.qJMMediaMainQueue.async {
                 self.delegateBackToClient?.onUserJoined(user: user)
             }
-        }
+        //}
     }
     
     func sendClientUserLeft(id: String, reason: JMUserLeaveReason) {
-        vm_manager.qJMMediaJoinQueue.async {
             self.vm_manager.qJMMediaMainQueue.async {
                 self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
             }
-        }
     }
     
     //Media States

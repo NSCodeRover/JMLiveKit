@@ -233,10 +233,10 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     func addRemoteScreenShareRenderView(_ renderView: UIView, remoteId: String){
         if var updatedPeer = self.peersMap[remoteId]
         {
-           // qJMMediaMainQueue.async {
+            qJMMediaMainQueue.async {
                 updatedPeer.remoteScreenshareView = renderView
                 self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
-           // }
+            }
             LOG.info("Screenshare- Subscribe- view set for id - \(remoteId)")
         }
     }

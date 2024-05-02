@@ -361,11 +361,6 @@ extension JMManagerViewModel{
     func addRemoteRenderView(_ renderView: UIView, remoteId: String){
         if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
         {
-            if self.peersMap.count <= 100 {
-                LOG.error("Subscribe- remote view available for user- \(remoteId)")
-            }else if  self.peersMap.count == 101 {
-                LOG.error("Subscribe- remote view available for user- \(remoteId) Max limit reached for log")
-            }
             updatedPeer.remoteView = renderView
             self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
             self.updateRemoteRenderViewTrack(for: remoteId)
