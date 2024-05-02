@@ -422,7 +422,7 @@ extension JMManagerViewModel{
         }
         
         var allPeers: [Peer] = []
-        let batchSize = 10
+        let batchSize = 5
         let totalBatches = (peersArray.count + batchSize - 1) / batchSize
         
         for batchIndex in 0..<totalBatches {//0..<totalBatches
