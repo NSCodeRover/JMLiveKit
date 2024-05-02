@@ -207,15 +207,44 @@ extension JMManagerViewModel{
             print("addPeerIfAlreadyJoinMeetingRoom out Start")
             self.addPeerIfAlreadyJoinMeetingRoom(json: json) { peers in
                 for peer in peers {
-                    self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: peer))
-                    if let audioConsumer =  peer.producers.first(where: { $0.mediaType == .audio }){
-                        self.socketEmitGetConsumerInfo(for: peer.peerId, consumerId: audioConsumer.producerId)
-                    }
+        
+                        self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: peer))
+                        if let audioConsumer =  peer.producers.first(where: { $0.mediaType == .audio }){
+                            self.socketEmitGetConsumerInfo(for: peer.peerId, consumerId: audioConsumer.producerId)
+                        }
                 }
             }
             print("addPeerIfAlreadyJoinMeetingRoom out End")
         }
+            print("addPeerIfAlreadyJoinMeetingRoom out Start")
+            
+            // Assuming addPeerIfAlreadyJoinMeetingRoom is refactored to be non-blocking
+            self.addPeerIfAlreadyJoinMeetingRoom(json: json) { peers in
+                for peer in peers {
+                    dispatchGroup.enter() // Notify the group a new task is starting
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self = self else { return }
+
+                        self.delegateBackToManager?.sendClientUserJoined(user: self.formatToJMUserInfo(from: peer))
+                        
+                        if let audioConsumer = peer.producers.first(where: { $0.mediaType == .audio }) {
+                            self.socketEmitGetConsumerInfo(for: peer.peerId, consumerId: audioConsumer.producerId)
+                        }
+                        
+                        dispatchGroup.leave() // Notify the group this task is done
+                    }
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                print("All tasks complete.")
+                // Perform any cleanup or follow-up tasks here
+            }
+            
+            print("addPeerIfAlreadyJoinMeetingRoom out End")
+        }
     }
+
     
     private func handleSocketEmitNewConsumer(_ json: [String : Any]) {
         qJMMediaBGQueue.async {

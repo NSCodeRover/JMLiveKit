@@ -45,9 +45,9 @@ extension JMManagerViewModel {
     
     func handleAck(with data: [Any], _ resultCompletion: ((_ isSuccess: Bool) -> ())? = nil){
         if let json = self.getJson(data: data), let status = json["status"] as? String{
-            //qJMMediaMainQueue.async {
+            qJMMediaMainQueue.async {
                 resultCompletion?(status.lowercased() == "ok")
-           // }
+            }
             
             if status.lowercased() != "ok"{
                 LOG.debug("Socket- RTM- Ack- Status:\(status) error: \(json["error"])")
