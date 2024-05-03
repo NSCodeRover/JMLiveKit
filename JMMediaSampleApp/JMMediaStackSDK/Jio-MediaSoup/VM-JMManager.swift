@@ -97,6 +97,7 @@ class JMManagerViewModel: NSObject{
     
     //Subscribe
     var peersMap:[String:Peer] = [:]
+    let manager = PeersManager()
     var lockPeer = ReadWriteLock()
     var subscriptionVideoList: [String] = []
     
@@ -108,8 +109,8 @@ class JMManagerViewModel: NSObject{
     var currentMediaQualityPreference: JMMediaQuality = .high
     
     var isCallEnded: Bool = false
-    let qJMMediaBGQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.background",qos: .background)
-    let qJMMediaNWQueue: DispatchQueue = DispatchQueue.global(qos: .default)//DispatchQueue(label: "jmmedia.network",qos: .default)
+    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
+    let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     let qJMMediaJoinQueue: DispatchQueue = DispatchQueue(label: "jmmedia.mediaJoinQueue", attributes: .concurrent)//DispatchQueue.global(qos: .utility)//DispatchQueue(label: "jmmedia.loe",qos: .utility)
     let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.log",qos: .background,attributes: [.initiallyInactive])

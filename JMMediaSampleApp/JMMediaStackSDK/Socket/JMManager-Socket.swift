@@ -216,13 +216,13 @@ extension JMManagerViewModel{
     }
     
     private func handleSocketEmitNewConsumer(_ json: [String : Any]) {
-        qJMMediaPeerMapQueue.async {
+        qJMMediaBGQueue.async {
             self.onNewConsumer(json: json)
         }
     }
     
     private func handleSocketEmitPeerLeave() {
-        qJMMediaPeerMapQueue.sync { [weak self] in
+        qJMMediaBGQueue.async { [weak self] in
             self?.dispose()
         }
     }
@@ -411,7 +411,7 @@ extension JMManagerViewModel{
             let isScreenShareEnabled = appData["share"] as? Bool ?? false
             let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
             
-            let result = handleMediaSoupErrors("Subscribe-"){
+            let result = handleMediaSoupErrors("Subscribe- \(jmMediaType.rawValue)"){
                 let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
                 
                 self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaType)

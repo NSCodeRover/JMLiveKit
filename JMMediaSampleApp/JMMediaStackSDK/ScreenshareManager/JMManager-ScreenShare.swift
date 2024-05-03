@@ -231,7 +231,7 @@ extension JMManagerViewModel{
 extension JMManagerViewModel:UIScrollViewDelegate{
     
     func addRemoteScreenShareRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId]
+        if var updatedPeer = self.getPeerObject(for: remoteId)
         {
             qJMMediaMainQueue.async {
                 updatedPeer.remoteScreenshareView = renderView
@@ -252,7 +252,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
     }
     
     func updateRemoteScreenShareRenderViewTrack(for remoteId: String){
-        if var updatedPeer = self.peersMap[remoteId],
+        if var updatedPeer = getPeerObject(for: remoteId),
            let renderView = updatedPeer.remoteScreenshareView,
            let consumer = updatedPeer.consumerScreenShare,
            let rtcVideoTrack = consumer.track as? RTCVideoTrack
@@ -269,7 +269,7 @@ extension JMManagerViewModel:UIScrollViewDelegate{
             LOG.info("Subscribe- UI success")
         }
         else{
-            LOG.error("Subscribe- UI failed - \(remoteId)|\( String(describing: self.peersMap[remoteId]?.remoteScreenshareView))|\( String(describing: self.peersMap[remoteId]?.consumerScreenShare))|\( String(describing: self.peersMap[remoteId]?.consumerScreenShare?.track))")
+            LOG.error("Subscribe- UI failed - \(remoteId))")
         }
     }
     
