@@ -659,21 +659,24 @@ extension JMManagerViewModel{
         case .video:
             if !(updatedPeer.consumerVideo?.closed ?? false) {
                 updatedPeer.consumerVideo?.close()
+                updatedPeer.consumerVideo = nil
             }
-            updatedPeer.consumerVideo = nil
-            
             self.updatePreferredQuality()
             
         case .shareScreen:
-            if !(updatedPeer.consumerScreenShare?.closed ?? false) {
-                updatedPeer.consumerScreenShare?.close()
-            }
-            updatedPeer.consumerScreenShare = nil
-            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
-            updatedPeer.remoteScreenshareView = nil
+            DispatchQueue.main.async {
+                
+          
+                if ((updatedPeer.consumerScreenShare?.pause) == nil) {
+                    updatedPeer.consumerScreenShare?.close()
+                    updatedPeer.consumerScreenShare = nil
+                }
+                self.removeRemoteShareViews(updatedPeer.remoteScreenshareView)
+                updatedPeer.remoteScreenshareView = nil
             
-            userState.disableRemoteScreenShare()
+                self.userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
+            }
             
         case .shareScreenAudio:
             if !(updatedPeer.consumerScreenShareAudio?.closed ?? false) {
@@ -785,12 +788,15 @@ extension JMManagerViewModel{
             if let consumer = consumer, consumer.producerId == producerId{
                 
                 if peer.isResumed(for: mediaType){
-                    LOG.debug("Subscribe- Consumer already resumed. no action. User- \(peer.displayName) for type- \(mediaType).")
+                    LOG.debug("Subscribe- C1onsumer already resumed. no action. User- \(peer.displayName) for type- \(mediaType).")
                     return
                 }
                 
                 LOG.debug("Subscribe- consumer resumed. User- \(peer.displayName) for type- \(mediaType).")
-                consumer.resume()
+                DispatchQueue.main.async {
+                    consumer.resume()
+                }
+               
                 updatePeerMediaState(true, remoteId: remoteId, mediaType: mediaType, isSelfAction: isSelfAction)
                 socketEmitResumeConsumer(for: consumer.id)
             }
@@ -812,10 +818,17 @@ extension JMManagerViewModel{
                     LOG.debug("Subscribe- Consumer already paused. no action. User- \(peer.displayName) for type- \(mediaType).")
                     return
                 }
+                if mediaType != .shareScreen {
+                    consumer.pause()
+                    socketEmitPauseConsumer(for: consumer.id)
+                    LOG.debug("Subscribe- consumer paused. User- \(peer.displayName) for type- \(mediaType).")
+                    
+                }else{
+                    LOG.debug("Subscribe- Screenshare consumer paused. User- \(peer.displayName) for type- \(mediaType).")
+                }
+               
+              
                 
-                consumer.pause()
-                socketEmitPauseConsumer(for: consumer.id)
-                LOG.debug("Subscribe- consumer paused. User- \(peer.displayName) for type- \(mediaType).")
             }
             else{
                 LOG.debug("Subscribe- Not an issue. Consumer is nil. User- \(peer.displayName) for type- \(mediaType).")
