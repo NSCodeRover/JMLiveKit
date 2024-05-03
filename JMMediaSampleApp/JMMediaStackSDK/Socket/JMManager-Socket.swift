@@ -669,8 +669,8 @@ extension JMManagerViewModel{
           
                 if ((updatedPeer.consumerScreenShare?.pause) == nil) {
                     updatedPeer.consumerScreenShare?.close()
-                    updatedPeer.consumerScreenShare = nil
                 }
+                updatedPeer.consumerScreenShare = nil
                 self.removeRemoteShareViews(updatedPeer.remoteScreenshareView)
                 updatedPeer.remoteScreenshareView = nil
             

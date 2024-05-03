@@ -97,7 +97,6 @@ class JMManagerViewModel: NSObject{
     
     //Subscribe
     var peersMap:[String:Peer] = [:]
-    let manager = PeersManager()
     var lockPeer = ReadWriteLock()
     var subscriptionVideoList: [String] = []
     
@@ -114,7 +113,7 @@ class JMManagerViewModel: NSObject{
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     let qJMMediaJoinQueue: DispatchQueue = DispatchQueue(label: "jmmedia.mediaJoinQueue", attributes: .concurrent)//DispatchQueue.global(qos: .utility)//DispatchQueue(label: "jmmedia.loe",qos: .utility)
     let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.log",qos: .background,attributes: [.initiallyInactive])
-    let qJMMediaPeerMapQueue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)
+   // let qJMMediaPeerMapQueue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)
     //VB
     var virtualBackgroundManager: JMVirtualBackgroundManager?
     let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
@@ -173,10 +172,10 @@ extension JMManagerViewModel{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
-                consumer.close()
-                socketEmitPauseConsumer(for: consumer.id)
-            }
+//            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
+//                consumer.close()
+//                socketEmitPauseConsumer(for: consumer.id)
+//            }
         })
         
         totalProducers.forEach({
