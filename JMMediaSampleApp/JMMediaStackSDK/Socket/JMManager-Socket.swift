@@ -411,6 +411,16 @@ extension JMManagerViewModel{
             let isScreenShareEnabled = appData["share"] as? Bool ?? false
             let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
             
+            guard var peer = self.getPeerObject(for: remoteId)
+            else{
+                LOG.error("onNewConsumer- peer not present. uid-\(remoteId) for type- \(jmMediaType).")
+                return
+            }
+            
+            if let consumer = peer.getConsumer(for: jmMediaType){
+                LOG.debug("onNewConsumer- Consumer already resumed. no action. User- \(peer.displayName) for type- \(jmMediaType).")
+                return
+            }
             let result = handleMediaSoupErrors("Subscribe- \(jmMediaType.rawValue)"){
                 let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
                 
@@ -665,11 +675,8 @@ extension JMManagerViewModel{
             
         case .shareScreen:
             DispatchQueue.main.async {
-                
-          
-                if ((updatedPeer.consumerScreenShare?.pause) == nil) {
-                    updatedPeer.consumerScreenShare?.close()
-                }
+               // if ((updatedPeer.consumerScreenShare?.pause) == nil) {
+                updatedPeer.consumerScreenShare?.close()
                 updatedPeer.consumerScreenShare = nil
                 self.removeRemoteShareViews(updatedPeer.remoteScreenshareView)
                 updatedPeer.remoteScreenshareView = nil
@@ -770,7 +777,8 @@ extension JMManagerViewModel{
             LOG.error("Subscribe- peer not present. uid-\(remoteId) for type- \(mediaType).")
             return
         }
-        
+        print("Subscribe- feedHandler came \(peer.displayName) and \(mediaType.rawValue) issub \(isSubscribe)")
+        LOG.error("Subscribe- feedHandler came")
         let consumer = peer.getConsumer(for: mediaType)
         if isSubscribe {
             

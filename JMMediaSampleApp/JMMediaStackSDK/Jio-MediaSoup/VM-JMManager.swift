@@ -172,10 +172,10 @@ extension JMManagerViewModel{
                 consumer.close()
                 socketEmitPauseConsumer(for: consumer.id)
             }
-//            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
-//                consumer.close()
-//                socketEmitPauseConsumer(for: consumer.id)
-//            }
+            if let consumer = $0.value.consumerScreenShare, !consumer.closed{
+                consumer.close()
+                socketEmitPauseConsumer(for: consumer.id)
+            }
         })
         
         totalProducers.forEach({
