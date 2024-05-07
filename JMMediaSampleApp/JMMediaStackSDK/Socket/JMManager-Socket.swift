@@ -833,14 +833,10 @@ extension JMManagerViewModel{
 //MARK: Peer updation
 extension JMManagerViewModel{
     func updatePeerMap(for remoteId: String, withPeer: Peer) {
-        qJMMediaBGQueue.async(flags: .barrier) { [weak self] in
-            self?.peersMap[remoteId] = withPeer
-        }
+            self.peersMap[remoteId] = withPeer
     }
     
     func removePeer(for remoteId: String) {
-        qJMMediaBGQueue.async(flags: .barrier) { [weak self] in
-            self?.peersMap.removeValue(forKey: remoteId)
-        }
+            self.peersMap.removeValue(forKey: remoteId)
     }
 }
