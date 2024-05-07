@@ -71,11 +71,9 @@ extension JMMediaEngine: delegateManager{
     }
     
     func sendClientUserJoined(user: JMUserInfo) {
-       // vm_manager.qJMMediaJoinQueue.sync {
             self.vm_manager.qJMMediaMainQueue.async {
                 self.delegateBackToClient?.onUserJoined(user: user)
             }
-        //}
     }
     
     func sendClientUserLeft(id: String, reason: JMUserLeaveReason) {
@@ -83,6 +81,7 @@ extension JMMediaEngine: delegateManager{
                 self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
             }
     }
+
     
     //Media States
     func sendClientUserPublished(id: String, type: JMMediaType) {

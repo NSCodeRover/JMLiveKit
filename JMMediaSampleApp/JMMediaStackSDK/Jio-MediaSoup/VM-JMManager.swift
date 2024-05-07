@@ -111,10 +111,7 @@ class JMManagerViewModel: NSObject{
     let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
     let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
-    let qJMMediaJoinQueue: DispatchQueue = DispatchQueue(label: "jmmedia.mediaJoinQueue", attributes: .concurrent)//DispatchQueue.global(qos: .utility)//DispatchQueue(label: "jmmedia.loe",qos: .utility)
-    let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)//DispatchQueue(label: "jmmedia.log",qos: .background,attributes: [.initiallyInactive])
-   // let qJMMediaPeerMapQueue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)
-    //VB
+    let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)
     var virtualBackgroundManager: JMVirtualBackgroundManager?
     let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
     
@@ -123,6 +120,9 @@ class JMManagerViewModel: NSObject{
 	var networkMonitor: NWPathMonitor?
 	var connectionNetworkType: JMNetworkType = .NoInternet
 	var currentStatusBarOrientation: UIInterfaceOrientation = .portrait
+    var peerBuffer: [Peer] = []
+    var peerProcessingTimer: Timer?
+    
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
         super.init()
@@ -389,18 +389,6 @@ extension JMManagerViewModel{
         return nil
     }
     
-//    func checkIfAnyPeerAlreadyPresentInMeetingRoom(json: [String: Any]) -> [Peer] {
-//        if let response = parse(json: json, model: JoinResponse.self), let data = response.data {
-//            return data.peers
-//        }
-//        return []
-//    }
-    
-//    func addPeerIfalreadyJoinMeetingRoom(json: [String: Any]) -> [Peer] {
-//        let peerList = self.checkIfAnyPeerAlreadyPresentInMeetingRoom(json: json)
-//        self.peersMap = Dictionary(uniqueKeysWithValues: peerList.map { ($0.peerId, $0) })
-//        return Array(peersMap.values)
-//    }
     func addPeerIfAlreadyJoinMeetingRoom(json: [String: Any], completion: @escaping ([Peer]) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
         
@@ -446,19 +434,7 @@ extension JMManagerViewModel{
         }
         return nil
     }
-
     
-//    func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
-//        do {
-//            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-//            let decoder = JSONDecoder()
-//            let model = try? decoder.decode(model.self, from: data)
-//            return model
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//        return nil
-//    }
     func parse<T: Codable>(json: [String: Any], model: T.Type) -> T? {
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
