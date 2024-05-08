@@ -124,9 +124,9 @@ extension JMManagerViewModel{
     
     func enableRemotePeerAudio(_ isEnable: Bool = true){
         LOG.info("Audio- Remote peer mute \(isEnable)")
-        
+        let volume = JMAudioDeviceManager.shared.getSystemVolume()
         if isEnable{
-            setRemotePeerVolume(volume: JMAudioDeviceManager.shared.getSystemVolume())
+            setRemotePeerVolume(volume: 2.0)
         }
         else{
             setRemotePeerVolume(volume: 0)
