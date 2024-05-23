@@ -275,13 +275,16 @@ extension JMAudioDeviceManager{
     @objc func handleRouteChange(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-              let _ = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
+              let reason = AVAudioSession.RouteChangeReason(rawValue:reasonValue) else {
             LOG.debug("AVAudioDevice- handleRouteChange callback no object.")
             return
          }
         
         LOG.debug("AVAudioDevice- Category:\(audioSession.category.rawValue) | Mode:\(audioSession.mode.rawValue)")
         LOG.debug("AVAudioDevice- Reason:\(reasonValue) | Current: \(audioSession.currentRoute.inputs.first?.portName ?? "NA"):\(audioSession.currentRoute.outputs.first?.portName ?? "NA")")
+        if reason == .categoryChange {
+            audioDetector?.setupSession()
+        }
         devicePreferenceAlgorithm()
         fetchCurrentDeviceAndUpdate()
     }
@@ -366,7 +369,7 @@ extension AVAudioDevice{
 extension JMAudioDeviceManager{
     func addAudioDetectorCallbackListener(){
         audioDetector = JMAudioDetector()
-        audioDetector?.setupSession()
+        //audioDetector?.setupSession()
         self.audioDetector?.toastCallback = { [weak self] in
             self?.delegateToManager?.sendClientSpeakOnMute()
         }
