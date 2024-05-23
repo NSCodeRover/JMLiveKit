@@ -366,6 +366,7 @@ extension AVAudioDevice{
 extension JMAudioDeviceManager{
     func addAudioDetectorCallbackListener(){
         audioDetector = JMAudioDetector()
+        audioDetector?.setupSession()
         self.audioDetector?.toastCallback = { [weak self] in
             self?.delegateToManager?.sendClientSpeakOnMute()
         }
