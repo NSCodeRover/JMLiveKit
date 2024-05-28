@@ -579,6 +579,7 @@ extension JMManagerViewModel{
             }
         }
         else if mediaType == .shareScreen{
+            subscriptionScreenShareId = remoteId
             updatePeerMediaState(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
         }
         else{
@@ -662,8 +663,8 @@ extension JMManagerViewModel{
         case .shareScreen:
             updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
-            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
-            updatedPeer.remoteScreenshareView = nil
+//            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
+//            updatedPeer.remoteScreenshareView = nil
             
             userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
@@ -826,6 +827,8 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- removed \(remoteId)")
                 subscriptionVideoList.removeAll(where: {$0 == remoteId})
             }
+        }else if mediaType == .shareScreen {
+            subscriptionScreenShareId = remoteId
         }
     }
 }

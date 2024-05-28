@@ -97,6 +97,7 @@ class JMManagerViewModel: NSObject{
     //Subscribe
     var peersMap:[String:Peer] = [:]
     var subscriptionVideoList: [String] = []
+    var subscriptionScreenShareId: String = ""
     
     //AudioOnly
     var isAudioOnlyModeEnabled: Bool = false
