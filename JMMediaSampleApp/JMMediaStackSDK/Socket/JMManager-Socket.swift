@@ -626,10 +626,15 @@ extension JMManagerViewModel{
                 updatedPeer.isVideoEnabled = isEnabled
             }
             else if mediaType == .shareScreen{
-                if updatedPeer.isScreenShareEnabled == isEnabled{
-                    return
+                if !isAudioOnlyModeEnabled {
+                    if updatedPeer.isScreenShareEnabled == isEnabled{
+                        return
+                    }
                 }
                 updatedPeer.isScreenShareEnabled = isEnabled
+                if isAudioOnlyModeEnabled {
+                    updatedPeer.isScreenShareEnabled = false
+                }
             }
             updatePeerMap(for: remoteId, withPeer: updatedPeer)
             
@@ -663,8 +668,8 @@ extension JMManagerViewModel{
         case .shareScreen:
             updatedPeer.consumerScreenShare?.close()
             updatedPeer.consumerScreenShare = nil
-//            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
-//            updatedPeer.remoteScreenshareView = nil
+            removeRemoteShareViews(updatedPeer.remoteScreenshareView)
+            updatedPeer.remoteScreenshareView = nil
             
             userState.disableRemoteScreenShare()
             self.updatePreferredPriority()
