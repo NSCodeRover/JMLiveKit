@@ -52,6 +52,7 @@ class JMAudioDeviceManager: NSObject {
     private var isDevicePreferenceIsSet: Bool = false
     private var currentDevice: AVAudioDevice?
     private var userSelectedDevice: AVAudioDevice?
+    private var isDeviceSpeakerSet: Bool = false
     
     private override init() {
         super.init()
@@ -59,6 +60,9 @@ class JMAudioDeviceManager: NSObject {
     
     func setupSession(){
         setupWebRTCSession(true)
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+        self?.isDeviceSpeakerSet = true
+        }
         setupNotifications()
         addAudioDetectorCallbackListener()
         
@@ -71,9 +75,10 @@ class JMAudioDeviceManager: NSObject {
         
         do {
             try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
-                                         mode: AVAudioSession.Mode.default,
+                                         mode: AVAudioSession.Mode.voiceChat,
                                          options: supportedCategory)
             try audioSession.setActive(true)
+            try audioSession.setPreferredInput(.none)
             LOG.debug("AVAudioDevice- audio session category set.")
         }
         catch let error as NSError {
@@ -98,7 +103,7 @@ class JMAudioDeviceManager: NSObject {
         isDevicePreferenceIsSet = false
         userSelectedDevice = nil
         removeAudioDetectorCallbackListener()
-        
+        isDeviceSpeakerSet = false
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
@@ -179,7 +184,7 @@ extension JMAudioDeviceManager{
     private func fetchCurrentDeviceAndUpdate(){
         let deviceStatus = getCurrentDevice()
         if let device = deviceStatus.0, device.uid != userSelectedDevice?.uid{
-//            LOG.debug("AVAudioDevice- UI updated")
+          LOG.debug("AVAudioDevice- userSelectedDevice-\(device)")
             userSelectedDevice = device
             delegateToManager?.sendClientAudioDeviceInUse(device)
         }
@@ -213,9 +218,9 @@ extension JMAudioDeviceManager{
     
     private func setAudioPort(toSpeaker speaker: Bool){
         do {
-            try audioSession.setMode(.default) //default is needed, otherwise take receiver
+           // try audioSession.setMode(speaker ? .default : .voiceChat) //default is needed, otherwise take receiver
             try audioSession.overrideOutputAudioPort(speaker ? .speaker : .none)
-            try audioSession.setActive(true)
+           // try audioSession.setActive(true)
             LOG.debug("AVAudioDevice- set device to Speaker (override)")
         }
         catch {
@@ -281,9 +286,14 @@ extension JMAudioDeviceManager{
          }
         
         LOG.debug("AVAudioDevice- Category:\(audioSession.category.rawValue) | Mode:\(audioSession.mode.rawValue)")
-        LOG.debug("AVAudioDevice- Reason:\(reasonValue) | Current: \(audioSession.currentRoute.inputs.first?.portName ?? "NA"):\(audioSession.currentRoute.outputs.first?.portName ?? "NA")")
+        LOG.debug("AVAudioDevice- Reason:\(reasonValue)|  reason is \(reason) | Current: \(audioSession.currentRoute.inputs.first?.portName ?? "NA"):\(audioSession.currentRoute.outputs.first?.portName ?? "NA")")
+        LOG.debug("AVAudioDevice- categoryOptions:\( audioSession.categoryOptions.rawValue) | Mode:\(audioSession.mode.rawValue)")
+        
         if reason == .categoryChange {
-            audioDetector?.setupSession()
+            if !isDeviceSpeakerSet {
+                audioDetector?.setupSession()
+                devicePreferenceAlgorithm()
+            }
         }
         devicePreferenceAlgorithm()
         fetchCurrentDeviceAndUpdate()
@@ -368,10 +378,12 @@ extension AVAudioDevice{
 //MARK: VAD
 extension JMAudioDeviceManager{
     func addAudioDetectorCallbackListener(){
-        audioDetector = JMAudioDetector()
-        //audioDetector?.setupSession()
-        self.audioDetector?.toastCallback = { [weak self] in
-            self?.delegateToManager?.sendClientSpeakOnMute()
+        if audioDetector != nil {
+            audioDetector = JMAudioDetector()
+            self.audioDetector?.toastCallback = { [weak self] in
+                self?.delegateToManager?.sendClientSpeakOnMute()
+            }
+            
         }
     }
     
