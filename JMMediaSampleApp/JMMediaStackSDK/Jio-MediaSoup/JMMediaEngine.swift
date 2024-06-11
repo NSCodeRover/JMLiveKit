@@ -150,6 +150,7 @@ public struct JMMediaOptions{
     public var isHDEnabled: Bool = false
     public var isMicOn: Bool = false
     public var isCameraOn: Bool = false
+    public var isWatchPartyEnabled: Bool = false
     public init(){}
 }
 
@@ -287,10 +288,15 @@ extension JMMediaEngine{
     internal func setupDeviceManager(){
         JMAudioDeviceManager.shared.delegateToManager = self
         JMVideoDeviceManager.shared.delegateToManager = self
-        
+        if vm_manager.mediaOptions.isWatchPartyEnabled {
+            JMAudioDeviceManager.shared.isWatchPartyEnabled = true
+            LOG.info("Video- Client set isWatchPartyEnabled ON")
+        }else{
+            JMAudioDeviceManager.shared.isWatchPartyEnabled = false
+            LOG.info("Video- Client set isWatchPartyEnabled false")
+        }
         JMAudioDeviceManager.shared.setupSession()
         JMVideoDeviceManager.shared.setupSession()
-        
         //Client Initial values
         if vm_manager.mediaOptions.isCameraOn{
             LOG.info("Video- Client set initial value ON")
