@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFoundation.AVFAudio
-import VoiceActivityDetector
+@_implementationOnly import VoiceActivityDetector
 
 class JMAudioDetector: NSObject {
     
@@ -49,10 +49,13 @@ class JMAudioDetector: NSObject {
     // Callback for a toast message
     var toastCallback: (() -> Void)?
     var speakEndCounter = 0
-    
+    var isSetupSession = false
     func setupSession(){
-        setupAudioRecording() // Set up audio recording
-        activateMicrophone() // Activate the microphone
+        if !isSetupSession {
+            setupAudioRecording() // Set up audio recording
+            activateMicrophone() // Activate the microphone
+            isSetupSession = true
+        }
     }
     
     // Function to dispose of resources
@@ -67,18 +70,35 @@ class JMAudioDetector: NSObject {
     
     // Function to start speech timeout
     @objc func startSpeechTimeout() {
-        toastCallback?()
+        triggerToastCallback()
         NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
     
-    // Function to end speech timeout
+    //    // Function to end speech timeout
+    //    @objc func endSpeechTimeout() {
+    //        if speakEndCounter != 0 && speakEndCounter % 3 == 0 {
+    //            toastCallback?()
+    //            speakEndCounter = 0
+    //        }
+    //        speakEndCounter = speakEndCounter + 1
+    //        NSObject.cancelPreviousPerformRequests(withTarget: self)
+    //    }
     @objc func endSpeechTimeout() {
-        if speakEndCounter != 0 && speakEndCounter % 3 == 0 {
-            toastCallback?()
-            speakEndCounter = 0
+        speakEndCounter += 1
+        // Cancel any previous perform requests to ensure only the latest call is considered after 3 seconds.
+      //  NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(triggerToastCallback), object: nil)
+        
+        if speakEndCounter != 0 && speakEndCounter % 4 == 0 {
+            // Schedule the callback to be executed after 3 seconds.
+            self.perform(#selector(triggerToastCallback), with: nil, afterDelay: 3.0)
+            NSObject.cancelPreviousPerformRequests(withTarget: self)
+            speakEndCounter = 0 // Reset the counter
         }
-        speakEndCounter = speakEndCounter + 1
-        NSObject.cancelPreviousPerformRequests(withTarget: self)
+    }
+    
+    @objc private func triggerToastCallback() {
+        // This method will be called only after 3 seconds from the last valid call to `endSpeechTimeout`.
+        toastCallback?()
     }
     
     // Function to schedule the start of speech timeout

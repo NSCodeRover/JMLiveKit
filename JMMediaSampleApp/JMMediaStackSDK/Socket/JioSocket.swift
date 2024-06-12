@@ -1,6 +1,6 @@
 
 import Foundation
-import SocketIO
+@_implementationOnly import SocketIO
 
 enum SocketEvent: String,CaseIterable {
     //SELF

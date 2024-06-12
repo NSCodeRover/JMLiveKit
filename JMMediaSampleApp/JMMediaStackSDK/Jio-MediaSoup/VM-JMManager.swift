@@ -8,10 +8,10 @@
 import Foundation
 import Network
 
-import SwiftyJSON
+@_implementationOnly import SwiftyJSON
 import Mediasoup
 import WebRTC
-import MMWormhole
+@_implementationOnly import MMWormhole
 
 //Note - VM to manager communication
 protocol delegateManager: AnyObject{
@@ -97,6 +97,7 @@ class JMManagerViewModel: NSObject{
     //Subscribe
     var peersMap:[String:Peer] = [:]
     var subscriptionVideoList: [String] = []
+    var subscriptionScreenShareId: String = ""
     
     //AudioOnly
     var isAudioOnlyModeEnabled: Bool = false

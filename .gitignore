@@ -9,3 +9,6 @@ xcuserdata
 
 Xcframeworks_Output/**/*.zip
 Xcframeworks_Output/**/*.xcframework
+**/*.zip
+**/*.xcframework
+**/**/Package.resolved

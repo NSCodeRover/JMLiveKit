@@ -7,7 +7,7 @@
 
 import Foundation
 
-import MMWormhole
+@_implementationOnly import MMWormhole
 import WebRTC
 
 var wormholeBufferListener: MMWormhole?
@@ -164,7 +164,7 @@ extension JMManagerViewModel{
     
     public func handleAudioOnlyModeForScreenShare() {
         if userState.remoteScreenShareEnabled {
-            feedHandler(!isAudioOnlyModeEnabled, remoteId: userState.remoteScreenShareRemoteId, mediaType: .shareScreen)
+            feedHandler(!isAudioOnlyModeEnabled, remoteId: userState.remoteScreenShareRemoteId, mediaType: .shareScreen,isSelfAction: true)
        }
    }
 }

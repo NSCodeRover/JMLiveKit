@@ -7,7 +7,7 @@
 
 import Foundation
 
-import SwiftyJSON
+@_implementationOnly import SwiftyJSON
 import Mediasoup
 
 extension JMManagerViewModel {

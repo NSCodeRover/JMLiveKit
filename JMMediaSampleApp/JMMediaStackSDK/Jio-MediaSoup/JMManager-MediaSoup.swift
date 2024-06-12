@@ -435,7 +435,7 @@ extension JMManagerViewModel{
 //MARK: Audio Only Mode
 extension JMManagerViewModel{
     func isVideoFeedDisable(_ mediaType: JMMediaType) -> Bool{
-        return isAudioOnlyModeEnabled && mediaType == .video
+        return isAudioOnlyModeEnabled && (mediaType == .video)
     }
     
     func enableAudioOnlyMode(_ enable: Bool, userList: [String], includeScreenShare: Bool){
@@ -448,14 +448,17 @@ extension JMManagerViewModel{
         
         if enable{
             LOG.debug("Subscribe- DeSubscribing List \(subscriptionVideoList)")
-            subscriptionVideoList.forEach({ feedHandler(false, remoteId: $0, mediaType: .video) })
+            subscriptionVideoList.forEach({ feedHandler(false, remoteId: $0, mediaType: .video,isSelfAction: true) })
             subscriptionVideoList = []
         }
         else{
             if !userList.isEmpty{
                 LOG.debug("Subscribe- Subscribing List \(userList)")
                 subscriptionVideoList = userList
-                subscriptionVideoList.forEach({ feedHandler(true, remoteId: $0, mediaType: .video) })
+                subscriptionVideoList.forEach({ feedHandler(true, remoteId: $0, mediaType: .video,isSelfAction: true) })
+                if !subscriptionScreenShareId.isEmpty{
+                    feedHandler(true, remoteId: subscriptionScreenShareId, mediaType: .shareScreen,isSelfAction: true)
+                }
             }
         }
         

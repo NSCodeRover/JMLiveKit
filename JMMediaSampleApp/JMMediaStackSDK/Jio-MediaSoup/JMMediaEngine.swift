@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 import WebRTC
 
-import SwiftyJSON
+@_implementationOnly import SwiftyJSON
 
 let LOG = JMLogManager.self
 
@@ -150,6 +150,7 @@ public struct JMMediaOptions{
     public var isHDEnabled: Bool = false
     public var isMicOn: Bool = false
     public var isCameraOn: Bool = false
+    public var isWatchPartyEnabled: Bool = false
     public init(){}
 }
 
@@ -171,6 +172,8 @@ extension JMMediaEngine: JMMediaEngineAbstract {
                 case .success(let model):
                     self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken, isRejoin: isRejoin)
                 case .failure(let error):
+                    //send disconnect to client
+                    self.vm_manager.didConnectionStateChange(.disconnected)
                     self.sendClientError(error: error)
                 }
             }
@@ -287,10 +290,15 @@ extension JMMediaEngine{
     internal func setupDeviceManager(){
         JMAudioDeviceManager.shared.delegateToManager = self
         JMVideoDeviceManager.shared.delegateToManager = self
-        
+        if vm_manager.mediaOptions.isWatchPartyEnabled {
+            JMAudioDeviceManager.shared.isWatchPartyEnabled = true
+            LOG.info("Video- Client set isWatchPartyEnabled ON")
+        }else{
+            JMAudioDeviceManager.shared.isWatchPartyEnabled = false
+            LOG.info("Video- Client set isWatchPartyEnabled false")
+        }
         JMAudioDeviceManager.shared.setupSession()
         JMVideoDeviceManager.shared.setupSession()
-        
         //Client Initial values
         if vm_manager.mediaOptions.isCameraOn{
             LOG.info("Video- Client set initial value ON")

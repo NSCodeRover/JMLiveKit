@@ -8,8 +8,8 @@
 
 import Foundation
 
-import SocketIO
-import SwiftyJSON
+@_implementationOnly import SocketIO
+@_implementationOnly import SwiftyJSON
 import Mediasoup
 
 extension JMManagerViewModel {
@@ -579,6 +579,7 @@ extension JMManagerViewModel{
             }
         }
         else if mediaType == .shareScreen{
+            subscriptionScreenShareId = remoteId
             updatePeerMediaState(mediaStateEnabled, remoteId: remoteId, mediaType: mediaType)
         }
         else{
@@ -625,10 +626,15 @@ extension JMManagerViewModel{
                 updatedPeer.isVideoEnabled = isEnabled
             }
             else if mediaType == .shareScreen{
-                if updatedPeer.isScreenShareEnabled == isEnabled{
-                    return
+                if !isAudioOnlyModeEnabled {
+                    if updatedPeer.isScreenShareEnabled == isEnabled{
+                        return
+                    }
                 }
                 updatedPeer.isScreenShareEnabled = isEnabled
+                if isAudioOnlyModeEnabled {
+                    updatedPeer.isScreenShareEnabled = false
+                }
             }
             updatePeerMap(for: remoteId, withPeer: updatedPeer)
             
@@ -826,6 +832,8 @@ extension JMManagerViewModel{
                 LOG.debug("Subscribe- removed \(remoteId)")
                 subscriptionVideoList.removeAll(where: {$0 == remoteId})
             }
+        }else if mediaType == .shareScreen {
+            subscriptionScreenShareId = remoteId
         }
     }
 }
