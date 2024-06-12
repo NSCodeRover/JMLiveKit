@@ -109,7 +109,6 @@ class JMAudioDeviceManager: NSObject, RTCAudioSessionDelegate {
         configuration.category = AVAudioSession.Category.playAndRecord.rawValue
         configuration.mode =  self.isWatchPartyEnabled ? AVAudioSession.Mode.default.rawValue : AVAudioSession.Mode.voiceChat.rawValue
         configuration.categoryOptions = [.allowBluetooth,.mixWithOthers]//[ .allowBluetooth, .allowBluetoothA2DP, .allowAirPlay, .duckOthers,.defaultToSpeaker]
-        
         RTCAudioSessionConfiguration.setWebRTC(configuration)
         //audioSessionQueue.async {
             audioSession.lockForConfiguration()
