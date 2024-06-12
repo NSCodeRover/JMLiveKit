@@ -172,6 +172,8 @@ extension JMMediaEngine: JMMediaEngineAbstract {
                 case .success(let model):
                     self.vm_manager.connect(socketUrl: model.mediaServer.publicBaseUrl, roomId: model.jiomeetId, jwtToken: model.jwtToken, isRejoin: isRejoin)
                 case .failure(let error):
+                    //send disconnect to client
+                    self.vm_manager.didConnectionStateChange(.disconnected)
                     self.sendClientError(error: error)
                 }
             }
