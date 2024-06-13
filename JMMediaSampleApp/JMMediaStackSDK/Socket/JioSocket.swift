@@ -1,6 +1,7 @@
 
 import Foundation
 @_implementationOnly import SocketIO
+import CallKit
 
 enum SocketEvent: String,CaseIterable {
     //SELF
@@ -82,6 +83,7 @@ class JioSocket : NSObject {
     
     private var manager:SocketManager?
     private var socket: SocketIOClient?
+    var callObserver: CXCallObserver!
     
     var selfPeerId: String = ""
     
@@ -93,6 +95,12 @@ class JioSocket : NSObject {
     
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
+    
+    override init() {
+        super.init()
+        callObserver = CXCallObserver()
+        callObserver.setDelegate(self, queue: nil)
+    }
     
     func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent], isRejoin: Bool, queue: DispatchQueue) {
         if let url = URL.init(string: socketUrl) {
@@ -243,4 +251,39 @@ extension JioSocket {
             }
         }
     }
+}
+
+extension JioSocket:CXCallObserverDelegate {
+    
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+            if call.hasEnded {
+                print("Call ended")
+                // Handle call ended
+            }
+            
+            if call.isOutgoing {
+                print("Outgoing call")
+                // Handle outgoing call
+            }
+
+            if call.isOnHold {
+                print("Call on hold")
+                // Handle call on hold
+            }
+
+            if call.hasConnected {
+                print("Call connected")
+                // Handle call connected
+            }
+
+            if call.hasEnded {
+                print("Call ended")
+                // Handle call ended
+            }
+            
+            if call.hasConnected && !call.isOutgoing {
+                print("Incoming call connected")
+                // Handle incoming call
+            }
+        }
 }
