@@ -256,34 +256,31 @@ extension JioSocket {
 extension JioSocket:CXCallObserverDelegate {
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-            if call.hasEnded {
-                print("Call ended")
-                // Handle call ended
-            }
-            
             if call.isOutgoing {
-                print("Outgoing call")
+                print("Callkit:- Outgoing call")
                 // Handle outgoing call
             }
 
             if call.isOnHold {
-                print("Call on hold")
+                print("Callkit:- Call on hold")
                 // Handle call on hold
             }
 
             if call.hasConnected {
-                print("Call connected")
+                socket?.manager?.connect()
+                print("Callkit:- Call connected")
                 // Handle call connected
             }
 
             if call.hasEnded {
-                print("Call ended")
+               socket?.manager?.reconnect()
+                print("Callkit:- Call ended")
                 // Handle call ended
             }
             
-            if call.hasConnected && !call.isOutgoing {
-                print("Incoming call connected")
-                // Handle incoming call
-            }
+//            if call.hasConnected && !call.isOutgoing {
+//                print("Incoming call connected")
+//                // Handle incoming call
+//            }
         }
 }
