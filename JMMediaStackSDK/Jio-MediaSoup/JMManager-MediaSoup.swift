@@ -18,7 +18,7 @@ extension JMManagerViewModel{
         if let rtpCapabilities = getRTPCapabilities() {
             
             let device = Device()
-            let result = handleMediaSoupErrors("Device-") {
+            handleMediaSoupErrors("Device-") {
                 
                 try device.load(with: rtpCapabilities)
                 
@@ -37,10 +37,6 @@ extension JMManagerViewModel{
                 
                 self.device = device
                 self.jioSocket?.emit(action: .join, parameters: getRoomConfiguration())
-            }
-            
-            if !result{
-                LOG.error("Device- failed")
             }
         }
     }
@@ -94,134 +90,26 @@ extension JMManagerViewModel{
             LOG.info("Audio- startAudio producer created")
             producer.resume()
         }
-        mediaRaceConditionCorrection(isAudio: true)
         completion(result)
-    }
-    //Client
-    func setRemotePeerVolume(volume: Double){
-      
-        if audioRemotePeerVolume == volume{
-            return
-        }
-        
-        LOG.info("Audio- Remote peer volume set to \(volume)")
-        audioRemotePeerVolume = volume
-        
-        peersMap.forEach { _,value in
-            setVolume(value.consumerAudio)
-            
-            if value.consumerScreenShareAudio != nil{
-                setVolume(value.consumerScreenShareAudio)
-            }
-        }
-    }
-    
-    func setVolume(_ consumer: Consumer?){
-        if let audioTrack = consumer?.track as? RTCAudioTrack{
-            audioTrack.source.volume = Double(audioRemotePeerVolume)
-        }
-    }
-    
-    func enableRemotePeerAudio(_ isEnable: Bool = true){
-        LOG.info("Audio- Remote peer mute \(isEnable)")
-        let volume = JMAudioDeviceManager.shared.getSystemVolume()
-        if isEnable{
-            setRemotePeerVolume(volume: 2.0)
-        }
-        else{
-            setRemotePeerVolume(volume: 0)
-        }
-    }
-}
-
-//MARK: Media Race Correction
-extension JMManagerViewModel{
-    
-    //This logic/workaround is needed when user quickly mute/unmute themselves. like - if initial ON, then mutes, producer is taking some time to update, avoiding the mute request.
-    
-    private func mediaRaceConditionCorrection(isAudio: Bool){
-        qJMMediaBGQueue.asyncAfter(deadline: .now() + 1){ [weak self] in
-            guard let self = self else { return }
-            if isAudio{
-                if !self.userState.selfMicEnabled{
-                    self.disableMic()
-                }
-            }
-            else{
-                if !self.userState.selfCameraEnabled{
-                    self.disableVideo()
-                }
-            }
-        }
     }
 }
 
 //MARK: Video
 extension JMManagerViewModel: RTCVideoCapturerDelegate{
     func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
-        let orientationFixedFrame = fixVideoFrameOrientation(frame: frame)
-		
+        
         qJMMediaVBQueue.async {
             if self.userState.isVirtualBackgroundEnabled{
-                if let processedRTCVideoFrame = self.applyVirtualBackground(for: orientationFixedFrame){
+                
+                if let processedRTCVideoFrame = self.applyVirtualBackground(for: frame){
                     self.videoSource?.capturer(capturer, didCapture: processedRTCVideoFrame)
                     return
                 }
             }
-            self.videoSource?.capturer(capturer, didCapture: orientationFixedFrame)
+            
+            self.videoSource?.capturer(capturer, didCapture: frame)
         }
     }
-	
-	private func fixVideoFrameOrientation(frame: RTCVideoFrame) -> RTCVideoFrame {
-		let deviceOrientation = UIDevice.current.orientation
-		let isUsingFrontCamera = JMVideoDeviceManager.shared.getCameraDevice()?.position == .front
-		
-		let expectedOrientation = getExpectedFrameOrientation(
-			deviceOrientation: deviceOrientation,
-			isFrontCamera: isUsingFrontCamera
-		)
-		
-		if expectedOrientation != frame.rotation {
-			let fixedVideoFrame = RTCVideoFrame(
-				buffer: frame.buffer,
-				rotation: expectedOrientation,
-				timeStampNs: frame.timeStampNs
-			)
-			return fixedVideoFrame
-		} else {
-			return frame
-		}
-	}
-	
-	private func getExpectedFrameOrientation(deviceOrientation: UIDeviceOrientation, isFrontCamera: Bool) -> RTCVideoRotation {
-		switch deviceOrientation {
-		case .portrait:
-			return ._90
-		case .portraitUpsideDown:
-			return ._270
-		case .landscapeLeft:
-			return isFrontCamera ? ._180 : ._0
-		case .landscapeRight:
-			return isFrontCamera ? ._0 : ._180
-		default:
-			switch currentStatusBarOrientation {
-			case .portrait:
-				return ._90
-			case .portraitUpsideDown:
-				return ._270
-			case .landscapeLeft:
-				// Status bar landscape orientation are reverse of device orientation
-				// So calling recursive function with reverse value of status bar orientation
-				return getExpectedFrameOrientation(deviceOrientation: .landscapeRight, isFrontCamera: isFrontCamera)
-			case .landscapeRight:
-				// Status bar landscape orientation are reverse of device orientation
-				// So calling recursive function with reverse value of status bar orientation
-				return getExpectedFrameOrientation(deviceOrientation: .landscapeLeft, isFrontCamera: isFrontCamera)
-			default:
-				return ._90
-			}
-		}
-	}
 }
 
 extension JMManagerViewModel{
@@ -267,7 +155,6 @@ extension JMManagerViewModel{
             LOG.info("Video- startVideo producer created")
             producer.resume()
         }
-        mediaRaceConditionCorrection(isAudio: false)
         completion(result)
     }
     
@@ -277,6 +164,7 @@ extension JMManagerViewModel{
             delegateBackToManager?.sendClientError(error: JMMediaError.init(type: .cameraNotAvailable, description: "No camera device found"))
             return false
         }
+        
         let fps = JioMediaStackDefaultCameraCaptureResolution.fps
         guard let format = JMVideoDeviceManager.shared.fetchPreferredResolutionFormat(cameraDevice) else {
             LOG.error("Video- No format found")
@@ -337,7 +225,7 @@ extension JMManagerViewModel{
         
         qJMMediaMainQueue.async {
             let localView = RTCMTLVideoView()
-            localView.videoContentMode =  .scaleAspectFill
+            localView.videoContentMode = .scaleAspectFit
             renderView.addSubview(localView)
             self.setConstrainsts(of: localView, toView: renderView)
             self.videoSelfRTCRenderView = localView
@@ -359,19 +247,16 @@ extension JMManagerViewModel{
     }
     
     func addRemoteRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
+        if var updatedPeer = self.peersMap[remoteId], updatedPeer.remoteView != renderView
         {
             updatedPeer.remoteView = renderView
-            self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
-            self.updateRemoteRenderViewTrack(for: remoteId)
-        }
-        else{
-            LOG.error("Subscribe- remote view NOT available for user- \(remoteId)")
+            peersMap[remoteId] = updatedPeer
+            updateRemoteRenderViewTrack(for: remoteId)
         }
     }
     
     func updateRemoteRenderViewTrack(for remoteId: String){
-        if var updatedPeer = self.getPeerObject(for: remoteId),
+        if var updatedPeer = self.peersMap[remoteId],
            let renderView = updatedPeer.remoteView,
            let consumer = updatedPeer.consumerVideo,
            let rtcVideoTrack = consumer.track as? RTCVideoTrack
@@ -387,9 +272,9 @@ extension JMManagerViewModel{
                     subview.removeFromSuperview()
                 }
                 updatedPeer.remoteView = self.bindRenderViewAndTrack(rtcVideoTrack, renderView: renderView)
-                self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
             }
-           
+            
+            peersMap[remoteId] = updatedPeer
         }
     }
     
@@ -436,7 +321,7 @@ extension JMManagerViewModel{
 //MARK: Audio Only Mode
 extension JMManagerViewModel{
     func isVideoFeedDisable(_ mediaType: JMMediaType) -> Bool{
-        return isAudioOnlyModeEnabled && (mediaType == .video)
+        return isAudioOnlyModeEnabled && mediaType == .video
     }
     
     func enableAudioOnlyMode(_ enable: Bool, userList: [String], includeScreenShare: Bool){
@@ -449,17 +334,14 @@ extension JMManagerViewModel{
         
         if enable{
             LOG.debug("Subscribe- DeSubscribing List \(subscriptionVideoList)")
-            subscriptionVideoList.forEach({ feedHandler(false, remoteId: $0, mediaType: .video,isSelfAction: true) })
+            subscriptionVideoList.forEach({ feedHandler(false, remoteId: $0, mediaType: .video) })
             subscriptionVideoList = []
         }
         else{
             if !userList.isEmpty{
                 LOG.debug("Subscribe- Subscribing List \(userList)")
                 subscriptionVideoList = userList
-                subscriptionVideoList.forEach({ feedHandler(true, remoteId: $0, mediaType: .video,isSelfAction: true) })
-                if !subscriptionScreenShareId.isEmpty{
-                    feedHandler(true, remoteId: subscriptionScreenShareId, mediaType: .shareScreen,isSelfAction: true)
-                }
+                subscriptionVideoList.forEach({ feedHandler(true, remoteId: $0, mediaType: .video) })
             }
         }
         
@@ -473,9 +355,7 @@ extension JMManagerViewModel {
             track.isEnabled = false
         }
         if let producer = self.videoProducer {
-            if !producer.paused {
-                producer.pause()
-            }
+            producer.pause()
             socketEmitPauseProducer(for: producer.id)
             enableLocalRenderView(false)
         }

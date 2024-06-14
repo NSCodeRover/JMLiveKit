@@ -22,10 +22,40 @@ public class JMMediaEngine : NSObject{
     
     public var delegateBackToClient:JMMediaEngineDelegate?
     private var vm_manager: JMManagerViewModel!
+    var socketChecker: SocketChecker?
 }
 
 //MARK: Communicating back to Client (send data and event to client app)
 extension JMMediaEngine: delegateManager{
+    func handleForegroundSocketEvent() {
+        socketChecker = SocketChecker.init(attemptCount: 3, vm_manager: vm_manager, handleForegroundVideoEvent: {
+        print("Current  ")
+        })
+        socketChecker?.startCheckingSocketConnection()
+    }
+    
+    func handleForegroundSocketEvent(retryCount: Int = 1) {
+        if retryCount > 3 {
+            // Stop after 3 retries
+            return
+        }
+
+        if let socketStatus = self.vm_manager.jioSocket?.getSocket()?.status, socketStatus != .connected {
+            print("Attempt \(retryCount) - Current status is rejoin attempt \(socketStatus)")
+            // Reconnect or handle disconnected socket
+            // rejoin() // Uncomment if rejoin logic is needed
+
+            // Schedule next retry after 2 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.handleForegroundSocketEvent(retryCount: retryCount + 1)
+            }
+        } else {
+            // Handle connected socket
+            handleForegroundVideoEvent()
+            print("Current status is \(String(describing: self.vm_manager.jioSocket?.getSocket()?.status))")
+        }
+    }
+
     //Join
     func sendClientJoinSocketSuccess(selfId: String) {
         vm_manager.qJMMediaMainQueue.async {
@@ -41,16 +71,17 @@ extension JMMediaEngine: delegateManager{
     }
     
     func sendClientUserJoined(user: JMUserInfo) {
-        vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onUserJoined(user: user)
-        }
+            self.vm_manager.qJMMediaMainQueue.async {
+                self.delegateBackToClient?.onUserJoined(user: user)
+            }
     }
     
     func sendClientUserLeft(id: String, reason: JMUserLeaveReason) {
-        vm_manager.qJMMediaMainQueue.async {
-            self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
-        }
+            self.vm_manager.qJMMediaMainQueue.async {
+                self.delegateBackToClient?.onUserLeft(id: id, reason: reason)
+            }
     }
+
     
     //Media States
     func sendClientUserPublished(id: String, type: JMMediaType) {
@@ -140,9 +171,9 @@ extension JMMediaEngine: delegateManager{
     
     //log
     func sendClientLogMsg(log: String) {
-        vm_manager.qJMMediaMainQueue.async {
+        vm_manager.qJMMediaLogQueue.sync {
             self.delegateBackToClient?.onLogMessage(message: log)
-        }
+       }
     }
 }
 
@@ -411,5 +442,47 @@ extension JMMediaEngine{
                 completion?(true)
             }
         }
+    }
+}
+import Foundation
+
+class SocketChecker {
+    var timer: Timer?
+    var currentAttempt = 0
+    var attemptCount: Int
+    var vm_manager: JMManagerViewModel // Replace with actual type
+    var handleForegroundVideoEvent: (() -> Void)
+
+    init(attemptCount: Int, vm_manager: JMManagerViewModel, handleForegroundVideoEvent: @escaping () -> Void) {
+        self.attemptCount = attemptCount
+        self.vm_manager = vm_manager
+        self.handleForegroundVideoEvent = handleForegroundVideoEvent
+    }
+
+    func startCheckingSocketConnection() {
+        resetTimer()
+        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(handleForegroundSocketEvent), userInfo: nil, repeats: true)
+    }
+
+    @objc private func handleForegroundSocketEvent() {
+        currentAttempt += 1
+
+        if let status = vm_manager.jioSocket?.getSocket()?.status, status != .connected {
+            print("Attempt \(currentAttempt) - Current status is rejoin attempt \(status)")
+                vm_manager.jioSocket?.disconnectSocket()
+                resetTimer()
+        } else {
+            if currentAttempt >= attemptCount {
+                resetTimer()
+                print("Maximum attempts reached. stopping socket check.")
+            }
+            print("Socket is connected \(currentAttempt) and \(attemptCount).")
+        }
+    }
+
+    private func resetTimer() {
+        timer?.invalidate()
+        timer = nil
+        currentAttempt = 0
     }
 }
