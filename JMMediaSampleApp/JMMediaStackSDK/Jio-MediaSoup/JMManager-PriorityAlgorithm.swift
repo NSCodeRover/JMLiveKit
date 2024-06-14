@@ -18,7 +18,7 @@ extension JMManagerViewModel{
     
     //Only Client will call.
     func setPreferredFeedQuality(remoteId: String, preferredQuality: JMMediaQuality){
-        if var updatedPeer = self.peersMap[remoteId] {
+        if var updatedPeer = self.getPeerObject(for: remoteId) {
             
             let evaluatePreferredFeed = evaluatePreferredAndRecommend(preferredQuality)
             if updatedPeer.preferredFeed == evaluatePreferredFeed{
@@ -78,7 +78,7 @@ extension JMManagerViewModel{
         LOG.debug("Quality- Recommended is \(recommendedQuality)")
         
         for (remoteId,videoConsumerId) in totalVideoConsumer{
-            if var updatedPeer = self.peersMap[remoteId] {
+            if var updatedPeer = getPeerObject(for: remoteId) {
                 
                 if updatedPeer.preferredFeed == recommendedQuality{
                     return

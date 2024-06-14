@@ -26,6 +26,7 @@ public class JMPreviewManager: NSObject{
     
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     let qJMMediaVBQueue: DispatchQueue = DispatchQueue(label: "jmmedia.vb",qos: .default)
+    let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)
     
     var isVirtualBackgroundEnabled: Bool = false
     var virtualBackgroundManager: JMVirtualBackgroundManager?
@@ -86,7 +87,7 @@ extension JMPreviewManager{
     
     internal func log(_ message: String){
         print(message)
-        qJMMediaMainQueue.async {
+        qJMMediaLogQueue.sync {
             self.delegate?.onLogMessage(message: message)
         }
     }
@@ -141,7 +142,8 @@ extension JMPreviewManager{
         qJMMediaMainQueue.async {
             let localView = RTCMTLVideoView()
             renderView.addSubview(localView)
-            localView.videoContentMode = .scaleAspectFit
+            localView.videoContentMode =  .scaleAspectFit
+            
             self.setConstrainsts(of: localView, toView: renderView)
             self.videoSelfRTCRenderView = localView
             self.videoSelfRenderView?.contentMode = .scaleAspectFit
