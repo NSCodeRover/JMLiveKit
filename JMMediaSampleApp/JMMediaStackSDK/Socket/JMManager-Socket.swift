@@ -418,7 +418,7 @@ extension JMManagerViewModel{
             }
             
             if let consumer = peer.getConsumer(for: jmMediaType){
-                LOG.debug("onNewConsumer- Consumer already resumed. no action. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
+                LOG.debug("onNewConsumer- Consumer already resumed.Skipping. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
                 return
             }
             LOG.debug("onNewConsumer- create consumer for . displayName -\(peer.displayName) for type- \(jmMediaType).")
