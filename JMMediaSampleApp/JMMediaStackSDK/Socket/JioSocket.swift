@@ -68,6 +68,8 @@ enum SocketEmitAction: String {
     //RTM
     case broadcastMessage
     case broadcastMessageToPeer
+    
+    case userDynamicInfo
 }
 
 protocol JioSocketDelegate: NSObject {

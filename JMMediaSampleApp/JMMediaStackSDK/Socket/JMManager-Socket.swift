@@ -330,10 +330,15 @@ extension JMManagerViewModel{
     
     private func handleSocketConnected(_ json: [String : Any]) {
         self.socketConnectedData = json
-        
         if device == nil{
             LOG.debug("Reconnect- Connected (First time)")
             initMediaSoupEngine(with: json)
+            monitor.startDeviceMonitoring { deviceInformation in
+                if self.connectionState == .connected {
+                    LOG.debug("Reconnect deviceInformation - \(deviceInformation.toDictionary())")
+                    self.socketEmitSetDeviceStats(for: deviceInformation.toDictionary())
+                }
+            }
         }
         else{
             LOG.debug("Reconnect- reconnected (JOIN BACK)")
@@ -498,6 +503,10 @@ extension JMManagerViewModel{
     //Transportstats
     func socketEmitSetTransportStats() {
         self.jioSocket?.emit(action: .getTransportStats , parameters: transportStatsParam)
+    }
+    
+    func socketEmitSetDeviceStats(for parameters:[String:String]) {
+        self.jioSocket?.emit(action: .userDynamicInfo , parameters: parameters)
     }
     
 }
