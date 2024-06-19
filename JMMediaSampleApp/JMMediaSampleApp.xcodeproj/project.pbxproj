@@ -12,6 +12,7 @@
 		6415B5112AFE051900BA01FC /* JMPreviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6415B5102AFE051900BA01FC /* JMPreviewManager.swift */; };
 		6415B5122AFE054700BA01FC /* JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB5217E2AFCB2AC00D39291 /* JMMediaStackSDK.framework */; };
 		94F9BFCEE8BCF332404E8A65 /* Pods_JMMediaStackSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */; };
+		C5C140B62C2161840087871D /* JMDevicePerformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C140B52C2161840087871D /* JMDevicePerformance.swift */; };
 		EBB521662AFCB29400D39291 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521652AFCB29400D39291 /* AppDelegate.swift */; };
 		EBB521682AFCB29400D39291 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521672AFCB29400D39291 /* SceneDelegate.swift */; };
 		EBB5216A2AFCB29400D39291 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB521692AFCB29400D39291 /* ViewController.swift */; };
@@ -130,6 +131,7 @@
 		84855421C6E70111114C396A /* Pods-JMMediaStackSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8A976557D3D4B2A7F537A982 /* Pods_JMMediaSampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaSampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		963270F6D711CA272BA36D22 /* Pods_JMMediaStackSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JMMediaStackSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5C140B52C2161840087871D /* JMDevicePerformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JMDevicePerformance.swift; sourceTree = "<group>"; };
 		C8870A6708E8B1308D4E64AF /* Pods-JMMediaStackSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaStackSDK.release.xcconfig"; path = "Target Support Files/Pods-JMMediaStackSDK/Pods-JMMediaStackSDK.release.xcconfig"; sourceTree = "<group>"; };
 		D68AB749965EB773C2E4A4D4 /* Pods-JMMediaSampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaSampleApp.release.xcconfig"; path = "Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		D866C1C609DE280096E3E473 /* Pods-JMMediaSampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JMMediaSampleApp.debug.xcconfig"; path = "Target Support Files/Pods-JMMediaSampleApp/Pods-JMMediaSampleApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				EBB521A52AFCB3DE00D39291 /* JMAudioDeviceManager.swift */,
 				EBB521A62AFCB3DE00D39291 /* JMVideoDeviceManager.swift */,
 				EBB521A72AFCB3DE00D39291 /* JMAudioDetector.swift */,
+				C5C140B52C2161840087871D /* JMDevicePerformance.swift */,
 			);
 			path = "Device Manager";
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 				EBB521D52AFCB3DF00D39291 /* JMManager-Socket.swift in Sources */,
 				EBB521D02AFCB3DF00D39291 /* JMManager-ScreenShare.swift in Sources */,
 				EBB521CD2AFCB3DF00D39291 /* State.swift in Sources */,
+				C5C140B62C2161840087871D /* JMDevicePerformance.swift in Sources */,
 				EBB521C22AFCB3DF00D39291 /* JMManager-MediaSoup.swift in Sources */,
 				EBB521D22AFCB3DF00D39291 /* JMManager-Public.swift in Sources */,
 				EBB521D12AFCB3DF00D39291 /* Models-Public.swift in Sources */,
