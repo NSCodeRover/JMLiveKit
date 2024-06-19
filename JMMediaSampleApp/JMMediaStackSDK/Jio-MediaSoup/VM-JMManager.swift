@@ -123,6 +123,7 @@ class JMManagerViewModel: NSObject{
 	var currentStatusBarOrientation: UIInterfaceOrientation = .portrait
     var peerBuffer: [Peer] = []
     var peerProcessingTimer: Timer?
+    let monitor = JMDeviceMonitor()
     
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
@@ -200,6 +201,7 @@ extension JMManagerViewModel{
         
         self.stopNetworkMonitor()
         self.disposeVirtualBackground()
+        monitor.stopDeviceMonitoring()
     }
 }
 

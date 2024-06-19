@@ -117,13 +117,19 @@ struct SocketUtil {
     }
  
     public static func deviceInfo()->[String:Any]{
-        let name = "test"//UIDevice.current.name
-        let flag = UIDevice.current.systemName
         let version = UIDevice.current.systemVersion
-        return ["name":name,"flag":flag,"version":version]
+        let platform = "iOS"
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+        let systemName = UIDevice.current.name
+        return [
+            "platform": platform,
+            "browserName": systemName,
+            "browserVersion": appVersion,
+            "os" :"iOS",
+            "osVersion":version
+        ]
     }
 }
-
 extension String {
     func toDic()->[String:Any]{
         if self.count == 0{return[:]}

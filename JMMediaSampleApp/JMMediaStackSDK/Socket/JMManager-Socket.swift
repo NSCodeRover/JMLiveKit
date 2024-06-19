@@ -330,10 +330,15 @@ extension JMManagerViewModel{
     
     private func handleSocketConnected(_ json: [String : Any]) {
         self.socketConnectedData = json
-        
         if device == nil{
             LOG.debug("Reconnect- Connected (First time)")
             initMediaSoupEngine(with: json)
+            monitor.startDeviceMonitoring { deviceInformation in
+                if self.connectionState == .connected {
+                    LOG.debug("Reconnect deviceInformation - \(deviceInformation.toDictionary())")
+                    self.socketEmitSetDeviceStats(for: deviceInformation.toDictionary())
+                }
+            }
         }
         else{
             LOG.debug("Reconnect- reconnected (JOIN BACK)")
@@ -418,7 +423,7 @@ extension JMManagerViewModel{
             }
             
             if let consumer = peer.getConsumer(for: jmMediaType){
-                LOG.debug("onNewConsumer- Consumer already resumed. no action. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
+                LOG.debug("onNewConsumer- Consumer already resumed.Skipping. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
                 return
             }
             LOG.debug("onNewConsumer- create consumer for . displayName -\(peer.displayName) for type- \(jmMediaType).")
@@ -498,6 +503,10 @@ extension JMManagerViewModel{
     //Transportstats
     func socketEmitSetTransportStats() {
         self.jioSocket?.emit(action: .getTransportStats , parameters: transportStatsParam)
+    }
+    
+    func socketEmitSetDeviceStats(for parameters:[String:String]) {
+        self.jioSocket?.emit(action: .userDynamicInfo , parameters: parameters)
     }
     
 }

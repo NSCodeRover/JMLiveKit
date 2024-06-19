@@ -61,7 +61,7 @@ class JMAudioDeviceManager: NSObject, RTCAudioSessionDelegate {
       //  .allowBluetoothA2DP,
         .allowAirPlay,
         //.duckOthers
-        //.mixWithOthers
+        .mixWithOthers
     ]
     
     private var isDevicePreferenceIsSet: Bool = false
@@ -75,18 +75,18 @@ class JMAudioDeviceManager: NSObject, RTCAudioSessionDelegate {
         RTCAudioSession.sharedInstance().add(self)
     }
     
-//    fileprivate func setAudioSession() {
-//        audioSessionQueue.async {
-//            do {
-//                try self.audioSession.setCategory(.playAndRecord, mode: .default, options: self.supportedCategory)
-//                try self.audioSession.setActive(true)
-//                //try audioSession.setPreferredInput(.none)
-//                LOG.debug("AVAudioDevice- audio session category set.")
-//            } catch {
-//                LOG.error("AVAudioDevice- Failed to set the audio session category and mode: \(error.localizedDescription)")
-//            }
-//        }
-//    }
+    fileprivate func setAudioSession() {
+        audioSessionQueue.async {
+            do {
+                try self.audioSession.setCategory(.playAndRecord, mode: AVAudioSession.Mode(rawValue: self.isWatchPartyEnabled ? AVAudioSession.Mode.default.rawValue : AVAudioSession.Mode.voiceChat.rawValue) , options: self.supportedCategory)
+                try self.audioSession.setActive(true)
+                //try audioSession.setPreferredInput(.none)
+                LOG.debug("AVAudioDevice- audio session category set.")
+            } catch {
+                LOG.error("AVAudioDevice- Failed to set the audio session category and mode: \(error.localizedDescription)")
+            }
+        }
+    }
     
     func setupSession() {
         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
@@ -108,7 +108,7 @@ class JMAudioDeviceManager: NSObject, RTCAudioSessionDelegate {
         // Set the desired category, mode, and options
         configuration.category = AVAudioSession.Category.playAndRecord.rawValue
         configuration.mode =  self.isWatchPartyEnabled ? AVAudioSession.Mode.default.rawValue : AVAudioSession.Mode.voiceChat.rawValue
-        configuration.categoryOptions = [.allowBluetooth,.mixWithOthers]//[ .allowBluetooth, .allowBluetoothA2DP, .allowAirPlay, .duckOthers,.defaultToSpeaker]
+        configuration.categoryOptions = [.allowBluetooth,.mixWithOthers,.allowAirPlay]//[ .allowBluetooth, .allowBluetoothA2DP, .allowAirPlay, .duckOthers,.defaultToSpeaker]
         RTCAudioSessionConfiguration.setWebRTC(configuration)
         //audioSessionQueue.async {
             audioSession.lockForConfiguration()
@@ -116,6 +116,7 @@ class JMAudioDeviceManager: NSObject, RTCAudioSessionDelegate {
                 try audioSession.setConfiguration(configuration, active: true)
                 LOG.debug("AVAudioDevice- RTCAudioSession configuration set successfully.")
             } catch {
+                setAudioSession()
                 LOG.debug("AVAudioDevice- Failed to set RTCAudioSession configuration: \(error.localizedDescription)")
             }
             RTCAudioSessionConfiguration.setWebRTC(configuration)

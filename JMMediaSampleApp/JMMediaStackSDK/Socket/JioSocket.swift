@@ -1,6 +1,7 @@
 
 import Foundation
 @_implementationOnly import SocketIO
+import CallKit
 
 enum SocketEvent: String,CaseIterable {
     //SELF
@@ -67,6 +68,8 @@ enum SocketEmitAction: String {
     //RTM
     case broadcastMessage
     case broadcastMessageToPeer
+    
+    case userDynamicInfo
 }
 
 protocol JioSocketDelegate: NSObject {
@@ -82,8 +85,10 @@ class JioSocket : NSObject {
     
     private var manager:SocketManager?
     private var socket: SocketIOClient?
+    var callObserver: CXCallObserver!
     
     var selfPeerId: String = ""
+    var reconnectAttemptNO = -1
     
     private enum SocketKey: String {
         case roomId
@@ -93,6 +98,12 @@ class JioSocket : NSObject {
     
     private weak var delegate: JioSocketDelegate?
     private var socketEvents: [SocketEvent] = []
+    
+    override init() {
+        super.init()
+        callObserver = CXCallObserver()
+        callObserver.setDelegate(self, queue: nil)
+    }
     
     func connect(socketUrl: String, roomId: String, jwtToken: String, ip: String, delegate: JioSocketDelegate?, socketEvents: [SocketEvent], isRejoin: Bool, queue: DispatchQueue) {
         if let url = URL.init(string: socketUrl) {
@@ -108,6 +119,7 @@ class JioSocket : NSObject {
                 socket?.connect(withPayload: getPayload(roomId: roomId, jwtToken: jwtToken, isRejoin: isRejoin))
             }
         }
+        reconnectAttemptNO = -1
     }
     
     func disconnectSocket() {
@@ -192,7 +204,9 @@ extension JioSocket {
             .reconnectAttempts(10), // Set the number of reconnection attempts
             .reconnectWait(1),
             .reconnectWaitMax(2),//After 2 secs, it will attempt to reconnect //Ping pong takes 8 seconds to detect network loss. Total = 20sec.
-            .forceWebsockets(true)
+            .forceWebsockets(true),
+            .forcePolling(true),
+            .extraHeaders(["pingInterval": "5000", "pingTimeout": "10000"])
         ]
     }
     
@@ -233,6 +247,16 @@ extension JioSocket {
             else if event == .reconnectAttempt  {
                 socket?.on(clientEvent: .reconnectAttempt) { data, ack in
                     LOG.debug("Reconnect- reconnectAttempting... | \(data.description)")
+                    if let reconnectAttemptNo = self.convertToInt(data: data) {
+                        if self.reconnectAttemptNO != -1 && self.reconnectAttemptNO == reconnectAttemptNo {
+                            self.delegate?.didConnectionStateChange(.disconnected)
+                            self.reconnectAttemptNO = -1
+                        }
+                        self.reconnectAttemptNO = reconnectAttemptNo
+                        print("Reconnect- Converted number: \(reconnectAttemptNo)")
+                    } else {
+                        print("Reconnect- Conversion failed")
+                    }
                     self.delegate?.didConnectionStateChange(.reconnecting)
                 }
             }
@@ -243,4 +267,63 @@ extension JioSocket {
             }
         }
     }
+    
+        func convertToInt(data: Any?) -> Int? {
+            if let number = data as? Int {
+                return number
+            } else if let string = data as? String, let number = Int(string) {
+                return number
+            } else if let double = data as? Double {
+                return Int(double)
+            } else if let float = data as? Float {
+                return Int(float)
+            } else if let array = data as? [Any] {
+                // Optional: Handle array, e.g., take the first element and convert it
+                if let firstElement = array.first {
+                    return convertToInt(data: firstElement)
+                } else {
+                    print("Array is empty, cannot convert to Int")
+                }
+            } else {
+                if let data = data {
+                    print("Cannot convert data of type \(type(of: data)) to Int")
+                } else {
+                    print("Data is nil")
+                }
+                return nil
+            }
+            return nil
+        }
+}
+
+extension JioSocket:CXCallObserverDelegate {
+    
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+            if call.isOutgoing {
+                print("Callkit:- Outgoing call")
+                // Handle outgoing call
+            }
+
+            if call.isOnHold {
+                print("Callkit:- Call on hold")
+                // Handle call on hold
+            }
+
+            if call.hasConnected {
+                socket?.manager?.connect()
+                print("Callkit:- Call connected")
+                // Handle call connected
+            }
+
+            if call.hasEnded {
+               socket?.manager?.reconnect()
+                print("Callkit:- Call ended")
+                // Handle call ended
+            }
+            
+//            if call.hasConnected && !call.isOutgoing {
+//                print("Incoming call connected")
+//                // Handle incoming call
+//            }
+        }
 }
