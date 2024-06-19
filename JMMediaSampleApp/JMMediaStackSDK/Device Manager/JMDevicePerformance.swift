@@ -2,6 +2,7 @@ import UIKit
 import SystemConfiguration.CaptiveNetwork
 import CoreTelephony
 import MachO
+import Network
 
 public struct JMClientInfoUploader:CustomStringConvertible {
     var cpuPercentage: String
@@ -19,7 +20,7 @@ public struct JMClientInfoUploader:CustomStringConvertible {
         Network: \(networkType)
         """
     }
-
+    
     func toDictionary() -> [String: String] {
         return [
             "cpuPercentage": cpuPercentage,
@@ -39,8 +40,8 @@ public class JMDeviceInfo {
         let ramPercentage = getRAMUsage()
         let batteryPercentage = getBatteryInfo()
         let energyLevel = getEnergyLevel()
-       // let networkType = getNetworkType()
-        let networkStatusChecker = NetworkStatusChecker().getCurrentNetworkType()
+        let networkStatusChecker = JMNetworkStatusChecker().getCurrentNetworkType()
+        
         return JMClientInfoUploader(
             cpuPercentage: cpuPercentage,
             ramPercentage: ramPercentage,
@@ -49,30 +50,29 @@ public class JMDeviceInfo {
             networkType: networkStatusChecker
         )
     }
-   
     
     // Get CPU Usage
     private static func getCPUUsage() -> String {
         var kr: kern_return_t
         var task_info_count: mach_msg_type_number_t
-
+        
         task_info_count = mach_msg_type_number_t(TASK_INFO_MAX)
         var tinfo = [integer_t](repeating: 0, count: Int(task_info_count))
         kr = tinfo.withUnsafeMutableBufferPointer {
             task_info(mach_task_self_, task_flavor_t(TASK_BASIC_INFO), $0.baseAddress, &task_info_count)
         }
-
+        
         if kr != KERN_SUCCESS {
             return "Unknown"
         }
-
+        
         var basic_info_th: task_basic_info_t
         basic_info_th = tinfo.withUnsafeBufferPointer {
             $0.baseAddress!.withMemoryRebound(to: task_basic_info_t.self, capacity: 1) {
                 $0.pointee
             }
         }
-
+        
         var thread_list: thread_act_array_t?
         var thread_count: mach_msg_type_number_t = 0
         defer {
@@ -80,15 +80,15 @@ public class JMDeviceInfo {
                 vm_deallocate(mach_task_self_, vm_address_t(bitPattern: thread_list), vm_size_t(thread_count))
             }
         }
-
+        
         kr = withUnsafeMutablePointer(to: &thread_list) {
             task_threads(mach_task_self_, $0, &thread_count)
         }
-
+        
         if kr != KERN_SUCCESS {
             return "Unknown"
         }
-
+        
         var tot_cpu: Float = 0
         if let thread_list = thread_list {
             for j in 0..<thread_count {
@@ -105,10 +105,9 @@ public class JMDeviceInfo {
                 tot_cpu += Float(thinfo.cpu_usage) / Float(TH_USAGE_SCALE) * 100.0
             }
         }
-
+        
         return String(format: "%.2f%%", tot_cpu)
     }
-
     
     // Get RAM Usage
     private static func getRAMUsage() -> String {
@@ -147,18 +146,6 @@ public class JMDeviceInfo {
         return "Normal"
     }
     
-  
-    
-    // Get Network Type
-//    private static func getNetworkType() -> String {
-//        // First check Wi-Fi connection
-//       
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            networkType = networkStatusChecker.getCurrentNetworkType()
-//        }
-//        return networkType
-//    }
-    
     // Get Wi-Fi Network Type
     private static func getWiFiNetworkType() -> String? {
         guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {
@@ -173,20 +160,19 @@ public class JMDeviceInfo {
                 return "Wi-Fi (\(ssid))"
             }
         }
-         return "Wi-Fi"
+        return "Wi-Fi"
     }
     
 }
-//startDeviceMonitoring()
 
 class JMDeviceMonitor {
     private var timer: DispatchSourceTimer?
-
+    
     func startDeviceMonitoring(completion: @escaping (JMClientInfoUploader) -> Void) {
         let deviceInformation = JMDeviceInfo.deviceInfo()
         print(deviceInformation)
         completion(deviceInformation)  // Call completion initially with the first data
-
+        
         let queue = DispatchQueue(label: "jm.device.monitoring")
         timer = DispatchSource.makeTimerSource(queue: queue)
         timer?.schedule(deadline: .now(), repeating: 3.0)
@@ -199,26 +185,22 @@ class JMDeviceMonitor {
         }
         timer?.resume()
     }
-
+    
     func stopDeviceMonitoring() {
         timer?.cancel()
         timer = nil
     }
 }
 
-import SystemConfiguration.CaptiveNetwork
-import CoreTelephony
-import Network
-
-class NetworkStatusChecker {
+class JMNetworkStatusChecker {
     private var monitor: NWPathMonitor?
     private let queue = DispatchQueue.global(qos: .background)
     private var currentNetworkType: String = "cellular"
-
+    
     init() {
         setupNetworkMonitor()
     }
-
+    
     private func setupNetworkMonitor() {
         monitor = NWPathMonitor()
         monitor?.pathUpdateHandler = { path in
@@ -236,13 +218,13 @@ class NetworkStatusChecker {
         }
         monitor?.start(queue: queue)
     }
-
+    
     private func getCellularNetworkType() -> String {
         let networkInfo = CTTelephonyNetworkInfo()
         guard let carrierType = networkInfo.serviceCurrentRadioAccessTechnology?.values.first else {
             return "cellular"
         }
-
+        
         if #available(iOS 14.1, *) {
             switch carrierType {
             case CTRadioAccessTechnologyGPRS, CTRadioAccessTechnologyEdge, CTRadioAccessTechnologyCDMA1x:
@@ -270,16 +252,13 @@ class NetworkStatusChecker {
             // Fallback on earlier versions
         }
     }
-
+    
     public func getCurrentNetworkType() -> String {
         setupNetworkMonitor()
         return currentNetworkType
     }
-
+    
     deinit {
         monitor?.cancel()
     }
 }
-
-// Example Usage
-
