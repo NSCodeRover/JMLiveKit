@@ -7,7 +7,7 @@
 
 import Foundation
 
-@_implementationOnly import MMWormhole
+@_implementationOnly import JMMMWormhole
 import WebRTC
 
 var wormholeBufferListener: MMWormhole?

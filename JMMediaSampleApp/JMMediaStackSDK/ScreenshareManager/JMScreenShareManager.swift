@@ -2,7 +2,7 @@ import Foundation
 import AVFoundation
 import CoreImage
 import UIKit
-@_implementationOnly import MMWormhole
+@_implementationOnly import JMMMWormhole
 
 public class JMScreenShareManager {
     static var wormhole = MMWormhole(applicationGroupIdentifier: appId, optionalDirectory: "wormhole")
