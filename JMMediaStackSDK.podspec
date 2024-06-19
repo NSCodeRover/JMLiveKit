@@ -32,6 +32,6 @@ Pod::Spec.new do |spec|
   
   spec.dependency 'SwiftyJSON'
   spec.dependency 'Socket.IO-Client-Swift', '~> 16.1.0'
-  spec.dependency 'MMWormhole'
-  spec.dependency 'VoiceActivityDetector'
+  spec.dependency 'JMMMWormhole', '~> 3.0.0'
+  spec.dependency 'JMWebRtcVad', '~> 3.0.0'
 end

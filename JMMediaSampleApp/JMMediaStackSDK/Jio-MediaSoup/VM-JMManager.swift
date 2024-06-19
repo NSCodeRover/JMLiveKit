@@ -11,7 +11,7 @@ import Network
 @_implementationOnly import SwiftyJSON
 import Mediasoup
 import WebRTC
-@_implementationOnly import MMWormhole
+@_implementationOnly import JMMMWormhole
 
 //Note - VM to manager communication
 protocol delegateManager: AnyObject{
