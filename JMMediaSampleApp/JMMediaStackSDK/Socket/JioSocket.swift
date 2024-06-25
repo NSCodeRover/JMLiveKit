@@ -227,7 +227,9 @@ extension JioSocket {
     private func addSocketListener() {
         for event in socketEvents {
             if event == .connect {
+                self.reconnectAttemptNO = -1
                 socket?.on(clientEvent: .connect) { data, ack in
+                    self.reconnectAttemptNO = -1
                     self.delegate?.didConnectionStateChange(.connected)
                     self.delegate?.didReceive(event: event, data: data, ack: ack)
                 }
