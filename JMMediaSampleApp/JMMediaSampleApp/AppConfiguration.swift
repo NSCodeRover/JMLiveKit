@@ -21,6 +21,9 @@ class AppConfiguration {
                 return "https://rc-meeting-controller.jiomeet.com/"
             case .Prestage:
                 return "https://mediaengine-demo.jiomeetcloud.com/"
+            case .Stage:
+                return "https://stage-jmmedia.jiomeet.com/"
+
             }
         }
     }

@@ -16,6 +16,7 @@ enum AppEnvironment: String{
     case Prod
     case RC
     case Prestage
+    case Stage
 }
 
 
@@ -85,7 +86,8 @@ class JoinViewController: UIViewController {
         
         self.txtName.text = "Harsh Debug"
         
-        let env: [AppEnvironment] = [.Prod,.RC,.Prestage]
+        let env: [AppEnvironment] = [.Prod,.RC,.Prestage,.Stage]
+
         envDropdown = UIAlertController(title: "Environment Switch", message: nil, preferredStyle: .actionSheet)
         
         for server in env{
@@ -113,6 +115,11 @@ class JoinViewController: UIViewController {
         case .Prestage:
             self.txtRoomId.text = "7330377010"
             self.txtPin.text = "Z381t"
+        case .Stage:
+            //https://stage.jiomeet.com/shortener?meetingId=9862386514&pwd=t3nQE
+                self.txtRoomId.text = "9862386514"
+                self.txtPin.text = "t3nQE"
+
         }
     }
 }
