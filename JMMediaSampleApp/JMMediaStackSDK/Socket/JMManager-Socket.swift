@@ -520,7 +520,7 @@ extension JMManagerViewModel{
                 guard let self = self else { return }
                 currentRetry += 1
 
-                if recvTransport.connectionState == .connected {
+                if recvTransport.connectionState == .connected ||  recvTransport.connectionState == .completed {
                     LOG.info("recvTransport - Transport is now connected. Resuming consumer creation for remote ID: \(remoteId).")
                     self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
                     self.stopTransportRetryTimer() // Stop the timer once the transport is connected
