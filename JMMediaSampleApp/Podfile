@@ -12,9 +12,9 @@ target 'JMMediaStackSDK' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 	pod 'SwiftyJSON'
-	pod 'Socket.IO-Client-Swift', '~> 16.1.0'
-	pod 'MMWormhole'
-	pod 'VoiceActivityDetector'
+    pod 'Socket.IO-Client-Swift', '~> 16.1.0'
+    pod 'JMMMWormhole', '~> 3.0.0'
+    pod 'JMWebRtcVad', '~> 3.0.0'
   # Pods for JMMediaStackSDK
 
 end

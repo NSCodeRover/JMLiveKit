@@ -122,8 +122,9 @@ class JMManagerViewModel: NSObject{
 	var connectionNetworkType: JMNetworkType = .NoInternet
 	var currentStatusBarOrientation: UIInterfaceOrientation = .portrait
     var peerBuffer: [Peer] = []
-    var peerProcessingTimer: Timer?
     let monitor = JMDeviceMonitor()
+     var transportRetryTimer: DispatchSourceTimer?
+
     
     init(delegate: delegateManager,mediaOptions: JMMediaOptions)
     {
