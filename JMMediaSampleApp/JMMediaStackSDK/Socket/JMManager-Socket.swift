@@ -493,7 +493,7 @@ extension JMManagerViewModel{
             let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
 
             // Check if transport is in a connected state before proceeding
-            if (recvTransport.connectionState != .new  || recvTransport.connectionState == .checking ){
+            if (recvTransport.connectionState != .new){
                 LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
                 // Implement retry logic
                 retryConsumeAfterTransportConnected(recvTransport: recvTransport, consumerInfo: consumerInfo, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
@@ -520,7 +520,7 @@ extension JMManagerViewModel{
                 guard let self = self else { return }
                 currentRetry += 1
 
-                if recvTransport.connectionState == .connected ||  recvTransport.connectionState == .completed {
+                if recvTransport.connectionState == .connected ||  recvTransport.connectionState == .completed ||  recvTransport.connectionState == .new {
                     LOG.info("recvTransport - Transport is now connected. Resuming consumer creation for remote ID: \(remoteId).")
                     self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
                     self.stopTransportRetryTimer() // Stop the timer once the transport is connected
