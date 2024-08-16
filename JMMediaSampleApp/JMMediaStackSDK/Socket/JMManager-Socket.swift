@@ -525,7 +525,8 @@ extension JMManagerViewModel{
                     self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
                     self.stopTransportRetryTimer() // Stop the timer once the transport is connected
                 } else if currentRetry >= maxRetries {
-                    LOG.error("recvTransport - Failed to connect transport after \(maxRetries) retries. Aborting consumer creation for remote ID: \(remoteId).")
+                    LOG.error("recvTransport - Failed to connect transport after \(maxRetries) retries. force consumer creation for remote ID: \(remoteId).")
+                    self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
                     self.stopTransportRetryTimer() // Stop the timer after max retries
                 } else {
                     LOG.info("recvTransport - Retry \(currentRetry) for transport connection. Current state: \(recvTransport.connectionState)")
