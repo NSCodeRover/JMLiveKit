@@ -358,17 +358,35 @@ extension JMManagerViewModel{
         }
     }
     
-    func addRemoteRenderView(_ renderView: UIView, remoteId: String){
-        if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
-        {
-            updatedPeer.remoteView = renderView
-            self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
-            self.updateRemoteRenderViewTrack(for: remoteId)
-        }
-        else{
-            LOG.error("Subscribe- remote view NOT available for user- \(remoteId)")
+    func addRemoteRenderView(_ renderView: UIView, remoteId: String, retryCount: Int = 0) {
+        let maxRetries = 5
+        if var updatedPeer = getPeerObject(for: remoteId) {
+                updatedPeer.remoteView = renderView
+                self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
+                self.updateRemoteRenderViewTrack(for: remoteId)
+        } else {
+            if retryCount < maxRetries {
+                LOG.error("Subscribe - Unable to retrieve peer object for user \(remoteId), remote view NOT updated. Retrying (\(retryCount + 1)/\(maxRetries)) in 0.5 seconds.")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.addRemoteRenderView(renderView, remoteId: remoteId, retryCount: retryCount + 1)
+                }
+            } else {
+                LOG.error("Subscribe - Failed to retrieve peer object for user \(remoteId) after \(maxRetries) attempts. Giving up.")
+            }
         }
     }
+
+//    func addRemoteRenderView(_ renderView: UIView, remoteId: String){
+//        if var updatedPeer = getPeerObject(for: remoteId), updatedPeer.remoteView != renderView
+//        {
+//            updatedPeer.remoteView = renderView
+//            self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
+//            self.updateRemoteRenderViewTrack(for: remoteId)
+//        }
+//        else{
+//            LOG.error("Subscribe-  UI remote view NOT available for user- \(remoteId)")
+//        }
+//    }
     
     func updateRemoteRenderViewTrack(for remoteId: String){
         if var updatedPeer = self.getPeerObject(for: remoteId),
@@ -390,6 +408,24 @@ extension JMManagerViewModel{
                 self.updatePeerMap(for: remoteId, withPeer: updatedPeer)
             }
            
+        }else {
+            var updatedPeer = self.getPeerObject(for: remoteId)
+            var failReason = "Unknown failure"
+            if updatedPeer == nil {
+                failReason = "updatedPeer is nil"
+            } else if updatedPeer?.remoteView == nil {
+                failReason = "renderView (updatedPeer.remoteView) is nil will retry"
+                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+                    self.updateRemoteRenderViewTrack(for: remoteId)
+                })
+                
+            } else if updatedPeer?.consumerVideo == nil {
+                failReason = "consumer (updatedPeer.consumerVideo) is nil"
+            } else if (updatedPeer?.consumerVideo?.track as? RTCVideoTrack) == nil {
+                failReason = "rtcVideoTrack (consumer.track) is nil or not of type RTCVideoTrack"
+            }
+            
+            LOG.error("Subscribe- UI not updated - name-\(updatedPeer?.displayName ?? "Unknown") - Reason: \(failReason)")
         }
     }
     
