@@ -11,6 +11,7 @@ import Foundation
 @_implementationOnly import SocketIO
 @_implementationOnly import SwiftyJSON
 import Mediasoup
+import WebRTC
 
 extension JMManagerViewModel {
     internal func connect(socketUrl: String, roomId: String, jwtToken: String, isRejoin: Bool) {
@@ -285,8 +286,8 @@ extension JMManagerViewModel{
         qJMMediaBGQueue.async {
             if let peer = self.parse(json: json, model: Peer.self) {
                 let user = self.formatToJMUserInfo(from: peer)
-                self.delegateBackToManager?.sendClientUserJoined(user: user)
                 self.updatePeerMap(for: peer.peerId, withPeer: peer)
+                self.delegateBackToManager?.sendClientUserJoined(user: user)
             }
         }
     }
@@ -296,6 +297,48 @@ extension JMManagerViewModel{
             LOG.debug("UserLeave- \(peerId) with reason \(json["reason"] as? String)")
             let reason: JMUserLeaveReason = (json["reason"] as? String ?? "").lowercased() == "quit" ? .userAction : .unknown
             self.delegateBackToManager?.sendClientUserLeft(id: peerId, reason: reason)
+            if let peer = self.peersMap[peerId] {
+                if let audioConsumer = peer.consumerAudio, !audioConsumer.closed {
+                    audioConsumer.close()
+                }
+                
+                if let videoConsumer = peer.consumerVideo, !videoConsumer.closed {
+                    if var updatedPeer = self.peersMap[peerId],
+                       let renderView = updatedPeer.remoteView,
+                       let consumer = updatedPeer.consumerVideo,
+                       let rtcVideoTrack = consumer.track as? RTCVideoTrack
+                        
+                    {
+                        LOG.debug("Subscribe- UI updated - name-\(updatedPeer.displayName)")
+                        
+                        qJMMediaMainQueue.async {
+                            for subview in renderView.subviews where subview is RTCMTLVideoView{
+                                if let previousVideoView = subview as? RTCMTLVideoView{
+                                    rtcVideoTrack.remove(previousVideoView)
+                                }
+                                subview.removeFromSuperview()
+                            }
+                            updatedPeer.remoteView = renderView
+                            updatedPeer.remoteView = nil
+                            videoConsumer.close()
+                            self.updatePeerMap(for: peerId, withPeer: peer)
+                        }
+                    }
+                    
+                }
+                
+                if let screenShareConsumer = peer.consumerScreenShare, !screenShareConsumer.closed {
+                    screenShareConsumer.close()
+                }
+                
+                if let screenShareAudioConsumer = peer.consumerScreenShareAudio, !screenShareAudioConsumer.closed {
+                    screenShareAudioConsumer.close()
+                }
+         
+
+                updatePeerMap(for: peerId, withPeer: peer)
+            }
+
            // removePeer(for: peerId)
         }
     }
@@ -493,7 +536,7 @@ extension JMManagerViewModel{
             let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
 
             // Check if transport is in a connected state before proceeding
-            if (recvTransport.connectionState != .new){
+            if (recvTransport.connectionState != .completed){
                 LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
                 // Implement retry logic
                 retryConsumeAfterTransportConnected(recvTransport: recvTransport, consumerInfo: consumerInfo, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
@@ -507,13 +550,11 @@ extension JMManagerViewModel{
     }
 
     func retryConsumeAfterTransportConnected(recvTransport: ReceiveTransport, consumerInfo: [String: Any], appData: [String: Any], mediaKind: MediaKind, remoteId: String, consumerId: String, producerId: String, rtpParameters: String, jmMediaKind: JMMediaType) {
-            let maxRetries = 7
+            let maxRetries = 4
             var currentRetry = 0
 
             LOG.info("recvTransport - Starting transportRetryTimer for transport connection checking")
-
-            let queue = DispatchQueue(label: "jm.transport.retry")
-            transportRetryTimer = DispatchSource.makeTimerSource(queue: queue)
+            transportRetryTimer = DispatchSource.makeTimerSource(queue: qJMMediaBGQueue)
             transportRetryTimer?.schedule(deadline: .now(), repeating: 2.0) // Retry every 2 seconds
 
             transportRetryTimer?.setEventHandler { [weak self] in
