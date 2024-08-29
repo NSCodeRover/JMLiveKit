@@ -109,7 +109,7 @@ class JMManagerViewModel: NSObject{
     var currentMediaQualityPreference: JMMediaQuality = .high
     
     var isCallEnded: Bool = false
-    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .background)
+    let qJMMediaBGQueue: DispatchQueue = DispatchQueue(label: "jmmedia.background",qos: .default)
     let qJMMediaNWQueue: DispatchQueue = DispatchQueue(label: "jmmedia.network",qos: .default)
     let qJMMediaMainQueue: DispatchQueue = DispatchQueue.main
     let qJMMediaLogQueue: DispatchQueue = DispatchQueue.global(qos: .background)
