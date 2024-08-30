@@ -30,7 +30,9 @@ extension JMManagerViewModel {
         }
         
         if !result{
-            LOG.error("Transport- Send- failed")
+            LOG.error("Transport- Send- Failed  \(String(describing: result.toDictionary()))")
+        }else{
+            LOG.info("Transport- Send- Successful \(String(describing: result.toDictionary()))")
         }
         
         return sendTransport
@@ -52,7 +54,9 @@ extension JMManagerViewModel {
         }
         
         if !result{
-            LOG.error("Transport- Receive- failed")
+            LOG.error("Transport- Receive- Failed  \(String(describing: result.toDictionary()))")
+        }else{
+            LOG.info("Transport- Receive- Successful \(String(describing: result.toDictionary()))")
         }
         
         return receiveTransport
