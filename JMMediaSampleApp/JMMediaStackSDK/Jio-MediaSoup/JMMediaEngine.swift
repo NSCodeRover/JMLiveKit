@@ -330,17 +330,53 @@ extension JMMediaEngine{
         }
         JMAudioDeviceManager.shared.setupSession()
         JMVideoDeviceManager.shared.setupSession()
+        
+        
+        // Retry logic to ensure send transport is available before handling video or audio
+            retryGetSendTransport(attempts: 10, delay: 1.0)
         //Client Initial values
-        if vm_manager.mediaOptions.isCameraOn{
-            LOG.info("Video- Client set initial value ON")
-            handleVideo(true)
+//        if vm_manager.mediaOptions.isCameraOn{
+//            LOG.info("Video- Client set initial value ON")
+//            handleVideo(true)
+//        }
+//        
+//        if vm_manager.mediaOptions.isMicOn{
+//            LOG.info("Audio- Client set initial value ON")
+//            handleAudio(true)
+//        }
+    }
+    
+    // Function to retry getting the send transport
+    private func retryGetSendTransport(attempts: Int, delay: TimeInterval) {
+        guard attempts > 0 else {
+            LOG.error("Video- send Transport not available after multiple attempts")
+            return
         }
         
-        if vm_manager.mediaOptions.isMicOn{
-            LOG.info("Audio- Client set initial value ON")
-            handleAudio(true)
+        if let sendTransport = vm_manager.sendTransport {
+            LOG.info("Video- send Transport available | transport: \(sendTransport)")
+            
+            // Client Initial values
+            if vm_manager.mediaOptions.isCameraOn {
+                LOG.info("Video- Client set initial value ON")
+                handleVideo(true)
+            }
+            
+            if vm_manager.mediaOptions.isMicOn {
+                LOG.info("Audio- Client set initial value ON")
+                handleAudio(true)
+            }
+        } else {
+            LOG.warning("Video- send Transport not available, retrying in \(delay) seconds | attempts left: \(attempts)")
+            
+            // Retry after delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.retryGetSendTransport(attempts: attempts - 1, delay: delay)
+            }
         }
     }
+    
+   
     
     //MARK: Conversion from AVAudioDevice to JMAudioDevice
     func convertToJMAudioDevice(_ device: [AVAudioDevice]) -> [JMAudioDevice]{

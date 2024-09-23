@@ -11,6 +11,7 @@ import Foundation
 @_implementationOnly import SocketIO
 @_implementationOnly import SwiftyJSON
 import Mediasoup
+import WebRTC
 
 extension JMManagerViewModel {
     internal func connect(socketUrl: String, roomId: String, jwtToken: String, isRejoin: Bool) {
@@ -285,8 +286,8 @@ extension JMManagerViewModel{
         qJMMediaBGQueue.async {
             if let peer = self.parse(json: json, model: Peer.self) {
                 let user = self.formatToJMUserInfo(from: peer)
-                self.delegateBackToManager?.sendClientUserJoined(user: user)
                 self.updatePeerMap(for: peer.peerId, withPeer: peer)
+                self.delegateBackToManager?.sendClientUserJoined(user: user)
             }
         }
     }
@@ -296,6 +297,48 @@ extension JMManagerViewModel{
             LOG.debug("UserLeave- \(peerId) with reason \(json["reason"] as? String)")
             let reason: JMUserLeaveReason = (json["reason"] as? String ?? "").lowercased() == "quit" ? .userAction : .unknown
             self.delegateBackToManager?.sendClientUserLeft(id: peerId, reason: reason)
+            if let peer = self.peersMap[peerId] {
+                if let audioConsumer = peer.consumerAudio, !audioConsumer.closed {
+                    audioConsumer.close()
+                }
+                
+                if let videoConsumer = peer.consumerVideo, !videoConsumer.closed {
+                    if var updatedPeer = self.peersMap[peerId],
+                       let renderView = updatedPeer.remoteView,
+                       let consumer = updatedPeer.consumerVideo,
+                       let rtcVideoTrack = consumer.track as? RTCVideoTrack
+                        
+                    {
+                        LOG.debug("Subscribe- UI updated - name-\(updatedPeer.displayName)")
+                        
+                        qJMMediaMainQueue.async {
+                            for subview in renderView.subviews where subview is RTCMTLVideoView{
+                                if let previousVideoView = subview as? RTCMTLVideoView{
+                                    rtcVideoTrack.remove(previousVideoView)
+                                }
+                                subview.removeFromSuperview()
+                            }
+                            updatedPeer.remoteView = renderView
+                            updatedPeer.remoteView = nil
+                            videoConsumer.close()
+                            self.updatePeerMap(for: peerId, withPeer: peer)
+                        }
+                    }
+                    
+                }
+                
+                if let screenShareConsumer = peer.consumerScreenShare, !screenShareConsumer.closed {
+                    screenShareConsumer.close()
+                }
+                
+                if let screenShareAudioConsumer = peer.consumerScreenShareAudio, !screenShareAudioConsumer.closed {
+                    screenShareAudioConsumer.close()
+                }
+         
+
+                updatePeerMap(for: peerId, withPeer: peer)
+            }
+
            // removePeer(for: peerId)
         }
     }
@@ -393,97 +436,21 @@ extension JMManagerViewModel{
 extension JMManagerViewModel{
     //kept for future reference
     //Remote user feeds
-//    func onNewConsumer(json: [String: Any]) {
-//        if let status = json[SocketDataKey.status.rawValue] as? String,
-//           let data = json[SocketDataKey.data.rawValue] as? [String: Any],
-//           status == SocketDataKey.ok.rawValue,
-//           let consumerInfo = self.getDataOf(key: SocketDataKey.consumerInfo.rawValue, dictionary: data)
-//        {
-//            let appData = consumerInfo.dictionary(SocketDataKey.appData.rawValue)
-//            let kind = consumerInfo.strValue(SocketDataKey.kind.rawValue)
-//            let remoteId = consumerInfo.strValue(SocketDataKey.producerPeerId.rawValue)
-//            let consumerId = consumerInfo.strValue(SocketDataKey.consumerId.rawValue)
-//            let producerId = consumerInfo.strValue(SocketDataKey.producerId.rawValue)
-//            let rtpParameters = JSON(consumerInfo.dictionary(SocketDataKey.rtpParameters.rawValue)).description
-//            
-//            let mediaKind = kind == JMMediaType.audio.rawValue ? MediaKind.audio : MediaKind.video
-//            
-//            guard let recvTransport = recvTransport else {
-//                LOG.error("recvTransport- recvTransport Transport not available. remote - \(remoteId)")
-//                return
-//            }
-//            
-//            let isScreenShareEnabled = appData["share"] as? Bool ?? false
-//            let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
-//            
-//            guard var peer = self.getPeerObject(for: remoteId)
-//            else{
-//                LOG.error("onNewConsumer- peer not present. uid-\(remoteId) for type- \(jmMediaType).")
-//                return
-//            }
-//            
-//            if let consumer = peer.getConsumer(for: jmMediaType){
-//                LOG.debug("onNewConsumer- Consumer already resumed.Skipping. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
-//                return
-//            }
-//            LOG.debug("onNewConsumer- create consumer for . displayName -\(peer.displayName) for type- \(jmMediaType).")
-//            
-//            let result = handleMediaSoupErrors("Subscribe- \(jmMediaType.rawValue)"){
-//                let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
-//                
-//                self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaType)
-//                self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaType)
-//                self.socketEmitResumeConsumer(for: consumerId)
-//        
-//                consumer.resume()
-//                
-//                //Update renderer track
-//                if jmMediaType == .shareScreen{
-//                    self.updateRemoteScreenShareRenderViewTrack(for: remoteId)
-//                    self.userState.enableRemoteScreenShare(for: remoteId, consumerId: consumerId)
-//                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
-//                }
-//                else if jmMediaType == .video{
-//                    self.updateRemoteRenderViewTrack(for: remoteId)
-//                    self.totalVideoConsumer[remoteId] = consumerId
-//                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
-//                }
-//                else{
-//                    if audioRemotePeerVolume != -1.0{
-//                        LOG.info("Audio- User- \(remoteId) Remote peer volume set to \(audioRemotePeerVolume)")
-//                        setVolume(consumer)
-//                    }
-//                }
-//
-//            }
-//            
-//            LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")
-//            if !result{
-//                delegateBackToManager?.sendClientError(error: JMMediaError.init(type: getStreamingError(for: jmMediaType), description: remoteId))
-//            }
-//        }
-//    }
-//    
-    
     func onNewConsumer(json: [String: Any]) {
-        // Extract necessary data from JSON
         if let status = json[SocketDataKey.status.rawValue] as? String,
            let data = json[SocketDataKey.data.rawValue] as? [String: Any],
            status == SocketDataKey.ok.rawValue,
-           let consumerInfo = self.getDataOf(key: SocketDataKey.consumerInfo.rawValue, dictionary: data) {
-
-            // Extract additional information
+           let consumerInfo = self.getDataOf(key: SocketDataKey.consumerInfo.rawValue, dictionary: data)
+        {
             let appData = consumerInfo.dictionary(SocketDataKey.appData.rawValue)
             let kind = consumerInfo.strValue(SocketDataKey.kind.rawValue)
             let remoteId = consumerInfo.strValue(SocketDataKey.producerPeerId.rawValue)
             let consumerId = consumerInfo.strValue(SocketDataKey.consumerId.rawValue)
             let producerId = consumerInfo.strValue(SocketDataKey.producerId.rawValue)
             let rtpParameters = JSON(consumerInfo.dictionary(SocketDataKey.rtpParameters.rawValue)).description
-
-
+            
             let mediaKind = kind == JMMediaType.audio.rawValue ? MediaKind.audio : MediaKind.video
             
-            // Ensure recvTransport is available
             guard let recvTransport = recvTransport else {
                 LOG.error("recvTransport- recvTransport Transport not available. remote - \(remoteId)")
                 return
@@ -491,99 +458,173 @@ extension JMManagerViewModel{
             
             let isScreenShareEnabled = appData["share"] as? Bool ?? false
             let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
-
-            // Check if transport is in a connected state before proceeding
-            if (recvTransport.connectionState != .new){
-                LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
-                // Implement retry logic
-                retryConsumeAfterTransportConnected(recvTransport: recvTransport, consumerInfo: consumerInfo, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
+            
+            guard var peer = self.getPeerObject(for: remoteId)
+            else{
+                LOG.error("onNewConsumer- peer not present. uid-\(remoteId) for type- \(jmMediaType).")
                 return
             }
-            LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
-
-            // Existing logic for creating the consumer
-            createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
-        }
-    }
-
-    func retryConsumeAfterTransportConnected(recvTransport: ReceiveTransport, consumerInfo: [String: Any], appData: [String: Any], mediaKind: MediaKind, remoteId: String, consumerId: String, producerId: String, rtpParameters: String, jmMediaKind: JMMediaType) {
-            let maxRetries = 7
-            var currentRetry = 0
-
-            LOG.info("recvTransport - Starting transportRetryTimer for transport connection checking")
-
-            let queue = DispatchQueue(label: "jm.transport.retry")
-            transportRetryTimer = DispatchSource.makeTimerSource(queue: queue)
-            transportRetryTimer?.schedule(deadline: .now(), repeating: 2.0) // Retry every 2 seconds
-
-            transportRetryTimer?.setEventHandler { [weak self] in
-                guard let self = self else { return }
-                currentRetry += 1
-
-                if recvTransport.connectionState == .connected ||  recvTransport.connectionState == .completed ||  recvTransport.connectionState == .new {
-                    LOG.info("recvTransport - Transport is now connected. Resuming consumer creation for remote ID: \(remoteId).")
-                    self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
-                    self.stopTransportRetryTimer() // Stop the timer once the transport is connected
-                } else if currentRetry >= maxRetries {
-                    LOG.error("recvTransport - Failed to connect transport after \(maxRetries) retries. force consumer creation for remote ID: \(remoteId).")
-                    self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
-                    self.stopTransportRetryTimer() // Stop the timer after max retries
-                } else {
-                    LOG.info("recvTransport - Retry \(currentRetry) for transport connection. Current state: \(recvTransport.connectionState)")
+            
+            if let consumer = peer.getConsumer(for: jmMediaType){
+                LOG.debug("onNewConsumer- Consumer already resumed.Skipping. User- \(peer.displayName) for type- \(jmMediaType) consumer closed \(consumer.closed) paused \(consumer.paused).")
+                return
+            }
+            LOG.debug("onNewConsumer- create consumer for . displayName -\(peer.displayName) for type- \(jmMediaType).")
+            
+            let result = handleMediaSoupErrors("Subscribe- \(jmMediaType.rawValue)"){
+                let consumer = try recvTransport.consume(consumerId: consumerId, producerId: producerId, kind: mediaKind, rtpParameters: rtpParameters, appData: JSON(appData).description)
+                
+                self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaType)
+                self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaType)
+                self.socketEmitResumeConsumer(for: consumerId)
+        
+                consumer.resume()
+                
+                //Update renderer track
+                if jmMediaType == .shareScreen{
+                    self.updateRemoteScreenShareRenderViewTrack(for: remoteId)
+                    self.userState.enableRemoteScreenShare(for: remoteId, consumerId: consumerId)
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
                 }
+                else if jmMediaType == .video{
+                    self.updateRemoteRenderViewTrack(for: remoteId)
+                    self.totalVideoConsumer[remoteId] = consumerId
+                    self.setPreferredPriority(remoteId: remoteId, consumerId: consumerId, mediaType: jmMediaType)
+                }
+                else{
+                    if audioRemotePeerVolume != -1.0{
+                        LOG.info("Audio- User- \(remoteId) Remote peer volume set to \(audioRemotePeerVolume)")
+                        setVolume(consumer)
+                    }
+                }
+
             }
-
-            transportRetryTimer?.resume()
-        }
-
-    func createConsumer(recvTransport: ReceiveTransport, appData: [String: Any], mediaKind: MediaKind, remoteId: String, consumerId: String, producerId: String, rtpParameters: String,jmMediaKind:JMMediaType) {
-        guard var peer = self.getPeerObject(for: remoteId) else {
-            LOG.error("createConsumer - Peer not present. UID: \(remoteId) for media type: \(mediaKind).")
-            return
-        }
-      
-        if let consumer = peer.getConsumer(for: jmMediaKind) {
-            LOG.debug("createConsumer - Consumer already resumed. Skipping. User: \(peer.displayName) for media type: \(mediaKind). Consumer closed: \(consumer.closed) paused: \(consumer.paused).")
-            return
-        }
-
-        LOG.debug("createConsumer - Creating consumer for displayName: \(peer.displayName) for media type: \(mediaKind).")
-
-        let result = handleMediaSoupErrors("Subscribe - \(mediaKind)") {
-            let consumer = try recvTransport.consume(
-                consumerId: consumerId,
-                producerId: producerId,
-                kind: mediaKind,
-                rtpParameters: rtpParameters,
-                appData: JSON(appData).description
-            )
-
-            self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaKind)
-            self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaKind)
-            self.socketEmitResumeConsumer(for: consumerId)
-
-            consumer.resume()
-
-            // Update renderer track based on media type
-            if mediaKind == .video {
-                self.updateRemoteRenderViewTrack(for: remoteId)
-                self.totalVideoConsumer[remoteId] = consumerId
-            } else if mediaKind == .audio && audioRemotePeerVolume != -1.0 {
-                LOG.info("Audio - User: \(remoteId) Remote peer volume set to \(audioRemotePeerVolume)")
-                setVolume(consumer)
+            
+            LOG.info("Subscribe- \(jmMediaType) \(producerId) consumer \(result ? "added" : "failed")")
+            if !result{
+                delegateBackToManager?.sendClientError(error: JMMediaError.init(type: getStreamingError(for: jmMediaType), description: remoteId))
             }
-        }
-
-        LOG.info("Subscribe - \(mediaKind) \(producerId) consumer \(result ? "added" : "failed")")
-        if !result {
-            delegateBackToManager?.sendClientError(
-                error: JMMediaError(
-                    type: getStreamingError(for: jmMediaKind),
-                    description: remoteId
-                )
-            )
         }
     }
+//    
+//    
+//    func onNewConsumer2(json: [String: Any]) {
+//        // Extract necessary data from JSON
+//        if let status = json[SocketDataKey.status.rawValue] as? String,
+//           let data = json[SocketDataKey.data.rawValue] as? [String: Any],
+//           status == SocketDataKey.ok.rawValue,
+//           let consumerInfo = self.getDataOf(key: SocketDataKey.consumerInfo.rawValue, dictionary: data) {
+//
+//            // Extract additional information
+//            let appData = consumerInfo.dictionary(SocketDataKey.appData.rawValue)
+//            let kind = consumerInfo.strValue(SocketDataKey.kind.rawValue)
+//            let remoteId = consumerInfo.strValue(SocketDataKey.producerPeerId.rawValue)
+//            let consumerId = consumerInfo.strValue(SocketDataKey.consumerId.rawValue)
+//            let producerId = consumerInfo.strValue(SocketDataKey.producerId.rawValue)
+//            let rtpParameters = JSON(consumerInfo.dictionary(SocketDataKey.rtpParameters.rawValue)).description
+//
+//
+//            let mediaKind = kind == JMMediaType.audio.rawValue ? MediaKind.audio : MediaKind.video
+//            
+//            // Ensure recvTransport is available
+//            guard let recvTransport = recvTransport else {
+//                LOG.error("recvTransport- recvTransport Transport not available. remote - \(remoteId)")
+//                return
+//            }
+//            
+//            let isScreenShareEnabled = appData["share"] as? Bool ?? false
+//            let jmMediaType: JMMediaType = getJMMediaType(kind, isScreenShareEnabled: isScreenShareEnabled)
+//
+//            // Check if transport is in a connected state before proceeding
+//            if (recvTransport.connectionState != .completed){
+//                LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
+//                // Implement retry logic
+//                retryConsumeAfterTransportConnected(recvTransport: recvTransport, consumerInfo: consumerInfo, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
+//                return
+//            }
+//            LOG.warning("recvTransport - Transport is not connected yet. Current state: \(recvTransport.connectionState)")
+//
+//            // Existing logic for creating the consumer
+//            createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaType)
+//        }
+//    }
+//
+//    func retryConsumeAfterTransportConnected(recvTransport: ReceiveTransport, consumerInfo: [String: Any], appData: [String: Any], mediaKind: MediaKind, remoteId: String, consumerId: String, producerId: String, rtpParameters: String, jmMediaKind: JMMediaType) {
+//            let maxRetries = 4
+//            var currentRetry = 0
+//
+//            LOG.info("recvTransport - Starting transportRetryTimer for transport connection checking")
+//            transportRetryTimer = DispatchSource.makeTimerSource(queue: qJMMediaBGQueue)
+//            transportRetryTimer?.schedule(deadline: .now(), repeating: 2.0) // Retry every 2 seconds
+//
+//            transportRetryTimer?.setEventHandler { [weak self] in
+//                guard let self = self else { return }
+//                currentRetry += 1
+//
+//                if recvTransport.connectionState == .connected ||  recvTransport.connectionState == .completed ||  recvTransport.connectionState == .new {
+//                    LOG.info("recvTransport - Transport is now connected. Resuming consumer creation for remote ID: \(remoteId).")
+//                    self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
+//                    self.stopTransportRetryTimer() // Stop the timer once the transport is connected
+//                } else if currentRetry >= maxRetries {
+//                    LOG.error("recvTransport - Failed to connect transport after \(maxRetries) retries. force consumer creation for remote ID: \(remoteId).")
+//                    self.createConsumer(recvTransport: recvTransport, appData: appData, mediaKind: mediaKind, remoteId: remoteId, consumerId: consumerId, producerId: producerId, rtpParameters: rtpParameters, jmMediaKind: jmMediaKind)
+//                    self.stopTransportRetryTimer() // Stop the timer after max retries
+//                } else {
+//                    LOG.info("recvTransport - Retry \(currentRetry) for transport connection. Current state: \(recvTransport.connectionState)")
+//                }
+//            }
+//
+//            transportRetryTimer?.resume()
+//        }
+//
+//    func createConsumer(recvTransport: ReceiveTransport, appData: [String: Any], mediaKind: MediaKind, remoteId: String, consumerId: String, producerId: String, rtpParameters: String,jmMediaKind:JMMediaType) {
+//        guard var peer = self.getPeerObject(for: remoteId) else {
+//            LOG.error("createConsumer - Peer not present. UID: \(remoteId) for media type: \(mediaKind).")
+//            return
+//        }
+//        LOG.debug("Request for create consmer for \(peer.displayName) for type : \(jmMediaKind)")
+//        if let consumer = peer.getConsumer(for: jmMediaKind) {
+//            LOG.debug("createConsumer - Consumer already resumed. Skipping. User: \(peer.displayName) for media type: \(mediaKind). Consumer closed: \(consumer.closed) paused: \(consumer.paused).")
+//            return
+//        }
+//
+//        LOG.debug("createConsumer - Creating consumer for displayName: \(peer.displayName) for media type: \(mediaKind).")
+//
+//        let result = handleMediaSoupErrors("Subscribe - \(mediaKind)") {
+//            let consumer = try recvTransport.consume(
+//                consumerId: consumerId,
+//                producerId: producerId,
+//                kind: mediaKind,
+//                rtpParameters: rtpParameters,
+//                appData: JSON(appData).description
+//            )
+//
+//            self.updatePeerMediaConsumer(consumer, remoteId: remoteId, mediaType: jmMediaKind)
+//            self.updatePeerMediaState(true, remoteId: remoteId, mediaType: jmMediaKind)
+//            self.socketEmitResumeConsumer(for: consumerId)
+//
+//            consumer.resume()
+//
+//            // Update renderer track based on media type
+//            if mediaKind == .video {
+//                self.updateRemoteRenderViewTrack(for: remoteId)
+//                self.totalVideoConsumer[remoteId] = consumerId
+//            } else if mediaKind == .audio && audioRemotePeerVolume != -1.0 {
+//                LOG.info("Audio - User: \(remoteId) Remote peer volume set to \(audioRemotePeerVolume)")
+//                setVolume(consumer)
+//            }
+//        }
+//
+//        LOG.info("Subscribe - \(mediaKind) \(producerId) consumer \(result ? "added" : "failed") and display name \(peer.displayName)")
+//        if !result {
+//            delegateBackToManager?.sendClientError(
+//                error: JMMediaError(
+//                    type: getStreamingError(for: jmMediaKind),
+//                    description: remoteId
+//                )
+//            )
+//        }
+//    }
     
     func stopTransportRetryTimer() {
         transportRetryTimer?.cancel()
