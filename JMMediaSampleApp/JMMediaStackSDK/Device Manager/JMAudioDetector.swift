@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFoundation.AVFAudio
-@_implementationOnly import JMWebRtcVad
+@_implementationOnly import VoiceActivityDetector
 
 class JMAudioDetector: NSObject {
     

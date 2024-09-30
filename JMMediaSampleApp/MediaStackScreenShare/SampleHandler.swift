@@ -8,7 +8,7 @@
 import ReplayKit
 import CoreVideo
 import JMMediaStackSDK
-@_implementationOnly import JMMMWormhole
+@_implementationOnly import MMWormhole
 
 //EXTRA for sample app.
 public var appGroupIdentifierEX: String {
