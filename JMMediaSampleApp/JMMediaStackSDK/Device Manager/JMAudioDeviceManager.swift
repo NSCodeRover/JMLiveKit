@@ -193,6 +193,7 @@ extension JMAudioDeviceManager {
         audioSessionQueue.async {
             if jmDevice.deviceType == .Speaker {
                 self.setAudioPort(toSpeaker: true)
+                self.isDeviceSpeakerSet = true
             } else if jmDevice.deviceType == .Earpiece {
                 self.setAudioPort(toSpeaker: false)
             } else if let avDevice = jmDevice.device {
