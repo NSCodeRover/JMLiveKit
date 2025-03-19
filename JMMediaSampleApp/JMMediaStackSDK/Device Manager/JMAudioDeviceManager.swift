@@ -283,7 +283,7 @@ extension JMAudioDeviceManager {
                 if let bluetoothDevice = availableInputs.first(where: { $0.portType.rawValue.lowercased().contains("bluetooth") || $0.portType.rawValue.lowercased().contains("head") }) {
                     setAudioDevice(bluetoothDevice)
                 } else {
-                    setAudioPort(toSpeaker: true)
+                    setAudioPort(toSpeaker: isDeviceSpeakerSet)
                 }
             }
         }
