@@ -25,7 +25,7 @@ let package = Package(
         .package(url: "https://github.com/livekit/webrtc-xcframework.git", exact: "125.6422.32"),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.26.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
-        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
+        .package(url: "https://github.com/NSCodeRover/swift-collections.git", branch: "main"),
         // Only used for DocC generation
         .package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.3.0"),
         // Only used for Testing
