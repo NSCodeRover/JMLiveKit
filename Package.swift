@@ -15,6 +15,10 @@ let package = Package(
             name: "LiveKit",
             targets: ["LiveKit"]
         ),
+        .library(
+            name: "LKObjCHelpers",
+            targets: ["LKObjCHelpers"]
+        ),
     ],
     dependencies: [
         // LK-Prefixed Dynamic WebRTC XCFramework
