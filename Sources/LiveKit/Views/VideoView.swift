@@ -865,23 +865,15 @@ extension LKRTCMTLVideoView: Mirrorable {
 private extension VideoView {
     #if compiler(>=5.9)
     nonisolated func mainSyncOrAsync(operation: @MainActor @escaping () -> Void) {
-        if Thread.current.isMainThread {
-            MainActor.assumeIsolated(operation)
-        } else {
             Task { @MainActor in
                 operation()
-            }
-        }
+            } 
     }
     #else
     nonisolated func mainSyncOrAsync(operation: @escaping () -> Void) {
-        if Thread.current.isMainThread {
-            operation()
-        } else {
             Task { @MainActor in
                 operation()
             }
-        }
     }
     #endif
 }
