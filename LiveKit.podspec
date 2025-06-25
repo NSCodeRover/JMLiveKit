@@ -13,4 +13,33 @@ Pod::Spec.new do |s|
   s.dependency 'SwiftProtobuf', '~> 1.25.0'
   s.dependency 'PromisesSwift', '~> 2.3'
   s.dependency 'WebRTC-SDK', '~> 114.5735.08'
+  
+  # Configure WebRTC module mapping for LiveKitWebRTC compatibility
+  s.pod_target_xcconfig = {
+    'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/WebRTC-SDK/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers',
+    'FRAMEWORK_SEARCH_PATHS' => '$(PODS_ROOT)/WebRTC-SDK/WebRTC.xcframework/ios-arm64',
+    'OTHER_LDFLAGS' => '-framework WebRTC',
+    'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => '$(inherited) COCOAPODS'
+  }
+  
+  # Script to create LiveKitWebRTC module map
+  s.script_phase = {
+    :name => 'Create LiveKitWebRTC Module Map',
+    :script => <<-SCRIPT
+      WEBRTC_FRAMEWORK_PATH="$PODS_ROOT/WebRTC-SDK/WebRTC.xcframework/ios-arm64/WebRTC.framework"
+      MODULE_MAP_PATH="$WEBRTC_FRAMEWORK_PATH/Modules/LiveKitWebRTC.modulemap"
+      
+      if [ ! -f "$MODULE_MAP_PATH" ]; then
+        mkdir -p "$WEBRTC_FRAMEWORK_PATH/Modules"
+        cat > "$MODULE_MAP_PATH" << 'EOF'
+framework module LiveKitWebRTC {
+  umbrella header "WebRTC.h"
+  
+  export *
+  module * { export * }
+}
+EOF
+      fi
+    SCRIPT
+  }
 end
