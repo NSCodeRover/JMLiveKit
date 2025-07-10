@@ -1,0 +1,4 @@
+module SwiftProtobuf {
+    header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftProtobuf.build/SwiftProtobuf-Swift.h"
+    requires objc
+}

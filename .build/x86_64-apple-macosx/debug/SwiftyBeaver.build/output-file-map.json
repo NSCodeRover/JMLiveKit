@@ -1,0 +1,59 @@
+{
+  "": {
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/master.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/Base64.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Base64.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Base64.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Base64~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Base64.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/BaseDestination.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/BaseDestination.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/BaseDestination.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/BaseDestination~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/BaseDestination.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/ConsoleDestination.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/ConsoleDestination.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/ConsoleDestination.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/ConsoleDestination~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/ConsoleDestination.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/Extensions.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Extensions.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Extensions.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Extensions.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/FileDestination.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FileDestination.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FileDestination.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FileDestination~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FileDestination.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/Filter.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Filter.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Filter.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Filter~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/Filter.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/FilterValidator.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FilterValidator.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FilterValidator.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FilterValidator~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/FilterValidator.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/GoogleCloudDestination.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/GoogleCloudDestination.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/GoogleCloudDestination.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/GoogleCloudDestination~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/GoogleCloudDestination.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/SwiftyBeaver/Sources/SwiftyBeaver.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver.swiftdeps"
+  }
+}

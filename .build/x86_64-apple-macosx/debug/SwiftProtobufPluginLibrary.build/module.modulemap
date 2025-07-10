@@ -1,0 +1,4 @@
+module SwiftProtobufPluginLibrary {
+    header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftProtobufPluginLibrary.build/SwiftProtobufPluginLibrary-Swift.h"
+    requires objc
+}

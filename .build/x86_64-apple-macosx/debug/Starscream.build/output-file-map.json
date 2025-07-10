@@ -1,0 +1,131 @@
+{
+  "": {
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/master.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Compression/Compression.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/Compression.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/Compression.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/Compression~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/Compression.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Compression/WSCompression.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/WSCompression.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/WSCompression.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/WSCompression~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Compression/WSCompression.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/DataBytes/Data+Extensions.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/DataBytes/Data+Extensions.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/DataBytes/Data+Extensions.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/DataBytes/Data+Extensions~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/DataBytes/Data+Extensions.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Engine/Engine.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/Engine.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/Engine.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/Engine~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/Engine.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Engine/NativeEngine.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/NativeEngine.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/NativeEngine.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/NativeEngine~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/NativeEngine.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Engine/WSEngine.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/WSEngine.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/WSEngine.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/WSEngine~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Engine/WSEngine.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPHandler.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPHandler.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPHandler.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPHandler.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/FoundationHTTPServerHandler.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPServerHandler.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPServerHandler.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPServerHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FoundationHTTPServerHandler.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/FrameCollector.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FrameCollector.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FrameCollector.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FrameCollector~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/FrameCollector.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/Framer.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/Framer.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/Framer.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/Framer~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/Framer.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/HTTPHandler.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/HTTPHandler.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/HTTPHandler.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/HTTPHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/HTTPHandler.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Framer/StringHTTPHandler.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/StringHTTPHandler.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/StringHTTPHandler.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/StringHTTPHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Framer/StringHTTPHandler.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Security/FoundationSecurity.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/FoundationSecurity.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/FoundationSecurity.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/FoundationSecurity~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/FoundationSecurity.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Security/Security.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/Security.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/Security.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/Security~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Security/Security.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Server/Server.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/Server.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/Server.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/Server~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/Server.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Server/WebSocketServer.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/WebSocketServer.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/WebSocketServer.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/WebSocketServer~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Server/WebSocketServer.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Starscream/WebSocket.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Starscream/WebSocket.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Starscream/WebSocket.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Starscream/WebSocket~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Starscream/WebSocket.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Transport/FoundationTransport.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/FoundationTransport.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/FoundationTransport.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/FoundationTransport~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/FoundationTransport.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Transport/TCPTransport.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/TCPTransport.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/TCPTransport.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/TCPTransport~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/TCPTransport.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/Starscream/Sources/Transport/Transport.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/Transport.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/Transport.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/Transport~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/Transport/Transport.swiftdeps"
+  },
+  "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/DerivedSources/resource_bundle_accessor.swift": {
+    "dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.d",
+    "object": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.swift.o",
+    "swiftmodule": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/resource_bundle_accessor~partial.swiftmodule",
+    "swift-dependencies": "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/Starscream.build/resource_bundle_accessor.swiftdeps"
+  }
+}

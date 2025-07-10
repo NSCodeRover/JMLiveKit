@@ -1,0 +1,4 @@
+module MMWormhole {
+    umbrella header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/MMWormhole/Source/MMWormhole.h"
+    export *
+}

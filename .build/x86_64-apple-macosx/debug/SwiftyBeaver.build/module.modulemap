@@ -1,0 +1,4 @@
+module SwiftyBeaver {
+    header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver-Swift.h"
+    requires objc
+}

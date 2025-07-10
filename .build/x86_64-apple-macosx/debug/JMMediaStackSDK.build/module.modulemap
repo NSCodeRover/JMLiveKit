@@ -1,0 +1,4 @@
+module JMMediaStackSDK {
+    header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/JMMediaStackSDK.build/JMMediaStackSDK-Swift.h"
+    requires objc
+}

@@ -1,0 +1,4 @@
+module LiveKit {
+    header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/x86_64-apple-macosx/debug/LiveKit.build/LiveKit-Swift.h"
+    requires objc
+}

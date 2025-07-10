@@ -20,31 +20,16 @@ public class JMMediaEngine : NSObject{
     static public let shared = JMMediaEngine()
     private override init() {
         super.init()
-        setupDualWebRTCStack()
+        LOG.info("JMMediaEngine: Initialized with dual WebRTC stack support - MediaSoup (RTC*) + LiveKit (LKRTC*)")
     }
     
     public var delegateBackToClient:JMMediaEngineDelegate?
     private var vm_manager: JMManagerViewModel!
     var socketChecker: SocketChecker?
     
-    // MARK: - Dual WebRTC Stack Support
-    private var webRTCManager: JMWebRTCManager?
-    
-    // MARK: - Dual WebRTC Stack Setup
-    private func setupDualWebRTCStack() {
-        webRTCManager = JMWebRTCManager.shared
-        LOG.info("JMMediaEngine: Dual WebRTC stack initialized - MediaSoup (RTC*) + LiveKit (LKRTC*)")
-    }
-    
-    // MARK: - WebRTC Engine Switching (Public API)
-    public func switchWebRTCEngine(to engineType: JMWebRTCEngineType) async {
-        await webRTCManager?.switchToEngine(engineType)
-        LOG.info("JMMediaEngine: Switched to \(engineType == .mediaSoup ? "MediaSoup" : "LiveKit") WebRTC engine")
-    }
-    
-    public func getCurrentWebRTCEngine() -> JMWebRTCEngineType {
-        return webRTCManager?.getCurrentEngine() ?? .mediaSoup
-    }
+    // MARK: - Dual WebRTC Stack Support (LiveKit + MediaSoup)
+    // Note: LiveKit integration is available via CocoaPods
+    // MediaSoup WebRTC uses RTC* classes, LiveKit uses LKRTC* classes for symbol isolation
 }
 
 //MARK: Communicating back to Client (send data and event to client app)

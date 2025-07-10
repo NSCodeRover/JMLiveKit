@@ -1,0 +1,4 @@
+module LKObjCHelpers {
+    umbrella header "/Users/onkar.dhanlobhe/JMMediaSoup_iOS/.build/checkouts/client-sdk-swift/Sources/LKObjCHelpers/include/LKObjCHelpers.h"
+    export *
+}

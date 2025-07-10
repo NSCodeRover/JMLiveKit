@@ -1,0 +1,617 @@
+188ecf69fa85a92619df38dd69b81c58c013ca29	not-for-merge	branch 'allow-tracksettings-modification-before-fully-subscribed' of https://github.com/livekit/client-sdk-swift
+c6f838260f83b6470d4fafb9e73d45c3c9bbf9af	not-for-merge	branch 'audiomanager-mute-count' of https://github.com/livekit/client-sdk-swift
+73c413bf1b61f96130e4bbfe5022a5731c0d60a5	not-for-merge	branch 'bcherry/broadcast-silent-exit' of https://github.com/livekit/client-sdk-swift
+09e5a606560542e5c45945502e5eaea3e0fb0d13	not-for-merge	branch 'bcherry/fix-package' of https://github.com/livekit/client-sdk-swift
+41693faf7340d3d3d9e82a1bc60b5839617fc95d	not-for-merge	branch 'bcherry/integration-broadcast-fixes' of https://github.com/livekit/client-sdk-swift
+b364596b1b87b66227d7bfcf47202ac28b42fa41	not-for-merge	branch 'bcherry/loudspeaker' of https://github.com/livekit/client-sdk-swift
+54f834a1e943031f63a0bf0ed993902e20d65ffa	not-for-merge	branch 'bcherry/public-extensions' of https://github.com/livekit/client-sdk-swift
+d2d66b595df69854027d8b1d84442254193c56aa	not-for-merge	branch 'bcherry/rpc-2' of https://github.com/livekit/client-sdk-swift
+9c4a4d2daebfd6be99423f83efa0a09c8f4856ab	not-for-merge	branch 'blaze/airplane-reconnect' of https://github.com/livekit/client-sdk-swift
+2ddad9f9e4bd44eadd7fab155cf5c16768941757	not-for-merge	branch 'blaze/external-webcam' of https://github.com/livekit/client-sdk-swift
+984ae043639c1dc3f577abfeea9dc3317b054f02	not-for-merge	branch 'blaze/recursive-locking' of https://github.com/livekit/client-sdk-swift
+66c55d3bbea73d7f09a742a6041c16d928817076	not-for-merge	branch 'dsa-readme-revamp' of https://github.com/livekit/client-sdk-swift
+0706e5d33d7fed3878395b5fdaca056e92b305e9	not-for-merge	branch 'duan/external-audio-processing' of https://github.com/livekit/client-sdk-swift
+e797f04d1a99ef15eac5f84ec0c01c20c72e7d41	not-for-merge	branch 'extend-audio-processing-delegate' of https://github.com/livekit/client-sdk-swift
+1dde300a94e53abfbc5543bb048341621260d4f1	not-for-merge	branch 'fix-notify-sync' of https://github.com/livekit/client-sdk-swift
+610c3a81b31b904cb2b0d5fea700182ac7fce3f1	not-for-merge	branch 'for-binary-size-optimization' of https://github.com/livekit/client-sdk-swift
+3fddf164201a32e5ecf320b51b789c675b1e7332	not-for-merge	branch 'hiroshi/adm-audioengine' of https://github.com/livekit/client-sdk-swift
+facb3ce1fe5e794ef1037d4a537ca3738d6644c2	not-for-merge	branch 'hiroshi/apm-config' of https://github.com/livekit/client-sdk-swift
+eb0c1dcbee5bed7fc6ab836d661a000462ba70a9	not-for-merge	branch 'hiroshi/audio-mixer' of https://github.com/livekit/client-sdk-swift
+93db734b87b3a7e010bd578e3b75c020ab4d983f	not-for-merge	branch 'hiroshi/avoid-forced-unwrap' of https://github.com/livekit/client-sdk-swift
+0b2a6ed1b81f07121da463375e260ebf885638f5	not-for-merge	branch 'hiroshi/change-audio-session-sequence' of https://github.com/livekit/client-sdk-swift
+0a4d39bad543c9e6bc12b210bf6495efad60a33e	not-for-merge	branch 'hiroshi/echo-agent-tests' of https://github.com/livekit/client-sdk-swift
+aa82d80a0f84257a431cdd92b6183a0bd265b80f	not-for-merge	branch 'hiroshi/fix-warnings' of https://github.com/livekit/client-sdk-swift
+d39be57e9f590717202909002466d02fef0ba175	not-for-merge	branch 'hiroshi/improve-negotiation' of https://github.com/livekit/client-sdk-swift
+9511dca62c6c6da115d2b0ee508d200daf880d84	not-for-merge	branch 'hiroshi/lib-switch-adm' of https://github.com/livekit/client-sdk-swift
+793dacd0af3460fcbcc9c8cfef6fc481cac3357d	not-for-merge	branch 'hiroshi/neater-logs' of https://github.com/livekit/client-sdk-swift
+b153e147d00f41471b926c153cfd0b36ac3cb682	not-for-merge	branch 'hiroshi/optimize-audiosession-01' of https://github.com/livekit/client-sdk-swift
+216adfa2b51146935bd271c71b1a2aa69234c1ab	not-for-merge	branch 'hiroshi/prepare-connection' of https://github.com/livekit/client-sdk-swift
+f279de0f98b8980fbe67b41b796d1fc77b441fdf	not-for-merge	branch 'hiroshi/publish-device-optimization' of https://github.com/livekit/client-sdk-swift
+9aa2f27735eec389b7e090c8d19c3773d5de9b57	not-for-merge	branch 'hiroshi/recording-perms-check' of https://github.com/livekit/client-sdk-swift
+f90aa80efa4609f89317697674e11dcc0eb4696b	not-for-merge	branch 'hiroshi/remove-asyncserialdelegate' of https://github.com/livekit/client-sdk-swift
+3836991ee67bb065eaba1c4e0138e833bddbfe89	not-for-merge	branch 'hiroshi/revert-video-processing' of https://github.com/livekit/client-sdk-swift
+0626ee1d0fe6a709adaa8e13d6c2c44252ee2de5	not-for-merge	branch 'hiroshi/runtime-audio-config-update' of https://github.com/livekit/client-sdk-swift
+66db8576c1b6ac103de52e951985bdfeab4a7550	not-for-merge	branch 'hiroshi/vpau-patch-01' of https://github.com/livekit/client-sdk-swift
+42dc3ba3ca7a0f988f1baa6b46ddaaf1012ede8a	not-for-merge	branch 'improve-track-thread-safety' of https://github.com/livekit/client-sdk-swift
+c3c4797b3a19a20ac8011b7df74e0ef8f6f5dffb	not-for-merge	branch 'integrate-e2ee-manager' of https://github.com/livekit/client-sdk-swift
+f3669a9fe945af736739617791277b81b11d5e7c	not-for-merge	branch 'ladvoc/bump-2.5.0' of https://github.com/livekit/client-sdk-swift
+6599d5525d17366e712c0f489e063b6031de764a	not-for-merge	branch 'ladvoc/ci-enhance' of https://github.com/livekit/client-sdk-swift
+8db3bacd8afcd33eb542bd8db84919e783f0c7cf	not-for-merge	branch 'ladvoc/doc-build' of https://github.com/livekit/client-sdk-swift
+31475272d16ad1911686b39b50037c0929c6a032	not-for-merge	branch 'ladvoc/doc-publish-fix' of https://github.com/livekit/client-sdk-swift
+aeb9a3b815515fb4576d2f45bc7ff9c068e46556	not-for-merge	branch 'lukas/debug' of https://github.com/livekit/client-sdk-swift
+add256852fd6510de3c8ef0bac91595240604151	not-for-merge	branch 'main' of https://github.com/livekit/client-sdk-swift
+6844c31775c56aab76909a939ddd1ac4cde008cd	not-for-merge	branch 'merge-room-and-engine' of https://github.com/livekit/client-sdk-swift
+c24b99b3f704c200823a7746c2a940dfb7abeb62	not-for-merge	branch 'participant-actor' of https://github.com/livekit/client-sdk-swift
+b34427c581c753a0e48f7ea8ac01e7de5c74909e	not-for-merge	branch 'relay-cameracapturer-to-buffercapturer' of https://github.com/livekit/client-sdk-swift
+da343a8c3b72bdb234d84967ac75f6ce37e95d8a	not-for-merge	branch 'revert-async-multicast' of https://github.com/livekit/client-sdk-swift
+53c9350652a9f3c35f44e49681b98c19df3df656	not-for-merge	branch 'subscription-priority' of https://github.com/livekit/client-sdk-swift
+b3bb98cea3b96fd1134975ee85714b8d892dcf11	not-for-merge	branch 'use-osallocatedunfairlock' of https://github.com/livekit/client-sdk-swift
+3c679161df3626177405f144aee398d736473f87	not-for-merge	branch 'v1' of https://github.com/livekit/client-sdk-swift
+d09475398811e8fd8cfdea46c4c64a0765ade7fd	not-for-merge	branch 'v2-preview' of https://github.com/livekit/client-sdk-swift
+e6010b36f6636262dada0b7724505fae7026e8b7	not-for-merge	'refs/pull/100/head' of https://github.com/livekit/client-sdk-swift
+bd16ff44628b2b0f73682d2af0828a6598cf40e7	not-for-merge	'refs/pull/102/head' of https://github.com/livekit/client-sdk-swift
+8ba2642e279feafc7e7d4cd65e1a65947f739c15	not-for-merge	'refs/pull/103/head' of https://github.com/livekit/client-sdk-swift
+7097e766b28647eb4fa37e7be67a4902fa42af95	not-for-merge	'refs/pull/104/head' of https://github.com/livekit/client-sdk-swift
+cbe486764d84f5fb8957e96c5f9d7d0bc0430969	not-for-merge	'refs/pull/106/head' of https://github.com/livekit/client-sdk-swift
+6f7721fd92b74a7d4c2258777efe1009287f3130	not-for-merge	'refs/pull/107/head' of https://github.com/livekit/client-sdk-swift
+b52cabe5bddbb7c49cb29dea0195b3b9d0f0b2eb	not-for-merge	'refs/pull/108/head' of https://github.com/livekit/client-sdk-swift
+8ccc4433d147d096618d49dbbdeea9391be13e6a	not-for-merge	'refs/pull/109/head' of https://github.com/livekit/client-sdk-swift
+ddd2b677cd534ca982fb1c4fd2a56f96a5ab9246	not-for-merge	'refs/pull/11/head' of https://github.com/livekit/client-sdk-swift
+ae3f696720fc0ee9dba031d60622448d09597d14	not-for-merge	'refs/pull/110/head' of https://github.com/livekit/client-sdk-swift
+b903c835f6b01058f7c6d2826eba4a24a530837c	not-for-merge	'refs/pull/111/head' of https://github.com/livekit/client-sdk-swift
+0bff1951dccc8c9c63753ab96303e2573dc71576	not-for-merge	'refs/pull/112/head' of https://github.com/livekit/client-sdk-swift
+800fb76fc2e9301998dd6f10726645257700db4a	not-for-merge	'refs/pull/113/head' of https://github.com/livekit/client-sdk-swift
+85afa81669037f9231428e7b229cf0916893beb6	not-for-merge	'refs/pull/114/head' of https://github.com/livekit/client-sdk-swift
+b91d52e79f594e95d600f5b9188159a5307e6504	not-for-merge	'refs/pull/115/head' of https://github.com/livekit/client-sdk-swift
+8f0aaf787f54bd99dda651df791924bfe8242f05	not-for-merge	'refs/pull/116/head' of https://github.com/livekit/client-sdk-swift
+2c883dbc01daf6c31d8056590d1a5edf327ab59f	not-for-merge	'refs/pull/117/head' of https://github.com/livekit/client-sdk-swift
+c3859616ad6eaab9047e1b0570a67a1c197a544f	not-for-merge	'refs/pull/118/head' of https://github.com/livekit/client-sdk-swift
+735dab654aee137f64c74dfd92a97911a25d8faa	not-for-merge	'refs/pull/12/head' of https://github.com/livekit/client-sdk-swift
+afc57b416ff4c2b6e684c524a2fe439a46f2de1d	not-for-merge	'refs/pull/120/head' of https://github.com/livekit/client-sdk-swift
+0a054928d4345ba530540bdaa706862ce2914165	not-for-merge	'refs/pull/121/head' of https://github.com/livekit/client-sdk-swift
+6fdc54b8e3e3c630065dc1e637d6466241614fac	not-for-merge	'refs/pull/122/head' of https://github.com/livekit/client-sdk-swift
+4a02d80d61d53d0313ee2f2bc3b1fe23e24a89ea	not-for-merge	'refs/pull/123/head' of https://github.com/livekit/client-sdk-swift
+c3024754a19b53d2adc9ad5751541cb13986ecf6	not-for-merge	'refs/pull/124/head' of https://github.com/livekit/client-sdk-swift
+82580abe3469c2b9eebaf2f7cdaa07d6e703f137	not-for-merge	'refs/pull/125/head' of https://github.com/livekit/client-sdk-swift
+b59cf6903478b5c8dafe06b2aacc8b61be24ef1d	not-for-merge	'refs/pull/127/head' of https://github.com/livekit/client-sdk-swift
+43805bedd0009bff42d616c757b9bce975b63806	not-for-merge	'refs/pull/128/head' of https://github.com/livekit/client-sdk-swift
+685dde6de73f97fe53eb60a44fb42d2b35898654	not-for-merge	'refs/pull/13/head' of https://github.com/livekit/client-sdk-swift
+f3cec828853268a0a5cd5010e9fe4a19c5894b8e	not-for-merge	'refs/pull/130/head' of https://github.com/livekit/client-sdk-swift
+9f15a33365a8579192e4b844c3007b531060eba2	not-for-merge	'refs/pull/132/head' of https://github.com/livekit/client-sdk-swift
+66c55d3bbea73d7f09a742a6041c16d928817076	not-for-merge	'refs/pull/133/head' of https://github.com/livekit/client-sdk-swift
+38fd437d41e11101a4bc1ad2b30c6ae3acf7378a	not-for-merge	'refs/pull/133/merge' of https://github.com/livekit/client-sdk-swift
+fdc6548d12dc7c14dbdde2032b35a6ddf569568e	not-for-merge	'refs/pull/134/head' of https://github.com/livekit/client-sdk-swift
+4f22663458b262af21fc171a0a6856471b01c930	not-for-merge	'refs/pull/135/head' of https://github.com/livekit/client-sdk-swift
+6cf871b12bb90a7d914aec1d496660b33ca93f7d	not-for-merge	'refs/pull/137/head' of https://github.com/livekit/client-sdk-swift
+a29c654b73a70e293b143aad81563db7c6c642f3	not-for-merge	'refs/pull/14/head' of https://github.com/livekit/client-sdk-swift
+964304538c0907920fdfbbdd3f94bd1310e6fc84	not-for-merge	'refs/pull/145/head' of https://github.com/livekit/client-sdk-swift
+468253a7585f6369b6a62b1767ec0df4187f4ded	not-for-merge	'refs/pull/147/head' of https://github.com/livekit/client-sdk-swift
+2a0fe5d858a1d69dda139529419fab9cb392438c	not-for-merge	'refs/pull/149/head' of https://github.com/livekit/client-sdk-swift
+9e340e7cc2fe82595b4e48b8e7e0c66657baffbc	not-for-merge	'refs/pull/15/head' of https://github.com/livekit/client-sdk-swift
+c237a40847305ba9c6542f16bc859e35562eb110	not-for-merge	'refs/pull/157/head' of https://github.com/livekit/client-sdk-swift
+5bcda2cce8e950bf36e2422155334c2320978096	not-for-merge	'refs/pull/16/head' of https://github.com/livekit/client-sdk-swift
+8765319006166f7519dfe4ddfad8572eca61be5c	not-for-merge	'refs/pull/160/head' of https://github.com/livekit/client-sdk-swift
+ee117c4b242da8db4ec7ab55719fd603bbeab811	not-for-merge	'refs/pull/163/head' of https://github.com/livekit/client-sdk-swift
+934734f69a8c7cfa91a9b3b9d8cda23db4b08a59	not-for-merge	'refs/pull/165/head' of https://github.com/livekit/client-sdk-swift
+ab4ad7c728f2591f971500444be3e11f04553c78	not-for-merge	'refs/pull/166/head' of https://github.com/livekit/client-sdk-swift
+5406ea2ce8ca1be31e65dbf4a89c7c5d0f43f084	not-for-merge	'refs/pull/167/head' of https://github.com/livekit/client-sdk-swift
+0dbf5fe3ae79d509c831c3995d3adf0b365b4a8c	not-for-merge	'refs/pull/168/head' of https://github.com/livekit/client-sdk-swift
+cfb2e21da400661d01e4a83b3760d0b6186b36bc	not-for-merge	'refs/pull/17/head' of https://github.com/livekit/client-sdk-swift
+b84b720ffefe270e0d6c06b8d6af21dbbfeff634	not-for-merge	'refs/pull/173/head' of https://github.com/livekit/client-sdk-swift
+580288a6af4a4f067c07d9e8c681a095199bec60	not-for-merge	'refs/pull/174/head' of https://github.com/livekit/client-sdk-swift
+346eb09c75e2b0e2bb1a63a1a60da10d4c60ccd5	not-for-merge	'refs/pull/176/head' of https://github.com/livekit/client-sdk-swift
+fa33f610f99307fb20e8d73f400a1904bb8786ce	not-for-merge	'refs/pull/178/head' of https://github.com/livekit/client-sdk-swift
+834da4a2acc52a1e469c62c19dce10d9e2c5f118	not-for-merge	'refs/pull/179/head' of https://github.com/livekit/client-sdk-swift
+9a972af07ad6b5c8e6b25733a0525aa99fa4243f	not-for-merge	'refs/pull/18/head' of https://github.com/livekit/client-sdk-swift
+34551783e185af57330618e91843475f80ac5958	not-for-merge	'refs/pull/180/head' of https://github.com/livekit/client-sdk-swift
+51fa5417c7821ed3df1cc88764c555cc343698f0	not-for-merge	'refs/pull/185/head' of https://github.com/livekit/client-sdk-swift
+6b569bf50c12d124784e9bd7dd11987ef852e345	not-for-merge	'refs/pull/186/head' of https://github.com/livekit/client-sdk-swift
+50deb374156b34542a0bedafd17d63967781faf5	not-for-merge	'refs/pull/189/head' of https://github.com/livekit/client-sdk-swift
+28f19a685348f00368268f4779c6679566d56ce4	not-for-merge	'refs/pull/19/head' of https://github.com/livekit/client-sdk-swift
+6f77a2742c13e00445cad55b4e69100aa322704b	not-for-merge	'refs/pull/193/head' of https://github.com/livekit/client-sdk-swift
+2e3da59732ea86e8fb8a2922dce52a3b24c11094	not-for-merge	'refs/pull/194/head' of https://github.com/livekit/client-sdk-swift
+7277cf772cbc8e66ca5a5d98192c2b6262127eb5	not-for-merge	'refs/pull/195/head' of https://github.com/livekit/client-sdk-swift
+0d459c8e2de2529ddc25b2c3ff18ddbe7b0ad739	not-for-merge	'refs/pull/196/head' of https://github.com/livekit/client-sdk-swift
+a57c900d97b09ae2311193d42e87cda927a90f36	not-for-merge	'refs/pull/197/head' of https://github.com/livekit/client-sdk-swift
+960f88f9bb4326bff58844fc2c31f740b9629e6e	not-for-merge	'refs/pull/198/head' of https://github.com/livekit/client-sdk-swift
+2bb06dc45da21971e834a8338c72a8f077637ed5	not-for-merge	'refs/pull/199/head' of https://github.com/livekit/client-sdk-swift
+eb3edbbf4fd90019121176f3c69897bb6b742a8e	not-for-merge	'refs/pull/20/head' of https://github.com/livekit/client-sdk-swift
+188ecf69fa85a92619df38dd69b81c58c013ca29	not-for-merge	'refs/pull/200/head' of https://github.com/livekit/client-sdk-swift
+2eff2e26eed0fb812e23b689b0f970771dd41f8f	not-for-merge	'refs/pull/200/merge' of https://github.com/livekit/client-sdk-swift
+a7b6f5ea606f495dfa0382b004d1c66b17bf8449	not-for-merge	'refs/pull/201/head' of https://github.com/livekit/client-sdk-swift
+53c9350652a9f3c35f44e49681b98c19df3df656	not-for-merge	'refs/pull/202/head' of https://github.com/livekit/client-sdk-swift
+e14413f5ef250bd103a4bfcd006a3b4360696878	not-for-merge	'refs/pull/203/head' of https://github.com/livekit/client-sdk-swift
+26e50caad3c2f0d9433a09b9fd8e4366b4ad04cf	not-for-merge	'refs/pull/204/head' of https://github.com/livekit/client-sdk-swift
+f29175d4f172289d8f02d37036d4ea8e2f2571cb	not-for-merge	'refs/pull/205/head' of https://github.com/livekit/client-sdk-swift
+089eb22cbf0911fe3f7d17354d2757abf0b6d026	not-for-merge	'refs/pull/206/head' of https://github.com/livekit/client-sdk-swift
+3392890256a3d0e60d831b833d8ebbbeb0eef77e	not-for-merge	'refs/pull/207/head' of https://github.com/livekit/client-sdk-swift
+508b5edbc73a7938a604bc0cfe842f997a4234d7	not-for-merge	'refs/pull/21/head' of https://github.com/livekit/client-sdk-swift
+2a2cd973c04fafc8cecb4c4401fd0a91e23ba2f8	not-for-merge	'refs/pull/212/head' of https://github.com/livekit/client-sdk-swift
+ab2c910e3744ff83d39b10061383f81960e56a68	not-for-merge	'refs/pull/213/head' of https://github.com/livekit/client-sdk-swift
+684cfd95e4b38529f43425e4af4e5207ca432f43	not-for-merge	'refs/pull/217/head' of https://github.com/livekit/client-sdk-swift
+edb15171ccbd7cff24a60a8a8e86c67fc489e079	not-for-merge	'refs/pull/221/head' of https://github.com/livekit/client-sdk-swift
+c6e79843855a32f03c37ca11d269b08e618b8f13	not-for-merge	'refs/pull/222/head' of https://github.com/livekit/client-sdk-swift
+08dd3f7b3a5e3198bad9a7278f2ec675fcf7665c	not-for-merge	'refs/pull/224/head' of https://github.com/livekit/client-sdk-swift
+a3df74158dfd9f566bb1db54c60403bffd28ee8f	not-for-merge	'refs/pull/225/head' of https://github.com/livekit/client-sdk-swift
+743dc70a8cd89abd9edb507f6cd8ae83b1f975cc	not-for-merge	'refs/pull/226/head' of https://github.com/livekit/client-sdk-swift
+ed3e45fc58b80218ad625d60947c1035500ff14c	not-for-merge	'refs/pull/228/head' of https://github.com/livekit/client-sdk-swift
+f597b2b0b0a259fb12c9e953f8aa586d0f94ef89	not-for-merge	'refs/pull/23/head' of https://github.com/livekit/client-sdk-swift
+54be1f3b663dacdd0777a004b7b5cf512126c13c	not-for-merge	'refs/pull/230/head' of https://github.com/livekit/client-sdk-swift
+6dca20b3e2051d4c2f4f17bc4bf8f3fb8b7a5c68	not-for-merge	'refs/pull/231/head' of https://github.com/livekit/client-sdk-swift
+fc294d831ee31919080bac81e434c70369360c37	not-for-merge	'refs/pull/233/head' of https://github.com/livekit/client-sdk-swift
+eac835c2ef082082bb115ad6011254cd20fc131e	not-for-merge	'refs/pull/234/head' of https://github.com/livekit/client-sdk-swift
+a45ff71047fadf16a3de1584211874af920b60a6	not-for-merge	'refs/pull/237/head' of https://github.com/livekit/client-sdk-swift
+87733ebf33500743bd20b6fea11f8d5a9c85323b	not-for-merge	'refs/pull/238/head' of https://github.com/livekit/client-sdk-swift
+9dec0f87f8c80da8e52c97674617d58b7ba4ff93	not-for-merge	'refs/pull/239/head' of https://github.com/livekit/client-sdk-swift
+fa3a2109414aaa70500d254d39fa8a16b9fb648b	not-for-merge	'refs/pull/24/head' of https://github.com/livekit/client-sdk-swift
+beb558d44627afecbc0537d40752399ecd3e85e7	not-for-merge	'refs/pull/240/head' of https://github.com/livekit/client-sdk-swift
+254c4e0dbb2fc1c9f69734730261c18a5a406fc2	not-for-merge	'refs/pull/241/head' of https://github.com/livekit/client-sdk-swift
+f2db34e545ee5801990d1eaa8ea26bed5306c42f	not-for-merge	'refs/pull/242/head' of https://github.com/livekit/client-sdk-swift
+d04abc05d79a78b954366377b4ee031158f16ac6	not-for-merge	'refs/pull/243/head' of https://github.com/livekit/client-sdk-swift
+a75fe6cb534b8739a098fb2fbcefa0431bef097e	not-for-merge	'refs/pull/245/head' of https://github.com/livekit/client-sdk-swift
+10a5ca1f7bc9658c7ea89f35dcd6ba24d212a5b0	not-for-merge	'refs/pull/247/head' of https://github.com/livekit/client-sdk-swift
+5320b67fb52f46b258291ce7003d7a6ce69ce802	not-for-merge	'refs/pull/248/head' of https://github.com/livekit/client-sdk-swift
+7f969796493e799b7d53b30c4c0429d2efc36974	not-for-merge	'refs/pull/249/head' of https://github.com/livekit/client-sdk-swift
+a81ea9cf3f984bc1a3409fccfddd0a2de0f212db	not-for-merge	'refs/pull/25/head' of https://github.com/livekit/client-sdk-swift
+5317e972c7bc9d806190c3cddd0e7fffc595d73c	not-for-merge	'refs/pull/250/head' of https://github.com/livekit/client-sdk-swift
+7fdf305f396991a71c5dbbe4b1e9184f7ee5772f	not-for-merge	'refs/pull/251/head' of https://github.com/livekit/client-sdk-swift
+ecfb4a28f94388893b3983ee76486d6189e9d568	not-for-merge	'refs/pull/253/head' of https://github.com/livekit/client-sdk-swift
+f4dc974bab224dd5e0d0268a572bfee989f026d0	not-for-merge	'refs/pull/260/head' of https://github.com/livekit/client-sdk-swift
+d97bf75a72064cd77429d53095a72e05ab4e2b08	not-for-merge	'refs/pull/261/head' of https://github.com/livekit/client-sdk-swift
+3b85af1d6a4ab594f1cf71e17ce38954936562b4	not-for-merge	'refs/pull/263/head' of https://github.com/livekit/client-sdk-swift
+3f7a37d70e3495969a3c5307a83ffcb11d09367e	not-for-merge	'refs/pull/265/head' of https://github.com/livekit/client-sdk-swift
+2e574a14caf4b91acc9b1bcf5cd55073ed3620ff	not-for-merge	'refs/pull/267/head' of https://github.com/livekit/client-sdk-swift
+3cc775e8f57fd09d41b33d723dd642db8a29b0f8	not-for-merge	'refs/pull/268/head' of https://github.com/livekit/client-sdk-swift
+034ca200ec1a6776a61a54db3cf7d8913fcd1b89	not-for-merge	'refs/pull/269/head' of https://github.com/livekit/client-sdk-swift
+6d0a80c8315662ee173210b73b24f2e96ce63ede	not-for-merge	'refs/pull/27/head' of https://github.com/livekit/client-sdk-swift
+498e4006531f43d4e5e4d89d7bf29c334ba9324a	not-for-merge	'refs/pull/270/head' of https://github.com/livekit/client-sdk-swift
+ff0ea71ad9e2de2b9e571779db2198ad1f97a932	not-for-merge	'refs/pull/271/head' of https://github.com/livekit/client-sdk-swift
+7de4f1e6aee327675589430ab1eb9f3b25035f7d	not-for-merge	'refs/pull/272/head' of https://github.com/livekit/client-sdk-swift
+2df36e94cd9ec94b01343aabc3322f31eec97d44	not-for-merge	'refs/pull/273/head' of https://github.com/livekit/client-sdk-swift
+19e1182b2bad212fc0f7cd6b476b762a8147347b	not-for-merge	'refs/pull/275/head' of https://github.com/livekit/client-sdk-swift
+eaeba6a5825c1beb0cf308aacb3fcedf9048813e	not-for-merge	'refs/pull/276/head' of https://github.com/livekit/client-sdk-swift
+7878a8c43bdf9fe00be2150679169f34e90cadd1	not-for-merge	'refs/pull/278/head' of https://github.com/livekit/client-sdk-swift
+7e11f81d313edf6e238e0a1115e79f6d648cc698	not-for-merge	'refs/pull/28/head' of https://github.com/livekit/client-sdk-swift
+8f35eb7af49ab0d0e57a5c46881e603e22cfb3c6	not-for-merge	'refs/pull/280/head' of https://github.com/livekit/client-sdk-swift
+10ce3a533fb70c583699397fffb307d8d6c3496b	not-for-merge	'refs/pull/282/head' of https://github.com/livekit/client-sdk-swift
+b22f7b23cc6435baab27701329d43598677c1cb6	not-for-merge	'refs/pull/283/head' of https://github.com/livekit/client-sdk-swift
+be1641b1981981f15ad70b4ce479545ba604414f	not-for-merge	'refs/pull/284/head' of https://github.com/livekit/client-sdk-swift
+c6f838260f83b6470d4fafb9e73d45c3c9bbf9af	not-for-merge	'refs/pull/285/head' of https://github.com/livekit/client-sdk-swift
+6a20e6c574169577fcfba8d91ab1af4a63a5ee9e	not-for-merge	'refs/pull/286/head' of https://github.com/livekit/client-sdk-swift
+44d9ba52bd970858636031c1ff6efa0171722699	not-for-merge	'refs/pull/29/head' of https://github.com/livekit/client-sdk-swift
+50f004538a2f7b3e6358dbc60ce616453de3b671	not-for-merge	'refs/pull/291/head' of https://github.com/livekit/client-sdk-swift
+3f35ec1d9f7cfc174022bf7bc20a26afe6d4bc36	not-for-merge	'refs/pull/292/head' of https://github.com/livekit/client-sdk-swift
+76ceabf170c4bc728702f9790ce8c40d186df83a	not-for-merge	'refs/pull/293/head' of https://github.com/livekit/client-sdk-swift
+a13df8ccf1f5c58d67e0c962e5558d4136e2bca6	not-for-merge	'refs/pull/294/head' of https://github.com/livekit/client-sdk-swift
+597d70f2476a46fe985f10d0b7b1a925a4c67dce	not-for-merge	'refs/pull/295/head' of https://github.com/livekit/client-sdk-swift
+5c730611c6614e42e78649600fafe1b1ff3091d4	not-for-merge	'refs/pull/296/head' of https://github.com/livekit/client-sdk-swift
+f29aa4f9a3835ab91a9e4f5d2f6a52964dfc54de	not-for-merge	'refs/pull/297/head' of https://github.com/livekit/client-sdk-swift
+c5416ede1e5cb94ac8ed217728cd31c8b008947f	not-for-merge	'refs/pull/298/head' of https://github.com/livekit/client-sdk-swift
+f0ab3cb44f6f0a6acf984425c1f9914fca39c065	not-for-merge	'refs/pull/3/head' of https://github.com/livekit/client-sdk-swift
+9ebfdbe02b7028b6952a948521ef28bba9075f44	not-for-merge	'refs/pull/30/head' of https://github.com/livekit/client-sdk-swift
+c5a34efae2cc79242daee7c85f3882fa1f9868f3	not-for-merge	'refs/pull/301/head' of https://github.com/livekit/client-sdk-swift
+7625b27a4c72bc3debe1401d2dc8e78e6bd0adb8	not-for-merge	'refs/pull/302/head' of https://github.com/livekit/client-sdk-swift
+66b222013a6d5fef9bef9144ef564ba01d3c8ddb	not-for-merge	'refs/pull/303/head' of https://github.com/livekit/client-sdk-swift
+1d1798f36bba102d89ce562aa89818f4cc2301bb	not-for-merge	'refs/pull/305/head' of https://github.com/livekit/client-sdk-swift
+cf6cb1ee7bfd339233cbb8f1102a7333bab8f41c	not-for-merge	'refs/pull/306/head' of https://github.com/livekit/client-sdk-swift
+62d3d94c2b24f9236efb1c9d75db71d77b143714	not-for-merge	'refs/pull/308/head' of https://github.com/livekit/client-sdk-swift
+aaeb680cdc54af3bbf0dccfd8f8b11ad52725447	not-for-merge	'refs/pull/309/head' of https://github.com/livekit/client-sdk-swift
+51e533316a2e49601e82501104d4ef762dce6a42	not-for-merge	'refs/pull/31/head' of https://github.com/livekit/client-sdk-swift
+68fbb30b257d21fd89aba204fe66c9f38d503f0a	not-for-merge	'refs/pull/310/head' of https://github.com/livekit/client-sdk-swift
+4dc9b24054dfacaa91883aa90c50b4c47a5d84c8	not-for-merge	'refs/pull/311/head' of https://github.com/livekit/client-sdk-swift
+8d6824c07cc422036ee7cfa20e163a2de6300f1d	not-for-merge	'refs/pull/312/head' of https://github.com/livekit/client-sdk-swift
+74983fda3a58348b8aa7ffd8a7fac38bd891cacc	not-for-merge	'refs/pull/314/head' of https://github.com/livekit/client-sdk-swift
+7e8123990f00b8de02cae80a50bd56842584ee51	not-for-merge	'refs/pull/315/head' of https://github.com/livekit/client-sdk-swift
+65a8a40228468d507cddb178274aa7b08980dec5	not-for-merge	'refs/pull/316/head' of https://github.com/livekit/client-sdk-swift
+4d6ea924dbff4dcaff11fd66b62d76a2a2abdcc9	not-for-merge	'refs/pull/317/head' of https://github.com/livekit/client-sdk-swift
+93033ab58af0e9ecdfc2735f1ab97595a6f0f67d	not-for-merge	'refs/pull/318/head' of https://github.com/livekit/client-sdk-swift
+0706e5d33d7fed3878395b5fdaca056e92b305e9	not-for-merge	'refs/pull/319/head' of https://github.com/livekit/client-sdk-swift
+33557ef5bdb648bcc66e75f16bf6152a215b67b2	not-for-merge	'refs/pull/32/head' of https://github.com/livekit/client-sdk-swift
+e4234d8ed5e08b5d15ca29d15e110632b6f19b00	not-for-merge	'refs/pull/320/head' of https://github.com/livekit/client-sdk-swift
+da343a8c3b72bdb234d84967ac75f6ce37e95d8a	not-for-merge	'refs/pull/321/head' of https://github.com/livekit/client-sdk-swift
+ff466a33893437b55dcdbd9f5f9c6ee735f2b287	not-for-merge	'refs/pull/322/head' of https://github.com/livekit/client-sdk-swift
+79fad39b72dffb4fa56a9c8508a28e3b088d3abf	not-for-merge	'refs/pull/323/head' of https://github.com/livekit/client-sdk-swift
+6844c31775c56aab76909a939ddd1ac4cde008cd	not-for-merge	'refs/pull/324/head' of https://github.com/livekit/client-sdk-swift
+53b3d84b348847f5a86a3234332dde8408b108a2	not-for-merge	'refs/pull/327/head' of https://github.com/livekit/client-sdk-swift
+a3c1a25610e1d96130c1ba7cd9df6d3b22d1304e	not-for-merge	'refs/pull/332/head' of https://github.com/livekit/client-sdk-swift
+010f6f8cf44a0634ff961e7d3747b0aed57ff55e	not-for-merge	'refs/pull/333/head' of https://github.com/livekit/client-sdk-swift
+fcc47251c0b452a7b33f01616b0b5ed9442195b1	not-for-merge	'refs/pull/334/head' of https://github.com/livekit/client-sdk-swift
+45fd8af7f63652943aef9c01035349ccb25ef9a1	not-for-merge	'refs/pull/335/head' of https://github.com/livekit/client-sdk-swift
+c3c4797b3a19a20ac8011b7df74e0ef8f6f5dffb	not-for-merge	'refs/pull/338/head' of https://github.com/livekit/client-sdk-swift
+ed2499386e35cda026d2c6220690e253231826d7	not-for-merge	'refs/pull/339/head' of https://github.com/livekit/client-sdk-swift
+51ded9b23d385061fc7db77d8649ea1f9a93b305	not-for-merge	'refs/pull/34/head' of https://github.com/livekit/client-sdk-swift
+999bfee7f4f77eb4738d645f8b32eecbe376ee3a	not-for-merge	'refs/pull/340/head' of https://github.com/livekit/client-sdk-swift
+3467213872cc51a753e0a02a72cc7113690909fa	not-for-merge	'refs/pull/341/head' of https://github.com/livekit/client-sdk-swift
+69122f70b308cdab40bc364581a060f33f0e35b5	not-for-merge	'refs/pull/344/head' of https://github.com/livekit/client-sdk-swift
+f9cd68bbbaf3135c0da3e837bc9786a15c9c795f	not-for-merge	'refs/pull/346/head' of https://github.com/livekit/client-sdk-swift
+47c623b42e4bf53148795f49dd42d3eda99ce585	not-for-merge	'refs/pull/347/head' of https://github.com/livekit/client-sdk-swift
+3e9874d8a03a97f0312c7c86585f93519508ee90	not-for-merge	'refs/pull/348/head' of https://github.com/livekit/client-sdk-swift
+b1cc3268228064b6249d2bbf618c751e1d4455fb	not-for-merge	'refs/pull/349/head' of https://github.com/livekit/client-sdk-swift
+df796f16a9a42a6142fb3f00e58a846a3d04e28a	not-for-merge	'refs/pull/35/head' of https://github.com/livekit/client-sdk-swift
+a3a09b0805c890ded15e8f43d3b63bce1dea8ed8	not-for-merge	'refs/pull/351/head' of https://github.com/livekit/client-sdk-swift
+f43838de210eb674219546e46b45de482e5c5c80	not-for-merge	'refs/pull/352/head' of https://github.com/livekit/client-sdk-swift
+28a99e940b86eaac4d13de18a22bd1e953cc625b	not-for-merge	'refs/pull/355/head' of https://github.com/livekit/client-sdk-swift
+52d672aa530ddd69658fa819760d581bef5b2d66	not-for-merge	'refs/pull/356/head' of https://github.com/livekit/client-sdk-swift
+a3c2ef310d962fca9851afe5667ba1c22c940366	not-for-merge	'refs/pull/357/head' of https://github.com/livekit/client-sdk-swift
+e797f04d1a99ef15eac5f84ec0c01c20c72e7d41	not-for-merge	'refs/pull/359/head' of https://github.com/livekit/client-sdk-swift
+c7b37b1c238e05be33fac7410ea7f65afc6d5a92	not-for-merge	'refs/pull/36/head' of https://github.com/livekit/client-sdk-swift
+f59d2027c4943f929ff1b776af8340574b3dc64c	not-for-merge	'refs/pull/360/head' of https://github.com/livekit/client-sdk-swift
+1dde300a94e53abfbc5543bb048341621260d4f1	not-for-merge	'refs/pull/361/head' of https://github.com/livekit/client-sdk-swift
+41ae21a4a22036dc922867f5084882fed841b9c8	not-for-merge	'refs/pull/363/head' of https://github.com/livekit/client-sdk-swift
+3b6c4dc5fc4d995a782bd172e92be9d12afb16ee	not-for-merge	'refs/pull/366/head' of https://github.com/livekit/client-sdk-swift
+15c49e01610117e63d0bd737445647350e79b070	not-for-merge	'refs/pull/37/head' of https://github.com/livekit/client-sdk-swift
+713158d4d0fdc710884899b24e496b7c3e0194a5	not-for-merge	'refs/pull/372/head' of https://github.com/livekit/client-sdk-swift
+cb40cfad5405ee0af457e940f087faac46400f9e	not-for-merge	'refs/pull/373/head' of https://github.com/livekit/client-sdk-swift
+8a6390c93b33ceb64cd2001360e50205525979e4	not-for-merge	'refs/pull/375/head' of https://github.com/livekit/client-sdk-swift
+e52be811e821c0153af2bfe1db041977a7de2bbb	not-for-merge	'refs/pull/376/head' of https://github.com/livekit/client-sdk-swift
+2c3d4ca3ad7c5bf0bf140d22fc3f61bf7febc4a8	not-for-merge	'refs/pull/377/head' of https://github.com/livekit/client-sdk-swift
+6b83214ab87345ed68d01f0c125d3c22e45406f9	not-for-merge	'refs/pull/378/head' of https://github.com/livekit/client-sdk-swift
+d0dc52ce55467e261b005f39c9fb34009b1a25f8	not-for-merge	'refs/pull/379/head' of https://github.com/livekit/client-sdk-swift
+ccc110b3cc08b04ea854afb16af47dbe47761a2c	not-for-merge	'refs/pull/38/head' of https://github.com/livekit/client-sdk-swift
+db58096ccc299522e5ce6d3be69244690a045fc3	not-for-merge	'refs/pull/382/head' of https://github.com/livekit/client-sdk-swift
+0415ef521e720712091f013d0cdc602c315a214e	not-for-merge	'refs/pull/383/head' of https://github.com/livekit/client-sdk-swift
+5848e0818fd282f4a95df2c9123aea1deacede6f	not-for-merge	'refs/pull/384/head' of https://github.com/livekit/client-sdk-swift
+15403f67e10cf8cbadfe151e8886409af4f6d6b8	not-for-merge	'refs/pull/388/head' of https://github.com/livekit/client-sdk-swift
+3c69e3889cf62749ebc3018a734daa99ea43b04f	not-for-merge	'refs/pull/389/head' of https://github.com/livekit/client-sdk-swift
+a91f961022402f6432c69c28d12cfffc22dc0356	not-for-merge	'refs/pull/39/head' of https://github.com/livekit/client-sdk-swift
+2fcf9327a196afcfd79562f0d617bfb0cb7547d3	not-for-merge	'refs/pull/393/head' of https://github.com/livekit/client-sdk-swift
+a99c472b340cde186531c37aed207e4cdd94f14a	not-for-merge	'refs/pull/396/head' of https://github.com/livekit/client-sdk-swift
+6d9f21e0bbaaff075afe21e875c78aaaf1f5b0ae	not-for-merge	'refs/pull/397/head' of https://github.com/livekit/client-sdk-swift
+f33dabfaed2f84e3a3131baae8af62bdbe131d04	not-for-merge	'refs/pull/398/head' of https://github.com/livekit/client-sdk-swift
+98e046e43994d9c885065664dc8622ae84f963ee	not-for-merge	'refs/pull/399/head' of https://github.com/livekit/client-sdk-swift
+eb97ce0609eea6ac51d9361a0c55d9ef29963b39	not-for-merge	'refs/pull/4/head' of https://github.com/livekit/client-sdk-swift
+ec6841ffc368f2241602ececdca93d72b9bcaaab	not-for-merge	'refs/pull/40/head' of https://github.com/livekit/client-sdk-swift
+5a9257477820043b58d55da0c21ce1c991b9d430	not-for-merge	'refs/pull/400/head' of https://github.com/livekit/client-sdk-swift
+bf42ef75d4f171f259fc7767b42a524657a762bc	not-for-merge	'refs/pull/401/head' of https://github.com/livekit/client-sdk-swift
+a5505d53bf96b9bb58f9b19d1d8bbdba1b2e10e8	not-for-merge	'refs/pull/402/head' of https://github.com/livekit/client-sdk-swift
+c47b2245357e8428e304b73abc390c24d0912848	not-for-merge	'refs/pull/403/head' of https://github.com/livekit/client-sdk-swift
+0d0feefc8f14e9f108488f2393ba78dde2e0275f	not-for-merge	'refs/pull/404/head' of https://github.com/livekit/client-sdk-swift
+156e9d27baf87b5dffe122f5fac347d3e2bc2fa4	not-for-merge	'refs/pull/405/head' of https://github.com/livekit/client-sdk-swift
+6a5be8527a3a6011425400c148bdeb2eef287835	not-for-merge	'refs/pull/406/head' of https://github.com/livekit/client-sdk-swift
+b8d61e2b804259bd28513b73f716787f6927c501	not-for-merge	'refs/pull/407/head' of https://github.com/livekit/client-sdk-swift
+ac1b688badec8761c220a392cfe94a3d1a8e0df4	not-for-merge	'refs/pull/408/head' of https://github.com/livekit/client-sdk-swift
+78669cfc65a8a8f23d58a7c6b8e075343b43ac77	not-for-merge	'refs/pull/409/head' of https://github.com/livekit/client-sdk-swift
+f3f4f4b4b3e30eddac6cd00e4a65d3ed04531eba	not-for-merge	'refs/pull/41/head' of https://github.com/livekit/client-sdk-swift
+c1bb3b4014ee99db157501f445177e3f9f098317	not-for-merge	'refs/pull/411/head' of https://github.com/livekit/client-sdk-swift
+87ed8e3ef2220c54753c20f6d97deff8fdd14c44	not-for-merge	'refs/pull/418/head' of https://github.com/livekit/client-sdk-swift
+723542af84a059359d6339bf9db50a8f86cb2733	not-for-merge	'refs/pull/42/head' of https://github.com/livekit/client-sdk-swift
+74d10d7d4bbcbcf1075f679411be2e7745349634	not-for-merge	'refs/pull/421/head' of https://github.com/livekit/client-sdk-swift
+e0dd636c671fec06e2848f3956e188c0648475aa	not-for-merge	'refs/pull/424/head' of https://github.com/livekit/client-sdk-swift
+5b2d9e8175cfb2b82a708367deb02c0335c52232	not-for-merge	'refs/pull/43/head' of https://github.com/livekit/client-sdk-swift
+96252382d29b7bcb56b8e64577f19be52574f9ab	not-for-merge	'refs/pull/432/head' of https://github.com/livekit/client-sdk-swift
+ae70900bf8961fea633217bcfd51e5e77e902eb4	not-for-merge	'refs/pull/433/head' of https://github.com/livekit/client-sdk-swift
+cb86bbae9d7f7c9242a77d2ca90e50a23be2e0d4	not-for-merge	'refs/pull/438/head' of https://github.com/livekit/client-sdk-swift
+f1b1670366d840a4e104b698ab2ecde4de65c736	not-for-merge	'refs/pull/44/head' of https://github.com/livekit/client-sdk-swift
+f212e0b15b1dfd292fcc98b1c0aabe3368904c71	not-for-merge	'refs/pull/441/head' of https://github.com/livekit/client-sdk-swift
+702a4372d8d840eb780d719bb31f18a7d0e77d4f	not-for-merge	'refs/pull/448/head' of https://github.com/livekit/client-sdk-swift
+eeabdea454f2186b8ce68a23ad5d5814a716caa6	not-for-merge	'refs/pull/45/head' of https://github.com/livekit/client-sdk-swift
+216adfa2b51146935bd271c71b1a2aa69234c1ab	not-for-merge	'refs/pull/450/head' of https://github.com/livekit/client-sdk-swift
+ac47d8ee4dccd66bb1f102686ee56e2addccbc71	not-for-merge	'refs/pull/450/merge' of https://github.com/livekit/client-sdk-swift
+0b33cbc9ca7ca12832e01dbab7fb216794db297d	not-for-merge	'refs/pull/451/head' of https://github.com/livekit/client-sdk-swift
+0de3ed8d1999e3abb2746e33c7d383fc7c9e1749	not-for-merge	'refs/pull/452/head' of https://github.com/livekit/client-sdk-swift
+17837d748ea2d508963b2775bea6db45d489f9f3	not-for-merge	'refs/pull/453/head' of https://github.com/livekit/client-sdk-swift
+520e674094a0b73bfaa2ecf77bd5685576496759	not-for-merge	'refs/pull/455/head' of https://github.com/livekit/client-sdk-swift
+cc14c8780b74877191af9142f5c526fdecc9cb9f	not-for-merge	'refs/pull/456/head' of https://github.com/livekit/client-sdk-swift
+afb8e6b6a5790a3275b4d73078b1a0f7fc153777	not-for-merge	'refs/pull/457/head' of https://github.com/livekit/client-sdk-swift
+b402fd089df695b5a19e1562d1c8a3baf7187c8b	not-for-merge	'refs/pull/459/head' of https://github.com/livekit/client-sdk-swift
+6bcc4fff2b78dd499aa02d3cc2aab15eb46935ce	not-for-merge	'refs/pull/46/head' of https://github.com/livekit/client-sdk-swift
+9a54df6076bd557e3bd24f7661fed8522815093d	not-for-merge	'refs/pull/460/head' of https://github.com/livekit/client-sdk-swift
+80faec9c77a06e512a067d492d82e2090f675994	not-for-merge	'refs/pull/461/head' of https://github.com/livekit/client-sdk-swift
+0b547d58de91c06fc109091cc344221d5db97da8	not-for-merge	'refs/pull/462/head' of https://github.com/livekit/client-sdk-swift
+6e8de00388ef2dc5c962cc544e08ef19b09eb4fb	not-for-merge	'refs/pull/464/head' of https://github.com/livekit/client-sdk-swift
+289c40abff042f43814b362edf2222da309b94e3	not-for-merge	'refs/pull/465/head' of https://github.com/livekit/client-sdk-swift
+6363481b442dfedc60f7c14a141488d24a3ec4e8	not-for-merge	'refs/pull/466/head' of https://github.com/livekit/client-sdk-swift
+155cdd3ef238622865488758f51f147aa032d0c1	not-for-merge	'refs/pull/467/head' of https://github.com/livekit/client-sdk-swift
+0a344ca9a0fc48f099d0821c59516cf0c081175a	not-for-merge	'refs/pull/468/head' of https://github.com/livekit/client-sdk-swift
+f093ccd348f70cdae3b3ae439df9210b95870c4d	not-for-merge	'refs/pull/469/head' of https://github.com/livekit/client-sdk-swift
+175a4e731562b63bd748c464c12b402b799c9cc9	not-for-merge	'refs/pull/469/merge' of https://github.com/livekit/client-sdk-swift
+3bdab73eacd70ed4b276aae0266472761bc21fad	not-for-merge	'refs/pull/47/head' of https://github.com/livekit/client-sdk-swift
+1cbf95a2e2079503fdf6c3607287e39a9c5a27ff	not-for-merge	'refs/pull/470/head' of https://github.com/livekit/client-sdk-swift
+b22ef78283e5869d443dcf7c612a13d14c248501	not-for-merge	'refs/pull/471/head' of https://github.com/livekit/client-sdk-swift
+a777c82008088a437dc931a1d4dee48785c9bc13	not-for-merge	'refs/pull/473/head' of https://github.com/livekit/client-sdk-swift
+0bb44be1b76ae624d5828ade8c1eef657baddba4	not-for-merge	'refs/pull/474/head' of https://github.com/livekit/client-sdk-swift
+9b6a7fd0988c16ad728c23a864d2f2d22cf50e3f	not-for-merge	'refs/pull/476/head' of https://github.com/livekit/client-sdk-swift
+36c3c6eece07e2183114fd128b84c42f6069d874	not-for-merge	'refs/pull/477/head' of https://github.com/livekit/client-sdk-swift
+b4ebf6caf72d2c92652aa8f5b5d9afaccee81f70	not-for-merge	'refs/pull/478/head' of https://github.com/livekit/client-sdk-swift
+fc03b452a4ffebd85b0f3ec1266a4ff92c295942	not-for-merge	'refs/pull/48/head' of https://github.com/livekit/client-sdk-swift
+bc096a3962bb4d9be835fc67fa770b4a8a0d3850	not-for-merge	'refs/pull/480/head' of https://github.com/livekit/client-sdk-swift
+9ce8ebd72611dd6fc6d44273ae0c619677b734f5	not-for-merge	'refs/pull/481/head' of https://github.com/livekit/client-sdk-swift
+3f67b343c7ac1e57f5a9877bb9ed1c45790feeba	not-for-merge	'refs/pull/482/head' of https://github.com/livekit/client-sdk-swift
+e5a3e548c63e7e115103e2b96acd641a3a8e7c22	not-for-merge	'refs/pull/483/head' of https://github.com/livekit/client-sdk-swift
+b364596b1b87b66227d7bfcf47202ac28b42fa41	not-for-merge	'refs/pull/485/head' of https://github.com/livekit/client-sdk-swift
+be0eecf6b937a3afc6cbc533e79a66928f1e2d85	not-for-merge	'refs/pull/486/head' of https://github.com/livekit/client-sdk-swift
+e63960a0c0c55ac8b8c2c0c46ee06cde2d4a4780	not-for-merge	'refs/pull/487/head' of https://github.com/livekit/client-sdk-swift
+79d81e9a3762f4bab9225008e562098f74445791	not-for-merge	'refs/pull/488/head' of https://github.com/livekit/client-sdk-swift
+8be638187e457c97950a412747c25839de3f00e2	not-for-merge	'refs/pull/489/head' of https://github.com/livekit/client-sdk-swift
+d16a785efc5b045801e0e2788346105704aee904	not-for-merge	'refs/pull/49/head' of https://github.com/livekit/client-sdk-swift
+ec0f2313b6bbc5c7fe10d1bfdf4fdf9c6c669a4b	not-for-merge	'refs/pull/490/head' of https://github.com/livekit/client-sdk-swift
+698b896bc9b53713ae9e0f47af0635fe52b9d1d6	not-for-merge	'refs/pull/491/head' of https://github.com/livekit/client-sdk-swift
+85796b718290550bb9ec0bdd92d174a9ddaf8ce7	not-for-merge	'refs/pull/492/head' of https://github.com/livekit/client-sdk-swift
+7a297649375a22783472ddf7474b8fdebb69f1ad	not-for-merge	'refs/pull/493/head' of https://github.com/livekit/client-sdk-swift
+438584e25ebceacdee39efb5a59fcc7a5d634b65	not-for-merge	'refs/pull/495/head' of https://github.com/livekit/client-sdk-swift
+83c2df43bb73184fcdbe9b4eccacc956655f6fec	not-for-merge	'refs/pull/497/head' of https://github.com/livekit/client-sdk-swift
+895b37c500f4eca506014613b247a426bb382fb0	not-for-merge	'refs/pull/498/head' of https://github.com/livekit/client-sdk-swift
+263845ce9108158d88fbda76908d229e423c2549	not-for-merge	'refs/pull/50/head' of https://github.com/livekit/client-sdk-swift
+a282ea1337ab9c6342d1af232255924d99a41c11	not-for-merge	'refs/pull/502/head' of https://github.com/livekit/client-sdk-swift
+66db8576c1b6ac103de52e951985bdfeab4a7550	not-for-merge	'refs/pull/505/head' of https://github.com/livekit/client-sdk-swift
+c7d49f40b2fe40b0fdca30e0f882309da1418277	not-for-merge	'refs/pull/506/head' of https://github.com/livekit/client-sdk-swift
+76e3500cb450b6748885b040c405e10a6d5f871d	not-for-merge	'refs/pull/507/head' of https://github.com/livekit/client-sdk-swift
+2885268b1f92a3ff9920fc43c1ef597b6fc04068	not-for-merge	'refs/pull/509/head' of https://github.com/livekit/client-sdk-swift
+c00bb05c597a0912d4c7309d7829905d353f687d	not-for-merge	'refs/pull/51/head' of https://github.com/livekit/client-sdk-swift
+44a979beee69105697eea49e941a9e6adc00f13b	not-for-merge	'refs/pull/512/head' of https://github.com/livekit/client-sdk-swift
+0d0d2e9c8deb4622bc2e2d1e66c02ffec16a2473	not-for-merge	'refs/pull/513/head' of https://github.com/livekit/client-sdk-swift
+73c413bf1b61f96130e4bbfe5022a5731c0d60a5	not-for-merge	'refs/pull/517/head' of https://github.com/livekit/client-sdk-swift
+0965edc6cecc608b59d28236cc2baad0359e6ca2	not-for-merge	'refs/pull/519/head' of https://github.com/livekit/client-sdk-swift
+b5b2e224f88749b7c65faa60cf493190cb91fbd1	not-for-merge	'refs/pull/52/head' of https://github.com/livekit/client-sdk-swift
+0ec133df5fc6149d8e9aa08f7908c4aed7233a1b	not-for-merge	'refs/pull/520/head' of https://github.com/livekit/client-sdk-swift
+5af520683b238165550000e3d1bfb44e88ffb20b	not-for-merge	'refs/pull/521/head' of https://github.com/livekit/client-sdk-swift
+3fddf164201a32e5ecf320b51b789c675b1e7332	not-for-merge	'refs/pull/526/head' of https://github.com/livekit/client-sdk-swift
+09e5a606560542e5c45945502e5eaea3e0fb0d13	not-for-merge	'refs/pull/529/head' of https://github.com/livekit/client-sdk-swift
+1a6dcc93bbd8b7595ee3404e1b031e3bf38681a8	not-for-merge	'refs/pull/53/head' of https://github.com/livekit/client-sdk-swift
+708464eb6a3d92c1b6d655be7708886dbefef926	not-for-merge	'refs/pull/530/head' of https://github.com/livekit/client-sdk-swift
+c68a2a09992aff6a73397a1f2acf487a6e9436d6	not-for-merge	'refs/pull/531/head' of https://github.com/livekit/client-sdk-swift
+5e0e94e96acf90dd427aab0999068257f3a84d36	not-for-merge	'refs/pull/532/head' of https://github.com/livekit/client-sdk-swift
+e23871e417558c2f95e0dfb43436f62ddf0fd8cf	not-for-merge	'refs/pull/534/head' of https://github.com/livekit/client-sdk-swift
+15b903717f2a796db4947536e1ca5ab687ff94df	not-for-merge	'refs/pull/535/head' of https://github.com/livekit/client-sdk-swift
+afde7a61e3c69803798d3c48f798a14aea7e7464	not-for-merge	'refs/pull/536/head' of https://github.com/livekit/client-sdk-swift
+4f305c1e4446b1b7f890f3b3458cd80e144a33a4	not-for-merge	'refs/pull/537/head' of https://github.com/livekit/client-sdk-swift
+90520704425c12fc3eed8d13ae905a988bb27c5c	not-for-merge	'refs/pull/538/head' of https://github.com/livekit/client-sdk-swift
+cb5e880355d49b87f45f637f2383f716a4cc8804	not-for-merge	'refs/pull/54/head' of https://github.com/livekit/client-sdk-swift
+601ee39b8179c23994d9a878b94c35c43d68ef6b	not-for-merge	'refs/pull/543/head' of https://github.com/livekit/client-sdk-swift
+8c7a76c6fec87cd69a1042073828281db13cbc6a	not-for-merge	'refs/pull/544/head' of https://github.com/livekit/client-sdk-swift
+27979dc017e9933cb86e86f0d7c4201c20866d19	not-for-merge	'refs/pull/545/head' of https://github.com/livekit/client-sdk-swift
+aa83fd1681a285949917cdc1792859d1601dff53	not-for-merge	'refs/pull/547/head' of https://github.com/livekit/client-sdk-swift
+3f1c4cc6a309ac10a8830333025a3518c8a4bf29	not-for-merge	'refs/pull/548/head' of https://github.com/livekit/client-sdk-swift
+ecc3350d195282168f12f6d4753d2cdf1bd7ffdb	not-for-merge	'refs/pull/549/head' of https://github.com/livekit/client-sdk-swift
+e7fbd65dd7dff4eefa2fd4e1c32dd72a5ef1ba6f	not-for-merge	'refs/pull/55/head' of https://github.com/livekit/client-sdk-swift
+44b919be8c50ed6da2ccff1f4e930f7b91775309	not-for-merge	'refs/pull/550/head' of https://github.com/livekit/client-sdk-swift
+ad1d74b8e68e49450fb76a335cd90ed542be5636	not-for-merge	'refs/pull/551/head' of https://github.com/livekit/client-sdk-swift
+f733e7fe6a25d2b24b9c8b8175e944ad8acef2f7	not-for-merge	'refs/pull/552/head' of https://github.com/livekit/client-sdk-swift
+d233959d99a83548d5508c5875b6dd668e26c246	not-for-merge	'refs/pull/553/head' of https://github.com/livekit/client-sdk-swift
+5bed82e8cc0f7fb7155724cadd291bd3c91f38b6	not-for-merge	'refs/pull/554/head' of https://github.com/livekit/client-sdk-swift
+8e03817ae41252cd78ad600447f5cc512d6c6af7	not-for-merge	'refs/pull/555/head' of https://github.com/livekit/client-sdk-swift
+3f174d0a0820601e72fa7ff1ec47c373cb89f3d9	not-for-merge	'refs/pull/556/head' of https://github.com/livekit/client-sdk-swift
+8e210225d4acde120a46300e370e891702580395	not-for-merge	'refs/pull/557/head' of https://github.com/livekit/client-sdk-swift
+819c5f4db8d8400f1cad4dfffa03f5989cf5e9d0	not-for-merge	'refs/pull/56/head' of https://github.com/livekit/client-sdk-swift
+facb3ce1fe5e794ef1037d4a537ca3738d6644c2	not-for-merge	'refs/pull/560/head' of https://github.com/livekit/client-sdk-swift
+b3d75cf67d20f5952f3467971397c18eceddfb30	not-for-merge	'refs/pull/561/head' of https://github.com/livekit/client-sdk-swift
+802ced4060293163b05a1ed1eb2e14d50683d2f7	not-for-merge	'refs/pull/562/head' of https://github.com/livekit/client-sdk-swift
+d6e4a1a99675943648a80bcfed46034449d1b942	not-for-merge	'refs/pull/564/head' of https://github.com/livekit/client-sdk-swift
+ae84fcf8c72880496ee86bc1cae3b150ba0ac5e6	not-for-merge	'refs/pull/565/head' of https://github.com/livekit/client-sdk-swift
+54f834a1e943031f63a0bf0ed993902e20d65ffa	not-for-merge	'refs/pull/569/head' of https://github.com/livekit/client-sdk-swift
+daa71f8ac2e4485718a33f0bf507c1f93a4da874	not-for-merge	'refs/pull/57/head' of https://github.com/livekit/client-sdk-swift
+735612dd6c037ec4cf83a3c905f64adc09ff4027	not-for-merge	'refs/pull/571/head' of https://github.com/livekit/client-sdk-swift
+c030e0103e2f2dc004557cf8b5ba01dfb04c17b6	not-for-merge	'refs/pull/572/head' of https://github.com/livekit/client-sdk-swift
+8d6a933e57222cb3f21975a424373ab68de54534	not-for-merge	'refs/pull/573/head' of https://github.com/livekit/client-sdk-swift
+ce4ffe6d23b88cb350e2d087ac597445daf39a73	not-for-merge	'refs/pull/575/head' of https://github.com/livekit/client-sdk-swift
+cf5f00ec72b3b814ecd2cb9736b9b406c0ef518d	not-for-merge	'refs/pull/576/head' of https://github.com/livekit/client-sdk-swift
+fb22062fcb1afb5be47bbfa511a6f0afbd71bad4	not-for-merge	'refs/pull/578/head' of https://github.com/livekit/client-sdk-swift
+6ae9e13520e3ecbef198f814bcfb61446e0f53c7	not-for-merge	'refs/pull/579/head' of https://github.com/livekit/client-sdk-swift
+699f3a6da2e515c4dca153c4cb6f1c88e30a1224	not-for-merge	'refs/pull/58/head' of https://github.com/livekit/client-sdk-swift
+cfe4247479f9f6c6768941b2c4e6281800d6e79d	not-for-merge	'refs/pull/582/head' of https://github.com/livekit/client-sdk-swift
+76bd5e636a1841d3ca6feb736c263a84806dda17	not-for-merge	'refs/pull/586/head' of https://github.com/livekit/client-sdk-swift
+12d8afa9f28307061a9d21d01f47995db86c9af9	not-for-merge	'refs/pull/587/head' of https://github.com/livekit/client-sdk-swift
+a152399678bb6b8a0e85596822dfaec0cada40f1	not-for-merge	'refs/pull/588/head' of https://github.com/livekit/client-sdk-swift
+cc591b9b5e7c880b4e35d9c1dcc671dbb91e6c6d	not-for-merge	'refs/pull/589/head' of https://github.com/livekit/client-sdk-swift
+bf9b745e8648611d239e7d7abf2ec1f1942822a0	not-for-merge	'refs/pull/59/head' of https://github.com/livekit/client-sdk-swift
+453cbac0206c672498a9c5265ced217fe1aac66e	not-for-merge	'refs/pull/590/head' of https://github.com/livekit/client-sdk-swift
+7f357f197a3b1e6cdae8656a1fd9872695d8cd05	not-for-merge	'refs/pull/591/head' of https://github.com/livekit/client-sdk-swift
+70366e7f78d21200b0fd03ab5bb6eab97e878e33	not-for-merge	'refs/pull/592/head' of https://github.com/livekit/client-sdk-swift
+e5be45f12d1c3f57083d73f9c4b9324959949fb0	not-for-merge	'refs/pull/593/head' of https://github.com/livekit/client-sdk-swift
+60c7349276af10e9f738c30d5ea12eaabee60781	not-for-merge	'refs/pull/594/head' of https://github.com/livekit/client-sdk-swift
+5b224f25ade986f57eb72685c847b2e568650fd1	not-for-merge	'refs/pull/595/head' of https://github.com/livekit/client-sdk-swift
+af95b4ed7119fe883f44da4f2b6428ddd7dba9d8	not-for-merge	'refs/pull/596/head' of https://github.com/livekit/client-sdk-swift
+065d70544105e96d4f1f2f2f2d9af42dc9ec375b	not-for-merge	'refs/pull/598/head' of https://github.com/livekit/client-sdk-swift
+1c1c6bfe23b16c9f356e365f253c0b138443c1b6	not-for-merge	'refs/pull/60/head' of https://github.com/livekit/client-sdk-swift
+2549a730b341ca9d9eaccb64d51c8a0101cb0191	not-for-merge	'refs/pull/600/head' of https://github.com/livekit/client-sdk-swift
+898ac501871619c0454bcdae5c6de2e7d98176d1	not-for-merge	'refs/pull/602/head' of https://github.com/livekit/client-sdk-swift
+0917ffa9393424ac1487b49f35ce07dd86c8f53c	not-for-merge	'refs/pull/605/head' of https://github.com/livekit/client-sdk-swift
+d9af9ffe0e94b4c0a618330c0c1e9403997c20be	not-for-merge	'refs/pull/606/head' of https://github.com/livekit/client-sdk-swift
+a9390720bd44836ff07e5b15878938b0364cf1f8	not-for-merge	'refs/pull/609/head' of https://github.com/livekit/client-sdk-swift
+ee493138565c7afa4c9bfc0b0e67802f76a24f39	not-for-merge	'refs/pull/610/head' of https://github.com/livekit/client-sdk-swift
+50c2ca8186c9fc86460ec6f7f04f66702498989d	not-for-merge	'refs/pull/611/head' of https://github.com/livekit/client-sdk-swift
+6fc1021a6cd011de15f74b7b972699c6c5b85634	not-for-merge	'refs/pull/612/head' of https://github.com/livekit/client-sdk-swift
+bdeb0e9af63e2e2f801eee013cd10924b09f80a5	not-for-merge	'refs/pull/614/head' of https://github.com/livekit/client-sdk-swift
+551bbd71e76c4906c0de2be6cb3a694952c7cbcd	not-for-merge	'refs/pull/615/head' of https://github.com/livekit/client-sdk-swift
+b7c2ebc7cde9af7018d475961d7e7957f69d310f	not-for-merge	'refs/pull/616/head' of https://github.com/livekit/client-sdk-swift
+e920bc06fdd1528b3512b34aa2215f1412f85bdc	not-for-merge	'refs/pull/617/head' of https://github.com/livekit/client-sdk-swift
+5d65b4bc899c864bb392fbd6ac6d4be825e686fe	not-for-merge	'refs/pull/618/head' of https://github.com/livekit/client-sdk-swift
+2160486b3094e9c5e6c0ba17c339fcb13217e4e8	not-for-merge	'refs/pull/620/head' of https://github.com/livekit/client-sdk-swift
+b153e147d00f41471b926c153cfd0b36ac3cb682	not-for-merge	'refs/pull/621/head' of https://github.com/livekit/client-sdk-swift
+b1e046c95680e38796feafa7b10e7adbaebe26ae	not-for-merge	'refs/pull/621/merge' of https://github.com/livekit/client-sdk-swift
+ec6b27d66b95d21c23f2b086bb887bbf348fd51e	not-for-merge	'refs/pull/622/head' of https://github.com/livekit/client-sdk-swift
+e91bf37199d403573573e5f388e97e570fb58396	not-for-merge	'refs/pull/624/head' of https://github.com/livekit/client-sdk-swift
+c75daa9fe0cfc25e2062c47f166b0f595cf17340	not-for-merge	'refs/pull/627/head' of https://github.com/livekit/client-sdk-swift
+2aa9158aac66491bc10f703bbdcdbaca25c49f2d	not-for-merge	'refs/pull/629/head' of https://github.com/livekit/client-sdk-swift
+c81a574d18a35f26891f54e7a78bc441e01f6ac2	not-for-merge	'refs/pull/63/head' of https://github.com/livekit/client-sdk-swift
+817af14e1c6409240fbec362151239d20b8d5714	not-for-merge	'refs/pull/630/head' of https://github.com/livekit/client-sdk-swift
+aa063121e15deec4fe3234855360db8f07256779	not-for-merge	'refs/pull/632/head' of https://github.com/livekit/client-sdk-swift
+3ceae5294f3a1a9a9a3a500ed5cb176bba56e538	not-for-merge	'refs/pull/633/head' of https://github.com/livekit/client-sdk-swift
+4c27e4f0d97fc523afe544fab1fcbf483c920b49	not-for-merge	'refs/pull/634/head' of https://github.com/livekit/client-sdk-swift
+3d413e65f36b1f1c30b2cd7e2c763a3b5520e3bf	not-for-merge	'refs/pull/637/head' of https://github.com/livekit/client-sdk-swift
+c923d1874a66d26b3f673901e004dbe9263ed97c	not-for-merge	'refs/pull/638/head' of https://github.com/livekit/client-sdk-swift
+2e07603c625f8891edb26f4ac10a620d54b5818d	not-for-merge	'refs/pull/639/head' of https://github.com/livekit/client-sdk-swift
+d45ca389cdba1c2df662bf3adada34cb24684989	not-for-merge	'refs/pull/64/head' of https://github.com/livekit/client-sdk-swift
+1a477f56dad92961154313990fa166c506059c6b	not-for-merge	'refs/pull/641/head' of https://github.com/livekit/client-sdk-swift
+ca1d17b29a04c687331ba476ca7404956420ef5b	not-for-merge	'refs/pull/642/head' of https://github.com/livekit/client-sdk-swift
+541e936a9040542df56aa847c6e7f5ffe66f8442	not-for-merge	'refs/pull/643/head' of https://github.com/livekit/client-sdk-swift
+7950b69e9920f988afa7fa4718134d1f9d97e56b	not-for-merge	'refs/pull/645/head' of https://github.com/livekit/client-sdk-swift
+6a8a5dc4fe5e2b5914613b9be2100f9ee9dda745	not-for-merge	'refs/pull/646/head' of https://github.com/livekit/client-sdk-swift
+98a56aa144a7018df220fffe696c90d51b0f0d44	not-for-merge	'refs/pull/647/head' of https://github.com/livekit/client-sdk-swift
+5130d53702403872e8084b137c30511b8fe64f96	not-for-merge	'refs/pull/648/head' of https://github.com/livekit/client-sdk-swift
+ea90efe3a775ed600d394d6847452cb6fcb71d42	not-for-merge	'refs/pull/649/head' of https://github.com/livekit/client-sdk-swift
+c5ac263a455c8625fc25bb60338025a9b47dce6e	not-for-merge	'refs/pull/65/head' of https://github.com/livekit/client-sdk-swift
+ccdd044ec7c90c2aaaf2551c065213a2fdcb1c67	not-for-merge	'refs/pull/650/head' of https://github.com/livekit/client-sdk-swift
+91211b2acd1b39a6db6651370a11acf21e31a3c6	not-for-merge	'refs/pull/651/head' of https://github.com/livekit/client-sdk-swift
+0abf8340400adecb5c088875ffff2baf088745fb	not-for-merge	'refs/pull/652/head' of https://github.com/livekit/client-sdk-swift
+a00a56967c49422e1a13634c3122fe9f05cbb3e5	not-for-merge	'refs/pull/653/head' of https://github.com/livekit/client-sdk-swift
+cc50dc4fb8f9306d9cf279870c8fe803dfe62bf5	not-for-merge	'refs/pull/654/head' of https://github.com/livekit/client-sdk-swift
+9c4a4d2daebfd6be99423f83efa0a09c8f4856ab	not-for-merge	'refs/pull/655/head' of https://github.com/livekit/client-sdk-swift
+e9d7dc545f8147268560812db7bb1a348f5fc179	not-for-merge	'refs/pull/656/head' of https://github.com/livekit/client-sdk-swift
+883913af6290c9efc7b4db6f93c7407890bdf77c	not-for-merge	'refs/pull/657/head' of https://github.com/livekit/client-sdk-swift
+67fdbf025b19777f30e809c5777e419a6ba5658d	not-for-merge	'refs/pull/658/head' of https://github.com/livekit/client-sdk-swift
+6373cc8ae17330495f42412aa05cfc6ae0985c32	not-for-merge	'refs/pull/659/head' of https://github.com/livekit/client-sdk-swift
+d99679bc746545cc4357154100a77cd0820dc267	not-for-merge	'refs/pull/66/head' of https://github.com/livekit/client-sdk-swift
+f5efba781b48f02eedb5c997a8d140b742f82fdc	not-for-merge	'refs/pull/661/head' of https://github.com/livekit/client-sdk-swift
+b2311932f2ab4c80b6f6e8be1a4b0d27177b05c8	not-for-merge	'refs/pull/662/head' of https://github.com/livekit/client-sdk-swift
+aa82d80a0f84257a431cdd92b6183a0bd265b80f	not-for-merge	'refs/pull/663/head' of https://github.com/livekit/client-sdk-swift
+f19658ba058352584bab276d3880b49a6620b573	not-for-merge	'refs/pull/664/head' of https://github.com/livekit/client-sdk-swift
+d39be57e9f590717202909002466d02fef0ba175	not-for-merge	'refs/pull/665/head' of https://github.com/livekit/client-sdk-swift
+b73aaf31a86947b8f0e45f9fabf82baa7dee994b	not-for-merge	'refs/pull/666/head' of https://github.com/livekit/client-sdk-swift
+f279de0f98b8980fbe67b41b796d1fc77b441fdf	not-for-merge	'refs/pull/669/head' of https://github.com/livekit/client-sdk-swift
+431695d72be830b4cf54eb238af58fe9fb697f9f	not-for-merge	'refs/pull/67/head' of https://github.com/livekit/client-sdk-swift
+743f0a70d4b4391b6e35076a28d538075fd4af72	not-for-merge	'refs/pull/670/head' of https://github.com/livekit/client-sdk-swift
+8eefe39e5521c1f578daf378de3a276a72340d8e	not-for-merge	'refs/pull/671/head' of https://github.com/livekit/client-sdk-swift
+fb7043cac5e3520dca36cc89854a8624ee01b743	not-for-merge	'refs/pull/672/head' of https://github.com/livekit/client-sdk-swift
+283c5ea5d8cbb0e92f9c99d6f7be26b257b10e2b	not-for-merge	'refs/pull/673/head' of https://github.com/livekit/client-sdk-swift
+c895eddc7bfbf54728e52509a6695b038d907d3c	not-for-merge	'refs/pull/676/head' of https://github.com/livekit/client-sdk-swift
+d16154c32d299d67ec5e3fba33a6c97fb87cb515	not-for-merge	'refs/pull/679/head' of https://github.com/livekit/client-sdk-swift
+b466e13b05b0b55da7afc701117163481f4e1a77	not-for-merge	'refs/pull/68/head' of https://github.com/livekit/client-sdk-swift
+1679d1f733a133ffbfc8075055c1c0e866aeaa17	not-for-merge	'refs/pull/680/head' of https://github.com/livekit/client-sdk-swift
+e2adfa4a8f934cb7ec464d58db1fc5a496d4d201	not-for-merge	'refs/pull/681/head' of https://github.com/livekit/client-sdk-swift
+4f26b4c1d26fc86b1a271c4d185dc03c1136585b	not-for-merge	'refs/pull/682/head' of https://github.com/livekit/client-sdk-swift
+90b1b290b848cbe42d6f86b954a9940f7d861a78	not-for-merge	'refs/pull/685/head' of https://github.com/livekit/client-sdk-swift
+1a3e5704c2edfaff5c4a6fcb4c5d6094bfbf73a9	not-for-merge	'refs/pull/686/head' of https://github.com/livekit/client-sdk-swift
+793dacd0af3460fcbcc9c8cfef6fc481cac3357d	not-for-merge	'refs/pull/687/head' of https://github.com/livekit/client-sdk-swift
+9aa2f27735eec389b7e090c8d19c3773d5de9b57	not-for-merge	'refs/pull/688/head' of https://github.com/livekit/client-sdk-swift
+2d3b8ff7812435d1ce62d7d446e22ebe83e8813c	not-for-merge	'refs/pull/688/merge' of https://github.com/livekit/client-sdk-swift
+773b26ed618ab9854ef4e020eff9e3677afef1ac	not-for-merge	'refs/pull/689/head' of https://github.com/livekit/client-sdk-swift
+1de534bbcec276cc02b6b35db99fe6ce19ad80f7	not-for-merge	'refs/pull/69/head' of https://github.com/livekit/client-sdk-swift
+98e1833fd424220b73a64a01e641f3c2fa1e82d3	not-for-merge	'refs/pull/690/head' of https://github.com/livekit/client-sdk-swift
+2ddad9f9e4bd44eadd7fab155cf5c16768941757	not-for-merge	'refs/pull/691/head' of https://github.com/livekit/client-sdk-swift
+0a4d39bad543c9e6bc12b210bf6495efad60a33e	not-for-merge	'refs/pull/692/head' of https://github.com/livekit/client-sdk-swift
+72b7182fa3f4085a3f8e7cafa1885d5beff30dd7	not-for-merge	'refs/pull/692/merge' of https://github.com/livekit/client-sdk-swift
+e12912bbce106216d5f1bc51ddfa0d54cd72981f	not-for-merge	'refs/pull/693/head' of https://github.com/livekit/client-sdk-swift
+97c6e0a7a7c1eb65ca514a488541a85c31deddcb	not-for-merge	'refs/pull/694/head' of https://github.com/livekit/client-sdk-swift
+7ba53c9e4c0af735aa879dd6e82253580ba9384b	not-for-merge	'refs/pull/694/merge' of https://github.com/livekit/client-sdk-swift
+85d33399f8c61ee0fe74ec11699911bb76f6aeb7	not-for-merge	'refs/pull/696/head' of https://github.com/livekit/client-sdk-swift
+5c84dbf742b40e3b3cd9bfb3322e00e249898b56	not-for-merge	'refs/pull/697/head' of https://github.com/livekit/client-sdk-swift
+c90717de0b5d2bedd4394610b3bc003a4e252705	not-for-merge	'refs/pull/698/head' of https://github.com/livekit/client-sdk-swift
+9569884a00972ea7b63ad50d0823ff11fe1ccd9f	not-for-merge	'refs/pull/699/head' of https://github.com/livekit/client-sdk-swift
+5692f11c59d6f049d8b6706b1597cde105da5bcc	not-for-merge	'refs/pull/7/head' of https://github.com/livekit/client-sdk-swift
+bb826e42f56126fb850532ae13de360fbbf78833	not-for-merge	'refs/pull/70/head' of https://github.com/livekit/client-sdk-swift
+8ab69982c05c3781a604ab0a756b2c36d0319aaf	not-for-merge	'refs/pull/701/head' of https://github.com/livekit/client-sdk-swift
+bc4d14314c293f01f6ab39d20e6458e86f5ba0f3	not-for-merge	'refs/pull/702/head' of https://github.com/livekit/client-sdk-swift
+5a9c23c5b160ed680c7869cfcee7a9a6fe3a0c7d	not-for-merge	'refs/pull/703/head' of https://github.com/livekit/client-sdk-swift
+185578fc61433e67c4ff092413b0646b8b3ad774	not-for-merge	'refs/pull/706/head' of https://github.com/livekit/client-sdk-swift
+e41c3d8f4b65b019eb5b7bf9e65968ee0bcc2924	not-for-merge	'refs/pull/709/head' of https://github.com/livekit/client-sdk-swift
+081ee090b0bf8f486782c923e997bb5da9c19bbf	not-for-merge	'refs/pull/71/head' of https://github.com/livekit/client-sdk-swift
+7f4b241fa75eab7bfa473df3aa18440daf35f8a3	not-for-merge	'refs/pull/711/head' of https://github.com/livekit/client-sdk-swift
+4b1671f6088fb55143039d0da800ff6f58d6910c	not-for-merge	'refs/pull/715/head' of https://github.com/livekit/client-sdk-swift
+7dce815e374a741cc650b36469860b980daf78fa	not-for-merge	'refs/pull/717/head' of https://github.com/livekit/client-sdk-swift
+19571a69b2118bc209d7b761f98ac00e245bbd4a	not-for-merge	'refs/pull/718/head' of https://github.com/livekit/client-sdk-swift
+8d64b9a27e3dc32fd4aa71be32babc25e0a8a323	not-for-merge	'refs/pull/72/head' of https://github.com/livekit/client-sdk-swift
+102a262af8c48b2bbe2311d395d1c8f9e34b87f0	not-for-merge	'refs/pull/723/head' of https://github.com/livekit/client-sdk-swift
+4fb3e0b719fb59e403f49454206f38f62101d5b5	not-for-merge	'refs/pull/726/head' of https://github.com/livekit/client-sdk-swift
+1931c1665b5f5a463e27acbc3fc3b29bc9e6aa92	not-for-merge	'refs/pull/727/head' of https://github.com/livekit/client-sdk-swift
+f0111408ef1a62aab9264b20e6df66e4fe94ba14	not-for-merge	'refs/pull/728/head' of https://github.com/livekit/client-sdk-swift
+95ab917773c7eb7e1391949212a577bc7ca21666	not-for-merge	'refs/pull/73/head' of https://github.com/livekit/client-sdk-swift
+bcbc2b201011533e446f685a9a1f5a0f35adccd4	not-for-merge	'refs/pull/735/head' of https://github.com/livekit/client-sdk-swift
+50f1fd7f5dcc7d0705e1a70f7f786d85e93ed81b	not-for-merge	'refs/pull/74/head' of https://github.com/livekit/client-sdk-swift
+b623a62da8d7523342e18ded5695aa18feb9e0ab	not-for-merge	'refs/pull/75/head' of https://github.com/livekit/client-sdk-swift
+dc7ed095d7ffe3a9e2bb83ad508edac63d6cdb2e	not-for-merge	'refs/pull/76/head' of https://github.com/livekit/client-sdk-swift
+cebf618dafc3c7d1c0108907bd50cefa16e1059b	not-for-merge	'refs/pull/78/head' of https://github.com/livekit/client-sdk-swift
+2ed6f88a7863de76f185766432e3d30f7f2ec232	not-for-merge	'refs/pull/79/head' of https://github.com/livekit/client-sdk-swift
+28087df3b43594274049375fe8e1afe073a2f626	not-for-merge	'refs/pull/80/head' of https://github.com/livekit/client-sdk-swift
+831c0353e7dc60c6db18ab6a741f80b9334502e2	not-for-merge	'refs/pull/81/head' of https://github.com/livekit/client-sdk-swift
+5a42e991871d9d7d7b03e1616b15b111848bdb1f	not-for-merge	'refs/pull/82/head' of https://github.com/livekit/client-sdk-swift
+fe8a6e15810f2e52f22b96b0d2390e3a1db7d5b1	not-for-merge	'refs/pull/83/head' of https://github.com/livekit/client-sdk-swift
+4033fd5c5959ad5320f94b346a9d6626884d8ad0	not-for-merge	'refs/pull/84/head' of https://github.com/livekit/client-sdk-swift
+a38cc7a228e4a7c2b3867558fa71e0a8c9678737	not-for-merge	'refs/pull/85/head' of https://github.com/livekit/client-sdk-swift
+c5c48fc31bb0a1720aa871b1d6130e31eb374387	not-for-merge	'refs/pull/86/head' of https://github.com/livekit/client-sdk-swift
+bbbf9e8438d75e5bbe4dcbef7d2ee9a547be52de	not-for-merge	'refs/pull/87/head' of https://github.com/livekit/client-sdk-swift
+07532a20641b4b81f69400d4f09f18d73cbbcca7	not-for-merge	'refs/pull/88/head' of https://github.com/livekit/client-sdk-swift
+83f0aced23e9c408f5a462b4fd1deafee3243aa9	not-for-merge	'refs/pull/89/head' of https://github.com/livekit/client-sdk-swift
+f1ebcef239e150b60a6e4b8426196166074a945a	not-for-merge	'refs/pull/9/head' of https://github.com/livekit/client-sdk-swift
+86a99d80e53cdf7b6156af3b51c87a0dca310106	not-for-merge	'refs/pull/90/head' of https://github.com/livekit/client-sdk-swift
+1e84c3beb413c1d1b15297a57354e3fea82bf384	not-for-merge	'refs/pull/91/head' of https://github.com/livekit/client-sdk-swift
+721c828140df28135fbb7dee8b889100c911bd65	not-for-merge	'refs/pull/96/head' of https://github.com/livekit/client-sdk-swift
+47b3d88fa7dbccd611ef970a813cb7dfefee4388	not-for-merge	'refs/pull/97/head' of https://github.com/livekit/client-sdk-swift
+de00964976ea88b23bd07f3f9236185ded9ee86f	not-for-merge	'refs/pull/99/head' of https://github.com/livekit/client-sdk-swift
+427884f064142d4d145836c48c1b60c9b4c622b7	not-for-merge	tag '0.5.0' of https://github.com/livekit/client-sdk-swift
+dd994f4d29a834512a3f8f4ce12fa264ab8dcfba	not-for-merge	tag '0.6.0' of https://github.com/livekit/client-sdk-swift
+2b49a5715fa37e9ac6d4d4d54067901b60fc82aa	not-for-merge	tag '0.6.1' of https://github.com/livekit/client-sdk-swift
+4f866657c4be630b07d746fd6c18cb25f91485b6	not-for-merge	tag '0.6.2' of https://github.com/livekit/client-sdk-swift
+82f670d19fc3640a50f0cfda0434a17993de6c06	not-for-merge	tag '0.6.3' of https://github.com/livekit/client-sdk-swift
+86f5f0c0bcef733959b8f36e84b98586a966b9ae	not-for-merge	tag '0.6.4' of https://github.com/livekit/client-sdk-swift
+7888565e63bfd65853edcbd3fd98cb1fbafeae64	not-for-merge	tag '0.6.5' of https://github.com/livekit/client-sdk-swift
+c72bc2836a33ddc72133187d77ec236348028ae6	not-for-merge	tag '0.6.6' of https://github.com/livekit/client-sdk-swift
+8893a38ea49a5172082e8ea11b360823adcac7a1	not-for-merge	tag '0.6.7' of https://github.com/livekit/client-sdk-swift
+dba481870bcb05a062c88be94847fd01af2fcaa9	not-for-merge	tag '0.7.0' of https://github.com/livekit/client-sdk-swift
+c13ee9dfeeddbfe7ee7eed5a5efed3e6c3b6f893	not-for-merge	tag '0.7.1' of https://github.com/livekit/client-sdk-swift
+fc63501651092c25d3f698672bc8e8c7ce52e353	not-for-merge	tag '0.7.2' of https://github.com/livekit/client-sdk-swift
+093d4215e45b944272456938a8fb2ebb3b30b0a7	not-for-merge	tag '0.7.3' of https://github.com/livekit/client-sdk-swift
+41308e6f18384fb0907523d3f9d94e449ca7f715	not-for-merge	tag '0.7.4' of https://github.com/livekit/client-sdk-swift
+78dc9eb0cb21a1b3fdcc1bc72e6530de4b3d8e2e	not-for-merge	tag '0.7.5' of https://github.com/livekit/client-sdk-swift
+eaa1391122de81f1c2d410490079469f5669a0d8	not-for-merge	tag '0.7.6' of https://github.com/livekit/client-sdk-swift
+fb144acf514dd312fa2eb76b7903556d91ffd867	not-for-merge	tag '0.8.0' of https://github.com/livekit/client-sdk-swift
+51d961175347c0ba7d6bf11f92fd0e1351325367	not-for-merge	tag '0.8.1' of https://github.com/livekit/client-sdk-swift
+bc5bc3c48278fff5034d184081d715dceaa7a05c	not-for-merge	tag '0.8.2' of https://github.com/livekit/client-sdk-swift
+3de5a6256a7447221b7019e0fd05c8adfa551db4	not-for-merge	tag '0.9.0' of https://github.com/livekit/client-sdk-swift
+c6267069aab299101df6767d380027583866ebf7	not-for-merge	tag '0.9.1' of https://github.com/livekit/client-sdk-swift
+27c752b374f27865f1ea62a89c099e9647110668	not-for-merge	tag '0.9.10' of https://github.com/livekit/client-sdk-swift
+07c31cc189a391a1203b69de88b594c94ac09623	not-for-merge	tag '0.9.12' of https://github.com/livekit/client-sdk-swift
+54d08bf5a718b629e912ae1af77b7ca90000b57c	not-for-merge	tag '0.9.13' of https://github.com/livekit/client-sdk-swift
+65e4eb0ce5621987447b677a4260a1cc9869ac38	not-for-merge	tag '0.9.14' of https://github.com/livekit/client-sdk-swift
+283ea99231a70a7c6aabb57393938a53214c9e34	not-for-merge	tag '0.9.15' of https://github.com/livekit/client-sdk-swift
+43569e4f5561a08c1dad5345e5c4836ff47b592a	not-for-merge	tag '0.9.2' of https://github.com/livekit/client-sdk-swift
+6754fe837dbaed51e4d733fbea369f2e0cefa620	not-for-merge	tag '0.9.3' of https://github.com/livekit/client-sdk-swift
+be2ef5abf59d0d168b9ba91f0d93821da998a6b5	not-for-merge	tag '0.9.4' of https://github.com/livekit/client-sdk-swift
+0f44a591a17d5ad7d92152c14722bedbffc55df0	not-for-merge	tag '0.9.5' of https://github.com/livekit/client-sdk-swift
+73ced268ce601bbd9ca362dbb35012ae2b133d1e	not-for-merge	tag '0.9.6' of https://github.com/livekit/client-sdk-swift
+7746c9f3fe4fc73ad778d3f83d5ace847b0a909e	not-for-merge	tag '0.9.7' of https://github.com/livekit/client-sdk-swift
+04690e2a1bfdcdb82b4cca0a7f473e161f0a02ce	not-for-merge	tag '0.9.8' of https://github.com/livekit/client-sdk-swift
+1ccd5923e4bf338232e1608b1e4ed28e94d181e3	not-for-merge	tag '0.9.9' of https://github.com/livekit/client-sdk-swift
+07b2e3dfeaf4ff89f15cd7c14c1daaf9f0b011af	not-for-merge	tag '1.0.0' of https://github.com/livekit/client-sdk-swift
+853c12f090e79d7c8b9625d1363eb77c828dbadd	not-for-merge	tag '1.0.1' of https://github.com/livekit/client-sdk-swift
+7ba0e0bfa6eb7d95fbd508ad73c81ce4009f1eba	not-for-merge	tag '1.0.10' of https://github.com/livekit/client-sdk-swift
+73ed5b82068b8fb71198bed7e1293a9a5732836d	not-for-merge	tag '1.0.11' of https://github.com/livekit/client-sdk-swift
+7331b813a5ab8a95cfb81fb2b4ed10519428b9ff	not-for-merge	tag '1.0.12' of https://github.com/livekit/client-sdk-swift
+6c70b18fc0f3819e0f5186de95e7ca8a759f30ee	not-for-merge	tag '1.0.13' of https://github.com/livekit/client-sdk-swift
+2f18def0ba3053158cf42bfa130e6eac5b6a58cd	not-for-merge	tag '1.0.14' of https://github.com/livekit/client-sdk-swift
+d7a68b34af8ab2c5e6312458f75f0795ae9bd862	not-for-merge	tag '1.0.2' of https://github.com/livekit/client-sdk-swift
+c0a27ea1d183b56bfeb76cea4c230594e17b3377	not-for-merge	tag '1.0.3' of https://github.com/livekit/client-sdk-swift
+7e7decf3a09de4a169dfc0445a14d9fd2d8db58d	not-for-merge	tag '1.0.4' of https://github.com/livekit/client-sdk-swift
+5cc3c001779ab147199ce3ea0dce465b846368b4	not-for-merge	tag '1.0.5' of https://github.com/livekit/client-sdk-swift
+f6ca534eb334e99acb8e82cc99b491717df28d8a	not-for-merge	tag '1.0.6' of https://github.com/livekit/client-sdk-swift
+1b09d6b9bb015e30e620d93e7a6214005dd261ad	not-for-merge	tag '1.0.7' of https://github.com/livekit/client-sdk-swift
+606ee3b65a0b0e1fa9286c54ac39c97b458d9142	not-for-merge	tag '1.0.8' of https://github.com/livekit/client-sdk-swift
+3b1cefbc198509e935806050f5f9dde0c5d561c7	not-for-merge	tag '1.0.9' of https://github.com/livekit/client-sdk-swift
+d1d79853d69cf7fce2ffcab92cc97619658bc6c3	not-for-merge	tag '1.1.0' of https://github.com/livekit/client-sdk-swift
+5a3998ee5e90d17e8d3b94f3c3fbaee378130aa2	not-for-merge	tag '1.1.1' of https://github.com/livekit/client-sdk-swift
+b2353db06eefa15468c4b2e0f546c5022f8bd266	not-for-merge	tag '1.1.2' of https://github.com/livekit/client-sdk-swift
+ec36cc36f0509256119483b084bc107c8af7c224	not-for-merge	tag '1.1.3' of https://github.com/livekit/client-sdk-swift
+8b9cefed8d1669ec8fce41376b56dce3036a5f50	not-for-merge	tag '1.1.4' of https://github.com/livekit/client-sdk-swift
+154443dd54c12382c5b87094f996330d3c056507	not-for-merge	tag '1.1.5' of https://github.com/livekit/client-sdk-swift
+8cde9e66ce9b470c3a743f5c72784f57c5a6d0c3	not-for-merge	tag '1.1.6' of https://github.com/livekit/client-sdk-swift
+be45083bc0bae3430c2e9e0bf97ca788985b64dd	not-for-merge	tag '2.0.0' of https://github.com/livekit/client-sdk-swift
+b708b87a9bc63dc138e6a0b2d173b1f0d9b0b9f9	not-for-merge	tag '2.0.1' of https://github.com/livekit/client-sdk-swift
+a765e6a8a7ec56fbab502b4e9fe439bd059ad5d6	not-for-merge	tag '2.0.10' of https://github.com/livekit/client-sdk-swift
+367d95fc9a16bab88c3ec73e019726f4608b2c18	not-for-merge	tag '2.0.11' of https://github.com/livekit/client-sdk-swift
+0460922af9ddd59dc528ae2b228dab6dbe115906	not-for-merge	tag '2.0.12' of https://github.com/livekit/client-sdk-swift
+478c2813daaf5fb910933b0fde857eae29ba7a35	not-for-merge	tag '2.0.13' of https://github.com/livekit/client-sdk-swift
+0c6b9686235a56ea1961746ac750c524836be5ee	not-for-merge	tag '2.0.14' of https://github.com/livekit/client-sdk-swift
+df0629ae6c7a9279e94545124bcbb3c44b550268	not-for-merge	tag '2.0.15' of https://github.com/livekit/client-sdk-swift
+471a1b3d97d59de80027f44c975cd40bb72e67e0	not-for-merge	tag '2.0.16' of https://github.com/livekit/client-sdk-swift
+2e05b21bd1265dd88bcef6030cbb6e3755653c58	not-for-merge	tag '2.0.17' of https://github.com/livekit/client-sdk-swift
+eab7650e050657638d48e87b62ca94b65c088bb3	not-for-merge	tag '2.0.18' of https://github.com/livekit/client-sdk-swift
+9c5242f0217f59f5f30fd122e7ac509dcf446201	not-for-merge	tag '2.0.19' of https://github.com/livekit/client-sdk-swift
+ed1b89c6bf9a64c3a673f7bb1faefc77a8d57662	not-for-merge	tag '2.0.2' of https://github.com/livekit/client-sdk-swift
+b0ebe74571510ade50d63244d41706750ee4c9db	not-for-merge	tag '2.0.3' of https://github.com/livekit/client-sdk-swift
+cb7b520c3846e8e61f70898317df330e8ca644c4	not-for-merge	tag '2.0.4' of https://github.com/livekit/client-sdk-swift
+858b077e690aeec4a0fcf432a0e2e3002042d119	not-for-merge	tag '2.0.5' of https://github.com/livekit/client-sdk-swift
+2f6cdd722b43098b637418272c9aaaf5d3c2ed1e	not-for-merge	tag '2.0.6' of https://github.com/livekit/client-sdk-swift
+5917d0c02261c44b66d12fb08a974db8ef9833ce	not-for-merge	tag '2.0.7' of https://github.com/livekit/client-sdk-swift
+482146688a44446a499e3d4093a06144378ed2f4	not-for-merge	tag '2.0.8' of https://github.com/livekit/client-sdk-swift
+c7358137775ed6f6ac583d13c79f39f6244005d8	not-for-merge	tag '2.0.9' of https://github.com/livekit/client-sdk-swift
+f5a595895565feaabe2ca6eada8abcbfc9442e5d	not-for-merge	tag '2.1.0' of https://github.com/livekit/client-sdk-swift
+453daf6889820c3408f48a5e84de58a73565e161	not-for-merge	tag '2.2.0' of https://github.com/livekit/client-sdk-swift
+bd7dba05653a482a0d3e27081aea0c81bf3fb45f	not-for-merge	tag '2.2.1' of https://github.com/livekit/client-sdk-swift
+3d9127709a09560efd536ec8a2900e31ee67ef43	not-for-merge	tag '2.3.0' of https://github.com/livekit/client-sdk-swift
+9e02fc4174a6f200e376620c390f03f10c6dce7b	not-for-merge	tag '2.3.1' of https://github.com/livekit/client-sdk-swift
+a5c484064d7d2fe34f0ebfe3817b18f21c2d1128	not-for-merge	tag '2.4.0' of https://github.com/livekit/client-sdk-swift
+5ae2de21aae6ebd61072e8d640a80d88321d5c78	not-for-merge	tag '2.5.0' of https://github.com/livekit/client-sdk-swift
+7800ce42de09d7785244d469ea1f1f901d765b8d	not-for-merge	tag '2.5.1' of https://github.com/livekit/client-sdk-swift
+1ddbfbdca968e654073e59d8027a5d026dcf15ba	not-for-merge	tag '2.6.0' of https://github.com/livekit/client-sdk-swift
+d0294781fe01ff47842e152a984533384e753a9d	not-for-merge	tag '2.6.1' of https://github.com/livekit/client-sdk-swift
+038a9664e5ad8aac7cc471df5e7e9e1b7c18e8e5	not-for-merge	tag 'client-sdk-swift@2.5.0' of https://github.com/livekit/client-sdk-swift
