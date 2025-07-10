@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "JMMediaStackSDK",
+    platforms: [
+        .iOS(.v14)   // Updated to iOS 14 for LiveKit compatibility
+    ],
     products: [
         .library(name: "JMMediaStackSDK", targets: ["JMMediaStackSDK"])
     ],
@@ -28,8 +31,15 @@ let package = Package(
             url: "https://github.com/JioMeet/MMWormhole.git",
             from: "2.1.0"
         ),
+        // LiveKit dependency for dual WebRTC stack
+        .package(
+            name: "LiveKit",
+            url: "https://github.com/livekit/client-sdk-swift.git",
+            .upToNextMajor(from: "2.0.0")
+        ),
     ],
     targets: [
+        // MediaSoup WebRTC frameworks (RTC* classes) - from develop branch
         .binaryTarget(
             name: "Mediasoup",
             url: "https://storage.googleapis.com/cpass-sdk/libs/iOS/public/JMMedia/v_1_0_0/Mediasoup.xcframework.zip",
@@ -43,8 +53,12 @@ let package = Package(
         .target(
             name: "JMMediaStackSDK",
             dependencies: [
+                // MediaSoup WebRTC stack (RTC* classes) - original functionality
                 .target(name: "Mediasoup"),
                 .target(name: "WebRTC"),
+                // LiveKit WebRTC stack (LKRTC* classes) - dual stack addition
+                .product(name: "LiveKit", package: "LiveKit"),
+                // Other dependencies
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
                 .product(name: "SocketIO", package: "SocketIO"),
                 .product(name: "SwiftyBeaver", package: "SwiftyBeaver"),
@@ -59,6 +73,7 @@ let package = Package(
 				.linkedFramework("CoreAudio", .when(platforms: [.iOS])),
 				.linkedFramework("CoreMedia", .when(platforms: [.iOS])),
 				.linkedFramework("CoreVideo", .when(platforms: [.iOS])),
+				.linkedFramework("Network", .when(platforms: [.iOS])),
 			]
         ),
     ]
