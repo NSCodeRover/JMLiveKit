@@ -5,9 +5,10 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/NSCodeRover/JMLiveKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Onkar Dhanlobhe' => 'onkar.dhanlobhe@ril.com' }
-  s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :commit => '06c5d29e66db5825bea25cfef00f28e5ec5e1f5e' }
+  s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :tag => 'v1.1.7' }
   s.ios.deployment_target = '14.0'
   s.source_files     = 'Sources/LiveKit/**/*.{swift,h,m}', 'Sources/LKObjCHelpers/**/*.{swift,h,m}', 'LiveKitWebRTC.h'
+  s.module_name      = 'JMLiveKit'
   s.swift_version    = '5.9'
   s.dependency 'Starscream', '~> 4.0'
   s.dependency 'SwiftProtobuf', '~> 1.25.0'
