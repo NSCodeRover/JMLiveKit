@@ -44,5 +44,5 @@ Pod::Spec.new do |s|
   }
   
   # No dependencies for this framework
-  s.dependency = []
+  # s.dependency is not needed when there are no dependencies
 end 
