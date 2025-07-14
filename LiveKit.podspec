@@ -38,9 +38,9 @@ Pod::Spec.new do |s|
   
   # Dependencies
   s.dependency 'SwiftProtobuf', '~> 1.25.0'
-  s.dependency 'Logging', '= 1.5.4'
-  s.dependency 'DequeModule', '= 1.1.4'
-  s.dependency 'OrderedCollections', '= 1.1.4'
+  s.dependency "Logging", "~> 1.5"
+  s.dependency "DequeModule", "~> 1.1"
+  s.dependency "OrderedCollections", "~> 1.1"
   
   # Resource bundle for privacy info
   s.resource_bundles = {
