@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LiveKit'
-  s.version          = '2.6.1'
+  s.version          = '2.6.2'
   s.summary          = 'LiveKit iOS SDK - Real-time audio and video communication'
   s.description      = <<-DESC
     LiveKit iOS SDK provides real-time audio and video communication capabilities.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   }
   s.source           = { 
     :git => 'https://github.com/NSCodeRover/JMLiveKit.git', 
-    :tag => 'v2.6.1' 
+    :tag => 'v2.6.2' 
   }
   
   # Platform and Swift version
@@ -59,15 +59,4 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = {
     'ENABLE_BITCODE' => 'NO'
   }
-  
-  # Xcode version specific settings
-  xcode_output = `xcodebuild -version`.strip
-  major_version = xcode_output =~ /Xcode\s+(\d+)/ ? $1.to_i : 15
-  
-  if major_version >= 15
-    s.pod_target_xcconfig['OTHER_SWIFT_FLAGS'] = '$(inherited) -enable-experimental-feature AccessLevelOnImport'
-  end
-  
-  # Note: LiveKitWebRTC should be added separately via Swift Package Manager
-  # or as a separate pod dependency in the consuming project
 end
