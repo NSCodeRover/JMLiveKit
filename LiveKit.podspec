@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   
   # Dependencies - only include CocoaPods available dependencies
   s.dependency 'SwiftProtobuf', '~> 1.25.0'
-  # LiveKitWebRTC dependency removed - will be handled via SPM or manual integration
+  s.dependency 'LiveKitWebRTC', :git => 'https://github.com/NSCodeRover/LivekitWebrtc.git', :tag => '125.6422.33'
   
   # Resource bundle for privacy info
   s.resource_bundles = {
