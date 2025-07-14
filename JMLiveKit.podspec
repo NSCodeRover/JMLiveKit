@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Onkar Dhanlobhe' => 'onkar.dhanlobhe@ril.com' }
   s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :tag => 'v1.1.7' }
-  s.ios.deployment_target = '14.0'
+  s.ios.deployment_target = '13.0'
   s.source_files     = 'Sources/LiveKit/**/*.{swift,h,m}', 'Sources/LKObjCHelpers/**/*.{swift,h,m}', 'LiveKitWebRTC.h'
   s.module_name      = 'JMLiveKit'
   s.swift_version    = '5.9'
