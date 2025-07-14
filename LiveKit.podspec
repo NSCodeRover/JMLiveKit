@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LiveKit'
-  s.version          = '2.6.2'
+  s.version          = '2.6.3'
   s.summary          = 'LiveKit iOS SDK - Real-time audio and video communication'
   s.description      = <<-DESC
     LiveKit iOS SDK provides real-time audio and video communication capabilities.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   }
   s.source           = { 
     :git => 'https://github.com/NSCodeRover/JMLiveKit.git', 
-    :tag => 'v2.6.2' 
+    :tag => 'v2.6.3' 
   }
   
   # Platform and Swift version
@@ -36,11 +36,8 @@ Pod::Spec.new do |s|
     'Tests/**/*'
   ]
   
-  # Dependencies
+  # Dependencies - only include CocoaPods available dependencies
   s.dependency 'SwiftProtobuf', '~> 1.25.0'
-  s.dependency "Logging", "~> 1.5"
-  s.dependency "DequeModule", "~> 1.1"
-  s.dependency "OrderedCollections", "~> 1.1"
   
   # Resource bundle for privacy info
   s.resource_bundles = {
