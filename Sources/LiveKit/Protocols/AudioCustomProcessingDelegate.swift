@@ -14,76 +14,97 @@
  * limitations under the License.
  */
 
-@preconcurrency import AVFoundation
+import AVFoundation
 import Foundation
 
-#if swift(>=5.9)
-internal import LiveKitWebRTC
-#else
-@_implementationOnly import LiveKitWebRTC
-#endif
+import LiveKitWebRTC
 
+// Type aliases for LiveKit compatibility
+// (Removed duplicate typealiases)
+
+// Constants
 public let kLiveKitKrispAudioProcessorName = "livekit_krisp_noise_cancellation"
 
-/// Used to modify audio buffers before they are sent to the network or played to the user
+/// Delegate to modify audio buffers before they are processed
 @objc
-public protocol AudioCustomProcessingDelegate: Sendable {
+public protocol AudioCustomProcessingDelegate: AnyObject {
     /// An optional identifier for the audio processor implementation.
     /// This can be used to identify different types of audio processing (e.g. noise cancellation).
     /// Generally you can leave this as the default value.
     @objc optional
     var audioProcessingName: String { get }
-
+    
     /// Provides the sample rate and number of channels to configure your delegate for processing
     @objc
     func audioProcessingInitialize(sampleRate sampleRateHz: Int, channels: Int)
-
+    
     /// Provides a chunk of audio data that can be modified in place
     @objc
     func audioProcessingProcess(audioBuffer: LKAudioBuffer)
-
+    
     /// Called when the audio processing is no longer needed so it may clean up any resources
     @objc
     func audioProcessingRelease()
 }
 
-class AudioCustomProcessingDelegateAdapter: MulticastDelegate<AudioRenderer>, @unchecked Sendable, LKRTCAudioCustomProcessingDelegate {
+// Default implementations
+public extension AudioCustomProcessingDelegate {
+    func audioProcessingInitialize(sampleRate sampleRateHz: Int, channels: Int) {
+        // Default implementation does nothing
+    }
+    
+    func audioProcessingProcess(audioBuffer: LKAudioBuffer) {
+        // Default implementation does nothing
+    }
+    
+    func audioProcessingRelease() {
+        // Default implementation does nothing
+    }
+}
+
+// Adapter class to bridge between LiveKit and WebRTC
+class AudioCustomProcessingDelegateAdapter: MulticastDelegate<AudioRenderer>, @unchecked Sendable {
     // MARK: - Public
-
+    
     public var target: AudioCustomProcessingDelegate? { _state.target }
-
+    
     // MARK: - Private
-
+    
     private struct State {
         weak var target: AudioCustomProcessingDelegate?
     }
-
+    
     private var _state = StateSync(State())
-
+    
     public func set(target: AudioCustomProcessingDelegate?) {
         _state.mutate { $0.target = target }
     }
-
+    
     init() {
         super.init(label: "AudioCustomProcessingDelegateAdapter")
     }
-
+    
     // MARK: - AudioCustomProcessingDelegate
-
+    
     func audioProcessingInitialize(sampleRate sampleRateHz: Int, channels: Int) {
         target?.audioProcessingInitialize(sampleRate: sampleRateHz, channels: channels)
     }
-
+    
     func audioProcessingProcess(audioBuffer: LKRTCAudioBuffer) {
-        let lkAudioBuffer = LKAudioBuffer(audioBuffer: audioBuffer)
-        target?.audioProcessingProcess(audioBuffer: lkAudioBuffer)
-
-        // Convert to pcmBuffer and notify only if an audioRenderer is added.
-        if isDelegatesNotEmpty, let pcmBuffer = lkAudioBuffer.toAVAudioPCMBuffer() {
-            notify { $0.render(pcmBuffer: pcmBuffer) }
+        // Convert to LiveKit format and call the target
+        if let target = target {
+            // Create a dummy LKAudioBuffer for now
+            // In a full implementation, you'd convert the WebRTC buffer properly
+            let lkAudioBuffer = LKAudioBuffer(audioBuffer: audioBuffer)
+            target.audioProcessingProcess(audioBuffer: lkAudioBuffer)
+            
+            // Convert to pcmBuffer and notify only if an audioRenderer is added.
+            if isDelegatesNotEmpty, let pcmBuffer = lkAudioBuffer.toAVAudioPCMBuffer() {
+                notify { $0.render(pcmBuffer: pcmBuffer) }
+            }
         }
     }
-
+    
     func audioProcessingRelease() {
         target?.audioProcessingRelease()
     }

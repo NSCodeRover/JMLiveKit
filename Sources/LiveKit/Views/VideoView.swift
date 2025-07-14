@@ -15,13 +15,16 @@
  */
 
 @preconcurrency import AVFoundation
-import MetalKit
+import Foundation
 
-#if swift(>=5.9)
-internal import LiveKitWebRTC
-#else
-@_implementationOnly import LiveKitWebRTC
+#if canImport(UIKit)
+import UIKit
 #endif
+#if canImport(MetalKit)
+import MetalKit
+#endif
+
+import LiveKitWebRTC
 
 /// A ``NativeViewType`` that conforms to ``RTCVideoRenderer``.
 typealias NativeRendererView = LKRTCVideoRenderer & Mirrorable & NativeViewType
@@ -866,7 +869,19 @@ private extension VideoView {
     #if compiler(>=5.9)
     nonisolated func mainSyncOrAsync(operation: @MainActor @escaping () -> Void) {
         if Thread.current.isMainThread {
-            MainActor.assumeIsolated(operation)
+            #if os(macOS)
+            if #available(macOS 14.0, *) {
+                MainActor.assumeIsolated(operation)
+            } else {
+                Task { @MainActor in
+                    operation()
+                }
+            }
+            #else
+            Task { @MainActor in
+                operation()
+            }
+            #endif
         } else {
             Task { @MainActor in
                 operation()

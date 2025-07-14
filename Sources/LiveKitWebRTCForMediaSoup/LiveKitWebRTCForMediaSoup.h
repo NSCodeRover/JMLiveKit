@@ -1,0 +1,180 @@
+//
+//  LiveKitWebRTCForMediaSoup.h
+//  LiveKitWebRTCForMediaSoup
+//
+//  Created by AI Assistant for WebRTC compatibility
+//
+
+#ifndef LiveKitWebRTCForMediaSoup_h
+#define LiveKitWebRTCForMediaSoup_h
+
+// Re-export LiveKitWebRTC headers with WebRTC module names for MediaSoup compatibility
+#import <LiveKitWebRTC/WebRTC.h>
+
+// Type aliases for MediaSoup compatibility
+typedef LiveKitWebRTC::RTCPeerConnectionFactory RTCPeerConnectionFactory;
+typedef LiveKitWebRTC::RTCPeerConnection RTCPeerConnection;
+typedef LiveKitWebRTC::RTCMediaStream RTCMediaStream;
+typedef LiveKitWebRTC::RTCVideoTrack RTCVideoTrack;
+typedef LiveKitWebRTC::RTCAudioTrack RTCAudioTrack;
+typedef LiveKitWebRTC::RTCVideoSource RTCVideoSource;
+typedef LiveKitWebRTC::RTCAudioSource RTCAudioSource;
+typedef LiveKitWebRTC::RTCVideoCapturer RTCVideoCapturer;
+typedef LiveKitWebRTC::RTCCameraVideoCapturer RTCCameraVideoCapturer;
+typedef LiveKitWebRTC::RTCConfiguration RTCConfiguration;
+typedef LiveKitWebRTC::RTCMediaConstraints RTCMediaConstraints;
+typedef LiveKitWebRTC::RTCIceServer RTCIceServer;
+typedef LiveKitWebRTC::RTCSessionDescription RTCSessionDescription;
+typedef LiveKitWebRTC::RTCIceCandidate RTCIceCandidate;
+typedef LiveKitWebRTC::RTCRtpSender RTCRtpSender;
+typedef LiveKitWebRTC::RTCRtpReceiver RTCRtpReceiver;
+typedef LiveKitWebRTC::RTCRtpTransceiver RTCRtpTransceiver;
+typedef LiveKitWebRTC::RTCRtpParameters RTCRtpParameters;
+typedef LiveKitWebRTC::RTCRtpCodecParameters RTCRtpCodecParameters;
+typedef LiveKitWebRTC::RTCRtpEncodingParameters RTCRtpEncodingParameters;
+typedef LiveKitWebRTC::RTCRtpCapabilities RTCRtpCapabilities;
+typedef LiveKitWebRTC::RTCRtpCodecCapability RTCRtpCodecCapability;
+typedef LiveKitWebRTC::RTCRtpHeaderExtension RTCRtpHeaderExtension;
+typedef LiveKitWebRTC::RTCRtpHeaderExtensionCapability RTCRtpHeaderExtensionCapability;
+typedef LiveKitWebRTC::RTCDataChannel RTCDataChannel;
+typedef LiveKitWebRTC::RTCDataChannelConfiguration RTCDataChannelConfiguration;
+typedef LiveKitWebRTC::RTCVideoFrame RTCVideoFrame;
+typedef LiveKitWebRTC::RTCVideoFrameBuffer RTCVideoFrameBuffer;
+typedef LiveKitWebRTC::RTCI420Buffer RTCI420Buffer;
+typedef LiveKitWebRTC::RTCMutableI420Buffer RTCMutableI420Buffer;
+typedef LiveKitWebRTC::RTCVideoRenderer RTCVideoRenderer;
+typedef LiveKitWebRTC::RTCAudioRenderer RTCAudioRenderer;
+typedef LiveKitWebRTC::RTCAudioDeviceModule RTCAudioDeviceModule;
+typedef LiveKitWebRTC::RTCAudioSession RTCAudioSession;
+typedef LiveKitWebRTC::RTCAudioSessionConfiguration RTCAudioSessionConfiguration;
+typedef LiveKitWebRTC::RTCAudioBuffer RTCAudioBuffer;
+typedef LiveKitWebRTC::RTCAudioProcessingModule RTCAudioProcessingModule;
+typedef LiveKitWebRTC::RTCDefaultAudioProcessingModule RTCDefaultAudioProcessingModule;
+typedef LiveKitWebRTC::RTCAudioCustomProcessingDelegate RTCAudioCustomProcessingDelegate;
+typedef LiveKitWebRTC::RTCAudioProcessingConfig RTCAudioProcessingConfig;
+typedef LiveKitWebRTC::RTCCertificate RTCCertificate;
+typedef LiveKitWebRTC::RTCCryptoOptions RTCCryptoOptions;
+typedef LiveKitWebRTC::RTCFieldTrials RTCFieldTrials;
+typedef LiveKitWebRTC::RTCFrameCryptor RTCFrameCryptor;
+typedef LiveKitWebRTC::RTCFrameCryptorKeyProvider RTCFrameCryptorKeyProvider;
+typedef LiveKitWebRTC::RTCMetrics RTCMetrics;
+typedef LiveKitWebRTC::RTCMetricsSampleInfo RTCMetricsSampleInfo;
+typedef LiveKitWebRTC::RTCStatisticsReport RTCStatisticsReport;
+typedef LiveKitWebRTC::RTCLegacyStatsReport RTCLegacyStatsReport;
+typedef LiveKitWebRTC::RTCTracing RTCTracing;
+typedef LiveKitWebRTC::RTCDispatcher RTCDispatcher;
+typedef LiveKitWebRTC::RTCYUVHelper RTCYUVHelper;
+typedef LiveKitWebRTC::RTCCallbackLogger RTCCallbackLogger;
+typedef LiveKitWebRTC::RTCFileLogger RTCFileLogger;
+typedef LiveKitWebRTC::RTCLogging RTCLogging;
+typedef LiveKitWebRTC::RTCMacros RTCMacros;
+
+// Video codec types
+typedef LiveKitWebRTC::RTCVideoCodecInfo RTCVideoCodecInfo;
+typedef LiveKitWebRTC::RTCVideoEncoder RTCVideoEncoder;
+typedef LiveKitWebRTC::RTCVideoDecoder RTCVideoDecoder;
+typedef LiveKitWebRTC::RTCVideoEncoderFactory RTCVideoEncoderFactory;
+typedef LiveKitWebRTC::RTCVideoDecoderFactory RTCVideoDecoderFactory;
+typedef LiveKitWebRTC::RTCDefaultVideoEncoderFactory RTCDefaultVideoEncoderFactory;
+typedef LiveKitWebRTC::RTCDefaultVideoDecoderFactory RTCDefaultVideoDecoderFactory;
+typedef LiveKitWebRTC::RTCVideoEncoderSettings RTCVideoEncoderSettings;
+typedef LiveKitWebRTC::RTCVideoEncoderQpThresholds RTCVideoEncoderQpThresholds;
+typedef LiveKitWebRTC::RTCVideoEncoderSimulcast RTCVideoEncoderSimulcast;
+typedef LiveKitWebRTC::RTCVideoEncoderFactorySimulcast RTCVideoEncoderFactorySimulcast;
+
+// H.264 specific types
+typedef LiveKitWebRTC::RTCVideoEncoderH264 RTCVideoEncoderH264;
+typedef LiveKitWebRTC::RTCVideoDecoderH264 RTCVideoDecoderH264;
+typedef LiveKitWebRTC::RTCVideoEncoderFactoryH264 RTCVideoEncoderFactoryH264;
+typedef LiveKitWebRTC::RTCVideoDecoderFactoryH264 RTCVideoDecoderFactoryH264;
+typedef LiveKitWebRTC::RTCH264ProfileLevelId RTCH264ProfileLevelId;
+typedef LiveKitWebRTC::RTCCodecSpecificInfoH264 RTCCodecSpecificInfoH264;
+
+// VP8/VP9/AV1 types
+typedef LiveKitWebRTC::RTCVideoEncoderVP8 RTCVideoEncoderVP8;
+typedef LiveKitWebRTC::RTCVideoDecoderVP8 RTCVideoDecoderVP8;
+typedef LiveKitWebRTC::RTCVideoEncoderVP9 RTCVideoEncoderVP9;
+typedef LiveKitWebRTC::RTCVideoDecoderVP9 RTCVideoDecoderVP9;
+typedef LiveKitWebRTC::RTCVideoEncoderAV1 RTCVideoEncoderAV1;
+typedef LiveKitWebRTC::RTCVideoDecoderAV1 RTCVideoDecoderAV1;
+
+// Buffer types
+typedef LiveKitWebRTC::RTCNativeI420Buffer RTCNativeI420Buffer;
+typedef LiveKitWebRTC::RTCNativeMutableI420Buffer RTCNativeMutableI420Buffer;
+typedef LiveKitWebRTC::RTCYUVPlanarBuffer RTCYUVPlanarBuffer;
+typedef LiveKitWebRTC::RTCMutableYUVPlanarBuffer RTCMutableYUVPlanarBuffer;
+typedef LiveKitWebRTC::RTCCVPixelBuffer RTCCVPixelBuffer;
+
+// View types
+typedef LiveKitWebRTC::RTCMTLVideoView RTCMTLVideoView;
+typedef LiveKitWebRTC::RTCEAGLVideoView RTCEAGLVideoView;
+typedef LiveKitWebRTC::RTCVideoViewShading RTCVideoViewShading;
+typedef LiveKitWebRTC::RTCCameraPreviewView RTCCameraPreviewView;
+
+// Constants
+#define kRTCMediaConstraintsOfferToReceiveAudio LiveKitWebRTC::kRTCMediaConstraintsOfferToReceiveAudio
+#define kRTCMediaConstraintsOfferToReceiveVideo LiveKitWebRTC::kRTCMediaConstraintsOfferToReceiveVideo
+#define kRTCMediaConstraintsValueTrue LiveKitWebRTC::kRTCMediaConstraintsValueTrue
+#define kRTCMediaConstraintsValueFalse LiveKitWebRTC::kRTCMediaConstraintsValueFalse
+#define kRTCMediaConstraintsIceRestart LiveKitWebRTC::kRTCMediaConstraintsIceRestart
+#define kRTCMediaConstraintsVoiceActivityDetection LiveKitWebRTC::kRTCMediaConstraintsVoiceActivityDetection
+
+// Codec names
+#define kRTCVp8CodecName LiveKitWebRTC::kRTCVp8CodecName
+#define kRTCVp9CodecName LiveKitWebRTC::kRTCVp9CodecName
+#define kRTCH264CodecName LiveKitWebRTC::kRTCH264CodecName
+#define kRTCAv1CodecName LiveKitWebRTC::kRTCAv1CodecName
+#define kRTCOpusCodecName LiveKitWebRTC::kRTCOpusCodecName
+#define kRTCIsacCodecName LiveKitWebRTC::kRTCIsacCodecName
+#define kRTCG722CodecName LiveKitWebRTC::kRTCG722CodecName
+#define kRTCIlbcCodecName LiveKitWebRTC::kRTCIlbcCodecName
+#define kRTCPcmuCodecName LiveKitWebRTC::kRTCPcmuCodecName
+#define kRTCPcmaCodecName LiveKitWebRTC::kRTCPcmaCodecName
+#define kRTCDtmfCodecName LiveKitWebRTC::kRTCDtmfCodecName
+#define kRTCComfortNoiseCodecName LiveKitWebRTC::kRTCComfortNoiseCodecName
+
+// Video codec constants
+#define RTCVideoCodecVp8Name LiveKitWebRTC::RTCVideoCodecVp8Name
+#define RTCVideoCodecVp9Name LiveKitWebRTC::RTCVideoCodecVp9Name
+#define RTCVideoCodecAv1Name LiveKitWebRTC::RTCVideoCodecAv1Name
+
+// Enums
+typedef LiveKitWebRTC::RTCRtpMediaType RTCRtpMediaType;
+typedef LiveKitWebRTC::RTCSdpSemantics RTCSdpSemantics;
+typedef LiveKitWebRTC::RTCIceTransportPolicy RTCIceTransportPolicy;
+typedef LiveKitWebRTC::RTCBundlePolicy RTCBundlePolicy;
+typedef LiveKitWebRTC::RTCRtcpMuxPolicy RTCRtcpMuxPolicy;
+typedef LiveKitWebRTC::RTCSignalingState RTCSignalingState;
+typedef LiveKitWebRTC::RTCIceConnectionState RTCIceConnectionState;
+typedef LiveKitWebRTC::RTCPeerConnectionState RTCPeerConnectionState;
+typedef LiveKitWebRTC::RTCIceGatheringState RTCIceGatheringState;
+typedef LiveKitWebRTC::RTCDataChannelState RTCDataChannelState;
+typedef LiveKitWebRTC::RTCVideoRotation RTCVideoRotation;
+typedef LiveKitWebRTC::RTCVideoFrameBufferType RTCVideoFrameBufferType;
+typedef LiveKitWebRTC::RTCAudioDeviceType RTCAudioDeviceType;
+typedef LiveKitWebRTC::RTCAudioSessionMode RTCAudioSessionMode;
+typedef LiveKitWebRTC::RTCAudioSessionSetCategoryError RTCAudioSessionSetCategoryError;
+typedef LiveKitWebRTC::RTCAudioSessionActivationError RTCAudioSessionActivationError;
+typedef LiveKitWebRTC::RTCAudioSessionLockError RTCAudioSessionLockError;
+typedef LiveKitWebRTC::RTCAudioSessionUnlockError RTCAudioSessionUnlockError;
+
+// Protocols
+typedef LiveKitWebRTC::RTCPeerConnectionDelegate RTCPeerConnectionDelegate;
+typedef LiveKitWebRTC::RTCVideoDecoderFactory RTCVideoDecoderFactory;
+typedef LiveKitWebRTC::RTCVideoEncoderFactory RTCVideoEncoderFactory;
+typedef LiveKitWebRTC::RTCSSLCertificateVerifier RTCSSLCertificateVerifier;
+typedef LiveKitWebRTC::RTCAudioDevice RTCAudioDevice;
+typedef LiveKitWebRTC::RTCAudioProcessingModule RTCAudioProcessingModule;
+typedef LiveKitWebRTC::RTCVideoRenderer RTCVideoRenderer;
+typedef LiveKitWebRTC::RTCAudioRenderer RTCAudioRenderer;
+typedef LiveKitWebRTC::RTCVideoCapturerDelegate RTCVideoCapturerDelegate;
+typedef LiveKitWebRTC::RTCAudioCustomProcessingDelegate RTCAudioCustomProcessingDelegate;
+
+// Callbacks
+typedef LiveKitWebRTC::RTCCreateSessionDescriptionCompletionHandler RTCCreateSessionDescriptionCompletionHandler;
+typedef LiveKitWebRTC::RTCSetSessionDescriptionCompletionHandler RTCSetSessionDescriptionCompletionHandler;
+typedef LiveKitWebRTC::RTCDataChannelStateChangeHandler RTCDataChannelStateChangeHandler;
+typedef LiveKitWebRTC::RTCDataChannelMessageHandler RTCDataChannelMessageHandler;
+typedef LiveKitWebRTC::RTCDataChannelBufferedAmountChangeHandler RTCDataChannelBufferedAmountChangeHandler;
+
+#endif /* LiveKitWebRTCForMediaSoup_h */ 

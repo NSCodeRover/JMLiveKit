@@ -1,0 +1,12 @@
+module LiveKitWebRTCForMediaSoup {
+    umbrella header "LiveKitWebRTCForMediaSoup.h"
+    
+    export *
+    module * { export * }
+    
+    // Re-export LiveKitWebRTC module
+    module LiveKitWebRTC {
+        header "LiveKitWebRTC.h"
+        export *
+    }
+} 

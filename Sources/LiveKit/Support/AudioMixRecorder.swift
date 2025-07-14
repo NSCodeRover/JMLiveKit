@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-@preconcurrency import AVFAudio
+import AVFAudio
 import Foundation
+
+import LiveKitWebRTC
 
 /// `AudioMixRecorder` provides real-time audio recording capabilities using AVAudioEngine.
 ///

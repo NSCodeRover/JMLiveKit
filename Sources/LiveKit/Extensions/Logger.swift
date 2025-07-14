@@ -17,7 +17,7 @@
 import Foundation
 
 #if swift(>=5.9)
-internal import Logging
+import Logging
 #else
 @_implementationOnly import Logging
 #endif

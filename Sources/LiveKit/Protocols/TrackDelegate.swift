@@ -16,11 +16,7 @@
 
 import Foundation
 
-#if swift(>=5.9)
-internal import LiveKitWebRTC
-#else
-@_implementationOnly import LiveKitWebRTC
-#endif
+import LiveKitWebRTC
 
 @objc
 public protocol TrackDelegate: AnyObject, Sendable {

@@ -18,7 +18,7 @@ import AVKit
 import SwiftUI
 
 #if swift(>=5.9)
-internal import LiveKitWebRTC
+import LiveKitWebRTC
 #else
 @_implementationOnly import LiveKitWebRTC
 #endif

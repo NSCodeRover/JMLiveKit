@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-#if swift(>=5.9)
-internal import LiveKitWebRTC
-#else
-@_implementationOnly import LiveKitWebRTC
-#endif
+import LiveKitWebRTC
 
 protocol TransportDelegate: AnyObject, Sendable {
     func transport(_ transport: Transport, didUpdateState state: LKRTCPeerConnectionState)

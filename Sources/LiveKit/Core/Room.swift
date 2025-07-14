@@ -15,10 +15,12 @@
  */
 
 import Foundation
-
-#if canImport(Network)
+import Logging
 import Network
-#endif
+import SwiftProtobuf
+import Combine
+
+import LiveKitWebRTC
 
 @objc
 public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
@@ -315,6 +317,23 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
                         connectOptions: ConnectOptions? = nil,
                         roomOptions: RoomOptions? = nil) async throws
     {
+        // Runtime backend validation - placeholder for future implementation
+        // guard BackendManager.shared.isBackendAvailable(.liveKit) else {
+        //     log("LiveKit backend is not available. Current backend: \(BackendManager.shared.currentBackend.description)", .error)
+        //     throw LiveKitError(.failedToParseUrl, message: "LiveKit backend not available")
+        // }
+        
+        // Validate input parameters
+        guard !url.isEmpty else {
+            log("Invalid URL: URL cannot be empty", .error)
+            throw LiveKitError(.failedToParseUrl, message: "URL cannot be empty")
+        }
+        
+        guard !token.isEmpty else {
+            log("Invalid token: Token cannot be empty", .error)
+            throw LiveKitError(.failedToParseUrl, message: "Token cannot be empty")
+        }
+        
         guard let url = URL(string: url), url.isValidForConnect else {
             log("URL parse failed", .error)
             throw LiveKitError(.failedToParseUrl)

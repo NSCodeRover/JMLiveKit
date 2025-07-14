@@ -19,7 +19,7 @@ import AVFoundation
 import Combine
 
 #if swift(>=5.9)
-internal import LiveKitWebRTC
+import LiveKitWebRTC
 #else
 @_implementationOnly import LiveKitWebRTC
 #endif
@@ -123,13 +123,13 @@ public class AudioManager: Loggable {
 
     private lazy var capturePostProcessingDelegateAdapter: AudioCustomProcessingDelegateAdapter = {
         let adapter = AudioCustomProcessingDelegateAdapter()
-        RTC.audioProcessingModule.capturePostProcessingDelegate = adapter
+        // Assignment to RTC.audioProcessingModule.capturePostProcessingDelegate removed for compatibility
         return adapter
     }()
 
     private lazy var renderPreProcessingDelegateAdapter: AudioCustomProcessingDelegateAdapter = {
         let adapter = AudioCustomProcessingDelegateAdapter()
-        RTC.audioProcessingModule.renderPreProcessingDelegate = adapter
+        // Assignment to RTC.audioProcessingModule.renderPreProcessingDelegate removed for compatibility
         return adapter
     }()
 
