@@ -15,7 +15,26 @@
  */
 
 import Foundation
-import OrderedCollections
+
+// MARK: - Custom OrderedSet Implementation
+
+private struct OrderedSet<T: Hashable> {
+    private var array: [T] = []
+    private var set: Set<T> = []
+    
+    var elements: [T] { array }
+    
+    mutating func append(_ element: T) -> (index: Int, inserted: Bool) {
+        if set.contains(element) {
+            let index = array.firstIndex(of: element)!
+            return (index, false)
+        } else {
+            set.insert(element)
+            array.append(element)
+            return (array.count - 1, true)
+        }
+    }
+}
 
 // MARK: - Triggers
 

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import DequeModule
 import Foundation
 
 #if swift(>=5.9)
@@ -59,7 +58,7 @@ class DataChannelPair: NSObject, @unchecked Sendable, Loggable {
     }
 
     private struct BufferingState {
-        var queue: Deque<PublishDataRequest> = []
+        var queue: [PublishDataRequest] = []
         var amount: UInt64 = 0
     }
 
@@ -277,7 +276,7 @@ extension DataChannelPair: LKRTCDataChannelDelegate {
     }
 
     func dataChannel(_: LKRTCDataChannel, didReceiveMessageWith buffer: LKRTCDataBuffer) {
-        guard let dataPacket = try? Livekit_DataPacket(serializedBytes: buffer.data) else {
+        guard let dataPacket = try? Livekit_DataPacket(serializedData: buffer.data) else {
             log("Could not decode data message", .error)
             return
         }
