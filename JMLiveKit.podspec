@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Onkar Dhanlobhe' => 'onkar.dhanlobhe@ril.com' }
   s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :tag => 'v2.6.18' }
   s.ios.deployment_target = '13.0'
-  s.source_files     = 'Sources/LiveKit/**/*.{swift,h,m}', 'Sources/LKObjCHelpers/**/*.{swift,h,m}', 'LiveKitWebRTC.h'
+  s.source_files = 'Sources/LiveKit/**/*.swift', 'Sources/LKObjCHelpers/**/*.{h,m}'
   s.module_name      = 'JMLiveKit'
   s.swift_versions    = ['5.9']
   s.dependency 'Starscream', '~> 4.0'
