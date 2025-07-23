@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = 'JMLiveKit'
-  s.version          = '2.6.18'
+  s.version          = '2.6.19'
   s.summary          = 'LiveKit iOS SDK fork for JMLiveKit'
   s.homepage         = 'https://github.com/NSCodeRover/JMLiveKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Onkar Dhanlobhe' => 'onkar.dhanlobhe@ril.com' }
-  s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :tag => 'v2.6.18' }
+  s.source           = { :git => 'https://github.com/NSCodeRover/JMLiveKit.git', :tag => 'v2.6.19' }
   s.ios.deployment_target = '13.0'
   s.source_files = 'Sources/LiveKit/**/*.swift', 'Sources/LKObjCHelpers/**/*.{h,m}'
   s.module_name      = 'JMLiveKit'
