@@ -27,6 +27,7 @@ import LiveKitWebRTC
 #endif
 
 @available(macOS 11.0, iOS 11.0, *)
+@available(iOSApplicationExtension, unavailable, message: "In-app screen capture is not available in app extensions")
 public class InAppScreenCapturer: VideoCapturer, @unchecked Sendable {
     private let capturer = RTC.createVideoCapturer()
     private let options: ScreenShareCaptureOptions
@@ -66,6 +67,7 @@ public class InAppScreenCapturer: VideoCapturer, @unchecked Sendable {
     }
 }
 
+@available(iOSApplicationExtension, unavailable, message: "In-app screen capture is not available in app extensions")
 public extension LocalVideoTrack {
     /// Creates a track that captures in-app screen only (due to limitation of ReplayKit)
     @available(macOS 11.0, iOS 11.0, *)

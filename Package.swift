@@ -60,6 +60,7 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
                 "LKObjCHelpers",
             ],
+            path: "Sources/LiveKit",
             exclude: [
                 "Broadcast/NOTICE",
             ],

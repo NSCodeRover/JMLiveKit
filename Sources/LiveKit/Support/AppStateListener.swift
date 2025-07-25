@@ -35,6 +35,7 @@ protocol AppStateDelegate: AnyObject, Sendable {
     func appDidWake()
 }
 
+@available(iOSApplicationExtension, unavailable, message: "UIApplication notifications are not available in app extensions")
 @MainActor
 class AppStateListener: Loggable {
     static let shared = AppStateListener()

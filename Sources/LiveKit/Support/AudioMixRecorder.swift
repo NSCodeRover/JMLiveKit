@@ -67,6 +67,7 @@ import LiveKitWebRTC
 /// Audio sources can be added or removed at any time, including while recording is active.
 /// When no audio is being provided by any source, the recorder will capture silence.
 
+@available(iOSApplicationExtension, unavailable, message: "AVAudioEngine is not available in app extensions")
 public class AudioMixRecorder: Loggable, @unchecked Sendable {
     // MARK: - Public
 

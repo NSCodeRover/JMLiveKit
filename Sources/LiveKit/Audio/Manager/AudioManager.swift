@@ -24,6 +24,7 @@ import LiveKitWebRTC
 @_implementationOnly import LiveKitWebRTC
 #endif
 
+@available(iOSApplicationExtension, unavailable, message: "Audio session management is not available in app extensions")
 // Audio Session Configuration related
 public class AudioManager: Loggable {
     // MARK: - Public

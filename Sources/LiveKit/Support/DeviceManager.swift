@@ -16,6 +16,7 @@
 
 @preconcurrency import AVFoundation
 
+@available(iOSApplicationExtension, unavailable, message: "Camera device management is not available in app extensions")
 // Internal-only for now
 class DeviceManager: @unchecked Sendable, Loggable {
     // MARK: - Public

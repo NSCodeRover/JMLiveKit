@@ -44,7 +44,11 @@ extension VideoView {
 
         let currentZoomFactor = device.videoZoomFactor
         let zoomBounds = _computeAllowedZoomBounds(for: device, options: options)
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
         let defaultZoomFactor = LKRTCCameraVideoCapturer.defaultZoomFactor(forDeviceType: device.deviceType)
+        #else
+        let defaultZoomFactor: CGFloat = 1.0
+        #endif
         let newVideoZoomFactor = options.contains(.resetOnRelease) ? defaultZoomFactor : currentZoomFactor.clamped(to: zoomBounds)
 
         guard currentZoomFactor != newVideoZoomFactor else { return }
@@ -80,7 +84,11 @@ extension VideoView {
                     device.videoZoomFactor = newVideoZoomFactor
                 case .ended, .cancelled:
                     if options.contains(.resetOnRelease) {
+                        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
                         let defaultZoomFactor = LKRTCCameraVideoCapturer.defaultZoomFactor(forDeviceType: device.deviceType)
+                        #else
+                        let defaultZoomFactor: CGFloat = 1.0
+                        #endif
                         device.ramp(toVideoZoomFactor: defaultZoomFactor, withRate: Self.rampRate)
                     }
                 default:
@@ -102,7 +110,11 @@ extension VideoView {
     }
 
     private func _computeAllowedZoomBounds(for device: AVCaptureDevice, options: PinchToZoomOptions) -> ClosedRange<CGFloat> {
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
         let defaultZoomFactor = LKRTCCameraVideoCapturer.defaultZoomFactor(forDeviceType: device.deviceType)
+        #else
+        let defaultZoomFactor: CGFloat = 1.0
+        #endif
 
         let minZoom = device.minAvailableVideoZoomFactor
         let maxZoom = device.maxAvailableVideoZoomFactor

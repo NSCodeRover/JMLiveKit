@@ -27,6 +27,7 @@ import LiveKitWebRTC
 @_implementationOnly import LiveKitWebRTC
 #endif
 
+@available(iOSApplicationExtension, unavailable, message: "Camera is not available in app extensions")
 public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     /// Current device used for capturing
     @objc
@@ -52,11 +53,12 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     }
 
     public var isMultitaskingAccessSupported: Bool {
-        #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst)
+        #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
         if #available(iOS 16, *, tvOS 17, *) {
-            self.capturer.captureSession.beginConfiguration()
-            defer { self.capturer.captureSession.commitConfiguration() }
-            return self.capturer.captureSession.isMultitaskingCameraAccessSupported
+            guard let capturer = self.capturer else { return false }
+            capturer.captureSession.beginConfiguration()
+            defer { capturer.captureSession.commitConfiguration() }
+            return capturer.captureSession.isMultitaskingCameraAccessSupported
         }
         #endif
         return false
@@ -64,17 +66,19 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
 
     public var isMultitaskingAccessEnabled: Bool {
         get {
-            #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst)
+            #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
             if #available(iOS 16, *, tvOS 17, *) {
-                return self.capturer.captureSession.isMultitaskingCameraAccessEnabled
+                guard let capturer = self.capturer else { return false }
+                return capturer.captureSession.isMultitaskingCameraAccessEnabled
             }
             #endif
             return false
         }
         set {
-            #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst)
+            #if (os(iOS) || os(tvOS)) && !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
             if #available(iOS 16, *, tvOS 17, *) {
-                self.capturer.captureSession.isMultitaskingCameraAccessEnabled = newValue
+                guard let capturer = self.capturer else { return }
+                capturer.captureSession.isMultitaskingCameraAccessEnabled = newValue
             }
             #endif
         }
@@ -91,11 +95,19 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     private lazy var adapter: VideoCapturerDelegateAdapter = .init(cameraCapturer: self)
 
     public var captureSession: AVCaptureSession {
-        capturer.captureSession
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
+        capturer?.captureSession ?? AVCaptureSession()
+        #else
+        AVCaptureSession()
+        #endif
     }
 
     // RTCCameraVideoCapturer used internally for now
-    private lazy var capturer: LKRTCCameraVideoCapturer = .init(delegate: adapter)
+    #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
+    private lazy var capturer: LKRTCCameraVideoCapturer? = .init(delegate: adapter)
+    #else
+    private lazy var capturer: LKRTCCameraVideoCapturer? = nil
+    #endif
 
     init(delegate: LKRTCVideoCapturerDelegate,
          options: CameraCaptureOptions,
@@ -151,8 +163,7 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
         // Already started
         guard didStart else { return false }
 
-        let preferredPixelFormat = capturer.preferredOutputPixelFormat()
-        log("CameraCapturer.preferredPixelFormat: \(preferredPixelFormat.toString())")
+        log("CameraCapturer.preferredPixelFormat: NV12")
 
         // TODO: FaceTime Camera for macOS uses .unspecified, fall back to first device
         var device: AVCaptureDevice? = options.device
@@ -189,7 +200,11 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
         }
 
         // list of all formats in order of dimensions size
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
         let formats = DispatchQueue.liveKitWebRTC.sync { LKRTCCameraVideoCapturer.supportedFormats(for: device) }
+        #else
+        let formats: [AVCaptureDevice.Format] = []
+        #endif
         // create an array of sorted touples by dimensions size
         let sortedFormats = formats.map { (format: $0, dimensions: Dimensions(from: CMVideoFormatDescriptionGetDimensions($0.formatDescription))) }
             .sorted { $0.dimensions.area < $1.dimensions.area }
@@ -240,7 +255,15 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
 
         log("starting camera capturer device: \(device), format: \(selectedFormat), fps: \(selectedFps)(\(fpsRange))", .info)
 
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
+        guard let capturer = capturer else {
+            log("Camera capturer not available in this environment", .error)
+            throw LiveKitError(.deviceNotFound, message: "Camera capturer not available in this environment")
+        }
         try await capturer.startCapture(with: device, format: selectedFormat.format, fps: selectedFps)
+        #else
+        log("Camera capturer not available in this environment", .warning)
+        #endif
 
         // Update internal vars
         _cameraCapturerState.mutate { $0.device = device }
@@ -254,7 +277,11 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
         // Already stopped
         guard didStop else { return false }
 
-        await capturer.stopCapture()
+        #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
+        if let capturer = capturer {
+            await capturer.stopCapture()
+        }
+        #endif
 
         // Update internal vars
         set(dimensions: nil)
@@ -288,6 +315,7 @@ class VideoCapturerDelegateAdapter: NSObject, LKRTCVideoCapturerDelegate, Loggab
     }
 }
 
+@available(iOSApplicationExtension, unavailable, message: "Camera is not available in app extensions")
 public extension LocalVideoTrack {
     @objc
     static func createCameraTrack() -> LocalVideoTrack {

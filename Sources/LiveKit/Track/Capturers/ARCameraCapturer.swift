@@ -25,6 +25,7 @@ import LiveKitWebRTC
 #endif
 
 @available(visionOS 2.0, *)
+@available(iOSApplicationExtension, unavailable, message: "AR camera is not available in app extensions")
 public class ARCameraCapturer: VideoCapturer {
     private let capturer = RTC.createVideoCapturer()
     private let arKitSession = ARKitSession()
@@ -95,6 +96,7 @@ public class ARCameraCapturer: VideoCapturer {
 }
 
 @available(visionOS 2.0, *)
+@available(iOSApplicationExtension, unavailable, message: "AR camera is not available in app extensions")
 public extension LocalVideoTrack {
     /// Creates a track that can directly capture `CVPixelBuffer` or `CMSampleBuffer` for convenience
     static func createARCameraTrack(name: String = Track.cameraName,
