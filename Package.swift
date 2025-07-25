@@ -1,5 +1,5 @@
-// swift-tools-version:5.7
-// (Xcode14.0+)
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -7,8 +7,8 @@ let package = Package(
     name: "JMLiveKit",
     platforms: [
         .iOS(.v13),
-        .macOS(.v10_15),
-        .macCatalyst(.v14),
+        .macOS(.v11),
+        .tvOS(.v13)
     ],
     products: [
         .library(
@@ -16,74 +16,57 @@ let package = Package(
             targets: ["JMLiveKit"]
         ),
         .library(
-            name: "LKObjCHelpers",
-            targets: ["LKObjCHelpers"]
+            name: "JMLiveKitCore",
+            targets: ["JMLiveKitCore"]
         ),
-        // New product for MediaSoup to use LiveKit's WebRTC
         .library(
-            name: "LiveKitWebRTCForMediaSoup",
-            targets: ["LiveKitWebRTCForMediaSoup"]
-        ),
+            name: "JMLiveKitScreenShare",
+            targets: ["JMLiveKitScreenShare"]
+        )
     ],
     dependencies: [
-        // LK-Prefixed Dynamic WebRTC XCFramework
-        .package(url: "https://github.com/livekit/webrtc-xcframework.git", exact: "125.6422.33"),
-        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.26.0"),
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
-        //.package(url: "https://github.com/NSCodeRover/swift-collections.git", branch: "livekitBranch"),
-        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMinor(from: "1.1.0")),
-        // Only used for DocC generation
-        .package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.3.0"),
-        // Only used for Testing
-        .package(url: "https://github.com/vapor/jwt-kit.git", from: "4.13.4"),
+        .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.0"),
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.25.0"),
+        .package(url: "https://github.com/google/promises.git", from: "2.3.0"),
+        .package(url: "https://github.com/livekit/webrtc-sdk.git", from: "114.5735.08"),
+        .package(url: "https://github.com/livekit/webrtc-lk.git", from: "125.6422.33"),
+        .package(url: "https://github.com/NSCodeRover/SwiftLogJM.git", exact: "1.6.5")
     ],
     targets: [
         .target(
-            name: "LKObjCHelpers",
-            publicHeadersPath: "include"
-        ),
-        // New target that re-exports LiveKitWebRTC for MediaSoup compatibility
-        .target(
-            name: "LiveKitWebRTCForMediaSoup",
-            dependencies: [
-                .product(name: "LiveKitWebRTC", package: "webrtc-xcframework"),
-            ],
-            path: "Sources/LiveKitWebRTCForMediaSoup"
-        ),
-        .target(
             name: "JMLiveKit",
             dependencies: [
-                .product(name: "LiveKitWebRTC", package: "webrtc-xcframework"),
+                "JMLiveKitCore",
+                "JMLiveKitScreenShare"
+            ],
+            path: "Sources/LiveKit"
+        ),
+        .target(
+            name: "JMLiveKitCore",
+            dependencies: [
+                .product(name: "Starscream", package: "Starscream"),
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
-                .product(name: "DequeModule", package: "swift-collections"),
-                .product(name: "OrderedCollections", package: "swift-collections"),
-                .product(name: "Logging", package: "swift-log"),
-                "LKObjCHelpers",
+                .product(name: "PromisesSwift", package: "promises"),
+                .product(name: "WebRTC", package: "webrtc-sdk"),
+                .product(name: "LiveKitWebRTC", package: "webrtc-lk"),
+                .product(name: "SwiftLogJM", package: "SwiftLogJM")
             ],
-            path: "Sources/LiveKit",
-            exclude: [
-                "Broadcast/NOTICE",
+            path: "Sources/Core"
+        ),
+        .target(
+            name: "JMLiveKitScreenShare",
+            dependencies: [
+                .product(name: "Starscream", package: "Starscream"),
+                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
+                .product(name: "PromisesSwift", package: "promises"),
+                .product(name: "WebRTC", package: "webrtc-sdk"),
+                .product(name: "LiveKitWebRTC", package: "webrtc-lk"),
+                .product(name: "SwiftLogJM", package: "SwiftLogJM")
             ],
-            resources: [
-                .process("PrivacyInfo.xcprivacy"),
+            path: "Sources/ScreenShare",
+            swiftSettings: [
+                .define("APPLICATION_EXTENSION_API_ONLY")
             ]
-        ),
-        .testTarget(
-            name: "LiveKitTests",
-            dependencies: [
-                "JMLiveKit",
-                .product(name: "JWTKit", package: "jwt-kit"),
-            ]
-        ),
-        .testTarget(
-            name: "LiveKitTestsObjC",
-            dependencies: [
-                "JMLiveKit",
-                .product(name: "JWTKit", package: "jwt-kit"),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [
-        .v5,
+        )
     ]
 )
