@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-#if swift(>=5.9)
-import LiveKitWebRTC
-#else
+internal import LiveKitWebRTC
 @_implementationOnly import LiveKitWebRTC
-#endif
 
 @objc
 public class RemoteVideoTrack: Track, RemoteTrack, @unchecked Sendable {

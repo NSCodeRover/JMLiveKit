@@ -20,7 +20,7 @@ import Network
 import SwiftProtobuf
 import Combine
 
-import LiveKitWebRTC
+import WebRTC
 
 @objc
 public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {

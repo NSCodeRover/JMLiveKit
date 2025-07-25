@@ -22,7 +22,7 @@ import Foundation
 import UIKit
 #endif
 
-import LiveKitWebRTC
+import WebRTC
 
 class BroadcastScreenCapturer: BufferCapturer, @unchecked Sendable {
     private let appAudio: Bool

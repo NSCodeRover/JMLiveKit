@@ -19,9 +19,9 @@ import AVFoundation
 import Combine
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 @available(iOSApplicationExtension, unavailable, message: "Audio session management is not available in app extensions")

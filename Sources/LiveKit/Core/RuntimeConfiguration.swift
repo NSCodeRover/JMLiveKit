@@ -17,7 +17,7 @@
 import Foundation
 import Logging
 
-import LiveKitWebRTC
+import WebRTC
 
 /// Runtime configuration manager for the LiveKit SDK
 @objc

@@ -18,7 +18,7 @@ import Foundation
 import Logging
 import Network
 
-import LiveKitWebRTC
+import WebRTC
 
 /// Comprehensive safety manager for the LiveKit SDK
 class SDKSafetyManager: NSObject {

@@ -17,7 +17,7 @@
 import Foundation
 import Logging
 
-import LiveKitWebRTC
+import WebRTC
 
 /// Backend types supported by the SDK
 public enum BackendType: Int, CaseIterable {

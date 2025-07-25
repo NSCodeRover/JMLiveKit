@@ -19,6 +19,7 @@ import SwiftUI
 
 /// A ``VideoView`` that can be used in SwiftUI.
 /// Supports both iOS and macOS.
+@available(iOSApplicationExtension, unavailable, message: "SwiftUI components are not available in app extensions")
 public struct SwiftUIVideoView: NativeViewRepresentable {
     public typealias ViewType = VideoView
 
