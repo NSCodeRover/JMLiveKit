@@ -21,9 +21,9 @@ import ReplayKit
 #endif
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 @available(macOS 11.0, iOS 11.0, *)

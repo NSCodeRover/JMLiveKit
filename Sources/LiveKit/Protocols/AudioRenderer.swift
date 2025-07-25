@@ -17,7 +17,7 @@
 import AVFoundation
 import CoreMedia
 
-import LiveKitWebRTC
+import WebRTC
 
 /// Used to observe audio buffers before playback, e.g. for visualization, recording, etc
 /// - Note: AudioRenderer is not suitable for buffer modification. If you need to modify the buffer, use `AudioCustomProcessingDelegate` instead.

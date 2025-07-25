@@ -17,9 +17,9 @@
 @preconcurrency import AVFoundation
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 public final class MixerEngineObserver: AudioEngineObserver, Loggable {

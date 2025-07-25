@@ -9,7 +9,7 @@ import Foundation
 
 // Re-export LiveKitWebRTC symbols for MediaSoup compatibility
 // This module provides a compatibility layer for MediaSoup to use LiveKit's WebRTC
-@_exported import LiveKitWebRTC
+@_exported import WebRTC
 
 // MARK: - MediaSoup Compatibility Layer
 // 
@@ -18,7 +18,7 @@ import Foundation
 // module and use the WebRTC types directly from LiveKitWebRTC.
 //
 // Usage in MediaSoup code:
-// import LiveKitWebRTCForMediaSoup
+// import WebRTCForMediaSoup
 // 
 // Then use WebRTC types directly:
 // let factory = RTCPeerConnectionFactory()

@@ -19,9 +19,9 @@ import Combine
 import Foundation
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 @objc
@@ -56,6 +56,7 @@ public class LocalAudioTrack: Track, LocalTrack, AudioTrack, @unchecked Sendable
         cleanUpFrameWatcher()
     }
 
+    @available(iOSApplicationExtension, unavailable, message: "Microphone APIs are not available in app extensions")
     public static func createTrack(name: String = Track.microphoneName,
                                    options: AudioCaptureOptions? = nil,
                                    reportStatistics: Bool = false) -> LocalAudioTrack

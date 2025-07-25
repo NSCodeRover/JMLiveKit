@@ -22,9 +22,9 @@ import ReplayKit
 #endif
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 public class CameraCapturer: VideoCapturer, @unchecked Sendable {
@@ -289,11 +289,13 @@ class VideoCapturerDelegateAdapter: NSObject, LKRTCVideoCapturerDelegate, Loggab
 }
 
 public extension LocalVideoTrack {
+    @available(iOSApplicationExtension, unavailable, message: "Camera APIs are not available in app extensions")
     @objc
     static func createCameraTrack() -> LocalVideoTrack {
         createCameraTrack(name: nil, options: nil)
     }
 
+    @available(iOSApplicationExtension, unavailable, message: "Camera APIs are not available in app extensions")
     @objc
     static func createCameraTrack(name: String? = nil,
                                   options: CameraCaptureOptions? = nil,

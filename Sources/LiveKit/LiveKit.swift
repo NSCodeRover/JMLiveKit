@@ -17,10 +17,10 @@
 import Foundation
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 import Logging
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 @_implementationOnly import Logging
 #endif
 

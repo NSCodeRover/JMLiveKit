@@ -16,7 +16,7 @@
 
 import Foundation
 
-import LiveKitWebRTC
+import WebRTC
 
 @objc
 public protocol TrackDelegate: AnyObject, Sendable {

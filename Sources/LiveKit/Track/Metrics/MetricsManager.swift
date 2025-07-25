@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import OrderedCollections
+import Collections
 
 // MARK: - Triggers
 

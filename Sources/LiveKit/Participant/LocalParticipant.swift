@@ -18,9 +18,9 @@ import Combine
 import Foundation
 
 #if swift(>=5.9)
-import LiveKitWebRTC
+import WebRTC
 #else
-@_implementationOnly import LiveKitWebRTC
+@_implementationOnly import WebRTC
 #endif
 
 @objc
@@ -304,6 +304,7 @@ extension LocalParticipant {
 // MARK: - Simplified API
 
 public extension LocalParticipant {
+    @available(iOSApplicationExtension, unavailable, message: "Camera APIs are not available in app extensions")
     @objc
     @discardableResult
     func setCamera(enabled: Bool,
@@ -316,6 +317,7 @@ public extension LocalParticipant {
                       publishOptions: publishOptions)
     }
 
+    @available(iOSApplicationExtension, unavailable, message: "Microphone APIs are not available in app extensions")
     @objc
     @discardableResult
     func setMicrophone(enabled: Bool,

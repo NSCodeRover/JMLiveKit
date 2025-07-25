@@ -24,11 +24,12 @@ import UIKit
 import MetalKit
 #endif
 
-import LiveKitWebRTC
+import WebRTC
 
 /// A ``NativeViewType`` that conforms to ``RTCVideoRenderer``.
 typealias NativeRendererView = LKRTCVideoRenderer & Mirrorable & NativeViewType
 
+@available(iOSApplicationExtension, unavailable, message: "UI components are not available in app extensions")
 @objc
 public class VideoView: NativeView, Loggable {
     // MARK: - MulticastDelegate
