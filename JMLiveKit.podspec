@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.9'
   
   # Dependencies
-  s.dependency 'LiveKitWebRTC-LK', '~> 1.0'
-  s.dependency 'SwiftProtobuf', '~> 1.25'
+  s.dependency 'LiveKitWebRTC-LK', '~> 125.6422.33'
+  s.dependency 'SwiftProtobuf', '~> 1.30'
   s.dependency 'PromisesSwift', '~> 2.0'
   s.dependency 'SwiftLogJM', '~> 1.0'
   
