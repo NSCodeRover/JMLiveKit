@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.25] - 2025-01-27
+
+### Fixed
+
+- Fixed additional compilation errors in iOS app extensions
+- Added conditional compilation for DeviceManager and AppStateListener in app extensions
+- Added conditional compilation for CameraCapturer components in app extensions
+- Improved app extension compatibility for broadcast extensions
+
 ## [2.6.24] - 2025-01-27
 
 ### Fixed

@@ -214,7 +214,9 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
                 roomOptions: RoomOptions? = nil)
     {
         // Ensure manager shared objects are instantiated
+        #if !targetEnvironment(simulator) && !os(iOSApplicationExtension)
         DeviceManager.prepare()
+        #endif
         AudioManager.prepare()
 
         _state = StateSync(State(connectOptions: connectOptions ?? ConnectOptions(),
@@ -234,9 +236,11 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
         }
 
         // listen to app states
+        #if !targetEnvironment(simulator) && !os(iOSApplicationExtension)
         Task { @MainActor in
             AppStateListener.shared.delegates.add(delegate: self)
         }
+        #endif
 
         Task {
             await metricsManager.register(room: self)

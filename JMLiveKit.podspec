@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'JMLiveKit'
-  s.version          = '2.6.24'
+  s.version          = '2.6.25'
   s.summary          = 'LiveKit iOS SDK fork for JMLiveKit'
   s.description      = <<-DESC
     LiveKit iOS SDK fork with additional features and optimizations for JioMeet integration.
@@ -14,48 +14,45 @@ Pod::Spec.new do |s|
   
   # Platform and Swift version
   s.ios.deployment_target = '13.0'
-  s.swift_versions = ['5.7', '5.8', '5.9']
-  
-  # Source files
-  s.source_files = [
-    'Sources/LiveKit/**/*.{swift,h,m}',
-    'Sources/LKObjCHelpers/**/*.{swift,h,m}'
-  ]
-  
-  # Exclude test files
-  s.exclude_files = [
-    'Sources/**/*Tests.swift',
-    'Sources/**/*Test.swift',
-    'Tests/**/*'
-  ]
+  s.swift_version = '5.9'
   
   # Dependencies
-  s.dependency 'SwiftProtobuf', '~> 1.25.0'
-  s.dependency 'Starscream', '~> 4.0'
-  s.dependency 'PromisesSwift', '~> 2.3'
-  s.dependency 'WebRTC-SDK', '~> 114.5735.08'
-  s.dependency 'LiveKitWebRTC-LK', '~> 125.6422.33'
-  s.dependency 'SwiftLogJM', '1.6.6'
-  s.dependency 'swift-collections', '~> 1.0'
+  s.dependency 'LiveKitWebRTC-LK', '~> 1.0'
+  s.dependency 'SwiftProtobuf', '~> 1.25'
+  s.dependency 'PromisesSwift', '~> 2.0'
+  s.dependency 'SwiftLogJM', '~> 1.0'
   
-  # Module name
-  s.module_name = 'JMLiveKit'
+  # Source files
+  s.source_files = 'Sources/LiveKit/**/*.swift'
   
-  # Resource bundle for privacy info
-  s.resource_bundles = {
-    'LiveKitPrivacy' => ['Sources/LiveKit/PrivacyInfo.xcprivacy']
-  }
+  # Exclude files that are not needed
+  s.exclude_files = 'Sources/LiveKit/LiveKit.docc/**/*'
   
-  # Build configuration
-  s.pod_target_xcconfig = {
-    'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'JMLIVEKIT_CORE',
-    'ENABLE_BITCODE' => 'NO',
-    'VALID_ARCHS' => 'arm64 x86_64',
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
+  # Framework dependencies
+  s.frameworks = 'AVFoundation', 'AudioToolbox', 'CoreAudio', 'CoreMedia', 'CoreVideo', 'Foundation', 'VideoToolbox'
   
-  # User target configuration
-  s.user_target_xcconfig = {
-    'ENABLE_BITCODE' => 'NO'
-  }
+  # Subspecs for different targets
+  s.subspec 'Core' do |core|
+    core.source_files = 'Sources/LiveKit/**/*.swift'
+    core.exclude_files = 'Sources/LiveKit/LiveKit.docc/**/*'
+  end
+  
+  s.subspec 'Broadcast' do |broadcast|
+    broadcast.source_files = 'Sources/LiveKit/Broadcast/**/*.swift'
+    broadcast.dependency 'JMLiveKit/Core'
+  end
+  
+  s.subspec 'WebRTC' do |webrtc|
+    webrtc.source_files = 'Sources/LiveKitWebRTCForMediaSoup/**/*.swift'
+    webrtc.dependency 'JMLiveKit/Core'
+  end
+  
+  s.subspec 'ObjCHelpers' do |objc|
+    objc.source_files = 'Sources/LKObjCHelpers/**/*.{h,m}'
+    objc.public_header_files = 'Sources/LKObjCHelpers/include/*.h'
+    objc.dependency 'JMLiveKit/Core'
+  end
+  
+  # Default to Core subspec
+  s.default_subspecs = 'Core'
 end
