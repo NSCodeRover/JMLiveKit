@@ -24,7 +24,6 @@ import WebRTC
 @_implementationOnly import WebRTC
 #endif
 
-@available(iOSApplicationExtension, unavailable, message: "Audio session management is not available in app extensions")
 // Audio Session Configuration related
 public class AudioManager: Loggable {
     // MARK: - Public
@@ -358,13 +357,8 @@ public class AudioManager: Loggable {
 
     let _admDelegateAdapter = AudioDeviceModuleDelegateAdapter()
 
-    init() {
-        #if os(iOS) || os(visionOS) || os(tvOS)
-        let engineObservers: [any AudioEngineObserver] = [audioSession, mixer]
-        #else
-        let engineObservers: [any AudioEngineObserver] = [mixer]
-        #endif
-        _state = StateSync(State(engineObservers: engineObservers))
+    private init() {
+        // Initialize audio device module delegate adapter
         _admDelegateAdapter.audioManager = self
         RTC.audioDeviceModule.observer = _admDelegateAdapter
     }

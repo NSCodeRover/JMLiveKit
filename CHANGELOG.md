@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.24] - 2025-01-27
+
+### Fixed
+
+- Fixed compilation errors in iOS app extensions
+- Removed overly restrictive availability annotations for audio functionality
+- Allow audio functionality in broadcast extensions for screen sharing with audio
+- Maintain existing availability annotations for UI components in app extensions
+
 ## [2.6.1] - 2025-06-17
 
 ### Fixed

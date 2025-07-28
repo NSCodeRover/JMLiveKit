@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#if os(iOS)
-
 import Foundation
 
 #if canImport(UIKit)

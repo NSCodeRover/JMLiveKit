@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'JMLiveKit'
-  s.version          = '2.6.23'
+  s.version          = '2.6.24'
   s.summary          = 'LiveKit iOS SDK fork for JMLiveKit'
   s.description      = <<-DESC
     LiveKit iOS SDK fork with additional features and optimizations for JioMeet integration.
@@ -19,8 +19,7 @@ Pod::Spec.new do |s|
   # Source files
   s.source_files = [
     'Sources/LiveKit/**/*.{swift,h,m}',
-    'Sources/LKObjCHelpers/**/*.{swift,h,m}',
-    'Sources/LiveKitWebRTCForMediaSoup/**/*.{swift,h,m}'
+    'Sources/LKObjCHelpers/**/*.{swift,h,m}'
   ]
   
   # Exclude test files

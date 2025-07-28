@@ -24,7 +24,6 @@ import WebRTC
 @_implementationOnly import WebRTC
 #endif
 
-@available(iOSApplicationExtension, unavailable, message: "Microphone is not available in app extensions")
 @objc
 public class LocalAudioTrack: Track, LocalTrack, AudioTrack, @unchecked Sendable {
     /// ``AudioCaptureOptions`` used to create this track.
@@ -57,7 +56,6 @@ public class LocalAudioTrack: Track, LocalTrack, AudioTrack, @unchecked Sendable
         cleanUpFrameWatcher()
     }
 
-    @available(iOSApplicationExtension, unavailable, message: "Microphone APIs are not available in app extensions")
     public static func createTrack(name: String = Track.microphoneName,
                                    options: AudioCaptureOptions? = nil,
                                    reportStatistics: Bool = false) -> LocalAudioTrack
