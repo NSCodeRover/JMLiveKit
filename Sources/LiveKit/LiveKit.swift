@@ -17,10 +17,10 @@
 import Foundation
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 import Logging
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 @_implementationOnly import Logging
 #endif
 
@@ -39,7 +39,7 @@ let logger = Logger(label: "LiveKitSDK")
 @objc
 public class LiveKitSDK: NSObject {
     @objc(sdkVersion)
-    public static let version = "2.6.1"
+    public static let version = "2.6.3"
 
     @objc
     public static func setLoggerStandardOutput() {

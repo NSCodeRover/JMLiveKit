@@ -24,7 +24,7 @@ import UIKit
 import MetalKit
 #endif
 
-import WebRTC
+import LiveKitWebRTC
 
 /// A ``NativeViewType`` that conforms to ``RTCVideoRenderer``.
 typealias NativeRendererView = LKRTCVideoRenderer & Mirrorable & NativeViewType

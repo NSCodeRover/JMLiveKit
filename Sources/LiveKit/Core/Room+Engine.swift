@@ -21,9 +21,9 @@ import Network
 #endif
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 #endif
 
 // Room+Engine

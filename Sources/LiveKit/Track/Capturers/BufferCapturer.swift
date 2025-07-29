@@ -18,9 +18,9 @@ import CoreMedia
 import Foundation
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 #endif
 
 /// A ``VideoCapturer`` that can capture ``CMSampleBuffer``s.

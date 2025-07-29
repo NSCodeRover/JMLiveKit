@@ -20,6 +20,7 @@ import Foundation
 /// This is useful for scenarios where you want to capture audio during the connection process.
 @objc
 public class PreConnectAudioBuffer: NSObject, Loggable {
+    public typealias OnError = (Error) -> Void
     // MARK: - Public
 
     /// The current state of the audio buffer.
@@ -29,6 +30,8 @@ public class PreConnectAudioBuffer: NSObject, Loggable {
     /// The room instance that this buffer is associated with.
     @objc
     public weak var room: Room?
+    
+    private var errorHandler: OnError?
 
     // MARK: - Private
 
@@ -41,8 +44,8 @@ public class PreConnectAudioBuffer: NSObject, Loggable {
         var sent = false
     }
 
-    private enum Constants {
-        static let timeout: TimeInterval = 30
+    public enum Constants {
+        public static let timeout: TimeInterval = 30
         static let sampleRate = 16000
         static let maxSize = 1024 * 1024 // 1MB
     }
@@ -50,13 +53,19 @@ public class PreConnectAudioBuffer: NSObject, Loggable {
     private let dataTopic = "pre-connect-audio"
 
     // MARK: - Public
+    
+    /// Set the error handler for audio buffer operations.
+    /// - Parameter handler: The error handler to call when an error occurs.
+    public func setErrorHandler(_ handler: OnError?) {
+        errorHandler = handler
+    }
 
     /// Start capturing audio.
     /// - Parameters:
     ///   - timeout: The timeout in seconds after which recording will stop automatically.
     ///   - recorder: Optional custom recorder instance. If not provided, a new one will be created.
     @objc
-    public func startRecording(timeout: TimeInterval = Constants.timeout, recorder: LocalAudioTrackRecorder? = nil) async throws {
+    public func startRecording(timeout: TimeInterval = 30, recorder: LocalAudioTrackRecorder? = nil) async throws {
         room?.add(delegate: self)
 
         let roomOptions = room?._state.roomOptions
@@ -76,9 +85,13 @@ public class PreConnectAudioBuffer: NSObject, Loggable {
             state.recorder = newRecorder
             state.audioStream = stream
             state.timeoutTask = Task { [weak self] in
-                try await Task.sleep(nanoseconds: UInt64(timeout) * NSEC_PER_SEC)
-                try Task.checkCancellation()
-                self?.stopRecording(flush: true)
+                do {
+                    try await Task.sleep(nanoseconds: UInt64(timeout) * NSEC_PER_SEC)
+                    try Task.checkCancellation()
+                    self?.stopRecording(flush: true)
+                } catch {
+                    // Ignore cancellation errors
+                }
             }
             state.sent = false
         }
@@ -109,7 +122,7 @@ public class PreConnectAudioBuffer: NSObject, Loggable {
     ///   - agents: The agents to send the audio data to.
     ///   - topic: The topic to send the audio data.
     @objc
-    public func sendAudioData(to room: Room, agents: [Participant.Identity], on topic: String = dataTopic) async throws {
+    public func sendAudioData(to room: Room, agents: [Participant.Identity], on topic: String) async throws {
         guard !agents.isEmpty else { return }
 
         guard !state.sent else { return }

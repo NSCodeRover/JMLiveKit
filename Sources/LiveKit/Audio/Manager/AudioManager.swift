@@ -19,9 +19,9 @@ import AVFoundation
 import Combine
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 #endif
 
 // Audio Session Configuration related
@@ -358,6 +358,7 @@ public class AudioManager: Loggable {
     let _admDelegateAdapter = AudioDeviceModuleDelegateAdapter()
 
     private init() {
+        _state = StateSync(State())
         // Initialize audio device module delegate adapter
         _admDelegateAdapter.audioManager = self
         RTC.audioDeviceModule.observer = _admDelegateAdapter

@@ -20,7 +20,7 @@ import Network
 import SwiftProtobuf
 import Combine
 
-import WebRTC
+import LiveKitWebRTC
 
 @objc
 public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
@@ -124,7 +124,7 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
 
     // MARK: - PreConnect
 
-    lazy var preConnectBuffer = PreConnectAudioBuffer(room: self)
+    lazy var preConnectBuffer = PreConnectAudioBuffer()
 
     // MARK: - Queue
 
@@ -242,7 +242,7 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
         }
         #endif
 
-        Task {
+        Task { [self] in
             await metricsManager.register(room: self)
         }
 
@@ -305,7 +305,7 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
             }
 
             // Notify Room when state mutates
-            Task { @MainActor in
+            Task { @MainActor [self] in
                 self.objectWillChange.send()
             }
         }
@@ -382,7 +382,7 @@ public class Room: NSObject, @unchecked Sendable, ObservableObject, Loggable {
                     recorder.track
                 }
             } else if enableMicrophone {
-                return Task {
+                return Task { [self] in
                     let localTrack = LocalAudioTrack.createTrack(options: _state.roomOptions.defaultAudioCaptureOptions,
                                                                  reportStatistics: _state.roomOptions.reportRemoteTrackStatistics)
                     // Initializes AudioDeviceModule's recording
@@ -622,9 +622,9 @@ extension Room: DataChannelDelegate {
         case let .rpcResponse(response): room(didReceiveRpcResponse: response)
         case let .rpcAck(ack): room(didReceiveRpcAck: ack)
         case let .rpcRequest(request): room(didReceiveRpcRequest: request, from: dataPacket.participantIdentity)
-        case let .streamHeader(header): Task { await incomingStreamManager.handle(header: header, from: dataPacket.participantIdentity) }
-        case let .streamChunk(chunk): Task { await incomingStreamManager.handle(chunk: chunk) }
-        case let .streamTrailer(trailer): Task { await incomingStreamManager.handle(trailer: trailer) }
+        case let .streamHeader(header): Task { [self] in await incomingStreamManager.handle(header: header, from: dataPacket.participantIdentity) }
+        case let .streamChunk(chunk): Task { [self] in await incomingStreamManager.handle(chunk: chunk) }
+        case let .streamTrailer(trailer): Task { [self] in await incomingStreamManager.handle(trailer: trailer) }
         default: return
         }
     }

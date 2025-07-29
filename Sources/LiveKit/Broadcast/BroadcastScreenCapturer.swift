@@ -16,11 +16,14 @@
 
 import Foundation
 
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
+import AVFoundation
 #endif
 
-import WebRTC
+import LiveKitWebRTC
+
+#if os(iOS)
 
 class BroadcastScreenCapturer: BufferCapturer, @unchecked Sendable {
     private let appAudio: Bool

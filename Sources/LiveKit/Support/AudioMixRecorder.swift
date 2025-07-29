@@ -17,7 +17,7 @@
 import AVFAudio
 import Foundation
 
-import WebRTC
+import LiveKitWebRTC
 
 /// `AudioMixRecorder` provides real-time audio recording capabilities using AVAudioEngine.
 ///

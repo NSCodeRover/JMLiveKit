@@ -16,7 +16,7 @@
 
 import Foundation
 
-import WebRTC
+import LiveKitWebRTC
 
 protocol SignalClientDelegate: AnyObject, Sendable {
     func signalClient(_ signalClient: SignalClient, didUpdateConnectionState newState: ConnectionState, oldState: ConnectionState, disconnectError: LiveKitError?) async

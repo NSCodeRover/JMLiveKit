@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Collections
+import OrderedCollections
 
 // MARK: - Triggers
 
@@ -225,7 +225,8 @@ private extension Livekit_MetricsBatch {
     /// ```
     func getOrCreateIndex(in set: inout OrderedSet<String>, inserting string: String) -> UInt32 {
         let offset = Livekit_MetricLabel.predefinedMaxValue.rawValue
-        let (index, _) = set.append(string)
+        let index = set.count
+        set.append(string)
         return UInt32(index + offset)
     }
 }

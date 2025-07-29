@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import WebRTC
+import LiveKitWebRTC
 
 class SampleBufferVideoRenderer: NativeView, Loggable {
     public let sampleBufferDisplayLayer: AVSampleBufferDisplayLayer

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import WebRTC
+import LiveKitWebRTC
 
 protocol TransportDelegate: AnyObject, Sendable {
     func transport(_ transport: Transport, didUpdateState state: LKRTCPeerConnectionState)

@@ -17,7 +17,7 @@
 import AVFoundation
 import Foundation
 
-import WebRTC
+import LiveKitWebRTC
 
 // Type aliases for LiveKit compatibility
 // (Removed duplicate typealiases)

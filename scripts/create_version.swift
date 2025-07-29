@@ -46,7 +46,7 @@ enum Path {
     static let changes = ".changes"
     static let version = ".version"
     static let changelog = "CHANGELOG.md"
-    static let podspec = "LiveKitClient.podspec"
+    static let podspec = "JMLiveKit.podspec"
     static let readme = "README.md"
     static let livekitVersion = "Sources/LiveKit/LiveKit.swift"
 }

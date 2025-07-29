@@ -17,9 +17,9 @@
 import Foundation
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 #endif
 
 extension LKRTCPeerConnectionState {
@@ -57,7 +57,7 @@ extension Room: TransportDelegate {
         if _state.connectionState == .connected {
             // Attempt re-connect if primary or publisher transport failed
             if transport.isPrimary || (_state.hasPublished && transport.target == .publisher), pcState.isDisconnected {
-                Task {
+                Task { [self] in
                     do {
                         try await startReconnect(reason: .transport)
                     } catch {
@@ -69,7 +69,7 @@ extension Room: TransportDelegate {
     }
 
     func transport(_ transport: Transport, didGenerateIceCandidate iceCandidate: IceCandidate) {
-        Task {
+        Task { [self] in
             do {
                 log("sending iceCandidate")
                 try await signalClient.sendCandidate(candidate: iceCandidate, target: transport.target)
@@ -92,7 +92,7 @@ extension Room: TransportDelegate {
                     removeWhen: { state, _ in state.connectionState == .disconnected })
             { [weak self] in
                 guard let self else { return }
-                Task {
+                Task { [self] in
                     await self.engine(self, didAddTrack: track, rtpReceiver: rtpReceiver, stream: streams.first!)
                 }
             }
@@ -101,7 +101,7 @@ extension Room: TransportDelegate {
 
     func transport(_ transport: Transport, didRemoveTrack track: LKRTCMediaStreamTrack) {
         if transport.target == .subscriber {
-            Task {
+            Task { [self] in
                 await engine(self, didRemoveTrack: track)
             }
         }

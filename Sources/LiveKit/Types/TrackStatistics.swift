@@ -17,13 +17,10 @@
 import Foundation
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
-#endif
-
-internal import LiveKitWebRTC
 @_implementationOnly import LiveKitWebRTC
+#endif
 
 @objc
 public class TrackStatistics: NSObject, @unchecked Sendable, Loggable {

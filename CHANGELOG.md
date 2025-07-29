@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.3] - 2025-07-29
+
+### Fixed
+
+- macOS audio start workarounds
+
+## [2.6.2] - 2025-07-29
+
+### Fixed
+
+- macOS audio start workarounds
+
 ## [2.6.25] - 2025-01-27
 
 ### Fixed

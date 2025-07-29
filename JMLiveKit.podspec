@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   
   # Dependencies
   s.dependency 'LiveKitWebRTC-LK', '~> 125.6422.33'
-  s.dependency 'SwiftProtobuf', '~> 1.30'
+  s.dependency 'SwiftProtobuf', '~> 1.28.0'
   s.dependency 'PromisesSwift', '~> 2.0'
   s.dependency 'SwiftLogJM', '~> 1.0'
   

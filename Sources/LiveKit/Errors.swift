@@ -16,7 +16,7 @@
 
 import Foundation
 
-import WebRTC
+import LiveKitWebRTC
 
 public enum LiveKitErrorType: Int, Sendable {
     case unknown = 0

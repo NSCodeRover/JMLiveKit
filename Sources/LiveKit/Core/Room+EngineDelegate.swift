@@ -17,9 +17,9 @@
 import Foundation
 
 #if swift(>=5.9)
-import WebRTC
+import LiveKitWebRTC
 #else
-@_implementationOnly import WebRTC
+@_implementationOnly import LiveKitWebRTC
 #endif
 
 extension Room {
@@ -34,7 +34,7 @@ extension Room {
 
             // Re-send track permissions
             if case .connected = state.connectionState {
-                Task {
+                Task { [self] in
                     do {
                         try await localParticipant.sendTrackSubscriptionPermissions()
                     } catch {

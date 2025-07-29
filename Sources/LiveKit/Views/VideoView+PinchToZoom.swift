@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import WebRTC
+import LiveKitWebRTC
 
 extension VideoView {
     static let rampRate: Float = 32.0
