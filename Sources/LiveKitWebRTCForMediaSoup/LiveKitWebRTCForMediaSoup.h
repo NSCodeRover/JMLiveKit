@@ -9,7 +9,7 @@
 #define LiveKitWebRTCForMediaSoup_h
 
 // Re-export LiveKitWebRTC headers with WebRTC module names for MediaSoup compatibility
-#import <LiveKitWebRTC/WebRTC.h>
+#import <LiveKitWebRTC/LiveKitWebRTC.h>
 
 // Type aliases for MediaSoup compatibility
 typedef LiveKitWebRTC::RTCPeerConnectionFactory RTCPeerConnectionFactory;

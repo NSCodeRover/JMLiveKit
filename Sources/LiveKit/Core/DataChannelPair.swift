@@ -172,7 +172,7 @@ class DataChannelPair: NSObject, @unchecked Sendable, Loggable {
         }
         super.init()
 
-        Task {
+        Task { [self] in
             let eventStream = AsyncStream<ChannelEvent> { continuation in
                 _state.mutate { $0.eventContinuation = continuation }
             }
@@ -228,8 +228,8 @@ class DataChannelPair: NSObject, @unchecked Sendable, Loggable {
     }
 
     public func send(dataPacket packet: Livekit_DataPacket) async throws {
-        let serializedData = try packet.serializedData()
-        let rtcData = RTC.createDataBuffer(data: serializedData)
+                    let serializedData = try packet.serializedBytes() as Data
+            let rtcData = RTC.createDataBuffer(data: serializedData)
 
         try await withCheckedThrowingContinuation { continuation in
             let request = PublishDataRequest(
@@ -276,7 +276,7 @@ extension DataChannelPair: LKRTCDataChannelDelegate {
     }
 
     func dataChannel(_: LKRTCDataChannel, didReceiveMessageWith buffer: LKRTCDataBuffer) {
-        guard let dataPacket = try? Livekit_DataPacket(serializedData: buffer.data) else {
+        guard let dataPacket = try? Livekit_DataPacket(serializedBytes: buffer.data) else {
             log("Could not decode data message", .error)
             return
         }

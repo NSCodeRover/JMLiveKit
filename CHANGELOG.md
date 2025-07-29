@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.6.3] - 2025-07-29
+
+### Fixed
+
+- macOS audio start workarounds
+
+## [2.6.2] - 2025-07-29
+
+### Fixed
+
+- macOS audio start workarounds
+
+## [2.6.25] - 2025-01-27
+
+### Fixed
+
+- Fixed additional compilation errors in iOS app extensions
+- Added conditional compilation for DeviceManager and AppStateListener in app extensions
+- Added conditional compilation for CameraCapturer components in app extensions
+- Improved app extension compatibility for broadcast extensions
+
+## [2.6.24] - 2025-01-27
+
+### Fixed
+
+- Fixed compilation errors in iOS app extensions
+- Removed overly restrictive availability annotations for audio functionality
+- Allow audio functionality in broadcast extensions for screen sharing with audio
+- Maintain existing availability annotations for UI components in app extensions
+
 ## [2.6.1] - 2025-06-17
 
 ### Fixed

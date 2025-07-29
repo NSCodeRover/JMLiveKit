@@ -63,7 +63,7 @@ actor SignalClient: Loggable {
 
         do {
             // Prepare request data...
-            guard let data = try? request.serializedData() else {
+            guard let data = try? request.serializedBytes() as Data else {
                 self.log("Could not serialize request data", .error)
                 throw LiveKitError(.failedToConvertData, message: "Failed to convert data")
             }
@@ -244,7 +244,7 @@ private extension SignalClient {
     func _onWebSocketMessage(message: URLSessionWebSocketTask.Message) async {
         let response: Livekit_SignalResponse? = {
             switch message {
-            case let .data(data): return try? Livekit_SignalResponse(serializedData: data)
+            case let .data(data): return try? Livekit_SignalResponse(serializedBytes: data)
             case let .string(string): return try? Livekit_SignalResponse(jsonString: string)
             default: return nil
             }

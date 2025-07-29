@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-#if os(iOS)
-
 import Foundation
 
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
+import AVFoundation
 #endif
 
 import LiveKitWebRTC
+
+#if os(iOS)
 
 class BroadcastScreenCapturer: BufferCapturer, @unchecked Sendable {
     private let appAudio: Bool

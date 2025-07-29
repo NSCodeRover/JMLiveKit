@@ -92,7 +92,9 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     var _cameraCapturerState: StateSync<State>
 
     // Used to hide LKRTCVideoCapturerDelegate symbol
+    #if !targetEnvironment(simulator) && !os(iOSApplicationExtension)
     private lazy var adapter: VideoCapturerDelegateAdapter = .init(cameraCapturer: self)
+    #endif
 
     public var captureSession: AVCaptureSession {
         #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
@@ -103,7 +105,7 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     }
 
     // RTCCameraVideoCapturer used internally for now
-    #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator)
+    #if !targetEnvironment(macCatalyst) && !targetEnvironment(simulator) && !os(iOSApplicationExtension)
     private lazy var capturer: LKRTCCameraVideoCapturer? = .init(delegate: adapter)
     #else
     private lazy var capturer: LKRTCCameraVideoCapturer? = nil
@@ -292,6 +294,7 @@ public class CameraCapturer: VideoCapturer, @unchecked Sendable {
     }
 }
 
+#if !targetEnvironment(simulator) && !os(iOSApplicationExtension)
 class VideoCapturerDelegateAdapter: NSObject, LKRTCVideoCapturerDelegate, Loggable {
     weak var cameraCapturer: CameraCapturer?
 
@@ -314,14 +317,17 @@ class VideoCapturerDelegateAdapter: NSObject, LKRTCVideoCapturerDelegate, Loggab
         cameraCapturer.capture(frame: frame, capturer: capturer, device: cameraCapturer.device, options: cameraCapturer.options)
     }
 }
+#endif
 
 @available(iOSApplicationExtension, unavailable, message: "Camera is not available in app extensions")
 public extension LocalVideoTrack {
+    @available(iOSApplicationExtension, unavailable, message: "Camera APIs are not available in app extensions")
     @objc
     static func createCameraTrack() -> LocalVideoTrack {
         createCameraTrack(name: nil, options: nil)
     }
 
+    @available(iOSApplicationExtension, unavailable, message: "Camera APIs are not available in app extensions")
     @objc
     static func createCameraTrack(name: String? = nil,
                                   options: CameraCaptureOptions? = nil,

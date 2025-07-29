@@ -98,6 +98,7 @@ public class ARCameraCapturer: VideoCapturer {
 @available(visionOS 2.0, *)
 @available(iOSApplicationExtension, unavailable, message: "AR camera is not available in app extensions")
 public extension LocalVideoTrack {
+    @available(iOSApplicationExtension, unavailable, message: "AR Camera APIs are not available in app extensions")
     /// Creates a track that can directly capture `CVPixelBuffer` or `CMSampleBuffer` for convenience
     static func createARCameraTrack(name: String = Track.cameraName,
                                     source: VideoTrack.Source = .camera,

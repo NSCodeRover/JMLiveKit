@@ -24,6 +24,7 @@ import LiveKitWebRTC
 #endif
 
 #if os(iOS) || os(macOS)
+@available(iOSApplicationExtension, unavailable, message: "Audio route picker UI is not available in app extensions")
 public struct SwiftUIAudioRoutePickerButton: NativeViewRepresentable {
     public init() {}
 

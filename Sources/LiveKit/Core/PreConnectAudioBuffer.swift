@@ -14,72 +14,58 @@
  * limitations under the License.
  */
 
-import AVFAudio
 import Foundation
 
-/// A buffer that captures audio before connecting to the server.
+/// A class that captures audio before connecting to a room and sends it to agents.
+/// This is useful for scenarios where you want to capture audio during the connection process.
 @objc
-public final class PreConnectAudioBuffer: NSObject, Sendable, Loggable {
-    public typealias OnError = @Sendable (Error) -> Void
+public class PreConnectAudioBuffer: NSObject, Loggable {
+    public typealias OnError = (Error) -> Void
+    // MARK: - Public
 
-    public enum Constants {
-        public static let maxSize = 10 * 1024 * 1024 // 10MB
-        public static let sampleRate = 24000
-        public static let timeout: TimeInterval = 10
-    }
-
-    /// The default data topic used to send the audio buffer.
-    @objc
-    public static let dataTopic = "lk.agent.pre-connect-audio-buffer"
-
-    /// The room instance to send the audio buffer to.
-    @objc
-    public var room: Room? { state.room }
-
-    /// The audio recorder instance.
+    /// The current state of the audio buffer.
     @objc
     public var recorder: LocalAudioTrackRecorder? { state.recorder }
 
-    private let state = StateSync<State>(State())
+    /// The room instance that this buffer is associated with.
+    @objc
+    public weak var room: Room?
+    
+    private var errorHandler: OnError?
+
+    // MARK: - Private
+
+    private let state = StateSync(State())
+
     private struct State {
-        weak var room: Room?
         var recorder: LocalAudioTrackRecorder?
         var audioStream: LocalAudioTrackRecorder.Stream?
-        var timeoutTask: Task<Void, Error>?
-        var sent: Bool = false
-        var onError: OnError? = nil
+        var timeoutTask: Task<Void, Never>?
+        var sent = false
     }
 
-    /// Initialize the audio buffer with a room instance.
-    /// - Parameters:
-    ///   - room: The room instance to send the audio buffer to.
-    ///   - onError: The error handler to call when an error occurs while sending the audio buffer.
-    @objc
-    public init(room: Room?, onError: OnError? = nil) {
-        state.mutate {
-            $0.room = room
-            $0.onError = onError
-        }
-        super.init()
+    public enum Constants {
+        public static let timeout: TimeInterval = 30
+        static let sampleRate = 16000
+        static let maxSize = 1024 * 1024 // 1MB
     }
 
-    deinit {
-        stopRecording()
-    }
+    private let dataTopic = "pre-connect-audio"
 
-    @objc
-    public func setErrorHandler(_ onError: OnError?) {
-        state.mutate { $0.onError = onError }
+    // MARK: - Public
+    
+    /// Set the error handler for audio buffer operations.
+    /// - Parameter handler: The error handler to call when an error occurs.
+    public func setErrorHandler(_ handler: OnError?) {
+        errorHandler = handler
     }
 
     /// Start capturing audio.
     /// - Parameters:
-    ///   - timeout: The timeout for the remote participant to subscribe to the audio track.
-    /// The room connection needs to be established and the remote participant needs to subscribe to the audio track
-    /// before the timeout is reached. Otherwise, the audio stream will be flushed without sending.
+    ///   - timeout: The timeout in seconds after which recording will stop automatically.
     ///   - recorder: Optional custom recorder instance. If not provided, a new one will be created.
     @objc
-    public func startRecording(timeout: TimeInterval = Constants.timeout, recorder: LocalAudioTrackRecorder? = nil) async throws {
+    public func startRecording(timeout: TimeInterval = 30, recorder: LocalAudioTrackRecorder? = nil) async throws {
         room?.add(delegate: self)
 
         let roomOptions = room?._state.roomOptions
@@ -99,9 +85,13 @@ public final class PreConnectAudioBuffer: NSObject, Sendable, Loggable {
             state.recorder = newRecorder
             state.audioStream = stream
             state.timeoutTask = Task { [weak self] in
-                try await Task.sleep(nanoseconds: UInt64(timeout) * NSEC_PER_SEC)
-                try Task.checkCancellation()
-                self?.stopRecording(flush: true)
+                do {
+                    try await Task.sleep(nanoseconds: UInt64(timeout) * NSEC_PER_SEC)
+                    try Task.checkCancellation()
+                    self?.stopRecording(flush: true)
+                } catch {
+                    // Ignore cancellation errors
+                }
             }
             state.sent = false
         }
@@ -132,7 +122,7 @@ public final class PreConnectAudioBuffer: NSObject, Sendable, Loggable {
     ///   - agents: The agents to send the audio data to.
     ///   - topic: The topic to send the audio data.
     @objc
-    public func sendAudioData(to room: Room, agents: [Participant.Identity], on topic: String = dataTopic) async throws {
+    public func sendAudioData(to room: Room, agents: [Participant.Identity], on topic: String) async throws {
         guard !agents.isEmpty else { return }
 
         guard !state.sent else { return }
@@ -177,19 +167,5 @@ extension PreConnectAudioBuffer: RoomDelegate {
     public func room(_: Room, participant _: LocalParticipant, remoteDidSubscribeTrack _: LocalTrackPublication) {
         log("Subscribed by remote participant, stopping audio", .info)
         stopRecording()
-    }
-
-    public func room(_ room: Room, participant: Participant, didUpdateState state: ParticipantState) {
-        guard participant.kind == .agent, state == .active, let agent = participant.identity else { return }
-        log("Detected active agent participant: \(agent), sending audio", .info)
-
-        Task {
-            do {
-                try await sendAudioData(to: room, agents: [agent])
-            } catch {
-                log("Unable to send preconnect audio: \(error)", .error)
-                self.state.onError?(error)
-            }
-        }
     }
 }

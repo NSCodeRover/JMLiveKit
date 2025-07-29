@@ -34,7 +34,7 @@ extension Room {
 
             // Re-send track permissions
             if case .connected = state.connectionState {
-                Task {
+                Task { [self] in
                     do {
                         try await localParticipant.sendTrackSubscriptionPermissions()
                     } catch {

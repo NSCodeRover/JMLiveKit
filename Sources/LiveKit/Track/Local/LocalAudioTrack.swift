@@ -24,7 +24,6 @@ import LiveKitWebRTC
 @_implementationOnly import LiveKitWebRTC
 #endif
 
-@available(iOSApplicationExtension, unavailable, message: "Microphone is not available in app extensions")
 @objc
 public class LocalAudioTrack: Track, LocalTrack, AudioTrack, @unchecked Sendable {
     /// ``AudioCaptureOptions`` used to create this track.
