@@ -45,7 +45,7 @@ class E2EEThreadTests: LKTestCase {
                     peerConnection?.removeTrack(sender)
 
                     // sender.track will be nil at this point.
-                    // Causing crashes in previous WebRTC versions. (patched in 114.5735.19)
+                    // Causing crashes in previous WebRTC versions. (patched in newer versions)
                     return LKRTCFrameCryptor(factory: RTC.peerConnectionFactory,
                                              rtpSender: sender,
                                              participantId: "dummy",
